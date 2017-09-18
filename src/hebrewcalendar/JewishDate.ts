@@ -911,18 +911,18 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	}
 
     constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number)
-    constructor(calendar: Calendar)
+    constructor(calendar: GregorianCalendar)
     constructor(date: Date)
     constructor(molad: number)
     constructor()
-    constructor(jewishYearOrCalendarOrDateOrMolad: number | Calendar | Date, jewishMonth: number, jewishDayOfMonth: number)
-	constructor(jewishYearOrCalendarOrDateOrMolad?: number | Calendar | Date, jewishMonth?: number, jewishDayOfMonth?: number) {
+    constructor(jewishYearOrCalendarOrDateOrMolad: number | GregorianCalendar | Date, jewishMonth: number, jewishDayOfMonth: number)
+	constructor(jewishYearOrCalendarOrDateOrMolad?: number | GregorianCalendar | Date, jewishMonth?: number, jewishDayOfMonth?: number) {
         if (!jewishYearOrCalendarOrDateOrMolad) {
             this.resetDate();
         } else if (jewishMonth) {
             this.setJewishDate(jewishYearOrCalendarOrDateOrMolad as number, jewishMonth, jewishDayOfMonth);
-		} else if (jewishYearOrCalendarOrDateOrMolad instanceof Calendar) {
-            this.setDate(jewishYearOrCalendarOrDateOrMolad as Calendar);
+		} else if (jewishYearOrCalendarOrDateOrMolad instanceof GregorianCalendar) {
+            this.setDate(jewishYearOrCalendarOrDateOrMolad as GregorianCalendar);
         } else if (jewishYearOrCalendarOrDateOrMolad instanceof Date) {
             this.setDate(jewishYearOrCalendarOrDateOrMolad as Date);
         } else if (typeof jewishYearOrCalendarOrDateOrMolad === "number") {
@@ -989,7 +989,7 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	 *             if the {@link Calendar#ERA} is {@link GregorianCalendar#BC}
 	 */
 /*
-	public JewishDate(calendar: Calendar) {
+	public JewishDate(calendar: GregorianCalendar) {
         this.setDate(calendar);
 	}
 */
@@ -1002,11 +1002,11 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	 * @throws IllegalArgumentException
 	 *             if the {@link Calendar#ERA} is {@link GregorianCalendar#BC}
 	 */
-	public setDate(calendar: Calendar): void
+	public setDate(calendar: GregorianCalendar): void
     public setDate(date: Date): void
-	public setDate(calendarOrDate: Date | Calendar): void {
-        if (calendarOrDate instanceof Calendar) {
-        	const calendar: Calendar = calendarOrDate as Calendar;
+	public setDate(calendarOrDate: Date | GregorianCalendar): void {
+        if (calendarOrDate instanceof GregorianCalendar) {
+        	const calendar: GregorianCalendar = calendarOrDate as GregorianCalendar;
 
             if (calendar.get(Calendar.ERA) === GregorianCalendar.BC) {
                 throw "IllegalArgumentException: Calendars with a BC era are not supported. The year "
@@ -1020,7 +1020,7 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 
             this.dayOfWeek = Math.abs(this.gregorianAbsDate % 7) + 1; // set day of week
         } else if (calendarOrDate instanceof Date) {
-            const cal: Calendar = Calendar.getInstance();
+            const cal: GregorianCalendar = new GregorianCalendar();
             cal.setTime(calendarOrDate as Date);
             this.setDate(cal);
 
@@ -1037,7 +1037,7 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	 */
 /*
 	public setDate(date: Date): void {
-		const cal: Calendar = Calendar.getInstance();
+		const cal: GregorianCalendar = new GregorianCalendar();
 		cal.setTime(date);
         this.setDate(cal);
 	}
@@ -1167,8 +1167,8 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	 * 
 	 * @return The {@link java.util.Calendar}
 	 */
-	public getGregorianCalendar(): Calendar {
-		const calendar: Calendar = Calendar.getInstance();
+	public getGregorianCalendar(): GregorianCalendar {
+		const calendar: GregorianCalendar = new GregorianCalendar();
 		calendar.set(this.getGregorianYear(), this.getGregorianMonth(), this.getGregorianDayOfMonth());
 		return calendar;
 	}
@@ -1178,7 +1178,7 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	 * Resets this date to the current system date.
 	 */
 	public resetDate(): void {
-		const calendar: Calendar = Calendar.getInstance();
+		const calendar: GregorianCalendar = new GregorianCalendar();
         this.setDate(calendar);
 	}
 

@@ -1,4 +1,6 @@
-import {Calendar} from "./Calendar";
+import {Calendar, Field, Month, FieldOptions} from "./Calendar";
+import * as moment from "moment-timezone";
+import {TimeZone} from "./TimeZone";
 
 export class GregorianCalendar extends Calendar {
     /**
@@ -37,8 +39,65 @@ export class GregorianCalendar extends Calendar {
      */
     static readonly CE: number = 1;
 
-    public constructor(year: number, month: number, dayOfMonth: number) {
-        super();
-        this.set(year, month, dayOfMonth);
+    public constructor(year: number, month: Month, dayOfMonth: number)
+    public constructor(timeZone: TimeZone)
+    public constructor()
+    public constructor(yearOrTimeZone?: number | TimeZone, month?: Month, dayOfMonth?: number) {
+        if (month) {
+            super();
+            this.set(yearOrTimeZone as number, month, dayOfMonth);
+        } else {
+            super(yearOrTimeZone as TimeZone);
+        }
+    }
+
+    public set(year: number, month: Month, day: number, hourOfDay: number, minute: number, second: number): void
+    public set(year: number, month: Month, day: number): void
+    public set(field: Field, value: number): void
+    public set(yearOrField: number, monthOrValue: number, day?: number, hourOfDay?: number, minute?: number, second?: number): void {
+        if (day) {
+            const year: number = yearOrField as number;
+            this.momentDate.year(year).month(monthOrValue as Month).date(day);
+
+            if (hourOfDay) {
+                this.momentDate.hour(hourOfDay).minute(minute);
+                if (second) this.momentDate.second(second);
+            }
+        } else {
+            const field: Field = yearOrField as Field;
+            const value: number = monthOrValue;
+
+            if (field === Calendar.ERA) {
+                if ((this.momentDate.year() > 0 && value === GregorianCalendar.BCE) || (this.momentDate.year() < 0 && value === GregorianCalendar.CE)) {
+                    this.momentDate.year(-value);
+                }
+            } else if (field === Calendar.HOUR) {
+                throw "IllegalArgumentException: This is currently unsupported.";
+            } else if (field >= Calendar.YEAR && field <= Calendar.MILLISECOND) {
+                this.momentDate.set(this.shorthandLookup[field] as moment.unitOfTime.All, value);
+            }
+        }
+    }
+
+    public get(field: FieldOptions): number {
+        switch (field) {
+            case Calendar.ERA:
+                return this.momentDate.year() > 0 ? GregorianCalendar.CE : GregorianCalendar.BCE;
+            case Calendar.ZONE_OFFSET:
+                return this.momentDate.utcOffset() * 1000;
+            case Calendar.DST_OFFSET:
+                return this.momentDate.isDST() ? 60 * 60 * 1000 : 0;
+            case Calendar.HOUR:
+                const hour: number = this.momentDate.hour();
+                return hour < 13 ? hour : hour - 12;
+            default:
+                return this.momentDate.get(this.shorthandLookup[field] as moment.unitOfTime.All);
+        }
+    }
+
+    public clone(): GregorianCalendar {
+        const clonedCalendar: GregorianCalendar = new GregorianCalendar(this.getTimeZone());
+        clonedCalendar.setTimeInMillis(this.getTimeInMillis());
+        return clonedCalendar;
     }
 }

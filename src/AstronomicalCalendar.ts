@@ -1,3 +1,11 @@
+import {GregorianCalendar} from "./polyfills/GregorianCalendar";
+import {AstronomicalCalculator} from "./util/AstronomicalCalculator";
+import {Calendar} from "./polyfills/Calendar";
+import {Long} from "./polyfills/JavaPolyfills";
+import {ZmanimFormatter} from "./util/ZmanimFormatter";
+import {GeoLocation} from "./util/GeoLocation";
+import {TimeZone} from "./polyfills/TimeZone";
+
 const BigDecimal: BigJsLibrary.BigJS = require("big.js");
 type BigDecimal = BigJsLibrary.BigJS;
 
@@ -84,7 +92,7 @@ export class AstronomicalCalendar {
     /**
      * The Java Calendar encapsulated by this class to track the current date used by the class
      */
-    private calendar: Calendar;
+    private calendar: GregorianCalendar;
 
     private geoLocation: GeoLocation;
 
@@ -219,7 +227,7 @@ export class AstronomicalCalendar {
      */
     private getAdjustedSunsetDate(sunset: Date, sunrise: Date): Date {
         if (sunset != null && sunrise != null && sunrise.compareTo(sunset) >= 0) {
-            const clonedCalendar: Calendar = this.getCalendar().clone() as Calendar;
+            const clonedCalendar: GregorianCalendar = this.getCalendar().clone() as GregorianCalendar;
             clonedCalendar.setTime(sunset);
             clonedCalendar.add(Calendar.DAY_OF_MONTH, 1);
             return clonedCalendar.getTime();
@@ -386,7 +394,7 @@ export class AstronomicalCalendar {
      *            The location information used for calculating astronomical sun times.
      */
     constructor(geoLocation: GeoLocation = new GeoLocation()) {
-        this.setCalendar(Calendar.getInstance(geoLocation.getTimeZone()));
+        this.setCalendar(new GregorianCalendar(geoLocation.getTimeZone()));
         this.setGeoLocation(geoLocation);// duplicate call
         this.setAstronomicalCalculator(AstronomicalCalculator.getDefault());
     }
@@ -556,7 +564,7 @@ export class AstronomicalCalendar {
         }
         let calculatedTime: number = time;
 
-        const cal: Calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        const cal: GregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
         cal.clear();// clear all fields
         cal.set(Calendar.YEAR, this.getCalendar().get(Calendar.YEAR));
         cal.set(Calendar.MONTH, this.getCalendar().get(Calendar.MONTH));
@@ -735,7 +743,7 @@ export class AstronomicalCalendar {
      *
      * @return Returns the calendar.
      */
-    public getCalendar(): Calendar {
+    public getCalendar(): GregorianCalendar {
         return this.calendar;
     }
 
@@ -743,7 +751,7 @@ export class AstronomicalCalendar {
      * @param calendar
      *            The calendar to set.
      */
-    public setCalendar(calendar: Calendar): void {
+    public setCalendar(calendar: GregorianCalendar): void {
         this.calendar = calendar;
         if (this.getGeoLocation() != null) {// if available set the Calendar's timezone to the GeoLocation TimeZone
             this.getCalendar().setTimeZone(this.getGeoLocation().getTimeZone());
@@ -774,9 +782,3 @@ export class AstronomicalCalendar {
     }
 }
 
-import {AstronomicalCalculator} from "./util/AstronomicalCalculator";
-import {Calendar} from "./polyfills/Calendar";
-import {Long} from "./polyfills/JavaPolyfills";
-import {ZmanimFormatter} from "./util/ZmanimFormatter";
-import {GeoLocation} from "./util/GeoLocation";
-import {TimeZone} from "./polyfills/TimeZone";

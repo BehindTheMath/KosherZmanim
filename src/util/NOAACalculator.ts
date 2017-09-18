@@ -1,6 +1,7 @@
-import {AstronomicalCalculator} from "./AstronomicalCalculator"
+import {AstronomicalCalculator} from "./AstronomicalCalculator";
 import {Calendar} from "../polyfills/Calendar";
 import {GeoLocation} from "./GeoLocation";
+import {GregorianCalendar} from "../polyfills/GregorianCalendar";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times based on the <a
@@ -37,7 +38,7 @@ export class NOAACalculator extends AstronomicalCalculator {
 	/**
 	 * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
 	 */
-	public getUTCSunrise(calendar: Calendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+	public getUTCSunrise(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
 		const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
 		const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
@@ -58,7 +59,7 @@ export class NOAACalculator extends AstronomicalCalculator {
 	/**
 	 * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
 	 */
-	public getUTCSunset(calendar: Calendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+	public getUTCSunset(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
 		const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
 		const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
@@ -84,7 +85,7 @@ export class NOAACalculator extends AstronomicalCalculator {
 	 * @return the Julian day corresponding to the date Note: Number is returned for start of day. Fractional days
 	 *         should be added later.
 	 */
-	private static getJulianDay(calendar: Calendar): number {
+	private static getJulianDay(calendar: GregorianCalendar): number {
 		let year: number = calendar.get(Calendar.YEAR);
 		let month: number = calendar.get(Calendar.MONTH) + 1;
 		const day: number = calendar.get(Calendar.DAY_OF_MONTH);
@@ -348,7 +349,7 @@ export class NOAACalculator extends AstronomicalCalculator {
 	 * @return solar elevation in degrees - horizon is 0 degrees, civil twilight is -6 degrees
 	 */
 
-	public static getSolarElevation(cal: Calendar, lat: number, lon: number): number {
+	public static getSolarElevation(cal: GregorianCalendar, lat: number, lon: number): number {
 		const julianDay: number = NOAACalculator.getJulianDay(cal);
 		const julianCenturies: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay);
 
@@ -381,7 +382,7 @@ export class NOAACalculator extends AstronomicalCalculator {
 	 * @return FIXME
 	 */
 
-	public static getSolarAzimuth(cal: Calendar, lat: number, lon: number): number {
+	public static getSolarAzimuth(cal: GregorianCalendar, lat: number, lon: number): number {
 		const julianDay: number = NOAACalculator.getJulianDay(cal);
 		const julianCenturies: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay);
 

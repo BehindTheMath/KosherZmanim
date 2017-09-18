@@ -106,7 +106,7 @@ export class YomiCalculator {
 	 * @return the Julian day number corresponding to the date
 	 */
     private static getJulianDay(date: Date): number {
-        const calendar: Calendar = Calendar.getInstance();
+        const calendar: GregorianCalendar = new GregorianCalendar();
         calendar.setTime(date);
         let year: number = calendar.get(Calendar.YEAR);
         let month: number = calendar.get(Calendar.MONTH) + 1;

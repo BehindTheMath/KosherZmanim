@@ -5,6 +5,10 @@
  *
  * @author &copy; Eliyahu Hershfeld 2004 - 2014
  */
+import {GregorianCalendar} from "../polyfills/GregorianCalendar";
+import {SunTimesCalculator} from "./SunTimesCalculator";
+import {GeoLocation} from "./GeoLocation";
+
 export abstract class AstronomicalCalculator {
     /**
      * The commonly used average solar refraction. Calendrical Calculations lists a more accurate global average of
@@ -100,7 +104,7 @@ export abstract class AstronomicalCalculator {
      *         {@link java.lang.Double#NaN} will be returned.
      * @see #getElevationAdjustment(double)
      */
-    public abstract getUTCSunrise(calendar: Calendar, geoLocation: GeoLocation, zenith: number,
+    public abstract getUTCSunrise(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number,
                                   adjustForElevation: boolean): number;
 
     /**
@@ -124,7 +128,7 @@ export abstract class AstronomicalCalculator {
      *         {@link java.lang.Double#NaN} will be returned.
      * @see #getElevationAdjustment(double)
      */
-    public abstract getUTCSunset(calendar: Calendar, geoLocation: GeoLocation, zenith: number,
+    public abstract getUTCSunset(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number,
                                  adjustForElevation: boolean): number;
 
     /**
@@ -265,6 +269,3 @@ export abstract class AstronomicalCalculator {
     }
 }
 
-import {SunTimesCalculator} from "./SunTimesCalculator";
-import {Calendar} from "../polyfills/Calendar";
-import {GeoLocation} from "./GeoLocation";

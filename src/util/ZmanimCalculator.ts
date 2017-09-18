@@ -1,6 +1,7 @@
 import {AstronomicalCalculator} from "./AstronomicalCalculator";
 import {Calendar} from "../polyfills/Calendar";
 import {GeoLocation} from "./GeoLocation";
+import {GregorianCalendar} from "../polyfills/GregorianCalendar";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times. This implementation is a port of the
@@ -26,7 +27,7 @@ export class ZmanimCalculator extends AstronomicalCalculator {
 	/**
 	 * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
 	 */
-	public getUTCSunrise(calendar: Calendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+	public getUTCSunrise(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
 		const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
 		const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
@@ -107,7 +108,7 @@ export class ZmanimCalculator extends AstronomicalCalculator {
 	/**
 	 * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
 	 */
-	public getUTCSunset(calendar: Calendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+	public getUTCSunset(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
 		const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
 		const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 

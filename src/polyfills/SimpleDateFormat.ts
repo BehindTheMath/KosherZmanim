@@ -1,9 +1,9 @@
-import {Calendar} from "./Calendar";
 import {TimeZone} from "./TimeZone";
+import {GregorianCalendar} from "./GregorianCalendar";
 
 export class SimpleDateFormat {
     private pattern: string;
-    private calendar: Calendar;
+    private calendar: GregorianCalendar;
 
     constructor(pattern: string) {
         this.pattern = pattern;
@@ -14,7 +14,7 @@ export class SimpleDateFormat {
         return this.calendar.format(this.pattern);
     }
 
-    public setCalendar(calendar: Calendar) {
+    public setCalendar(calendar: GregorianCalendar) {
         this.calendar = calendar;
     }
 

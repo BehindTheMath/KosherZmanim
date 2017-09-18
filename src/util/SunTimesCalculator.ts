@@ -6,11 +6,16 @@
  * href="http://www.amazon.com/exec/obidos/tg/detail/-/0160515106/">Amazon</a>, <a
  * href="http://search.barnesandnoble.com/booksearch/isbnInquiry.asp?isbn=0160515106">Barnes &amp; Noble</a>) and is
  * used with his permission. Added to Kevin's code is adjustment of the zenith to account for elevation.
- * 
+ *
  * @author &copy; Eliyahu Hershfeld 2004 - 2011
  * @author &copy; Kevin Boone 2000
  * @version 1.1
  */
+import {GregorianCalendar} from "../polyfills/GregorianCalendar";
+import {AstronomicalCalculator} from "./AstronomicalCalculator";
+import {Calendar} from "../polyfills/Calendar";
+import {GeoLocation} from "./GeoLocation";
+
 export class SunTimesCalculator extends AstronomicalCalculator {
 	/**
 	 * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getCalculatorName()
@@ -22,7 +27,7 @@ export class SunTimesCalculator extends AstronomicalCalculator {
 	/**
 	 * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
 	 */
-	public getUTCSunrise(calendar: Calendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+	public getUTCSunrise(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
 		let doubleTime: number = Number.NaN;
 		const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
 		const adjustedZenith: number = this.adjustZenith(zenith, elevation);
@@ -36,7 +41,7 @@ export class SunTimesCalculator extends AstronomicalCalculator {
 	/**
 	 * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
 	 */
-	public getUTCSunset(calendar: Calendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+	public getUTCSunset(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
         let doubleTime: number = Number.NaN;
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
 		const adjustedZenith: number = this.adjustZenith(zenith, elevation);
@@ -226,6 +231,3 @@ export class SunTimesCalculator extends AstronomicalCalculator {
 	}
 }
 
-import {AstronomicalCalculator} from "./AstronomicalCalculator";
-import {Calendar} from "../polyfills/Calendar";
-import {GeoLocation} from "./GeoLocation";

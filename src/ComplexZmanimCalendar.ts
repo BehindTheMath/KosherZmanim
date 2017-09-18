@@ -3,6 +3,7 @@ import {Calendar} from "./polyfills/Calendar";
 import {Long} from "./polyfills/JavaPolyfills";
 import {GeoLocation} from "./util/GeoLocation";
 import {JewishCalendar} from "./hebrewcalendar/JewishCalendar";
+import {GregorianCalendar} from "./polyfills/GregorianCalendar";
 
 /**
  * This class extends ZmanimCalendar and provides many more zmanim than available in the ZmanimCalendar. The basis for
@@ -2321,7 +2322,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         const jewishCalendar: JewishCalendar = new JewishCalendar();
 		jewishCalendar.setGregorianDate(this.getCalendar().get(Calendar.YEAR), this.getCalendar().get(Calendar.MONTH),
             this.getCalendar().get(Calendar.DAY_OF_MONTH));
-        const sofZmanKidushLevanaCalendar: Calendar = this.getCalendar().clone() as Calendar;
+        const sofZmanKidushLevanaCalendar: GregorianCalendar = this.getCalendar().clone() as GregorianCalendar;
         const sofZmanKidushLevana: Date = jewishCalendar.getSofZmanKidushLevanaBetweenMoldos();
 		sofZmanKidushLevanaCalendar.setTime(sofZmanKidushLevana);
 		if (alos != null && tzais != null
@@ -2390,7 +2391,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         const jewishCalendar: JewishCalendar = new JewishCalendar();
 		jewishCalendar.setGregorianDate(this.getCalendar().get(Calendar.YEAR), this.getCalendar().get(Calendar.MONTH),
             this.getCalendar().get(Calendar.DAY_OF_MONTH));
-        const sofZmanKidushLevanaCalendar: Calendar = this.getCalendar().clone() as Calendar;
+        const sofZmanKidushLevanaCalendar: GregorianCalendar = this.getCalendar().clone() as GregorianCalendar;
         const sofZmanKidushLevana: Date = jewishCalendar.getSofZmanKidushLevana15Days();
 		sofZmanKidushLevanaCalendar.setTime(sofZmanKidushLevana);
 		if (alos != null && tzais != null
@@ -2453,7 +2454,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
 		jewishCalendar.setGregorianDate(this.getCalendar().get(Calendar.YEAR), this.getCalendar().get(Calendar.MONTH),
             this.getCalendar().get(Calendar.DAY_OF_MONTH));
         const tchilasZmanKidushLevana: Date = jewishCalendar.getTchilasZmanKidushLevana3Days();
-		const tchilasZmanKidushLevanaCalendar: Calendar = this.getCalendar().clone() as Calendar;
+		const tchilasZmanKidushLevanaCalendar: GregorianCalendar = this.getCalendar().clone() as GregorianCalendar;
 		tchilasZmanKidushLevanaCalendar.setTime(tchilasZmanKidushLevana);
 		if (alos != null
 				&& tzais != null
@@ -2509,7 +2510,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
 		jewishCalendar.setGregorianDate(this.getCalendar().get(Calendar.YEAR), this.getCalendar().get(Calendar.MONTH),
 				this.getCalendar().get(Calendar.DAY_OF_MONTH));
 
-		const tchilasZmanKidushLevanaCalendar: Calendar = this.getCalendar().clone() as Calendar;
+		const tchilasZmanKidushLevanaCalendar: GregorianCalendar = this.getCalendar().clone() as GregorianCalendar;
 		const tchilasZmanKidushLevana: Date = jewishCalendar.getTchilasZmanKidushLevana7Days();
 		tchilasZmanKidushLevanaCalendar.setTime(tchilasZmanKidushLevana);
 		if (alos != null

@@ -19,7 +19,6 @@ export enum Field {
 export enum CalendarOffset {
     ZONE_OFFSET = 15,
     DST_OFFSET = 16
-
 }
 
 export type FieldOptions = Field | CalendarOffset;
@@ -43,7 +42,7 @@ export enum Month {
  * Provides a substitute for java.util.Calendar.
  * This is not a 1:1 port, so check the method signatures before using.
  */
-export class Calendar {
+export abstract class Calendar {
     public static Month = Month;
 
     public static readonly ERA: number = 0;
@@ -93,58 +92,19 @@ export class Calendar {
     public static readonly NOVEMBER: number = 10;
     public static readonly DECEMBER: number = 11;
 
-    private timeZone: TimeZone;
-    private momentDate: moment.Moment;
-    private shorthandLookup: string[] = ["era", "year", "month", "", "", "date", "dayOfYear", "", "", "", "hour", "hour", "minute", "second", "millisecond"];
+    protected timeZone: TimeZone;
+    protected momentDate: moment.Moment;
+    protected shorthandLookup: string[] = ["era", "year", "month", "", "", "date", "dayOfYear", "", "", "", "hour", "hour", "minute", "second", "millisecond"];
 
 
     protected constructor(timeZone: TimeZone = TimeZone.getTimeZone(momentTimezone.tz.guess())) {
         this.momentDate = momentTimezone.tz(timeZone.getID());
     }
 
-    public set(year: number, month: Month, day: number, hourOfDay: number, minute: number, second: number): void
-    public set(year: number, month: Month, day: number): void
-    public set(field: Field, value: number): void
-    public set(yearOrField: number, monthOrValue: number, day?: number, hourOfDay?: number, minute?: number, second?: number): void {
-        if (day) {
-            const year: number = yearOrField as number;
-            this.momentDate.year(year).month(monthOrValue as Month).date(day);
 
-            if (hourOfDay) {
-                this.momentDate.hour(hourOfDay).minute(minute);
-                if (second) this.momentDate.second(second);
-            }
-        } else {
-            const field: Field = yearOrField as Field;
-            const value: number = monthOrValue;
+    public abstract set(yearOrField: number, monthOrValue: number, day?: number, hourOfDay?: number, minute?: number, second?: number): void
 
-            if (field === Calendar.ERA) {
-                if ((this.momentDate.year() > 0 && value === GregorianCalendar.BCE) || (this.momentDate.year() < 0 && value === GregorianCalendar.CE)) {
-                    this.momentDate.year(-value);
-                }
-            } else if (field === Calendar.HOUR) {
-                throw "IllegalArgumentException: This is currently unsupported.";
-            } else if (field >= Calendar.YEAR && field <= Calendar.MILLISECOND) {
-                this.momentDate.set(this.shorthandLookup[field] as moment.unitOfTime.All, value);
-            }
-        }
-    }
-    
-    public get(field: FieldOptions): number {
-        switch (field) {
-            case Calendar.ERA:
-                return this.momentDate.year() > 0 ? GregorianCalendar.CE : GregorianCalendar.BCE;
-            case Calendar.ZONE_OFFSET:
-                return this.momentDate.utcOffset() * 1000;
-            case Calendar.DST_OFFSET:
-                return this.momentDate.isDST() ? 60 * 60 * 1000 : 0;
-            case Calendar.HOUR:
-                const hour: number = this.momentDate.hour();
-                return hour < 13 ? hour : hour - 12;
-            default:
-                return this.momentDate.get(this.shorthandLookup[field] as moment.unitOfTime.All);
-        }
-    }
+    public abstract get(field: FieldOptions): number
 
     public setTime(date: Date): void {
         this.momentDate.hour(date.getHours())
@@ -159,10 +119,6 @@ export class Calendar {
 
     public add(field: Field, value: number) {
         this.momentDate.add(value, this.shorthandLookup[field] as moment.unitOfTime.DurationConstructor);
-    }
-
-    public static getInstance(timeZone?: TimeZone) {
-        return new Calendar(timeZone);
     }
 
     public getTimeZone(): TimeZone {
@@ -191,13 +147,7 @@ export class Calendar {
         this.momentDate = undefined;
     }
 
-    public clone(): Calendar {
-        const clonedCalendar: Calendar = new Calendar(this.getTimeZone());
-        clonedCalendar.setTimeInMillis(this.getTimeInMillis());
-        return clonedCalendar;
-    }
-
-    public equals(calendar: Calendar): boolean {
+    public equals(calendar: GregorianCalendar): boolean {
         return this.timeZone === calendar.getTimeZone() && this.momentDate.valueOf() === calendar.getTimeInMillis();
     }
 
