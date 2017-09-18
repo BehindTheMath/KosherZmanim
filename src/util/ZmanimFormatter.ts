@@ -252,7 +252,7 @@ export class ZmanimFormatter {
 	 */
 	public formatDateTime(dateTime: Date, calendar: GregorianCalendar): string {
 		this.dateFormat.setCalendar(calendar);
-		if (this.dateFormat.toPattern().equals("yyyy-MM-dd'T'HH:mm:ss")) {
+		if (this.dateFormat.toPattern() === "yyyy-MM-dd'T'HH:mm:ss") {
 			return this.getXSDateTime(dateTime, calendar);
 		} else {
 			return this.dateFormat.format(dateTime);

@@ -58,7 +58,7 @@ export class YomiCalculator {
             // TODO: should we return a null or throw an IllegalArgumentException?
             throw `IllegalArgumentException: ${date} is prior to organized Daf Yomi Bavli cycles that started on ${YomiCalculator.dafYomiStartDate}`;
         }
-        if (date.equals(YomiCalculator.shekalimChangeDate) || date.after(YomiCalculator.shekalimChangeDate)) {
+        if (date === YomiCalculator.shekalimChangeDate || date.after(YomiCalculator.shekalimChangeDate)) {
             cycleNo = 8 + ((julianDay - YomiCalculator.shekalimJulianChangeDay) / 2711);
             dafNo = ((julianDay - YomiCalculator.shekalimJulianChangeDay) % 2711);
         } else {

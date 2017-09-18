@@ -168,9 +168,9 @@ export class GeoLocation {
             if (tempLat > 90 || tempLat < 0) { //FIXME An exception should be thrown if degrees, minutes or seconds are negative
                 throw "IllegalArgumentException: Latitude must be between 0 and  90. Use direction of S instead of negative.";
             }
-            if (direction.equals("S")) {
+            if (direction === "S") {
                 tempLat *= -1;
-            } else if (!(direction.equals("N"))) {
+            } else if (!(direction === "N")) {
                 throw "IllegalArgumentException: Latitude direction must be N or S";
             }
             this.latitude = tempLat;
@@ -236,9 +236,9 @@ export class GeoLocation {
             if (longTemp > 180 || this.longitude < 0) { //FIXME An exception should be thrown if degrees, minutes or seconds are negative
                 throw "IllegalArgumentException: Longitude must be between 0 and  180.  Use a direction of W instead of negative.";
             }
-            if (direction.equals("W")) {
+            if (direction === "W") {
                 longTemp *= -1;
-            } else if (!(direction.equals("E"))) {
+            } else if (!(direction === "E")) {
                 throw "IllegalArgumentException: Longitude direction must be E or W";
             }
             this.longitude = longTemp;
@@ -531,7 +531,7 @@ export class GeoLocation {
 		return this.latitude === geo.latitude
 				&& this.longitude === geo.longitude
 				&& this.elevation === geo.elevation
-				&& (this.locationName === null ? geo.locationName === null : this.locationName.equals(geo.locationName))
+				&& (this.locationName === null ? geo.locationName === null : this.locationName === geo.locationName)
 				&& (this.timeZone === null ? geo.timeZone === null : this.timeZone.equals(geo.timeZone));
 	}
 

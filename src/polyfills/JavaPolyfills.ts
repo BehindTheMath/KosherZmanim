@@ -10,10 +10,6 @@ Math.toDegrees = function(angrad: number): number {
     return angrad * 180.0 / Math.PI;
 };
 
-String.prototype.equals = function(this: string, str: string): boolean {
-    return this === str;
-};
-
 String.prototype.replaceAll = function(this: string, searchString: string, replaceString: string): string {
     return this.split(searchString).join("");
 };

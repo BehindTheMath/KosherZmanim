@@ -11,7 +11,6 @@ declare interface Math {
 }
 
 declare interface String {
-    equals(this: string, str: string): boolean
     replaceAll(this: string, searchString: string, replaceString: string): string
     compareTo(this: string, compareToString: string): number
 }

@@ -674,8 +674,8 @@ export class AstronomicalCalendar {
             return false;
         }
         const aCal: AstronomicalCalendar = object as AstronomicalCalendar;
-        return this.getCalendar().equals(aCal.getCalendar()) && this.getGeoLocation().equals(aCal.getGeoLocation())
-            && this.getAstronomicalCalculator().equals(aCal.getAstronomicalCalculator());
+        return this.getCalendar() === aCal.getCalendar() && this.getGeoLocation().equals(aCal.getGeoLocation())
+            && this.getAstronomicalCalculator() === aCal.getAstronomicalCalculator();
     }
 
     /**
