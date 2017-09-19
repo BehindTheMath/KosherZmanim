@@ -60,20 +60,20 @@ export default class Zman {
         public compare (z1: Zman, z2: Zman): number {
             return z1.getZman().compareTo(z2.getZman());
         }
-    });
+    })();
 
     public static readonly NAME_ORDER: Comparator<Zman> = new (class extends Comparator<Zman> {
         public compare(z1: Zman, z2: Zman): number {
             return z1.getZmanLabel().compareTo(z2.getZmanLabel());
         }
-    });
+    })();
 
     public static readonly DURATION_ORDER: Comparator<Zman> = new (class extends Comparator<Zman> {
         public compare(z1: Zman, z2: Zman): number {
             return z1.getDuration() === z2.getDuration() ? 0
                     : z1.getDuration() > z2.getDuration() ? 1 : -1;
         }
-    });
+    })();
 
     /**
      * @return the zmanDescription

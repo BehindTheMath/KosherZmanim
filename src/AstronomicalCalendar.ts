@@ -770,7 +770,7 @@ export default class AstronomicalCalendar {
      * @since 1.1
      */
     public clone(): AstronomicalCalendar {
-        const clonedCalendar: AstronomicalCalendar = new AstronomicalCalendar;
+        const clonedCalendar: AstronomicalCalendar = new AstronomicalCalendar();
         clonedCalendar.setCalendar(this.calendar);
         clonedCalendar.setAstronomicalCalculator(this.astronomicalCalculator);
         clonedCalendar.setGeoLocation(this.geoLocation);
