@@ -4,12 +4,8 @@ import momentTimezone = require("moment-timezone");
 export class TimeZone {
     private ID: string;
 
-    private constructor(timeZone: string) {
+    public constructor(timeZone: string) {
         this.ID = timeZone
-    }
-
-    public static getTimeZone(timeZone: string): TimeZone {
-        return new TimeZone(timeZone);
     }
 
     public getID(): string {

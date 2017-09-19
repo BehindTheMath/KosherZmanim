@@ -95,7 +95,7 @@ export class GeoLocation {
         if (timeZone) {
             elevation = elevationOrTimeZone as number;
         } else {
-            timeZone = elevationOrTimeZone ? elevationOrTimeZone as TimeZone : TimeZone.getTimeZone("GMT");
+            timeZone = elevationOrTimeZone ? elevationOrTimeZone as TimeZone : new TimeZone("GMT");
         }
 
 		this.setLocationName(name);

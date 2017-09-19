@@ -97,7 +97,7 @@ export abstract class Calendar {
     protected shorthandLookup: string[] = ["era", "year", "month", "", "", "date", "dayOfYear", "", "", "", "hour", "hour", "minute", "second", "millisecond"];
 
 
-    protected constructor(timeZone: TimeZone = TimeZone.getTimeZone(momentTimezone.tz.guess())) {
+    protected constructor(timeZone: TimeZone = new TimeZone(momentTimezone.tz.guess())) {
         this.momentDate = momentTimezone.tz(timeZone.getID());
     }
 

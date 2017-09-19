@@ -564,8 +564,8 @@ export class AstronomicalCalendar {
         }
         let calculatedTime: number = time;
 
-        const cal: GregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
         cal.clear();// clear all fields
+        const cal: GregorianCalendar = new GregorianCalendar(new TimeZone("UTC"));
         cal.set(Calendar.YEAR, this.getCalendar().get(Calendar.YEAR));
         cal.set(Calendar.MONTH, this.getCalendar().get(Calendar.MONTH));
         cal.set(Calendar.DAY_OF_MONTH, this.getCalendar().get(Calendar.DAY_OF_MONTH));
