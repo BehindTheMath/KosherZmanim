@@ -26,10 +26,10 @@ export class Zman {
     }
 
 /*
-	public Zman(duration: number, String label) {
-		this.zmanLabel = label;
-		this.duration = duration;
-	}
+    public Zman(duration: number, String label) {
+        this.zmanLabel = label;
+        this.duration = duration;
+    }
 */
 
     public getZman(): Date {
@@ -76,16 +76,16 @@ export class Zman {
     });
 
     /**
-	 * @return the zmanDescription
-	 */
+     * @return the zmanDescription
+     */
     public getZmanDescription(): Date {
         return this.zmanDescription;
     }
 
     /**
-	 * @param zmanDescription
-	 *            the zmanDescription to set
-	 */
+     * @param zmanDescription
+     *            the zmanDescription to set
+     */
     public setZmanDescription(zmanDescription: Date): void {
         this.zmanDescription = zmanDescription;
     }
