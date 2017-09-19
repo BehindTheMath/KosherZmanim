@@ -1,7 +1,7 @@
-import {AstronomicalCalculator} from "./AstronomicalCalculator";
-import {Calendar} from "../polyfills/Calendar";
-import {GeoLocation} from "./GeoLocation";
-import {GregorianCalendar} from "../polyfills/GregorianCalendar";
+import AstronomicalCalculator from "./AstronomicalCalculator";
+import Calendar from "../polyfills/Calendar";
+import GeoLocation from "./GeoLocation";
+import GregorianCalendar from "../polyfills/GregorianCalendar";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times based on the <a
@@ -17,7 +17,7 @@ import {GregorianCalendar} from "../polyfills/GregorianCalendar";
  * @author &copy; Eliyahu Hershfeld 2011 - 2014
  * @version 0.1
  */
-export class NOAACalculator extends AstronomicalCalculator {
+export default class NOAACalculator extends AstronomicalCalculator {
     /**
      * The <a href="http://en.wikipedia.org/wiki/Julian_day">Julian day</a> of January 1, 2000
      */

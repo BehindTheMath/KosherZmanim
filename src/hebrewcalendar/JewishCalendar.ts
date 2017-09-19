@@ -1,10 +1,10 @@
-import {Calendar} from "../polyfills/Calendar";
-import {GregorianCalendar} from "../polyfills/GregorianCalendar";
-import {GeoLocation} from "../util/GeoLocation";
-import {TimeZone} from "../polyfills/TimeZone";
-import {JewishDate} from "./JewishDate";
-import {Daf} from "./Daf";
-import {YomiCalculator} from "./YomiCalculator";
+import Calendar from "../polyfills/Calendar";
+import GregorianCalendar from "../polyfills/GregorianCalendar";
+import GeoLocation from "../util/GeoLocation";
+import TimeZone from "../polyfills/TimeZone";
+import JewishDate from "./JewishDate";
+import Daf from "./Daf";
+import YomiCalculator from "./YomiCalculator";
 
 /**
  * The JewishCalendar extends the JewishDate class and adds calendar methods.
@@ -28,7 +28,7 @@ import {YomiCalculator} from "./YomiCalculator";
  * @author &copy; Eliyahu Hershfeld 2011 - 2016
  * @version 1.0.0
  */
-export class JewishCalendar extends JewishDate {
+export default class JewishCalendar extends JewishDate {
     public static readonly EREV_PESACH: number = 0;
     public static readonly PESACH: number = 1;
     public static readonly CHOL_HAMOED_PESACH: number = 2;

@@ -1,4 +1,4 @@
-export class StringBuffer {
+export default class StringBuffer {
     private str: string = "";
 
     constructor(str?: any) {

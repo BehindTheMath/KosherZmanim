@@ -1,8 +1,8 @@
-import {TimeZone} from "./TimeZone";
-import {Calendar} from "./Calendar";
-import {GregorianCalendar} from "./GregorianCalendar";
+import TimeZone from "./TimeZone";
+import Calendar from "./Calendar";
+import GregorianCalendar from "./GregorianCalendar";
 
-export class SimpleDateFormat {
+export default class SimpleDateFormat {
     private pattern: string;
     private calendar: Calendar;
 

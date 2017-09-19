@@ -4,7 +4,7 @@
  * @author &copy; Eliyahu Hershfeld 2011 - 2014
  * @version 0.0.2
  */
-export class Daf {
+export default class Daf {
     private masechtaNumber: number;
     private daf: number;
 

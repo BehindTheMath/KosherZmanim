@@ -1,8 +1,8 @@
-import {Calendar, Field, FieldOptions, Month} from "./Calendar";
+import {default as Calendar, Field, FieldOptions, Month} from "./Calendar";
 import * as moment from "moment-timezone";
-import {TimeZone} from "./TimeZone";
+import TimeZone from "./TimeZone";
 
-export class GregorianCalendar extends Calendar {
+export default class GregorianCalendar extends Calendar {
     /**
      * Value of the <code>ERA</code> field indicating
      * the period before the common era (before Christ), also known as BCE.

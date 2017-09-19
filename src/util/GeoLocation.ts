@@ -1,5 +1,5 @@
-import {StringBuffer} from "../polyfills/StringBuffer";
-import {TimeZone} from "../polyfills/TimeZone";
+import StringBuffer from "../polyfills/StringBuffer";
+import TimeZone from "../polyfills/TimeZone";
 
 /**
  * A class that contains location information such as latitude and longitude required for astronomical calculations. The
@@ -10,7 +10,7 @@ import {TimeZone} from "../polyfills/TimeZone";
  * @author &copy; Eliyahu Hershfeld 2004 - 2016
  * @version 1.1
  */
-export class GeoLocation {
+export default class GeoLocation {
     private latitude: number;
     private longitude: number;
     private locationName: string;

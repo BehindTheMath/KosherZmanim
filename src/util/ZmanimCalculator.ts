@@ -1,7 +1,7 @@
-import {AstronomicalCalculator} from "./AstronomicalCalculator";
-import {Calendar} from "../polyfills/Calendar";
-import {GeoLocation} from "./GeoLocation";
-import {GregorianCalendar} from "../polyfills/GregorianCalendar";
+import AstronomicalCalculator from "./AstronomicalCalculator";
+import Calendar from "../polyfills/Calendar";
+import GeoLocation from "./GeoLocation";
+import GregorianCalendar from "../polyfills/GregorianCalendar";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times. This implementation is a port of the
@@ -14,7 +14,7 @@ import {GregorianCalendar} from "../polyfills/GregorianCalendar";
  * @author &copy; Eliyahu Hershfeld 2004 - 2011
  * @version 1.1
  */
-export class ZmanimCalculator extends AstronomicalCalculator {
+export default class ZmanimCalculator extends AstronomicalCalculator {
     private calculatorName: string = "US Naval Almanac Algorithm";
 
     /**

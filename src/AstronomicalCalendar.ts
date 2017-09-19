@@ -1,10 +1,10 @@
 import {Long} from "./polyfills/JavaPolyfills";
-import {Calendar} from "./polyfills/Calendar";
-import {GregorianCalendar} from "./polyfills/GregorianCalendar";
-import {TimeZone} from "./polyfills/TimeZone";
-import {GeoLocation} from "./util/GeoLocation";
-import {AstronomicalCalculator} from "./util/AstronomicalCalculator";
-import {SunTimesCalculator} from "./util/SunTimesCalculator";
+import Calendar from "./polyfills/Calendar";
+import GregorianCalendar from "./polyfills/GregorianCalendar";
+import TimeZone from "./polyfills/TimeZone";
+import GeoLocation from "./util/GeoLocation";
+import AstronomicalCalculator from "./util/AstronomicalCalculator";
+import SunTimesCalculator from "./util/SunTimesCalculator";
 
 import BigJS = require("big.js");
 type BigDecimal = BigJsLibrary.BigJS;
@@ -51,7 +51,7 @@ type BigDecimal = BigJsLibrary.BigJS;
  *
  * @author &copy; Eliyahu Hershfeld 2004 - 2016
  */
-export class AstronomicalCalendar {
+export default class AstronomicalCalendar {
     /**
      * 90&deg; below the vertical. Used as a basis for most calculations since the location of the sun is 90&deg; below
      * the horizon at sunrise and sunset.

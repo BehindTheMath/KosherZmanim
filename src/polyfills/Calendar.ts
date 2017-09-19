@@ -1,5 +1,5 @@
 import * as moment from "moment-timezone";
-import {TimeZone} from "./TimeZone";
+import TimeZone from "./TimeZone";
 import momentTimezone = require("moment-timezone");
 
 export enum Field {
@@ -42,7 +42,7 @@ export enum Month {
  * Provides a substitute for java.util.Calendar.
  * This is not a 1:1 port, so check the method signatures before using.
  */
-export abstract class Calendar {
+export default abstract class Calendar {
     public static Month = Month;
 
     public static readonly ERA: number = 0;

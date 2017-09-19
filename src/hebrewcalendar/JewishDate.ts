@@ -1,5 +1,5 @@
-import {Calendar} from "../polyfills/Calendar";
-import {GregorianCalendar} from "../polyfills/GregorianCalendar";
+import Calendar from "../polyfills/Calendar";
+import GregorianCalendar from "../polyfills/GregorianCalendar";
 
 /**
  * The JewishDate class allows one to maintain an instance of a Gregorian date along with the corresponding Jewish date.
@@ -33,7 +33,7 @@ import {GregorianCalendar} from "../polyfills/GregorianCalendar";
  * @author &copy; Eliyahu Hershfeld 2011 - 2015
  * @version 0.2.6
  */
-export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
+export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
     /**
      * Value of the month field indicating Nissan, the first numeric month of the year in the Jewish calendar. With the
      * year starting at {@link #TISHREI}, it would actually be the 7th (or 8th in a {@link #isJewishLeapYear() leap

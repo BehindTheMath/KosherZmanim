@@ -1,6 +1,6 @@
 import momentTimezone = require("moment-timezone");
 
-export class TimeZone {
+export default class TimeZone {
     private ID: string;
 
     public constructor(timeZone: string) {

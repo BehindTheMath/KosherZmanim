@@ -1,6 +1,6 @@
-const numeral: Numeral = require("numeral");
+import * as numeral from "numeral";
 
-export class DecimalFormat {
+export default class DecimalFormat {
     private pattern: string;
 
     constructor(pattern: string) {

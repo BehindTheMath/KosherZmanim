@@ -1,4 +1,4 @@
-import {GeoLocation} from "./GeoLocation";
+import GeoLocation from "./GeoLocation";
 
 /**
  * A class for various location calculations
@@ -8,7 +8,7 @@ import {GeoLocation} from "./GeoLocation";
  * @author &copy; Eliyahu Hershfeld 2009 - 2014
  * @version 0.1
  */
-export class GeoLocationUtils {
+export default class GeoLocationUtils {
     private static DISTANCE: number = 0;
     private static INITIAL_BEARING: number = 1;
     private static FINAL_BEARING: number = 2;

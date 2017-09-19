@@ -7,7 +7,7 @@ import {Comparator} from "../polyfills/JavaPolyfills";
  * @author &copy; Eliyahu Hershfeld 2007-2011
  * @version 1.0
  */
-export class Zman {
+export default class Zman {
     private zmanLabel: string;
     private zman: Date;
     private duration: number;

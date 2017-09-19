@@ -1,8 +1,8 @@
-import {StringBuffer} from "../polyfills/StringBuffer";
-import {SimpleDateFormat} from "../polyfills/SimpleDateFormat";
-import {Daf} from "./Daf";
-import {JewishDate} from "./JewishDate";
-import {JewishCalendar} from "./JewishCalendar";
+import StringBuffer from "../polyfills/StringBuffer";
+import SimpleDateFormat from "../polyfills/SimpleDateFormat";
+import Daf from "./Daf";
+import JewishDate from "./JewishDate";
+import JewishCalendar from "./JewishCalendar";
 
 /**
  * The HebrewDateFormatter class formats a {@link JewishDate}.
@@ -22,7 +22,7 @@ import {JewishCalendar} from "./JewishCalendar";
  * @author &copy; Eliyahu Hershfeld 2011 - 2015
  * @version 0.3
  */
-export class HebrewDateFormatter {
+export default class HebrewDateFormatter {
     private hebrewFormat: boolean = false;
     private useLonghebrewYears: boolean = false;
     private useGershGershayim: boolean = true;

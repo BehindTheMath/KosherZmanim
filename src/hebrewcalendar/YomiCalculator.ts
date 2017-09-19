@@ -1,6 +1,6 @@
-import {Calendar} from "../polyfills/Calendar";
-import {GregorianCalendar} from "../polyfills/GregorianCalendar";
-import {Daf} from "./Daf";
+import Calendar from "../polyfills/Calendar";
+import GregorianCalendar from "../polyfills/GregorianCalendar";
+import Daf from "./Daf";
 
 /**
  * This class calculates the Daf Yomi page (daf) for a given date. The class currently only supports Daf Yomi Bavli, but
@@ -10,7 +10,7 @@ import {Daf} from "./Daf";
  * @author &copy; Eliyahu Hershfeld 2011 - 2015
  * @version 0.0.1
  */
-export class YomiCalculator {
+export default class YomiCalculator {
     // TODO: readonly for all?
     private static dafYomiStartDate: Date = new GregorianCalendar(1923, Calendar.SEPTEMBER, 11).getTime();
     private static dafYomiJulianStartDay: number = YomiCalculator.getJulianDay(YomiCalculator.dafYomiStartDate);

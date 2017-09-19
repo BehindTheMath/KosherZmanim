@@ -1,5 +1,5 @@
-import {GregorianCalendar} from "../polyfills/GregorianCalendar";
-import {GeoLocation} from "./GeoLocation";
+import GregorianCalendar from "../polyfills/GregorianCalendar";
+import GeoLocation from "./GeoLocation";
 
 /**
  * An abstract class that all sun time calculating classes extend. This allows the algorithm used to be changed at
@@ -8,7 +8,7 @@ import {GeoLocation} from "./GeoLocation";
  *
  * @author &copy; Eliyahu Hershfeld 2004 - 2014
  */
-export abstract class AstronomicalCalculator {
+export default abstract class AstronomicalCalculator {
     /**
      * The commonly used average solar refraction. Calendrical Calculations lists a more accurate global average of
      * 34.478885263888294

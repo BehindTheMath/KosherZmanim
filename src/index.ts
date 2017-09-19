@@ -1,24 +1,47 @@
 require("./polyfills/JavaPolyfills");
 
-exports.TimeZone = require("./polyfills/TimeZone").TimeZone;
-exports.GregorianCalendar = require("./polyfills/GregorianCalendar").GregorianCalendar;
-exports.Time = require("./util/Time").Time;
-exports.GeoLocation = require("./util/GeoLocation").GeoLocation;
-exports.GeoLocationUtils = require("./util/GeoLocationUtils").GeoLocationUtils;
+import TimeZone from "./polyfills/TimeZone";
+import GregorianCalendar from "./polyfills/GregorianCalendar";
+import Time from "./util/Time";
+import GeoLocation from "./util/GeoLocation";
+import GeoLocationUtils from "./util/GeoLocationUtils";
 
-exports.NOAACalculator = require("./util/NOAACalculator").NOAACalculator;
-exports.SunTimesCalculator = require("./util/SunTimesCalculator").SunTimesCalculator;
-exports.ZmanimCalculator = require("./util/ZmanimCalculator").ZmanimCalculator;
+import NOAACalculator from "./util/NOAACalculator";
+import SunTimesCalculator from "./util/SunTimesCalculator";
+import ZmanimCalculator from "./util/ZmanimCalculator";
 
-exports.AstronomicalCalendar = require("./AstronomicalCalendar").AstronomicalCalendar;
-exports.ZmanimCalendar = require("./ZmanimCalendar").ZmanimCalendar;
-exports.ComplexZmanimCalendar = require("./ComplexZmanimCalendar").ComplexZmanimCalendar;
+import AstronomicalCalendar from "./AstronomicalCalendar";
+import ZmanimCalendar from "./ZmanimCalendar";
+import ComplexZmanimCalendar from "./ComplexZmanimCalendar";
 
-exports.JewishDate = require("./hebrewcalendar/JewishDate").JewishDate;
-exports.JewishCalendar = require("./hebrewcalendar/JewishCalendar").JewishCalendar;
-exports.Daf = require("./hebrewcalendar/Daf").Daf;
-exports.YomiCalculator = require("./hebrewcalendar/YomiCalculator").YomiCalculator;
+import JewishDate from "./hebrewcalendar/JewishDate";
+import JewishCalendar from "./hebrewcalendar/JewishCalendar";
+import Daf from "./hebrewcalendar/Daf";
+import YomiCalculator from "./hebrewcalendar/YomiCalculator";
 
-exports.HebrewDateFormatter = require("./hebrewcalendar/HebrewDateFormatter").HebrewDateFormatter;
-exports.Zman = require("./util/Zman").Zman;
-exports.ZmanimFormatter = require("./util/ZmanimFormatter").ZmanimFormatter;
+import HebrewDateFormatter from "./hebrewcalendar/HebrewDateFormatter";
+import ZmanimFormatter from "./util/ZmanimFormatter";
+import Zman from "./util/Zman";
+
+exports.TimeZone = TimeZone;
+exports.GregorianCalendar = GregorianCalendar;
+exports.Time = Time;
+exports.GeoLocation = GeoLocation;
+exports.GeoLocationUtils = GeoLocationUtils;
+
+exports.NOAACalculator = NOAACalculator;
+exports.SunTimesCalculator = SunTimesCalculator;
+exports.ZmanimCalculator = ZmanimCalculator;
+
+exports.AstronomicalCalendar = AstronomicalCalendar;
+exports.ZmanimCalendar = ZmanimCalendar;
+exports.ComplexZmanimCalendar = ComplexZmanimCalendar;
+
+exports.JewishDate = JewishDate;
+exports.JewishCalendar = JewishCalendar;
+exports.Daf = Daf;
+exports.YomiCalculator = YomiCalculator;
+
+exports.HebrewDateFormatter = HebrewDateFormatter;
+exports.Zman = Zman;
+exports.ZmanimFormatter = ZmanimFormatter;

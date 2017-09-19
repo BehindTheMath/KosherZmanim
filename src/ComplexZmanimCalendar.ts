@@ -1,9 +1,9 @@
 import {Long} from "./polyfills/JavaPolyfills";
-import {Calendar} from "./polyfills/Calendar";
-import {GregorianCalendar} from "./polyfills/GregorianCalendar";
-import {GeoLocation} from "./util/GeoLocation";
-import {ZmanimCalendar} from "./ZmanimCalendar";
-import {JewishCalendar} from "./hebrewcalendar/JewishCalendar";
+import Calendar from "./polyfills/Calendar";
+import GregorianCalendar from "./polyfills/GregorianCalendar";
+import GeoLocation from "./util/GeoLocation";
+import ZmanimCalendar from "./ZmanimCalendar";
+import JewishCalendar from "./hebrewcalendar/JewishCalendar";
 
 /**
  * This class extends ZmanimCalendar and provides many more zmanim than available in the ZmanimCalendar. The basis for
@@ -71,7 +71,7 @@ import {JewishCalendar} from "./hebrewcalendar/JewishCalendar";
  * 
  * @author &copy; Eliyahu Hershfeld 2004 - 2016
  */
-export class ComplexZmanimCalendar extends ZmanimCalendar {
+export default class ComplexZmanimCalendar extends ZmanimCalendar {
 
     /**
      * The zenith of 3.7&deg; below {@link #GEOMETRIC_ZENITH geometric zenith} (90&deg;). This calculation is used for
