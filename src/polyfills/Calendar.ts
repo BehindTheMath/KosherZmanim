@@ -142,10 +142,6 @@ export abstract class Calendar {
     public setTimeInMillis(millis: number): void {
         this.momentDate.add(millis - this.momentDate.valueOf(), "ms");
     }
-    
-    public clear(): void {
-        this.momentDate = undefined;
-    }
 
     public equals(calendar: Calendar): boolean {
         return this.timeZone === calendar.getTimeZone() && this.momentDate.valueOf() === calendar.getTimeInMillis();
