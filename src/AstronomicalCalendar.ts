@@ -770,7 +770,12 @@ export class AstronomicalCalendar {
      * @since 1.1
      */
     public clone(): AstronomicalCalendar {
-        return JSON.parse(JSON.stringify(this));
+        const clonedCalendar: AstronomicalCalendar = new AstronomicalCalendar;
+        clonedCalendar.setCalendar(this.calendar);
+        clonedCalendar.setAstronomicalCalculator(this.astronomicalCalculator);
+        clonedCalendar.setGeoLocation(this.geoLocation);
+
+        return clonedCalendar;
     }
 
     public getClass(){
