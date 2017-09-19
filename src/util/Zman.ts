@@ -57,7 +57,7 @@ export default class Zman {
     }
 
     public static readonly DATE_ORDER: Comparator<Zman> = new (class extends Comparator<Zman> {
-        public compare (z1: Zman, z2: Zman): number {
+        public compare(z1: Zman, z2: Zman): number {
             return z1.getZman().compareTo(z2.getZman());
         }
     })();

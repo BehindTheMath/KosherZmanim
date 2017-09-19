@@ -150,8 +150,8 @@ export default class GeoLocation {
      * @param direction
      *            N for north and S for south. An IllegalArgumentException will be thrown if the value is not S or N.
      */
-    public setLatitude(degrees: number, minutes: number, seconds: number, direction: string): void
-    public setLatitude(latitude: number): void
+    public setLatitude(degrees: number, minutes: number, seconds: number, direction: string): void;
+    public setLatitude(latitude: number): void;
     public setLatitude(degreesOrLatitude: number, minutes?: number, seconds?: number, direction?: string): void {
         if (!minutes) {
             const latitude: number = degreesOrLatitude;

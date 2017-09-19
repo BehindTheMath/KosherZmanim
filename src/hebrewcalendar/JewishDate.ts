@@ -265,7 +265,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      *            the Gregorian month
      * @return the last day of the Gregorian month
      */
-    getLastDayOfGregorianMonth(month: number): number {
+    public getLastDayOfGregorianMonth(month: number): number {
         return JewishDate.getLastDayOfGregorianMonth(month, this.gregorianYear);
     }
 
@@ -472,7 +472,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
             roshHashanaDay += 1; // Then postpone Rosh HaShanah one day
         }
         // start 4th Dechiya - Lo ADU Rosh - Rosh Hashana can't occur on A- sunday, D- Wednesday, U - Friday
-        if (((roshHashanaDay % 7) === 0)// If Rosh HaShanah would occur on Sunday,
+        if (((roshHashanaDay % 7) === 0) // If Rosh HaShanah would occur on Sunday,
                 || ((roshHashanaDay % 7) === 3) // or Wednesday,
                 || ((roshHashanaDay % 7) === 5)) { // or Friday - end 4th Dechiya - Lo ADU Rosh
             roshHashanaDay = roshHashanaDay + 1; // Then postpone it one (more) day
@@ -559,31 +559,31 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      */
     private static validateJewishDate(year: number, month: number, dayOfMonth: number, hours: number, minutes: number, chalakim: number): void {
         if (month < JewishDate.NISSAN || month > JewishDate.getLastMonthOfJewishYear(year)) {
-            throw "IllegalArgumentException: The Jewish month has to be between 1 and 12 (or 13 on a leap year). "
-                    + month + " is invalid for the year " + year + ".";
+            throw new Error("IllegalArgumentException: The Jewish month has to be between 1 and 12 (or 13 on a leap year). "
+                    + month + " is invalid for the year " + year + ".");
         }
         if (dayOfMonth < 1 || dayOfMonth > 30) {
-            throw "IllegalArgumentException: The Jewish day of month can't be < 1 or > 30.  " + dayOfMonth
-                    + " is invalid.";
+            throw new Error("IllegalArgumentException: The Jewish day of month can't be < 1 or > 30.  " + dayOfMonth
+                    + " is invalid.");
         }
         // reject dates prior to 18 Teves, 3761 (1/1/1 AD). This restriction can be relaxed if the date coding is
         // changed/corrected
         if ((year < 3761) || (year === 3761 && (month >= JewishDate.TISHREI && month < JewishDate.TEVES))
                 || (year === 3761 && month === JewishDate.TEVES && dayOfMonth < 18)) {
-            throw "IllegalArgumentException: A Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian) can't be set. " + year + ", " + month
-                            + ", " + dayOfMonth + " is invalid.";
+            throw new Error("IllegalArgumentException: A Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian) can't be set. " + year + ", " + month
+                            + ", " + dayOfMonth + " is invalid.");
         }
         if (hours < 0 || hours > 23) {
-            throw "IllegalArgumentException: Hours < 0 > 23 can't be set. " + hours + " is invalid.";
+            throw new Error("IllegalArgumentException: Hours < 0 > 23 can't be set. " + hours + " is invalid.");
         }
 
         if (minutes < 0 || minutes > 59) {
-            throw "IllegalArgumentException: Minutes < 0 > 59 can't be set. " + minutes + " is invalid.";
+            throw new Error("IllegalArgumentException: Minutes < 0 > 59 can't be set. " + minutes + " is invalid.");
         }
 
         if (chalakim < 0 || chalakim > 17) {
-            throw "IllegalArgumentException: Chalakim/parts < 0 > 17 can't be set. " + chalakim
-                + " is invalid. For larger numbers such as 793 (TaShTzaG) break the chalakim into minutes (18 chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793 (TaShTzaG)";
+            throw new Error("IllegalArgumentException: Chalakim/parts < 0 > 17 can't be set. " + chalakim
+                + " is invalid. For larger numbers such as 793 (TaShTzaG) break the chalakim into minutes (18 chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793 (TaShTzaG)");
         }
     }
 
@@ -1189,7 +1189,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      * @deprecated This depends on a circular dependency. Use <pre>new HebrewDateFormatter().format(jewishDate)</pre> instead.
      */
     public toString(): void {
-        throw "This method is deprecated, due to the fact that it depends on a circular dependency.";
+        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency.");
     }
 
     /**

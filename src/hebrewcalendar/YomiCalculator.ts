@@ -76,11 +76,11 @@ export default class YomiCalculator {
             blattPerMasechta[4] = 22; // correct any change that may have been changed from a prior calculation
         }
         /* Finally find the daf. */
-        for (let j: number = 0; j < blattPerMasechta.length; j++) {
+        for (const blattInMasechta of blattPerMasechta) {
             masechta++;
-            total = total + blattPerMasechta[j] - 1;
+            total = total + blattInMasechta - 1;
             if (dafNo < total) {
-                blatt = 1 + blattPerMasechta[j] - (total - dafNo);
+                blatt = 1 + blattInMasechta - (total - dafNo);
                 /* Fiddle with the weird ones near the end. */
                 if (masechta === 36) {
                     blatt += 21;

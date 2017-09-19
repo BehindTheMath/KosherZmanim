@@ -286,9 +286,9 @@ export default class ZmanimFormatter {
         // Must also include offset from UTF.
         const offset: number = calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET); // Get the offset (in milliseconds)
         // If there is no offset, we have "Coordinated Universal Time"
-        if (offset === 0)
+        if (offset === 0) {
             sb.append("Z");
-        else {
+        } else {
             // Convert milliseconds to hours and minutes
             const hrs: number = offset / (60 * 60 * 1000);
             // In a few cases, the time zone may be +/-hh:30.
