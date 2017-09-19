@@ -1,4 +1,4 @@
-import {Calendar, Field, Month, FieldOptions} from "./Calendar";
+import {Calendar, Field, FieldOptions, Month} from "./Calendar";
 import * as moment from "moment-timezone";
 import {TimeZone} from "./TimeZone";
 

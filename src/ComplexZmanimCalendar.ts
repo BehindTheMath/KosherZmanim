@@ -1,9 +1,9 @@
-import {ZmanimCalendar} from "./ZmanimCalendar";
-import {Calendar} from "./polyfills/Calendar";
 import {Long} from "./polyfills/JavaPolyfills";
-import {GeoLocation} from "./util/GeoLocation";
-import {JewishCalendar} from "./hebrewcalendar/JewishCalendar";
+import {Calendar} from "./polyfills/Calendar";
 import {GregorianCalendar} from "./polyfills/GregorianCalendar";
+import {GeoLocation} from "./util/GeoLocation";
+import {ZmanimCalendar} from "./ZmanimCalendar";
+import {JewishCalendar} from "./hebrewcalendar/JewishCalendar";
 
 /**
  * This class extends ZmanimCalendar and provides many more zmanim than available in the ZmanimCalendar. The basis for

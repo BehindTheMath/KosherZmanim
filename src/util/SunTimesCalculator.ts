@@ -1,3 +1,8 @@
+import {GregorianCalendar} from "../polyfills/GregorianCalendar";
+import {AstronomicalCalculator} from "./AstronomicalCalculator";
+import {Calendar} from "../polyfills/Calendar";
+import {GeoLocation} from "./GeoLocation";
+
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times. This calculator uses the Java algorithm
  * written by <a href="http://web.archive.org/web/20090531215353/http://www.kevinboone.com/suntimes.html">Kevin
@@ -11,11 +16,6 @@
  * @author &copy; Kevin Boone 2000
  * @version 1.1
  */
-import {GregorianCalendar} from "../polyfills/GregorianCalendar";
-import {AstronomicalCalculator} from "./AstronomicalCalculator";
-import {Calendar} from "../polyfills/Calendar";
-import {GeoLocation} from "./GeoLocation";
-
 export class SunTimesCalculator extends AstronomicalCalculator {
 	/**
 	 * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getCalculatorName()

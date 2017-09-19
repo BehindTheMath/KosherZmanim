@@ -1,3 +1,5 @@
+import {GeoLocation} from "./GeoLocation";
+
 /**
  * A class for various location calculations
  * Most of the code in this class is ported from <a href="http://www.movable-type.co.uk/">Chris Veness'</a>
@@ -6,8 +8,6 @@
  * @author &copy; Eliyahu Hershfeld 2009 - 2014
  * @version 0.1
  */
-import {GeoLocation} from "./GeoLocation";
-
 export class GeoLocationUtils {
 	private static DISTANCE: number = 0;
 	private static INITIAL_BEARING: number = 1;

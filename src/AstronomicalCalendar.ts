@@ -1,10 +1,10 @@
-import {GregorianCalendar} from "./polyfills/GregorianCalendar";
-import {AstronomicalCalculator} from "./util/AstronomicalCalculator";
-import {Calendar} from "./polyfills/Calendar";
 import {Long} from "./polyfills/JavaPolyfills";
-import {ZmanimFormatter} from "./util/ZmanimFormatter";
-import {GeoLocation} from "./util/GeoLocation";
+import {Calendar} from "./polyfills/Calendar";
+import {GregorianCalendar} from "./polyfills/GregorianCalendar";
 import {TimeZone} from "./polyfills/TimeZone";
+import {GeoLocation} from "./util/GeoLocation";
+import {AstronomicalCalculator} from "./util/AstronomicalCalculator";
+import {SunTimesCalculator} from "./util/SunTimesCalculator";
 
 const BigDecimal: BigJsLibrary.BigJS = require("big.js");
 type BigDecimal = BigJsLibrary.BigJS;

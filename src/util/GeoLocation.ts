@@ -1,3 +1,6 @@
+import {StringBuffer} from "../polyfills/StringBuffer";
+import {TimeZone} from "../polyfills/TimeZone";
+
 /**
  * A class that contains location information such as latitude and longitude required for astronomical calculations. The
  * elevation field may not be used by some calculation engines and would be ignored if set. Check the documentation for
@@ -7,9 +10,6 @@
  * @author &copy; Eliyahu Hershfeld 2004 - 2016
  * @version 1.1
  */
-import {StringBuffer} from "../polyfills/StringBuffer";
-import {TimeZone} from "../polyfills/TimeZone";
-
 export class GeoLocation {
 	private latitude: number;
 	private longitude: number;

@@ -1,3 +1,5 @@
+import {Comparator} from "../polyfills/JavaPolyfills";
+
 /**
  * Wrapper class for an astronomical time, mostly used to sort collections of
  * astronomical times.
@@ -5,8 +7,6 @@
  * @author &copy; Eliyahu Hershfeld 2007-2011
  * @version 1.0
  */
-import {Comparator} from "../polyfills/JavaPolyfills";
-
 export class Zman {
     private zmanLabel: string;
     private zman: Date;

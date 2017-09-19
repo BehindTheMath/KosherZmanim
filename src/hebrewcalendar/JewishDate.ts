@@ -1,3 +1,6 @@
+import {Calendar} from "../polyfills/Calendar";
+import {GregorianCalendar} from "../polyfills/GregorianCalendar";
+
 /**
  * The JewishDate class allows one to maintain an instance of a Gregorian date along with the corresponding Jewish date.
  * This class can use the standard Java Date and Calendar classes for setting it, but does not subclass these classes or
@@ -30,9 +33,6 @@
  * @author &copy; Eliyahu Hershfeld 2011 - 2015
  * @version 0.2.6
  */
-import {Calendar} from "../polyfills/Calendar";
-import {GregorianCalendar} from "../polyfills/GregorianCalendar";
-
 export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	/**
 	 * Value of the month field indicating Nissan, the first numeric month of the year in the Jewish calendar. With the
