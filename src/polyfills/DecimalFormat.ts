@@ -7,7 +7,7 @@ export class DecimalFormat {
         this.pattern = pattern;
     }
 
-    public format(number: number): string {
-        return numeral(number).format(this.pattern);
+    public format(num: number): string {
+        return numeral(num).format(this.pattern);
     }
 }

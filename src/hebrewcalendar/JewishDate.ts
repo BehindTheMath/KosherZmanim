@@ -298,7 +298,7 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	private static getLastDayOfGregorianMonth(month: number, year: number): number {
 		switch (month) {
 		case 2:
-			if ((year % 4 === 0 && year % 100 != 0) || (year % 400 === 0)) {
+			if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
 				return 29;
 			} else {
 				return 28;
@@ -327,7 +327,7 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 			month++;
 		}
 
-		let dayOfMonth: number = absDate - JewishDate.gregorianDateToAbsDate(year, month, 1) + 1;
+		const dayOfMonth: number = absDate - JewishDate.gregorianDateToAbsDate(year, month, 1) + 1;
 		this.setInternalGregorianDate(year, month, dayOfMonth);
 	}
 
@@ -786,9 +786,9 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 		}
 		// Search forward for month from either Tishri or Nisan.
 		if (this.gregorianAbsDate < JewishDate.jewishDateToAbsDate(this.jewishYear, JewishDate.NISSAN, 1)) {
-			this.jewishMonth = JewishDate.TISHREI;// Start at Tishri
+			this.jewishMonth = JewishDate.TISHREI; // Start at Tishri
 		} else {
-			this.jewishMonth = JewishDate.NISSAN;// Start at Nisan
+			this.jewishMonth = JewishDate.NISSAN; // Start at Nisan
 		}
 		while (this.gregorianAbsDate > JewishDate.jewishDateToAbsDate(this.jewishYear, this.jewishMonth, this.getDaysInJewishMonth())) {
 			this.jewishMonth++;
@@ -1001,15 +1001,15 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	 * @throws IllegalArgumentException
 	 *             if the {@link Calendar#ERA} is {@link GregorianCalendar#BC}
 	 */
-	public setDate(calendar: GregorianCalendar): void
-    public setDate(date: Date): void
+	public setDate(calendar: GregorianCalendar): void;
+    public setDate(date: Date): void;
 	public setDate(calendarOrDate: Date | GregorianCalendar): void {
         if (calendarOrDate instanceof GregorianCalendar) {
         	const calendar: GregorianCalendar = calendarOrDate as GregorianCalendar;
 
             if (calendar.get(Calendar.ERA) === GregorianCalendar.BC) {
-                throw "IllegalArgumentException: Calendars with a BC era are not supported. The year "
-                + calendar.get(Calendar.YEAR) + " BC is invalid.";
+                throw new Error("IllegalArgumentException: Calendars with a BC era are not supported. The year "
+                + calendar.get(Calendar.YEAR) + " BC is invalid.");
             }
             this.gregorianMonth = calendar.get(Calendar.MONTH) + 1;
             this.gregorianDayOfMonth = calendar.get(Calendar.DATE);
@@ -1137,8 +1137,8 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	 *             17. For larger a larger number of chalakim such as 793 (TaShTzaG) break the chalakim into minutes (18
 	 *             chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793 (TaShTzaG).
 	 */
-    public setJewishDate(year: number, month: number, dayOfMonth: number, hours: number, minutes: number, chalakim: number): void
-    public setJewishDate(year: number, month: number, dayOfMonth: number): void
+    public setJewishDate(year: number, month: number, dayOfMonth: number, hours: number, minutes: number, chalakim: number): void;
+    public setJewishDate(year: number, month: number, dayOfMonth: number): void;
 	public setJewishDate(year: number, month: number, dayOfMonth: number, hours: number = 0, minutes: number = 0, chalakim: number = 0): void {
         JewishDate.validateJewishDate(year, month, dayOfMonth, hours, minutes, chalakim);
 
@@ -1172,7 +1172,6 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 		return calendar;
 	}
 	
-
 	/**
 	 * Resets this date to the current system date.
 	 */

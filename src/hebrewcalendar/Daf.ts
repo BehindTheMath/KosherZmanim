@@ -90,7 +90,7 @@ export class Daf {
 	 * 
 	 * @return the transliterated name of the masechta (tractate) of the Daf Yomi such as Berachos.
 	 */
-	public getMasechtaTransliterated(): String {
+	public getMasechtaTransliterated(): string {
 		return Daf.masechtosBavliTransliterated[this.masechtaNumber];
 	}
 
@@ -101,7 +101,7 @@ export class Daf {
 	 * @return the masechta (tractate) of the Daf Yomi in Hebrew, It will return
 	 *         &#x05D1;&#x05E8;&#x05DB;&#x05D5;&#x05EA; for Berachos.
 	 */
-	public getMasechta(): String {
+	public getMasechta(): string {
 		return Daf.masechtosBavli[this.masechtaNumber];
 	}
 }

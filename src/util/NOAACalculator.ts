@@ -178,7 +178,7 @@ export class NOAACalculator extends AstronomicalCalculator {
 		const sin3m: number = Math.sin(mrad + mrad + mrad);
 
 		return sinm * (1.914602 - julianCenturies * (0.004817 + 0.000014 * julianCenturies)) + sin2m
-				* (0.019993 - 0.000101 * julianCenturies) + sin3m * 0.000289;// in degrees
+				* (0.019993 - 0.000101 * julianCenturies) + sin3m * 0.000289; // in degrees
 	}
 
 	/**
@@ -359,12 +359,12 @@ export class NOAACalculator extends AstronomicalCalculator {
 				+ (cal.get(Calendar.MINUTE) + eot + cal.get(Calendar.SECOND) / 60.0) / 60.0;
 
 		longitude = -(longitude * 360.0 / 24.0) % 360.0;
-		const hourAngle_rad: number = Math.toRadians(lon - longitude);
+		const hourAngleRad: number = Math.toRadians(lon - longitude);
 		const declination: number = NOAACalculator.getSunDeclination(julianCenturies);
-		const dec_rad: number = Math.toRadians(declination);
-		const lat_rad: number = Math.toRadians(lat);
-		return Math.toDegrees(Math.asin((Math.sin(lat_rad) * Math.sin(dec_rad))
-				+ (Math.cos(lat_rad) * Math.cos(dec_rad) * Math.cos(hourAngle_rad))));
+		const decRad: number = Math.toRadians(declination);
+		const latRad: number = Math.toRadians(lat);
+		return Math.toDegrees(Math.asin((Math.sin(latRad) * Math.sin(decRad))
+				+ (Math.cos(latRad) * Math.cos(decRad) * Math.cos(hourAngleRad))));
 
 	}
 
@@ -392,13 +392,13 @@ export class NOAACalculator extends AstronomicalCalculator {
 				+ (cal.get(Calendar.MINUTE) + eot + cal.get(Calendar.SECOND) / 60.0) / 60.0;
 
 		longitude = -(longitude * 360.0 / 24.0) % 360.0;
-		const hourAngle_rad: number = Math.toRadians(lon - longitude);
+		const hourAngleRad: number = Math.toRadians(lon - longitude);
 		const declination: number = NOAACalculator.getSunDeclination(julianCenturies);
-		const dec_rad: number = Math.toRadians(declination);
-		const lat_rad: number = Math.toRadians(lat);
+		const decRad: number = Math.toRadians(declination);
+		const latRad: number = Math.toRadians(lat);
 
-		return Math.toDegrees(Math.atan(Math.sin(hourAngle_rad)
-				/ ((Math.cos(hourAngle_rad) * Math.sin(lat_rad)) - (Math.tan(dec_rad) * Math.cos(lat_rad)))))+180;
+		return Math.toDegrees(Math.atan(Math.sin(hourAngleRad)
+				/ ((Math.cos(hourAngleRad) * Math.sin(latRad)) - (Math.tan(decRad) * Math.cos(latRad))))) + 180;
 
 	}
 

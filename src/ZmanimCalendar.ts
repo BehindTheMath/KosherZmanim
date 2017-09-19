@@ -1,4 +1,4 @@
-import {AstronomicalCalendar} from "./AstronomicalCalendar"
+import {AstronomicalCalendar} from "./AstronomicalCalendar";
 import {GeoLocation} from "./util/GeoLocation";
 
 /**
@@ -462,7 +462,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
 	 * @param location
 	 *            the location
 	 */
-	constructor (location?: GeoLocation) {
+	constructor(location?: GeoLocation) {
 		super(location);
 	}
 
@@ -494,7 +494,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
 		this.candleLightingOffset = candleLightingOffset;
 	}
 
-    public getClass(){
+    public getClass() {
         return {
             getName: function() {
                 return "ZmanimCalendar";

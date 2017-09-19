@@ -209,7 +209,7 @@ export class JewishCalendar extends JewishDate {
 			if (this.isUseModernHolidays()
 					&& ((this.getJewishDayOfMonth() === 26 && this.getDayOfWeek() === 5)
 							|| (this.getJewishDayOfMonth() === 28 && this.getDayOfWeek() === 1)
-							|| (this.getJewishDayOfMonth() === 27 && this.getDayOfWeek() != 1 && this.getDayOfWeek() != 6))) {
+							|| (this.getJewishDayOfMonth() === 27 && this.getDayOfWeek() !== 1 && this.getDayOfWeek() !== 6))) {
 				return JewishCalendar.YOM_HASHOAH;
 			}
 			break;
@@ -242,7 +242,7 @@ export class JewishCalendar extends JewishDate {
 			break;
 		case JewishCalendar.TAMMUZ:
 			// push off the fast day if it falls on Shabbos
-			if ((this.getJewishDayOfMonth() === 17 && this.getDayOfWeek() != 7)
+			if ((this.getJewishDayOfMonth() === 17 && this.getDayOfWeek() !== 7)
 					|| (this.getJewishDayOfMonth() === 18 && this.getDayOfWeek() === 1)) {
 				return JewishCalendar.SEVENTEEN_OF_TAMMUZ;
 			}
@@ -250,7 +250,7 @@ export class JewishCalendar extends JewishDate {
 		case JewishCalendar.AV:
 			// if Tisha B'av falls on Shabbos, push off until Sunday
 			if ((this.getDayOfWeek() === 1 && this.getJewishDayOfMonth() === 10)
-					|| (this.getDayOfWeek() != 7 && this.getJewishDayOfMonth() === 9)) {
+					|| (this.getDayOfWeek() !== 7 && this.getJewishDayOfMonth() === 9)) {
 				return JewishCalendar.TISHA_BEAV;
 			} else if (this.getJewishDayOfMonth() === 15) {
 				return JewishCalendar.TU_BEAV;
@@ -264,7 +264,7 @@ export class JewishCalendar extends JewishDate {
 		case JewishCalendar.TISHREI:
 			if (this.getJewishDayOfMonth() === 1 || this.getJewishDayOfMonth() === 2) {
 				return JewishCalendar.ROSH_HASHANA;
-			} else if ((this.getJewishDayOfMonth() === 3 && this.getDayOfWeek() != 7)
+			} else if ((this.getJewishDayOfMonth() === 3 && this.getDayOfWeek() !== 7)
 					|| (this.getJewishDayOfMonth() === 4 && this.getDayOfWeek() === 1)) {
 				// push off Tzom Gedalia if it falls on Shabbos
 				return JewishCalendar.FAST_OF_GEDALYAH;
@@ -357,11 +357,11 @@ export class JewishCalendar extends JewishDate {
 	 */
 	public isYomTov(): boolean {
 		const holidayIndex: number = this.getYomTovIndex();
-		if ((this.isErevYomTov() && (holidayIndex != JewishCalendar.HOSHANA_RABBA && (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() != 20)))
-				|| holidayIndex === JewishCalendar.CHANUKAH || (this.isTaanis() && holidayIndex != JewishCalendar.YOM_KIPPUR)) {
+		if ((this.isErevYomTov() && (holidayIndex !== JewishCalendar.HOSHANA_RABBA && (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() !== 20)))
+				|| holidayIndex === JewishCalendar.CHANUKAH || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR)) {
 			return false;
 		}
-		return this.getYomTovIndex() != -1;
+		return this.getYomTovIndex() !== -1;
 	}
 	
 	/**
@@ -369,7 +369,7 @@ export class JewishCalendar extends JewishDate {
 	 * 
 	 * @return if the Yom Tov day has a melacha (work)  prohibition.
 	 */
-	public isYomTovAssurBemelacha(): boolean{
+	public isYomTovAssurBemelacha(): boolean {
         const holidayIndex: number = this.getYomTovIndex();
 		return holidayIndex === JewishCalendar.PESACH || holidayIndex === JewishCalendar.SHAVUOS || holidayIndex === JewishCalendar.SUCCOS || holidayIndex === JewishCalendar.SHEMINI_ATZERES ||
 				holidayIndex === JewishCalendar.SIMCHAS_TORAH || holidayIndex === JewishCalendar.ROSH_HASHANA  || holidayIndex === JewishCalendar.YOM_KIPPUR;
@@ -410,7 +410,7 @@ export class JewishCalendar extends JewishDate {
 	 */
 	public isErevRoshChodesh(): boolean {
 		// Erev Rosh Hashana is not Erev Rosh Chodesh.
-		return (this.getJewishDayOfMonth() === 29 && this.getJewishMonth() != JewishCalendar.ELUL);
+		return (this.getJewishDayOfMonth() === 29 && this.getJewishMonth() !== JewishCalendar.ELUL);
 	}
 
 	/**
@@ -453,7 +453,7 @@ export class JewishCalendar extends JewishDate {
 	 */
 	public isRoshChodesh(): boolean {
 		// Rosh Hashana is not rosh chodesh. Elul never has 30 days
-		return (this.getJewishDayOfMonth() === 1 && this.getJewishMonth() != JewishCalendar.TISHREI) || this.getJewishDayOfMonth() === 30;
+		return (this.getJewishDayOfMonth() === 1 && this.getJewishMonth() !== JewishCalendar.TISHREI) || this.getJewishDayOfMonth() === 30;
 	}
 
 	/**

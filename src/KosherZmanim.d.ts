@@ -1,22 +1,22 @@
 declare interface Date {
-    compareTo(this: Date, date: Date): number
-    after(this: Date, date: Date): boolean
-    before(this: Date, date: Date): boolean
-    equals(this: Date, date: Date): boolean
+    compareTo(this: Date, date: Date): number;
+    after(this: Date, date: Date): boolean;
+    before(this: Date, date: Date): boolean;
+    equals(this: Date, date: Date): boolean;
 }
 
 declare interface Math {
-    toRadians(angdeg: number): number
-    toDegrees(angrad: number): number
+    toRadians(angdeg: number): number;
+    toDegrees(angrad: number): number;
 }
 
 declare interface String {
-    replaceAll(this: string, searchString: string, replaceString: string): string
-    compareTo(this: string, compareToString: string): number
+    replaceAll(this: string, searchString: string, replaceString: string): string;
+    compareTo(this: string, compareToString: string): number;
 }
 
 declare interface JsonOutput {
-    [key: string]: AstronomicalTimes | BasicZmanim | Zmanim | JsonOutputMetadata
+    [key: string]: AstronomicalTimes | BasicZmanim | Zmanim | JsonOutputMetadata;
 }
 
 declare interface JsonOutputMetadata {

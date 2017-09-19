@@ -124,15 +124,13 @@ export class GeoLocationUtils {
 			sinSigma = Math.sqrt((cosU2 * sinLambda) * (cosU2 * sinLambda)
 					+ (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda)
 					* (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
-			if (sinSigma === 0)
-				return 0; // co-incident points
+			if (sinSigma === 0) return 0; // co-incident points
 			cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
 			sigma = Math.atan2(sinSigma, cosSigma);
 			sinAlpha = cosU1 * cosU2 * sinLambda / sinSigma;
 			cosSqAlpha = 1 - sinAlpha * sinAlpha;
 			cos2SigmaM = cosSigma - 2 * sinU1 * sinU2 / cosSqAlpha;
-			if (Number.isNaN(cos2SigmaM))
-				cos2SigmaM = 0; // equatorial line: cosSqAlpha=0 (§6)
+			if (Number.isNaN(cos2SigmaM)) cos2SigmaM = 0; // equatorial line: cosSqAlpha=0 (§6)
 			C = f / 16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
 			lambdaP = lambda;
 			lambda = L
@@ -144,8 +142,7 @@ export class GeoLocationUtils {
 							* (cos2SigmaM + C * cosSigma
 									* (-1 + 2 * cos2SigmaM * cos2SigmaM)));
 		}
-		if (iterLimit === 0)
-			return Number.NaN; // formula failed to converge
+		if (iterLimit === 0) return Number.NaN; // formula failed to converge
 
 		const uSq: number = cosSqAlpha * (a * a - b * b) / (b * b);
 		const A: number = 1 + uSq / 16384
@@ -193,8 +190,7 @@ export class GeoLocationUtils {
 		const dPhi: number = Math.log(Math.tan(Math.toRadians(destination.getLatitude())
 				/ 2 + Math.PI / 4)
 				/ Math.tan(Math.toRadians(location.getLatitude()) / 2 + Math.PI / 4));
-		if (Math.abs(dLon) > Math.PI)
-			dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
+		if (Math.abs(dLon) > Math.PI) dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
 		return Math.toDegrees(Math.atan2(dLon, dPhi));
 	}
 
@@ -220,8 +216,7 @@ export class GeoLocationUtils {
 		const q: number = (Math.abs(dLat) > 1e-10) ? dLat / dPhi : Math.cos(Math
 				.toRadians(location.getLatitude()));
 		// if dLon over 180° take shorter rhumb across 180° meridian:
-		if (dLon > Math.PI)
-			dLon = 2 * Math.PI - dLon;
+		if (dLon > Math.PI) dLon = 2 * Math.PI - dLon;
 		const d: number = Math.sqrt(dLat * dLat + q * q * dLon * dLon);
 		return d * R;
 	}

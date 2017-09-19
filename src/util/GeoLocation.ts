@@ -43,7 +43,7 @@ export class GeoLocation {
 	 */
 	public setElevation(elevation: number): void {
 		if (elevation < 0) {
-			throw "IllegalArgumentException: Elevation cannot be negative";
+			throw new Error("IllegalArgumentException: Elevation cannot be negative");
 		}
 		this.elevation = elevation;
 	}
@@ -157,7 +157,7 @@ export class GeoLocation {
 			const latitude: number = degreesOrLatitude;
 
             if (latitude > 90 || latitude < -90) {
-                throw "IllegalArgumentException: Latitude must be between -90 and  90";
+                throw new Error("IllegalArgumentException: Latitude must be between -90 and  90");
             }
 
             this.latitude = latitude;
@@ -166,12 +166,12 @@ export class GeoLocation {
 
             let tempLat: number = degrees + ((minutes + (seconds / 60.0)) / 60.0);
             if (tempLat > 90 || tempLat < 0) { //FIXME An exception should be thrown if degrees, minutes or seconds are negative
-                throw "IllegalArgumentException: Latitude must be between 0 and  90. Use direction of S instead of negative.";
+                throw new Error("IllegalArgumentException: Latitude must be between 0 and  90. Use direction of S instead of negative.");
             }
             if (direction === "S") {
                 tempLat *= -1;
             } else if (!(direction === "N")) {
-                throw "IllegalArgumentException: Latitude direction must be N or S";
+                throw new Error("IllegalArgumentException: Latitude direction must be N or S");
             }
             this.latitude = tempLat;
         }
@@ -218,14 +218,14 @@ export class GeoLocation {
 	 *            An IllegalArgumentException will be thrown if
 	 *            the value is not E or W.
 	 */
-    public setLongitude(degrees: number, minutes: number, seconds: number, direction: string): void
-    public setLongitude(longitude: number): void
+    public setLongitude(degrees: number, minutes: number, seconds: number, direction: string): void;
+    public setLongitude(longitude: number): void;
 	public setLongitude(degreesOrLongitude: number, minutes?: number, seconds?: number, direction?: string): void {
         if (!minutes) {
         	const longitude: number = degreesOrLongitude;
 
             if (longitude > 180 || longitude < -180) {
-                throw "IllegalArgumentException: Longitude must be between -180 and  180";
+                throw new Error("IllegalArgumentException: Longitude must be between -180 and  180");
             }
 
             this.longitude = longitude;
@@ -234,12 +234,12 @@ export class GeoLocation {
 
             let longTemp: number = degrees + ((minutes + (seconds / 60.0)) / 60.0);
             if (longTemp > 180 || this.longitude < 0) { //FIXME An exception should be thrown if degrees, minutes or seconds are negative
-                throw "IllegalArgumentException: Longitude must be between 0 and  180.  Use a direction of W instead of negative.";
+                throw new Error("IllegalArgumentException: Longitude must be between 0 and  180.  Use a direction of W instead of negative.");
             }
             if (direction === "W") {
                 longTemp *= -1;
             } else if (!(direction === "E")) {
-                throw "IllegalArgumentException: Longitude direction must be E or W";
+                throw new Error("IllegalArgumentException: Longitude direction must be E or W");
             }
             this.longitude = longTemp;
         }
@@ -398,22 +398,19 @@ export class GeoLocation {
 			cosLambda = Math.cos(lambda);
 			sinSigma = Math.sqrt((cosU2 * sinLambda) * (cosU2 * sinLambda)
 					+ (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) * (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
-			if (sinSigma === 0)
-				return 0; // co-incident points
+			if (sinSigma === 0) return 0; // co-incident points
 			cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
 			sigma = Math.atan2(sinSigma, cosSigma);
 			sinAlpha = cosU1 * cosU2 * sinLambda / sinSigma;
 			cosSqAlpha = 1 - sinAlpha * sinAlpha;
 			cos2SigmaM = cosSigma - 2 * sinU1 * sinU2 / cosSqAlpha;
-			if (Number.isNaN(cos2SigmaM))
-				cos2SigmaM = 0; // equatorial line: cosSqAlpha=0 (§6)
+			if (Number.isNaN(cos2SigmaM)) cos2SigmaM = 0; // equatorial line: cosSqAlpha=0 (§6)
 			C = f / 16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
 			lambdaP = lambda;
 			lambda = L + (1 - C) * f * sinAlpha
 					* (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
 		}
-		if (iterLimit === 0)
-			return Number.NaN; // formula failed to converge
+		if (iterLimit === 0) return Number.NaN; // formula failed to converge
 
 		const uSq: number = cosSqAlpha * (a * a - b * b) / (b * b);
 		const A: number = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));
@@ -453,8 +450,7 @@ export class GeoLocation {
 		let dLon: number = Math.toRadians(location.getLongitude() - this.getLongitude());
 		const dPhi: number = Math.log(Math.tan(Math.toRadians(location.getLatitude()) / 2 + Math.PI / 4)
 				/ Math.tan(Math.toRadians(this.getLatitude()) / 2 + Math.PI / 4));
-		if (Math.abs(dLon) > Math.PI)
-			dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
+		if (Math.abs(dLon) > Math.PI) dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
 		return Math.toDegrees(Math.atan2(dLon, dPhi));
 	}
 
@@ -474,8 +470,7 @@ export class GeoLocation {
 				/ Math.tan(Math.toRadians(this.getLatitude()) / 2 + Math.PI / 4));
 		const q: number = (Math.abs(dLat) > 1e-10) ? dLat / dPhi : Math.cos(Math.toRadians(this.getLatitude()));
 		// if dLon over 180° take shorter rhumb across 180° meridian:
-		if (dLon > Math.PI)
-			dLon = 2 * Math.PI - dLon;
+		if (dLon > Math.PI) dLon = 2 * Math.PI - dLon;
 		const d: number = Math.sqrt(dLat * dLat + q * q * dLon * dLon);
 		return d * R;
 	}
@@ -523,10 +518,9 @@ export class GeoLocation {
 	 * @see java.lang.Object#equals(Object)
 	 */
 	public equals(object: object): boolean {
-		if (this === object)
-			return true;
-		if (!(object instanceof GeoLocation))
-			return false;
+		if (this === object) return true;
+		if (!(object instanceof GeoLocation)) return false;
+
 		const geo: GeoLocation = object as GeoLocation;
 		return this.latitude === geo.latitude
 				&& this.longitude === geo.longitude

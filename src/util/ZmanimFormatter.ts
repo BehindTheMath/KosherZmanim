@@ -74,7 +74,7 @@ export class ZmanimFormatter {
 	public static readonly SEXAGESIMAL_MILLIS_FORMAT: number = 4;
 
 	/** constant for milliseconds in a minute (60,000) */
-	static readonly MINUTE_MILLIS: number = 60 * 1000;
+	public static readonly MINUTE_MILLIS: number = 60 * 1000;
 
 	/** constant for milliseconds in an hour (3,600,000) */
 	public static readonly HOUR_MILLIS: number = ZmanimFormatter.MINUTE_MILLIS * 60;
@@ -212,8 +212,8 @@ export class ZmanimFormatter {
 	 *            The time <code>Object</code> to be formatted.
 	 * @return String The formatted <code>String</code>
 	 */
-    public format(time: Time): string
-    public format(millis: number): string
+    public format(time: Time): string;
+    public format(millis: number): string;
 	public format(timeOrMillis: Time | number): string {
     	let time: Time;
     	if (time instanceof Time) {
@@ -284,7 +284,7 @@ export class ZmanimFormatter {
 
 		const sb: StringBuffer = new StringBuffer(dateFormat.format(dateTime));
 		// Must also include offset from UTF.
-		const offset: number = calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET);// Get the offset (in milliseconds)
+		const offset: number = calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET); // Get the offset (in milliseconds)
 		// If there is no offset, we have "Coordinated Universal Time"
 		if (offset === 0)
 			sb.append("Z");
@@ -293,8 +293,8 @@ export class ZmanimFormatter {
 			const hrs: number = offset / (60 * 60 * 1000);
 			// In a few cases, the time zone may be +/-hh:30.
 			const min: number = offset % (60 * 60 * 1000);
-			const posneg: string = hrs < 0 ? '-' : '+';
-			sb.append(posneg + ZmanimFormatter.formatDigits(hrs) + ':' + ZmanimFormatter.formatDigits(min));
+			const posneg: string = hrs < 0 ? "-" : "+";
+			sb.append(posneg + ZmanimFormatter.formatDigits(hrs) + ":" + ZmanimFormatter.formatDigits(min));
 		}
 		return sb.toString();
 	}
@@ -308,7 +308,7 @@ export class ZmanimFormatter {
 	 */
 	private static formatDigits(digits: number): string {
 		const dd: string = Math.abs(digits).toString();
-		return dd.length === 1 ? '0' + dd : dd;
+		return dd.length === 1 ? "0" + dd : dd;
 	}
 
 	/**
@@ -331,8 +331,8 @@ export class ZmanimFormatter {
 	 *            the duration as a Time object
 	 * @return the xsd:duration formatted String
 	 */
-    public static formatXSDDurationTime(time: Time): string
-    public static formatXSDDurationTime(millis: number): string
+    public static formatXSDDurationTime(time: Time): string;
+    public static formatXSDDurationTime(millis: number): string;
     public static formatXSDDurationTime(timeOrMillis: Time | number): string {
         let time: Time;
         if (time instanceof Time) {
@@ -342,24 +342,22 @@ export class ZmanimFormatter {
         }
 
     	const duration: StringBuffer = new StringBuffer();
-		if (time.getHours() != 0 || time.getMinutes() != 0 || time.getSeconds() != 0 || time.getMilliseconds() != 0) {
+		if (time.getHours() !== 0 || time.getMinutes() !== 0 || time.getSeconds() !== 0 || time.getMilliseconds() !== 0) {
 			duration.append("P");
 			duration.append("T");
 
-			if (time.getHours() != 0)
-				duration.append(time.getHours() + "H");
+			if (time.getHours() !== 0) duration.append(time.getHours() + "H");
 
-			if (time.getMinutes() != 0)
-				duration.append(time.getMinutes() + "M");
+			if (time.getMinutes() !== 0) duration.append(time.getMinutes() + "M");
 
-			if (time.getSeconds() != 0 || time.getMilliseconds() != 0) {
+			if (time.getSeconds() !== 0 || time.getMilliseconds() !== 0) {
 				duration.append(time.getSeconds() + "." + ZmanimFormatter.milliNF.format(time.getMilliseconds()));
 				duration.append("S");
 			}
-			if (duration.length() === 1) // zero seconds
-				duration.append("T0S");
-			if (time.isNegative())
-				duration.insert(0, "-");
+			
+			if (duration.length() === 1) duration.append("T0S"); // zero seconds
+				
+			if (time.isNegative()) duration.insert(0, "-");
 		}
 		return duration.toString();
 	}
@@ -569,16 +567,16 @@ export class ZmanimFormatter {
         df.setTimeZone(astronomicalCalendar.getGeoLocation().getTimeZone());
 
         const metadata: JsonOutputMetadata = {
-			"date": df.format(astronomicalCalendar.getCalendar().getTime()),
-			"type": astronomicalCalendar.getClass().getName(),
-			"algorithm": astronomicalCalendar.getAstronomicalCalculator().getCalculatorName(),
-			"location": astronomicalCalendar.getGeoLocation().getLocationName(),
-			"latitude": astronomicalCalendar.getGeoLocation().getLatitude(),
-			"longitude": astronomicalCalendar.getGeoLocation().getLongitude(),
-			"elevation": astronomicalCalendar.getGeoLocation().getElevation(),
-			"timeZoneName": astronomicalCalendar.getGeoLocation().getTimeZone().getDisplayName(),
-			"timeZoneID": astronomicalCalendar.getGeoLocation().getTimeZone().getID(),
-			"timeZoneOffset": astronomicalCalendar.getGeoLocation().getTimeZone().getOffset(astronomicalCalendar.getCalendar().getTimeInMillis()) / ZmanimFormatter.HOUR_MILLIS,
+			date: df.format(astronomicalCalendar.getCalendar().getTime()),
+			type: astronomicalCalendar.getClass().getName(),
+			algorithm: astronomicalCalendar.getAstronomicalCalculator().getCalculatorName(),
+			location: astronomicalCalendar.getGeoLocation().getLocationName(),
+			latitude: astronomicalCalendar.getGeoLocation().getLatitude(),
+			longitude: astronomicalCalendar.getGeoLocation().getLongitude(),
+			elevation: astronomicalCalendar.getGeoLocation().getElevation(),
+			timeZoneName: astronomicalCalendar.getGeoLocation().getTimeZone().getDisplayName(),
+			timeZoneID: astronomicalCalendar.getGeoLocation().getTimeZone().getID(),
+			timeZoneOffset: astronomicalCalendar.getGeoLocation().getTimeZone().getOffset(astronomicalCalendar.getCalendar().getTimeInMillis()) / ZmanimFormatter.HOUR_MILLIS,
         };
 
         let key: string;
@@ -759,8 +757,8 @@ export class ZmanimFormatter {
             props = props.concat(Object.getOwnPropertyNames(obj));
         } while (obj = Object.getPrototypeOf(obj));
 
-        return props.sort().filter(function (value, index, array) {
-            if (value != array[index + 1] && typeof obj[value] === "function") return true;
+        return props.sort().filter((value, index, array) => {
+            if (value !== array[index + 1] && typeof obj[value] === "function") return true;
         });
     }
 

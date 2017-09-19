@@ -66,7 +66,7 @@ export abstract class AstronomicalCalculator {
      * @deprecated This depends on a circular dependency. Use <pre>new SunTimesCalculator()</pre> instead
      */
     public static getDefault(): void {
-        throw "This method is deprecated, due to the fact that it depends on a circular dependency.";
+        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency.");
     }
 
     /**
@@ -156,7 +156,7 @@ export abstract class AstronomicalCalculator {
      *            elevation in Meters.
      * @return the adjusted zenith
      */
-    getElevationAdjustment(elevation: number): number {
+    public getElevationAdjustment(elevation: number): number {
         // double elevationAdjustment = 0.0347 * Math.sqrt(elevation);
         const elevationAdjustment: number = Math.toDegrees(Math.acos(this.earthRadius / (this.earthRadius + (elevation / 1000))));
         return elevationAdjustment;
@@ -190,7 +190,7 @@ export abstract class AstronomicalCalculator {
      *         sunrise and sunset (if the zenith == 90&deg;)
      * @see #getElevationAdjustment(double)
      */
-    adjustZenith(zenith: number, elevation: number) {
+    public adjustZenith(zenith: number, elevation: number) {
         let adjustedZenith: number = zenith;
         if (zenith === AstronomicalCalculator.GEOMETRIC_ZENITH) { // only adjust if it is exactly sunrise or sunset
             adjustedZenith = zenith + (this.getSolarRadius() + this.getRefraction() + this.getElevationAdjustment(elevation));
@@ -207,7 +207,7 @@ export abstract class AstronomicalCalculator {
      *
      * @return The refraction in arc minutes.
      */
-    getRefraction(): number {
+    public getRefraction(): number {
         return this.refraction;
     }
 
@@ -241,7 +241,7 @@ export abstract class AstronomicalCalculator {
      *
      * @return The sun's radius in arc minutes.
      */
-    getSolarRadius(): number {
+    public getSolarRadius(): number {
         return this.solarRadius;
     }
 
@@ -268,4 +268,3 @@ export abstract class AstronomicalCalculator {
         return this === object;
     }
 }
-

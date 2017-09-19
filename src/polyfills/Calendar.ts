@@ -1,6 +1,6 @@
 import * as moment from "moment-timezone";
-import momentTimezone = require("moment-timezone");
 import {TimeZone} from "./TimeZone";
+import momentTimezone = require("moment-timezone");
 
 export enum Field {
     ERA = 0,
@@ -96,15 +96,13 @@ export abstract class Calendar {
     protected momentDate: moment.Moment;
     protected shorthandLookup: string[] = ["era", "year", "month", "", "", "date", "dayOfYear", "", "", "", "hour", "hour", "minute", "second", "millisecond"];
 
-
     protected constructor(timeZone: TimeZone = new TimeZone(momentTimezone.tz.guess())) {
         this.momentDate = momentTimezone.tz(timeZone.getID());
     }
 
+    public abstract set(yearOrField: number, monthOrValue: number, day?: number, hourOfDay?: number, minute?: number, second?: number): void;
 
-    public abstract set(yearOrField: number, monthOrValue: number, day?: number, hourOfDay?: number, minute?: number, second?: number): void
-
-    public abstract get(field: FieldOptions): number
+    public abstract get(field: FieldOptions): number;
 
     public setTime(date: Date): void {
         this.momentDate.hour(date.getHours())
@@ -151,5 +149,3 @@ export abstract class Calendar {
         return this.momentDate.format(format);
     }
 }
-
-import {GregorianCalendar} from "./GregorianCalendar";

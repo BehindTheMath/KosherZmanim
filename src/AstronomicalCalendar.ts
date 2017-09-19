@@ -6,7 +6,7 @@ import {GeoLocation} from "./util/GeoLocation";
 import {AstronomicalCalculator} from "./util/AstronomicalCalculator";
 import {SunTimesCalculator} from "./util/SunTimesCalculator";
 
-const BigDecimal: BigJsLibrary.BigJS = require("big.js");
+import BigJS = require("big.js");
 type BigDecimal = BigJsLibrary.BigJS;
 
 /**
@@ -395,7 +395,7 @@ export class AstronomicalCalendar {
      */
     constructor(geoLocation: GeoLocation = new GeoLocation()) {
         this.setCalendar(new GregorianCalendar(geoLocation.getTimeZone()));
-        this.setGeoLocation(geoLocation);// duplicate call
+        this.setGeoLocation(geoLocation); // duplicate call
         this.setAstronomicalCalculator(new SunTimesCalculator());
     }
 
@@ -606,10 +606,10 @@ export class AstronomicalCalendar {
      */
     public getSunriseSolarDipFromOffset(minutes: number): number {
         let offsetByDegrees: Date = this.getSeaLevelSunrise();
-        let offsetByTime: Date = this.getTimeOffset(this.getSeaLevelSunrise(), -(minutes * AstronomicalCalendar.MINUTE_MILLIS));
+        const offsetByTime: Date = this.getTimeOffset(this.getSeaLevelSunrise(), -(minutes * AstronomicalCalendar.MINUTE_MILLIS));
 
-        let degrees: BigDecimal = new BigDecimal(0);
-        const incrementor: BigDecimal = new BigDecimal("0.0001");
+        let degrees: BigDecimal = new BigJS(0);
+        const incrementor: BigDecimal = new BigJS("0.0001");
         while (offsetByDegrees === null || offsetByDegrees.getTime() > offsetByTime.getTime()) {
             degrees = degrees.plus(incrementor);
             offsetByDegrees = this.getSunriseOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + Number.parseFloat(degrees.valueOf()));
@@ -630,10 +630,10 @@ export class AstronomicalCalendar {
      */
     public getSunsetSolarDipFromOffset(minutes: number): number {
         let offsetByDegrees: Date = this.getSeaLevelSunset();
-        let offsetByTime: Date = this.getTimeOffset(this.getSeaLevelSunset(), minutes * AstronomicalCalendar.MINUTE_MILLIS);
+        const offsetByTime: Date = this.getTimeOffset(this.getSeaLevelSunset(), minutes * AstronomicalCalendar.MINUTE_MILLIS);
 
-        let degrees: BigDecimal = new BigDecimal(0);
-        const incrementor: BigDecimal = new BigDecimal("0.001");
+        let degrees: BigDecimal = new BigJS(0);
+        const incrementor: BigDecimal = new BigJS("0.001");
         while (offsetByDegrees === null || offsetByDegrees.getTime() < offsetByTime.getTime()) {
             degrees = degrees.plus(incrementor);
             offsetByDegrees = this.getSunsetOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + Number.parseFloat(degrees.valueOf()));
@@ -649,7 +649,7 @@ export class AstronomicalCalendar {
      * @deprecated  This depends on a circular dependency. Use <pre>ZmanimFormatter.toXML(astronomicalCalendar)</pre> instead.
      */
     public toString(): void {
-        throw "This method is deprecated, due to the fact that it depends on a circular dependency.";
+        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency.");
     }
 
     /**
@@ -660,7 +660,7 @@ export class AstronomicalCalendar {
      * @deprecated  This depends on a circular dependency. Use <pre>ZmanimFormatter.toJSON(astronomicalCalendar)</pre> instead.
      */
     public toJSON(): void {
-        throw "This method is deprecated, due to the fact that it depends on a circular dependency.";
+        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency.");
     }
 
     /**
@@ -778,7 +778,7 @@ export class AstronomicalCalendar {
         return clonedCalendar;
     }
 
-    public getClass(){
+    public getClass() {
         return {
             getName: function() {
                 return "AstronomicalCalendar";
@@ -786,4 +786,3 @@ export class AstronomicalCalendar {
         };
     }
 }
-

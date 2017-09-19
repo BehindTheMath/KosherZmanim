@@ -604,7 +604,7 @@ export class HebrewDateFormatter {
 		jewishDate.setJewishDate(jewishYear, JewishDate.NISSAN, 15); // set to Pesach of the given year
 		const pesachDayOfweek: number = jewishDate.getDayOfWeek();
 		returnValue += this.formatHebrewNumber(pesachDayOfweek);
-		returnValue = returnValue.replaceAll(HebrewDateFormatter.GERESH, "");// geresh is never used in the kviah format
+		returnValue = returnValue.replaceAll(HebrewDateFormatter.GERESH, ""); // geresh is never used in the kviah format
 		// boolean isLeapYear = JewishDate.isJewishLeapYear(jewishYear);
 		// for efficiency we can avoid the expensive recalculation of the pesach day of week by adding 1 day to Rosh
 		// Hashana for a 353 day year, 2 for a 354 day year, 3 for a 355 or 383 day year, 4 for a 384 day year and 5 for
@@ -635,16 +635,16 @@ export class HebrewDateFormatter {
 	 * <li>0 will return &#x5D0;&#x5E4;&#x05E1;</li>
 	 * </ul>
 	 * 
-	 * @param number
+	 * @param num
 	 *            the number to be formatted. It will trow an IllegalArgumentException if the number is &lt; 0 or &gt; 9999.
 	 * @return the Hebrew formatted number such as &#x5EA;&#x5E9;&#x5DB;&#x5F4;&#x5D8;
 	 * 
 	 */
-	public formatHebrewNumber(number: number): string {
-		if (number < 0) {
-			throw "IllegalArgumentException: negative numbers can't be formatted";
-		} else if (number > 9999) {
-			throw "IllegalArgumentException: numbers > 9999 can't be formatted";
+	public formatHebrewNumber(num: number): string {
+		if (num < 0) {
+			throw new Error("IllegalArgumentException: negative numbers can't be formatted");
+		} else if (num > 9999) {
+			throw new Error("IllegalArgumentException: numbers > 9999 can't be formatted");
 		}
 
 		const ALAFIM: string = "\u05D0\u05DC\u05E4\u05D9\u05DD";
@@ -660,16 +660,16 @@ export class HebrewDateFormatter {
 		const jOnes: string[] = ["", "\u05D0", "\u05D1", "\u05D2", "\u05D3", "\u05D4", "\u05D5", "\u05D6",
 				"\u05D7", "\u05D8" ];
 
-		if (number === 0) { // do we realy need this? Should it be applicable to a date?
+		if (num === 0) { // do we realy need this? Should it be applicable to a date?
 			return EFES;
 		}
-		const shortNumber: number = number % 1000; // discard thousands
+		const shortNumber: number = num % 1000; // discard thousands
 		// next check for all possible single Hebrew digit years
 		const singleDigitNumber: boolean = (shortNumber < 11 || (shortNumber < 100 && shortNumber % 10 === 0) || (shortNumber <= 400 && shortNumber % 100 === 0));
-		const thousands: number = number / 1000; // get # thousands
+		const thousands: number = num / 1000; // get # thousands
 		const sb: StringBuffer = new StringBuffer();
 		// append thousands to String
-		if (number % 1000 === 0) { // in year is 5000, 4000 etc
+		if (num % 1000 === 0) { // in year is 5000, 4000 etc
 			sb.append(jOnes[thousands]);
 			if (this.isUseGershGershayim()) {
 				sb.append(HebrewDateFormatter.GERESH);
@@ -677,24 +677,24 @@ export class HebrewDateFormatter {
 			sb.append(" ");
 			sb.append(ALAFIM); // add # of thousands plus word thousand (overide alafim boolean)
 			return sb.toString();
-		} else if (this.useLonghebrewYears && number >= 1000) { // if alafim boolean display thousands
+		} else if (this.useLonghebrewYears && num >= 1000) { // if alafim boolean display thousands
 			sb.append(jOnes[thousands]);
 			if (this.isUseGershGershayim()) {
 				sb.append(HebrewDateFormatter.GERESH); // append thousands quote
 			}
 			sb.append(" ");
 		}
-		number = number % 1000; // remove 1000s
-		const hundreds: number = number / 100; // # of hundreds
+		num = num % 1000; // remove 1000s
+		const hundreds: number = num / 100; // # of hundreds
 		sb.append(jHundreds[hundreds]); // add hundreds to String
-		number = number % 100; // remove 100s
-		if (number === 15) { // special case 15
+		num = num % 100; // remove 100s
+		if (num === 15) { // special case 15
 			sb.append(tavTaz[0]);
-		} else if (number === 16) { // special case 16
+		} else if (num === 16) { // special case 16
 			sb.append(tavTaz[1]);
 		} else {
-			const tens: number = number / 10;
-			if (number % 10 === 0) { // if evenly divisable by 10
+			const tens: number = num / 10;
+			if (num % 10 === 0) { // if evenly divisable by 10
 				if (singleDigitNumber === false) {
 					sb.append(jTenEnds[tens]); // end letters so years like 5750 will end with an end nun
 				} else {
@@ -702,8 +702,8 @@ export class HebrewDateFormatter {
 				}
 			} else {
 				sb.append(jTens[tens]);
-				number = number % 10;
-				sb.append(jOnes[number]);
+				num = num % 10;
+				sb.append(jOnes[num]);
 			}
 		}
 		if (this.isUseGershGershayim()) {

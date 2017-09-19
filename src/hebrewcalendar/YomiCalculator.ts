@@ -55,7 +55,7 @@ export class YomiCalculator {
         let dafNo: number = 0;
         if (date.before(YomiCalculator.dafYomiStartDate)) {
             // TODO: should we return a null or throw an IllegalArgumentException?
-            throw `IllegalArgumentException: ${date} is prior to organized Daf Yomi Bavli cycles that started on ${YomiCalculator.dafYomiStartDate}`;
+            throw new Error(`IllegalArgumentException: ${date} is prior to organized Daf Yomi Bavli cycles that started on ${YomiCalculator.dafYomiStartDate}`);
         }
         if (date === YomiCalculator.shekalimChangeDate || date.after(YomiCalculator.shekalimChangeDate)) {
             cycleNo = 8 + ((julianDay - YomiCalculator.shekalimJulianChangeDay) / 2711);
@@ -99,7 +99,7 @@ export class YomiCalculator {
 
     /**
 	 * Return the <a href="http://en.wikipedia.org/wiki/Julian_day">Julian day</a> from a Java Date.
-	 * 
+	 *
 	 * @param date
 	 *            The Java Date
 	 * @return the Julian day number corresponding to the date
@@ -109,13 +109,13 @@ export class YomiCalculator {
         calendar.setTime(date);
         let year: number = calendar.get(Calendar.YEAR);
         let month: number = calendar.get(Calendar.MONTH) + 1;
-        let day: number = calendar.get(Calendar.DAY_OF_MONTH);
+        const day: number = calendar.get(Calendar.DAY_OF_MONTH);
         if (month <= 2) {
             year -= 1;
             month += 12;
         }
-        let a: number = year / 100;
-        let b: number = 2 - a + a / 4;
+        const a: number = year / 100;
+        const b: number = 2 - a + a / 4;
         return Math.floor(365.25 * (year + 4716) + Math.floor(30.6001 * (month + 1)) + day + b - 1524.5);
     }
 }

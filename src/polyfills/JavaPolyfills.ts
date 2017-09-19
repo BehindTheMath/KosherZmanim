@@ -66,7 +66,7 @@ String.prototype.compareTo = function(this: string, anotherString: string): numb
     while (k < lim) {
         const c1: string = v1[k];
         const c2: string = v2[k];
-        if (c1 != c2) {
+        if (c1 !== c2) {
             return c1.charCodeAt(0) - c2.charCodeAt(0);
         }
         k++;
@@ -74,7 +74,6 @@ String.prototype.compareTo = function(this: string, anotherString: string): numb
     return len1 - len2;
 
 };
-
 
 Date.prototype.compareTo = function(this: Date, date: Date): number {
     const date1Millis = this.getTime();
@@ -84,7 +83,6 @@ Date.prototype.compareTo = function(this: Date, date: Date): number {
     else if (date1Millis < date2Millis) return -1;
     else if (date1Millis > date2Millis) return 1;
 };
-
 
 Date.prototype.after = function(this: Date, date: Date): boolean {
     return this.getTime() > date.getTime();
@@ -108,5 +106,5 @@ export class Comparator<T> {
 }
 */
 export abstract class Comparator<T> {
-    public abstract compare (value1: T, value2: T): number;
+    public abstract compare(value1: T, value2: T): number;
 }

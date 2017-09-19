@@ -222,7 +222,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
 
 	private ateretTorahSunsetOffset: number = 40;
 
-	constructor (location?: GeoLocation) {
+	constructor(location?: GeoLocation) {
 		super(location);
 	}
 
@@ -2679,7 +2679,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
 		return this.getTimeOffset(sunset, this.getTemporalHour(sunset, sunrise) * 6);
 	}
 
-    public getClass(){
+    public getClass() {
         return {
             getName: function() {
                 return "ComplexZmanimCalendar";

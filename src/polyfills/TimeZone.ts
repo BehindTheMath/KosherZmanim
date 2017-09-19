@@ -1,11 +1,10 @@
-import * as moment from "moment-timezone";
 import momentTimezone = require("moment-timezone");
 
 export class TimeZone {
     private ID: string;
 
     public constructor(timeZone: string) {
-        this.ID = timeZone
+        this.ID = timeZone;
     }
 
     public getID(): string {
@@ -22,7 +21,7 @@ export class TimeZone {
             timeZone: this.ID,
             timeZoneName: "long"
         };
-        return new Date().toLocaleDateString("en-US", options).split(",")[1].trim()
+        return new Date().toLocaleDateString("en-US", options).split(",")[1].trim();
     }
 
 /*

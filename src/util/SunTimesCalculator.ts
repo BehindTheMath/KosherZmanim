@@ -230,4 +230,3 @@ export class SunTimesCalculator extends AstronomicalCalculator {
 		return pocessedTime;
 	}
 }
-

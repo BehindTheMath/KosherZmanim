@@ -19,7 +19,7 @@ export class GregorianCalendar extends Calendar {
      *
      * @see #CE
      */
-    static readonly BCE: number = 0;
+    public static readonly BCE: number = 0;
 
     /**
      * Value of the <code>ERA</code> field indicating
@@ -37,7 +37,7 @@ export class GregorianCalendar extends Calendar {
      *
      * @see #BCE
      */
-    static readonly CE: number = 1;
+    public static readonly CE: number = 1;
 
     public constructor(year: number, month: Month, dayOfMonth: number)
     public constructor(timeZone: TimeZone)
@@ -51,9 +51,9 @@ export class GregorianCalendar extends Calendar {
         }
     }
 
-    public set(year: number, month: Month, day: number, hourOfDay: number, minute: number, second: number): void
-    public set(year: number, month: Month, day: number): void
-    public set(field: Field, value: number): void
+    public set(year: number, month: Month, day: number, hourOfDay: number, minute: number, second: number): void;
+    public set(year: number, month: Month, day: number): void;
+    public set(field: Field, value: number): void;
     public set(yearOrField: number, monthOrValue: number, day?: number, hourOfDay?: number, minute?: number, second?: number): void {
         if (day) {
             const year: number = yearOrField as number;
@@ -72,7 +72,7 @@ export class GregorianCalendar extends Calendar {
                     this.momentDate.year(-value);
                 }
             } else if (field === Calendar.HOUR) {
-                throw "IllegalArgumentException: This is currently unsupported.";
+                throw new Error("IllegalArgumentException: This is currently unsupported.");
             } else if (field >= Calendar.YEAR && field <= Calendar.MILLISECOND) {
                 this.momentDate.set(this.shorthandLookup[field] as moment.unitOfTime.All, value);
             }
