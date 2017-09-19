@@ -396,7 +396,7 @@ export class AstronomicalCalendar {
     constructor(geoLocation: GeoLocation = new GeoLocation()) {
         this.setCalendar(new GregorianCalendar(geoLocation.getTimeZone()));
         this.setGeoLocation(geoLocation);// duplicate call
-        this.setAstronomicalCalculator(AstronomicalCalculator.getDefault());
+        this.setAstronomicalCalculator(new SunTimesCalculator());
     }
 
     /**
@@ -646,21 +646,21 @@ export class AstronomicalCalendar {
      *         {@link net.sourceforge.zmanim.util.ZmanimFormatter#toXML(AstronomicalCalendar) toXML} method.
      * @see net.sourceforge.zmanim.util.ZmanimFormatter#toXML(AstronomicalCalendar)
      * @see java.lang.Object#toString()
+     * @deprecated  This depends on a circular dependency. Use <pre>ZmanimFormatter.toXML(astronomicalCalendar)</pre> instead.
      */
-/*
-    public toString(): string {
-        return ZmanimFormatter.toXML(this);
+    public toString(): void {
+        throw "This method is deprecated, due to the fact that it depends on a circular dependency.";
     }
-*/
 
     /**
      * @return a JSON formatted representation of the class. It returns the default output of the
      *         {@link net.sourceforge.zmanim.util.ZmanimFormatter#toJSON(AstronomicalCalendar) toJSON} method.
      * @see net.sourceforge.zmanim.util.ZmanimFormatter#toJSON(AstronomicalCalendar)
      * @see java.lang.Object#toString()
+     * @deprecated  This depends on a circular dependency. Use <pre>ZmanimFormatter.toJSON(astronomicalCalendar)</pre> instead.
      */
-    public toJSON(): JsonOutput {
-        return ZmanimFormatter.toJSON(this);
+    public toJSON(): void {
+        throw "This method is deprecated, due to the fact that it depends on a circular dependency.";
     }
 
     /**

@@ -32,7 +32,6 @@
  */
 import {Calendar} from "../polyfills/Calendar";
 import {GregorianCalendar} from "../polyfills/GregorianCalendar";
-import {HebrewDateFormatter} from "./HebrewDateFormatter";
 
 export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	/**
@@ -1188,9 +1187,10 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
 	 * 
 	 * @return the Jewish date in the form "day Month, year" e.g. "21 Shevat, 5729"
 	 * @see HebrewDateFormatter#format(JewishDate)
+	 * @deprecated This depends on a circular dependency. Use <pre>new HebrewDateFormatter().format(jewishDate)</pre> instead.
 	 */
-	public toString(): String {
-		return new HebrewDateFormatter().format(this);
+	public toString(): void {
+        throw "This method is deprecated, due to the fact that it depends on a circular dependency.";
 	}
 
 	/**

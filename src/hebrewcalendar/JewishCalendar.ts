@@ -495,7 +495,7 @@ export class JewishCalendar extends JewishDate {
 
 		// The molad calculation always extepcst output in standard time. Using "Asia/Jerusalem" timezone will incorrect
 		// adjust for DST.
-		const yerushalayimStandardTZ: TimeZone = TimeZone.getTimeZone("GMT+2");
+		const yerushalayimStandardTZ: TimeZone = new TimeZone("Israel");
 		const geo: GeoLocation = new GeoLocation(locationName, latitude, longitude, yerushalayimStandardTZ);
 		const cal: GregorianCalendar = new GregorianCalendar(geo.getTimeZone());
 		cal.clear();
@@ -597,7 +597,7 @@ export class JewishCalendar extends JewishDate {
 	 * @return the daf as a {@link Daf}
 	 */
 	public getDafYomiBavli(): Daf {
-		return YomiCalculator.getDafYomiBavli(this);
+		return YomiCalculator.getDafYomiBavli(this.getGregorianCalendar());
 	}
 
 	/**

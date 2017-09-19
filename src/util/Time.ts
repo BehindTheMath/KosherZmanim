@@ -6,8 +6,6 @@
  * @author &copy; Eliyahu Hershfeld 2004 - 2011
  * @version 0.9.0
  */
-import {ZmanimFormatter} from "./ZmanimFormatter";
-import {TimeZone} from "../polyfills/TimeZone";
 
 export class Time {
 	private static readonly SECOND_MILLIS: number = 1000;
@@ -150,7 +148,10 @@ export class Time {
 				+ this.milliseconds;
 	}
 
-	public toString(): string {
-		return new ZmanimFormatter(TimeZone.getTimeZone("UTC")).format(this);
+    /**
+	 * @deprecated This depends on a circular dependency. Use <pre>new ZmanimFormatter(TimeZone.getTimeZone("UTC")).format(time)</pre> instead.
+     */
+	public toString(): void {
+		throw "This method is deprecated, due to the fact that it depends on a circular dependency.";
 	}
 }

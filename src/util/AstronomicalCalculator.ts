@@ -6,7 +6,6 @@
  * @author &copy; Eliyahu Hershfeld 2004 - 2014
  */
 import {GregorianCalendar} from "../polyfills/GregorianCalendar";
-import {SunTimesCalculator} from "./SunTimesCalculator";
 import {GeoLocation} from "./GeoLocation";
 
 export abstract class AstronomicalCalculator {
@@ -64,9 +63,10 @@ export abstract class AstronomicalCalculator {
      *
      * @return AstronomicalCalculator the default class for calculating sunrise and sunset. In the current
      *         implementation the default calculator returned is the {@link SunTimesCalculator}.
+     * @deprecated This depends on a circular dependency. Use <pre>new SunTimesCalculator()</pre> instead
      */
-    public static getDefault(): AstronomicalCalculator {
-        return new SunTimesCalculator();
+    public static getDefault(): void {
+        throw "This method is deprecated, due to the fact that it depends on a circular dependency.";
     }
 
     /**

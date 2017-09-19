@@ -147,7 +147,7 @@ export abstract class Calendar {
         this.momentDate = undefined;
     }
 
-    public equals(calendar: GregorianCalendar): boolean {
+    public equals(calendar: Calendar): boolean {
         return this.timeZone === calendar.getTimeZone() && this.momentDate.valueOf() === calendar.getTimeInMillis();
     }
 

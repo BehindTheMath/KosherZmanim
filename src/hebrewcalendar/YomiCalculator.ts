@@ -7,7 +7,6 @@
  * @version 0.0.1
  */
 import {Calendar} from "../polyfills/Calendar";
-import {JewishCalendar} from "./JewishCalendar";
 import {Daf} from "./Daf";
 import {GregorianCalendar} from "../polyfills/GregorianCalendar";
 
@@ -40,7 +39,7 @@ export class YomiCalculator {
 	 * @throws IllegalArgumentException
 	 *             if the date is prior to the September 11, 1923 start date of the first Daf Yomi cycle
 	 */
-    public static getDafYomiBavli(calendar: JewishCalendar): Daf {
+    public static getDafYomiBavli(calendar: GregorianCalendar): Daf {
         /*
 		 * The number of daf per masechta. Since the number of blatt in Shekalim changed on the 8th Daf Yomi cycle
 		 * beginning on June 24, 1975 from 13 to 22, the actual calculation for blattPerMasechta[4] will later be
@@ -48,7 +47,7 @@ export class YomiCalculator {
 		 */
         const blattPerMasechta: number[] = [ 64, 157, 105, 121, 22, 88, 56, 40, 35, 31, 32, 29, 27, 122, 112, 91, 66, 49, 90, 82,
                 119, 119, 176, 113, 24, 49, 76, 14, 120, 110, 142, 61, 34, 34, 28, 22, 4, 10, 4, 73 ];
-        const date: Date = calendar.getGregorianCalendar().getTime();
+        const date: Date = calendar.getTime();
 
         let dafYomi: Daf = null;
         const julianDay: number = this.getJulianDay(date);
