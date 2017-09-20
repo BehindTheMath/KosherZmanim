@@ -2,7 +2,7 @@ export default class StringBuffer {
     private str: string = "";
 
     constructor(str?: any) {
-        this.str = str.toString() || "";
+        this.str = str ? str.toString() : "";
     }
 
     /**
