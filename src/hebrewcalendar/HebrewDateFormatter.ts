@@ -1,5 +1,4 @@
 import StringBuffer from "../polyfills/StringBuffer";
-import SimpleDateFormat from "../polyfills/SimpleDateFormat";
 import Daf from "./Daf";
 import JewishDate from "./JewishDate";
 import JewishCalendar from "./JewishCalendar";
@@ -385,8 +384,7 @@ export default class HebrewDateFormatter {
                     .getDayOfWeek()));
             return sb.toString();
         } else {
-            return jewishDate.getDayOfWeek() === 7 ? this.getTransliteratedShabbosDayOfWeek() : new SimpleDateFormat("EEEE")
-                    .format(jewishDate.getGregorianCalendar().getTime());
+            return jewishDate.getDayOfWeek() === 7 ? this.getTransliteratedShabbosDayOfWeek() : jewishDate.getGregorianCalendar().format("EEEE");
         }
     }
 
