@@ -2,42 +2,6 @@ import {default as Calendar, Field, FieldOptions, Month} from "./Calendar";
 import * as moment from "moment-timezone";
 
 export default class GregorianCalendar extends Calendar {
-    /**
-     * Value of the <code>ERA</code> field indicating
-     * the period before the common era (before Christ), also known as BCE.
-     * The sequence of years at the transition from <code>BC</code> to <code>AD</code> is
-     * ..., 2 BC, 1 BC, 1 AD, 2 AD,...
-     *
-     * @see #ERA
-     */
-    public static readonly BC: number = 0;
-
-    /**
-     * Value of the {@link #ERA} field indicating
-     * the period before the common era, the same value as {@link #BC}.
-     *
-     * @see #CE
-     */
-    public static readonly BCE: number = 0;
-
-    /**
-     * Value of the <code>ERA</code> field indicating
-     * the common era (Anno Domini), also known as CE.
-     * The sequence of years at the transition from <code>BC</code> to <code>AD</code> is
-     * ..., 2 BC, 1 BC, 1 AD, 2 AD,...
-     *
-     * @see #ERA
-     */
-    public static readonly AD: number = 1;
-
-    /**
-     * Value of the {@link #ERA} field indicating
-     * the common era, the same value as {@link #AD}.
-     *
-     * @see #BCE
-     */
-    public static readonly CE: number = 1;
-
     public constructor(year: number, month: Month, dayOfMonth: number)
     public constructor(timeZoneId: string)
     public constructor()
@@ -66,11 +30,7 @@ export default class GregorianCalendar extends Calendar {
             const field: Field = yearOrField as Field;
             const value: number = monthOrValue;
 
-            if (field === Calendar.ERA) {
-                if ((this.momentDate.year() > 0 && value === GregorianCalendar.BCE) || (this.momentDate.year() < 0 && value === GregorianCalendar.CE)) {
-                    this.momentDate.year(-value);
-                }
-            } else if (field === Calendar.HOUR) {
+            if (field === Calendar.HOUR) {
                 throw new Error("IllegalArgumentException: This is currently unsupported.");
             } else if (field >= Calendar.YEAR && field <= Calendar.MILLISECOND) {
                 this.momentDate.set(this.shorthandLookup[field] as moment.unitOfTime.All, value);
@@ -80,8 +40,6 @@ export default class GregorianCalendar extends Calendar {
 
     public get(field: FieldOptions): number {
         switch (field) {
-            case Calendar.ERA:
-                return this.momentDate.year() > 0 ? GregorianCalendar.CE : GregorianCalendar.BCE;
             case Calendar.ZONE_OFFSET:
                 return this.momentDate.utcOffset() * 1000;
             case Calendar.DST_OFFSET:

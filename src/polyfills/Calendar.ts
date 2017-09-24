@@ -44,7 +44,6 @@ export enum Month {
 export default abstract class Calendar {
     public static Month = Month;
 
-    public static readonly ERA: number = 0;
     public static readonly YEAR: number = 1;
     public static readonly MONTH: number = 2;
     public static readonly DATE: number = 5;

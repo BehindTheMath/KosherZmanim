@@ -1007,10 +1007,11 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
         if (calendarOrDate instanceof GregorianCalendar) {
             const calendar: GregorianCalendar = calendarOrDate as GregorianCalendar;
 
-            if (calendar.get(Calendar.ERA) === GregorianCalendar.BC) {
+            if (calendar.get(Calendar.YEAR) < 1) {
                 throw new Error("IllegalArgumentException: Calendars with a BC era are not supported. The year "
-                + calendar.get(Calendar.YEAR) + " BC is invalid.");
+                    + calendar.get(Calendar.YEAR) + " is invalid.");
             }
+
             this.gregorianMonth = calendar.get(Calendar.MONTH) + 1;
             this.gregorianDayOfMonth = calendar.get(Calendar.DATE);
             this.gregorianYear = calendar.get(Calendar.YEAR);
