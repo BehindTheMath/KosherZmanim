@@ -31,3 +31,10 @@ declare interface JsonOutputMetadata {
     timeZoneID: string;
     timeZoneOffset: number;
 }
+
+declare interface Zman {
+    zmanLabel?: string;
+    zman?: Date;
+    duration?: number;
+    zmanDescription?: Date;
+}

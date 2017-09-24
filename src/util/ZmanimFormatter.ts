@@ -1,12 +1,11 @@
 import StringBuffer from "../polyfills/StringBuffer";
 import Calendar from "../polyfills/Calendar";
 import GregorianCalendar from "../polyfills/GregorianCalendar";
-import {TimeZone} from "../polyfills/Utils"
+import {TimeZone, Zman} from "../polyfills/Utils"
 import Time from "./Time";
 import AstronomicalCalendar from "../AstronomicalCalendar";
 import ZmanimCalendar from "../ZmanimCalendar";
 import ComplexZmanimCalendar from "../ComplexZmanimCalendar";
-import Zman from "./Zman";
 import Utils from "../polyfills/utils";
 import * as numeral from "numeral";
 
@@ -607,24 +606,32 @@ export default class ZmanimFormatter {
                 const tagName: string = methodObj.methodName.substring(3);
                 if (methodObj.value instanceof Date) {
                     // dateList.add(new KosherZmanim.Zman(methodObj.value, tagName));
-                    dateList = dateList.concat(new Zman(methodObj.value as Date, tagName));
+                    const zman: Zman = {
+                        zman: methodObj.value as Date,
+                        zmanLabel: tagName
+                    };
+                    dateList = dateList.concat(zman);
                 } else if (typeof methodObj.value === "number") {
                     // durationList.add(new KosherZmanim.Zman(methodObj.value, tagName));
-                    durationList = durationList.concat(new Zman(methodObj.value as number, tagName));
+                    const zman: Zman = {
+                        duration: methodObj.value,
+                        zmanLabel: tagName
+                    };
+                    durationList = durationList.concat(zman);
                 }
             });
 
         dateList.sort(Zman.compareDateOrder);
         // Filter for values in milliseconds, and not values in minutes
-        durationList = durationList.filter((zman: Zman) => zman.getDuration() > 1000)
+        durationList = durationList.filter((zman: Zman) => zman.duration > 1000)
             .sort(Zman.compareDurationOrder);
 
         const timesData: object = {};
         dateList.forEach((zman: Zman) => {
-            timesData[zman.getZmanLabel()] = formatter.formatDateTime(zman.getZman(), astronomicalCalendar.getCalendar());
+            timesData[zman.zmanLabel] = formatter.formatDateTime(zman.zman, astronomicalCalendar.getCalendar());
         });
         durationList.forEach((zman: Zman) => {
-            timesData[zman.getZmanLabel()] = formatter.format(Math.floor(zman.getDuration()));
+            timesData[zman.zmanLabel] = formatter.format(Math.floor(zman.duration));
         });
 
         const json: JsonOutput = {

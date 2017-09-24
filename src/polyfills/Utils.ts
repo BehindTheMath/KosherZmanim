@@ -40,3 +40,25 @@ export module TimeZone {
         return momentTimezone(millisSinceEpoch).tz(timeZoneId).utcOffset() * 1000;
     }
 }
+
+/**
+ * Wrapper class for an astronomical time, mostly used to sort collections of
+ * astronomical times.
+ *
+ * @author &copy; Eliyahu Hershfeld 2007-2011
+ * @version 1.0
+ */
+export module Zman {
+    export function compareDateOrder(zman1: Zman, zman2: Zman): number {
+        return zman1.zman.compareTo(zman2.zman);
+    }
+
+    export function compareNameOrder(zman1: Zman, zman2: Zman): number {
+        return zman1.zmanLabel.compareTo(zman2.zmanLabel);
+    }
+
+    export function compareDurationOrder(zman1: Zman, zman2: Zman): number {
+        return zman1.duration === zman2.duration ? 0 : zman1.duration > zman2.duration ? 1 : -1;
+    }
+}
+
