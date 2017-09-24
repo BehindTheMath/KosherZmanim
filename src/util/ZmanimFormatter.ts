@@ -623,10 +623,10 @@ export default class ZmanimFormatter {
                 }
             });
 
-        dateList.sort(Zman.DATE_ORDER.compare);
+        dateList.sort(Zman.compareDateOrder);
         // Filter for values in milliseconds, and not values in minutes
         durationList = durationList.filter((zman: Zman) => zman.getDuration() > 1000)
-            .sort(Zman.DURATION_ORDER.compare);
+            .sort(Zman.compareDurationOrder);
 
         const timesData: object = {};
         dateList.forEach((zman: Zman) => {

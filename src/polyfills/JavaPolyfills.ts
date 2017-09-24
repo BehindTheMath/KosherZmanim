@@ -95,16 +95,3 @@ Date.prototype.before = function(this: Date, date: Date): boolean {
 Date.prototype.equals = function(this: Date, date: Date): boolean {
     return this.getTime() === date.getTime();
 };
-
-/*
-export class Comparator<T> {
-    public compare: (value1: T, value2: T) => number;
-
-    constructor(compare: (value1: T, value2: T) => number) {
-        this.compare = compare;
-    }
-}
-*/
-export abstract class Comparator<T> {
-    public abstract compare(value1: T, value2: T): number;
-}

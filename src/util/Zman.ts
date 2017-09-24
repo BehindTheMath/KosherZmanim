@@ -1,5 +1,3 @@
-import {Comparator} from "../polyfills/JavaPolyfills";
-
 /**
  * Wrapper class for an astronomical time, mostly used to sort collections of
  * astronomical times.
@@ -25,13 +23,6 @@ export default class Zman {
         }
     }
 
-/*
-    public Zman(duration: number, String label) {
-        this.zmanLabel = label;
-        this.duration = duration;
-    }
-*/
-
     public getZman(): Date {
         return this.zman;
     }
@@ -56,24 +47,18 @@ export default class Zman {
         this.zmanLabel = label;
     }
 
-    public static readonly DATE_ORDER: Comparator<Zman> = new (class extends Comparator<Zman> {
-        public compare(z1: Zman, z2: Zman): number {
-            return z1.getZman().compareTo(z2.getZman());
-        }
-    })();
+    public static compareDateOrder(zman1: Zman, zman2: Zman): number {
+        return zman1.getZman().compareTo(zman2.getZman());
+    }
 
-    public static readonly NAME_ORDER: Comparator<Zman> = new (class extends Comparator<Zman> {
-        public compare(z1: Zman, z2: Zman): number {
-            return z1.getZmanLabel().compareTo(z2.getZmanLabel());
-        }
-    })();
+    public static compareNameOrder(zman1: Zman, zman2: Zman): number {
+        return zman1.getZmanLabel().compareTo(zman2.getZmanLabel());
+    }
 
-    public static readonly DURATION_ORDER: Comparator<Zman> = new (class extends Comparator<Zman> {
-        public compare(z1: Zman, z2: Zman): number {
-            return z1.getDuration() === z2.getDuration() ? 0
-                    : z1.getDuration() > z2.getDuration() ? 1 : -1;
-        }
-    })();
+    public static compareDurationOrder(zman1: Zman, zman2: Zman): number {
+        return zman1.getDuration() === zman2.getDuration() ? 0
+            : zman1.getDuration() > zman2.getDuration() ? 1 : -1;
+    }
 
     /**
      * @return the zmanDescription

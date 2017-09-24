@@ -21,7 +21,6 @@ import YomiCalculator from "./hebrewcalendar/YomiCalculator";
 
 import HebrewDateFormatter from "./hebrewcalendar/HebrewDateFormatter";
 import ZmanimFormatter from "./util/ZmanimFormatter";
-import Zman from "./util/Zman";
 
 exports.TimeZone = TimeZone;
 exports.GregorianCalendar = GregorianCalendar;
@@ -43,5 +42,4 @@ exports.Daf = Daf;
 exports.YomiCalculator = YomiCalculator;
 
 exports.HebrewDateFormatter = HebrewDateFormatter;
-exports.Zman = Zman;
 exports.ZmanimFormatter = ZmanimFormatter;
