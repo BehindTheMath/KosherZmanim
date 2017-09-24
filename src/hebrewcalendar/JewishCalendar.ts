@@ -1,7 +1,6 @@
 import Calendar from "../polyfills/Calendar";
 import GregorianCalendar from "../polyfills/GregorianCalendar";
 import GeoLocation from "../util/GeoLocation";
-import TimeZone from "../polyfills/TimeZone";
 import JewishDate from "./JewishDate";
 import Daf from "./Daf";
 import YomiCalculator from "./YomiCalculator";
@@ -495,9 +494,9 @@ export default class JewishCalendar extends JewishDate {
 
         // The molad calculation always extepcst output in standard time. Using "Asia/Jerusalem" timezone will incorrect
         // adjust for DST.
-        const yerushalayimStandardTZ: TimeZone = new TimeZone("Israel");
+        const yerushalayimStandardTZ: string = "Israel";
         const geo: GeoLocation = new GeoLocation(locationName, latitude, longitude, yerushalayimStandardTZ);
-        const cal: GregorianCalendar = new GregorianCalendar(geo.getTimeZone());
+        const cal: GregorianCalendar = new GregorianCalendar(geo.getTimeZoneId());
         //cal.clear();
         const moladSeconds: number = molad.getMoladChalakim() * 10 / 3;
         cal.set(molad.getGregorianYear(), molad.getGregorianMonth(), molad.getGregorianDayOfMonth(),

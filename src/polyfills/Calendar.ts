@@ -1,5 +1,4 @@
 import * as moment from "moment-timezone";
-import TimeZone from "./TimeZone";
 import momentTimezone = require("moment-timezone");
 
 export enum Field {
@@ -92,12 +91,11 @@ export default abstract class Calendar {
     public static readonly NOVEMBER: number = 10;
     public static readonly DECEMBER: number = 11;
 
-    protected timeZone: TimeZone;
     protected momentDate: moment.Moment;
     protected shorthandLookup: string[] = ["era", "year", "month", "", "", "date", "dayOfYear", "", "", "", "hour", "hour", "minute", "second", "millisecond"];
 
-    protected constructor(timeZone: TimeZone = new TimeZone(momentTimezone.tz.guess())) {
-        this.momentDate = momentTimezone.tz(timeZone.getID());
+    protected constructor(timeZoneId: string = momentTimezone.tz.guess()) {
+        this.momentDate = momentTimezone.tz(timeZoneId);
     }
 
     public abstract set(yearOrField: number, monthOrValue: number, day?: number, hourOfDay?: number, minute?: number, second?: number): void;
@@ -119,13 +117,12 @@ export default abstract class Calendar {
         this.momentDate.add(value, this.shorthandLookup[field] as moment.unitOfTime.DurationConstructor);
     }
 
-    public getTimeZone(): TimeZone {
-        return this.timeZone;
+    public getTimeZoneId(): string {
+        return this.momentDate.tz();
     }
 
-    public setTimeZone(timeZone: TimeZone) {
-        this.timeZone = timeZone;
-        this.momentDate.tz(timeZone.getID());
+    public setTimeZone(timeZoneId: string) {
+        this.momentDate.tz(timeZoneId);
     }
 
     /**
@@ -142,10 +139,14 @@ export default abstract class Calendar {
     }
 
     public equals(calendar: Calendar): boolean {
-        return this.timeZone === calendar.getTimeZone() && this.momentDate.valueOf() === calendar.getTimeInMillis();
+        return this.momentDate.isSame(calendar.getMoment());
     }
 
     public format(format: string): string {
         return this.momentDate.format(format);
+    }
+
+    public getMoment(): moment.Moment {
+        return this.momentDate;
     }
 }

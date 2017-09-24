@@ -1,4 +1,3 @@
-import TimeZone from "./TimeZone";
 import Calendar from "./Calendar";
 import GregorianCalendar from "./GregorianCalendar";
 
@@ -24,8 +23,8 @@ export default class SimpleDateFormat {
         return this.pattern;
     }
 
-    public setTimeZone(timeZone: TimeZone): void {
-        this.calendar.setTimeZone(timeZone);
+    public setTimeZone(timeZoneId: string): void {
+        this.calendar.setTimeZone(timeZoneId);
     }
 
 }

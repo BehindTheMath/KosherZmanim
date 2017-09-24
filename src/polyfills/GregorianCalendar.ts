@@ -1,6 +1,5 @@
 import {default as Calendar, Field, FieldOptions, Month} from "./Calendar";
 import * as moment from "moment-timezone";
-import TimeZone from "./TimeZone";
 
 export default class GregorianCalendar extends Calendar {
     /**
@@ -40,14 +39,14 @@ export default class GregorianCalendar extends Calendar {
     public static readonly CE: number = 1;
 
     public constructor(year: number, month: Month, dayOfMonth: number)
-    public constructor(timeZone: TimeZone)
+    public constructor(timeZoneId: string)
     public constructor()
-    public constructor(yearOrTimeZone?: number | TimeZone, month?: Month, dayOfMonth?: number) {
+    public constructor(yearOrTimeZoneId?: number | string, month?: Month, dayOfMonth?: number) {
         if (month) {
             super();
-            this.set(yearOrTimeZone as number, month, dayOfMonth);
+            this.set(yearOrTimeZoneId as number, month, dayOfMonth);
         } else {
-            super(yearOrTimeZone as TimeZone);
+            super(yearOrTimeZoneId as string);
         }
     }
 
@@ -96,7 +95,7 @@ export default class GregorianCalendar extends Calendar {
     }
 
     public clone(): GregorianCalendar {
-        const clonedCalendar: GregorianCalendar = new GregorianCalendar(this.getTimeZone());
+        const clonedCalendar: GregorianCalendar = new GregorianCalendar(this.getTimeZoneId());
         clonedCalendar.setTimeInMillis(this.getTimeInMillis());
         return clonedCalendar;
     }

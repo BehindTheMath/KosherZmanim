@@ -1,6 +1,5 @@
 require("./polyfills/JavaPolyfills");
 
-import TimeZone from "./polyfills/TimeZone";
 import GregorianCalendar from "./polyfills/GregorianCalendar";
 import Time from "./util/Time";
 import GeoLocation from "./util/GeoLocation";
@@ -22,7 +21,6 @@ import YomiCalculator from "./hebrewcalendar/YomiCalculator";
 import HebrewDateFormatter from "./hebrewcalendar/HebrewDateFormatter";
 import ZmanimFormatter from "./util/ZmanimFormatter";
 
-exports.TimeZone = TimeZone;
 exports.GregorianCalendar = GregorianCalendar;
 exports.Time = Time;
 exports.GeoLocation = GeoLocation;

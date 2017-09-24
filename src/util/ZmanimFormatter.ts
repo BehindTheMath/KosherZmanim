@@ -3,7 +3,7 @@ import SimpleDateFormat from "../polyfills/SimpleDateFormat";
 import DecimalFormat from "../polyfills/DecimalFormat";
 import Calendar from "../polyfills/Calendar";
 import GregorianCalendar from "../polyfills/GregorianCalendar";
-import TimeZone from "../polyfills/TimeZone";
+import {TimeZone} from "../polyfills/Utils"
 import Time from "./Time";
 import AstronomicalCalendar from "../AstronomicalCalendar";
 import ZmanimCalendar from "../ZmanimCalendar";
@@ -34,23 +34,23 @@ export default class ZmanimFormatter {
 
     private dateFormat: SimpleDateFormat;
 
-    private timeZone: TimeZone = null; // TimeZone.getTimeZone("UTC");
+    private timeZoneId: string = null; // TimeZone.getTimeZone("UTC");
 
     // private DecimalFormat decimalNF;
 
     /**
      * @return the timeZone
      */
-    public getTimeZone(): TimeZone {
-        return this.timeZone;
+    public getTimeZone(): string {
+        return this.timeZoneId;
     }
 
     /**
-     * @param timeZone
+     * @param timeZoneId
      *            the timeZone to set
      */
-    public setTimeZone(timeZone: TimeZone): void {
-        this.timeZone = timeZone;
+    public setTimeZone(timeZoneId: string): void {
+        this.timeZoneId = timeZoneId;
     }
 
     /**
@@ -110,26 +110,26 @@ export default class ZmanimFormatter {
      * @param dateFormat the SimpleDateFormat Object
      * @param timeZone the TimeZone Object
      */
-    constructor(timeZone: TimeZone)
-    constructor(format: number, dateFormat: SimpleDateFormat, timeZone: TimeZone)
-    constructor(formatOrTimeZone: number | TimeZone, dateFormat?: SimpleDateFormat, timeZone?: TimeZone) {
+    constructor(timeZoneId: string)
+    constructor(format: number, dateFormat: SimpleDateFormat, timeZoneId: string)
+    constructor(formatOrTimeZone: number | string, dateFormat?: SimpleDateFormat, timeZoneId?: string) {
         let format: number = 0;
         if (dateFormat) {
             format = formatOrTimeZone as number;
         } else {
             format = 0;
             dateFormat = new SimpleDateFormat("h:mm:ss");
-            timeZone = formatOrTimeZone as TimeZone;
+            timeZoneId = formatOrTimeZone as string;
         }
 
-        this.setTimeZone(timeZone);
+        this.setTimeZone(timeZoneId);
         let hourFormat: string = "0";
         if (this.prependZeroHours) {
             hourFormat = "00";
         }
         this.hourNF = new DecimalFormat(hourFormat);
         this.setTimeFormat(format);
-        dateFormat.setTimeZone(timeZone);
+        dateFormat.setTimeZone(timeZoneId);
         this.setDateFormat(dateFormat);
     }
 
@@ -563,10 +563,10 @@ export default class ZmanimFormatter {
                 df.setTimeZone(astronomicalCalendar.getGeoLocation().getTimeZone());
         */
         const formatter: ZmanimFormatter = new ZmanimFormatter(ZmanimFormatter.XSD_DURATION_FORMAT, new SimpleDateFormat(
-            "YYYY-MM-DD[T]HH:mm:ss"), astronomicalCalendar.getGeoLocation().getTimeZone());
+            "YYYY-MM-DD[T]HH:mm:ss"), astronomicalCalendar.getGeoLocation().getTimeZoneId());
 
         const df: SimpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
-        df.setTimeZone(astronomicalCalendar.getGeoLocation().getTimeZone());
+        df.setTimeZone(astronomicalCalendar.getGeoLocation().getTimeZoneId());
 
         const metadata: JsonOutputMetadata = {
             date: df.format(astronomicalCalendar.getCalendar().getTime()),
@@ -576,9 +576,9 @@ export default class ZmanimFormatter {
             latitude: astronomicalCalendar.getGeoLocation().getLatitude(),
             longitude: astronomicalCalendar.getGeoLocation().getLongitude(),
             elevation: astronomicalCalendar.getGeoLocation().getElevation(),
-            timeZoneName: astronomicalCalendar.getGeoLocation().getTimeZone().getDisplayName(),
-            timeZoneID: astronomicalCalendar.getGeoLocation().getTimeZone().getID(),
-            timeZoneOffset: astronomicalCalendar.getGeoLocation().getTimeZone().getOffset(astronomicalCalendar.getCalendar().getTimeInMillis()) / ZmanimFormatter.HOUR_MILLIS,
+            timeZoneName: TimeZone.getDisplayName(astronomicalCalendar.getGeoLocation().getTimeZoneId()),
+            timeZoneID: astronomicalCalendar.getGeoLocation().getTimeZoneId(),
+            timeZoneOffset: TimeZone.getOffset(astronomicalCalendar.getGeoLocation().getTimeZoneId(), astronomicalCalendar.getCalendar().getTimeInMillis()) / ZmanimFormatter.HOUR_MILLIS
         };
 
         let key: string;
