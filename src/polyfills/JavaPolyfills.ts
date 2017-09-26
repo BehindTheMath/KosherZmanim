@@ -3,11 +3,11 @@ export class Long {
 }
 
 Math.toRadians = function(angdeg: number): number {
-    return angdeg / 180.0 * Math.PI;
+    return angdeg / 180 * Math.PI;
 };
 
 Math.toDegrees = function(angrad: number): number {
-    return angrad * 180.0 / Math.PI;
+    return angrad * 180 / Math.PI;
 };
 
 String.prototype.replaceAll = function(this: string, searchString: string, replaceString: string): string {

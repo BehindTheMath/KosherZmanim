@@ -108,7 +108,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getTzaisGeonim7Point083Degrees()
      * @see #getBainHasmashosRT13Point5MinutesBefore7Point083Degrees()
      */
-    protected static readonly ZENITH_7_POINT_083: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 7 + (5.0 / 60);
+    protected static readonly ZENITH_7_POINT_083: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 7 + (5 / 60);
 
     /**
      * The zenith of 10.2&deg; below {@link #GEOMETRIC_ZENITH geometric zenith} (90&deg;). This calculation is used for
@@ -176,7 +176,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos120()
      * @see #getTzais120()
      */
-    protected static readonly ZENITH_26_DEGREES: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 26.0;
+    protected static readonly ZENITH_26_DEGREES: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 26;
 
     /**
      * Experimental and may not make the final 1.3 cut
@@ -2182,7 +2182,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long.MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getSeaLevelSunset(), shaahZmanis * 2.0);
+        return this.getTimeOffset(this.getSeaLevelSunset(), shaahZmanis * 2);
     }
 
     /**
@@ -2267,7 +2267,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see GeoLocation#getLocalMeanTimeOffset()
      */
     public getFixedLocalChatzos(): Date {
-        return this.getTimeOffset(this.getDateFromTime(12.0 - TimeZone.getRawOffset(this.getGeoLocation().getTimeZone())
+        return this.getTimeOffset(this.getDateFromTime(12 - TimeZone.getRawOffset(this.getGeoLocation().getTimeZone())
                 / ComplexZmanimCalendar.HOUR_MILLIS), -this.getGeoLocation().getLocalMeanTimeOffset());
     }
 

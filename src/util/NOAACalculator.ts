@@ -21,12 +21,12 @@ export default class NOAACalculator extends AstronomicalCalculator {
     /**
      * The <a href="http://en.wikipedia.org/wiki/Julian_day">Julian day</a> of January 1, 2000
      */
-    private static readonly JULIAN_DAY_JAN_1_2000: number = 2451545.0;
+    private static readonly JULIAN_DAY_JAN_1_2000: number = 2451545;
 
     /**
      * Julian days per century
      */
-    private static readonly JULIAN_DAYS_PER_CENTURY: number = 36525.0;
+    private static readonly JULIAN_DAYS_PER_CENTURY: number = 36525;
 
     /**
      * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getCalculatorName()
@@ -47,11 +47,11 @@ export default class NOAACalculator extends AstronomicalCalculator {
         sunrise = sunrise / 60;
 
         // ensure that the time is >= 0 and < 24
-        while (sunrise < 0.0) {
-            sunrise += 24.0;
+        while (sunrise < 0) {
+            sunrise += 24;
         }
-        while (sunrise >= 24.0) {
-            sunrise -= 24.0;
+        while (sunrise >= 24) {
+            sunrise -= 24;
         }
         return sunrise;
     }
@@ -68,11 +68,11 @@ export default class NOAACalculator extends AstronomicalCalculator {
         sunset = sunset / 60;
 
         // ensure that the time is >= 0 and < 24
-        while (sunset < 0.0) {
-            sunset += 24.0;
+        while (sunset < 0) {
+            sunset += 24;
         }
-        while (sunset >= 24.0) {
-            sunset -= 24.0;
+        while (sunset >= 24) {
+            sunset -= 24;
         }
         return sunset;
     }
@@ -130,11 +130,11 @@ export default class NOAACalculator extends AstronomicalCalculator {
      */
     private static getSunGeometricMeanLongitude(julianCenturies: number): number {
         let longitude: number = 280.46646 + julianCenturies * (36000.76983 + 0.0003032 * julianCenturies);
-        while (longitude > 360.0) {
-            longitude -= 360.0;
+        while (longitude > 360) {
+            longitude -= 360;
         }
-        while (longitude < 0.0) {
-            longitude += 360.0;
+        while (longitude < 0) {
+            longitude += 360;
         }
 
         return longitude; // in degrees
@@ -234,7 +234,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
     private static getMeanObliquityOfEcliptic(julianCenturies: number): number {
         const seconds: number = 21.448 - julianCenturies
                 * (46.8150 + julianCenturies * (0.00059 - julianCenturies * (0.001813)));
-        return 23.0 + (26.0 + (seconds / 60.0)) / 60.0; // in degrees
+        return 23 + (26 + (seconds / 60)) / 60; // in degrees
     }
 
     /**
@@ -283,18 +283,18 @@ export default class NOAACalculator extends AstronomicalCalculator {
         const eccentricityEarthOrbit: number = NOAACalculator.getEarthOrbitEccentricity(julianCenturies);
         const geomMeanAnomalySun: number = NOAACalculator.getSunGeometricMeanAnomaly(julianCenturies);
 
-        let y: number = Math.tan(Math.toRadians(epsilon) / 2.0);
+        let y: number = Math.tan(Math.toRadians(epsilon) / 2);
         y *= y;
 
-        const sin2l0: number = Math.sin(2.0 * Math.toRadians(geomMeanLongSun));
+        const sin2l0: number = Math.sin(2 * Math.toRadians(geomMeanLongSun));
         const sinm: number = Math.sin(Math.toRadians(geomMeanAnomalySun));
-        const cos2l0: number = Math.cos(2.0 * Math.toRadians(geomMeanLongSun));
-        const sin4l0: number = Math.sin(4.0 * Math.toRadians(geomMeanLongSun));
-        const sin2m: number = Math.sin(2.0 * Math.toRadians(geomMeanAnomalySun));
+        const cos2l0: number = Math.cos(2 * Math.toRadians(geomMeanLongSun));
+        const sin4l0: number = Math.sin(4 * Math.toRadians(geomMeanLongSun));
+        const sin2m: number = Math.sin(2 * Math.toRadians(geomMeanAnomalySun));
 
-        const equationOfTime: number = y * sin2l0 - 2.0 * eccentricityEarthOrbit * sinm + 4.0 * eccentricityEarthOrbit * y
+        const equationOfTime: number = y * sin2l0 - 2 * eccentricityEarthOrbit * sinm + 4 * eccentricityEarthOrbit * y
                 * sinm * cos2l0 - 0.5 * y * y * sin4l0 - 1.25 * eccentricityEarthOrbit * eccentricityEarthOrbit * sin2m;
-        return Math.toDegrees(equationOfTime) * 4.0; // in minutes of time
+        return Math.toDegrees(equationOfTime) * 4; // in minutes of time
     }
 
     /**
@@ -355,10 +355,10 @@ export default class NOAACalculator extends AstronomicalCalculator {
 
         const eot: number = NOAACalculator.getEquationOfTime(julianCenturies);
 
-        let longitude: number = (cal.get(Calendar.HOUR_OF_DAY) + 12.0)
-                + (cal.get(Calendar.MINUTE) + eot + cal.get(Calendar.SECOND) / 60.0) / 60.0;
+        let longitude: number = (cal.get(Calendar.HOUR_OF_DAY) + 12)
+                + (cal.get(Calendar.MINUTE) + eot + cal.get(Calendar.SECOND) / 60) / 60;
 
-        longitude = -(longitude * 360.0 / 24.0) % 360.0;
+        longitude = -(longitude * 360 / 24) % 360;
         const hourAngleRad: number = Math.toRadians(lon - longitude);
         const declination: number = NOAACalculator.getSunDeclination(julianCenturies);
         const decRad: number = Math.toRadians(declination);
@@ -388,10 +388,10 @@ export default class NOAACalculator extends AstronomicalCalculator {
 
         const eot: number = NOAACalculator.getEquationOfTime(julianCenturies);
 
-        let longitude: number = (cal.get(Calendar.HOUR_OF_DAY) + 12.0)
-                + (cal.get(Calendar.MINUTE) + eot + cal.get(Calendar.SECOND) / 60.0) / 60.0;
+        let longitude: number = (cal.get(Calendar.HOUR_OF_DAY) + 12)
+                + (cal.get(Calendar.MINUTE) + eot + cal.get(Calendar.SECOND) / 60) / 60;
 
-        longitude = -(longitude * 360.0 / 24.0) % 360.0;
+        longitude = -(longitude * 360 / 24) % 360;
         const hourAngleRad: number = Math.toRadians(lon - longitude);
         const declination: number = NOAACalculator.getSunDeclination(julianCenturies);
         const decRad: number = Math.toRadians(declination);
@@ -421,7 +421,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
         // Julian day
 
         const noonmin: number = NOAACalculator.getSolarNoonUTC(julianCenturies, longitude);
-        const tnoon: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay + noonmin / 1440.0);
+        const tnoon: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay + noonmin / 1440);
 
         // First pass to approximate sunrise (using solar noon)
 
@@ -436,7 +436,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
         // Second pass includes fractional Julian Day in gamma calc
 
         const newt: number = NOAACalculator.getJulianCenturiesFromJulianDay(NOAACalculator.getJulianDayFromJulianCenturies(julianCenturies) + timeUTC
-                / 1440.0);
+                / 1440);
         eqTime = NOAACalculator.getEquationOfTime(newt);
         solarDec = NOAACalculator.getSunDeclination(newt);
         hourAngle = NOAACalculator.getSunHourAngleAtSunrise(latitude, solarDec, zenith);
@@ -460,12 +460,12 @@ export default class NOAACalculator extends AstronomicalCalculator {
     private static getSolarNoonUTC(julianCenturies: number, longitude: number): number {
         // First pass uses approximate solar noon to calculate eqtime
         const tnoon: number = NOAACalculator.getJulianCenturiesFromJulianDay(NOAACalculator.getJulianDayFromJulianCenturies(julianCenturies) + longitude
-                / 360.0);
+                / 360);
         let eqTime: number = NOAACalculator.getEquationOfTime(tnoon);
         const solNoonUTC: number = 720 + (longitude * 4) - eqTime; // min
 
         const newt: number = NOAACalculator.getJulianCenturiesFromJulianDay(NOAACalculator.getJulianDayFromJulianCenturies(julianCenturies) - 0.5
-                + solNoonUTC / 1440.0);
+                + solNoonUTC / 1440);
 
         eqTime = NOAACalculator.getEquationOfTime(newt);
         return 720 + (longitude * 4) - eqTime; // min
@@ -491,7 +491,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
         // Julian day
 
         const noonmin: number = NOAACalculator.getSolarNoonUTC(julianCenturies, longitude);
-        const tnoon: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay + noonmin / 1440.0);
+        const tnoon: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay + noonmin / 1440);
 
         // First calculates sunrise and approx length of day
 
@@ -506,7 +506,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
         // Second pass includes fractional Julian Day in gamma calc
 
         const newt: number = NOAACalculator.getJulianCenturiesFromJulianDay(NOAACalculator.getJulianDayFromJulianCenturies(julianCenturies) + timeUTC
-                / 1440.0);
+                / 1440);
         eqTime = NOAACalculator.getEquationOfTime(newt);
         solarDec = NOAACalculator.getSunDeclination(newt);
         hourAngle = NOAACalculator.getSunHourAngleAtSunset(latitude, solarDec, zenith);

@@ -162,7 +162,7 @@ export default class GeoLocation {
         } else {
             const degrees: number = degreesOrLatitude;
 
-            let tempLat: number = degrees + ((minutes + (seconds / 60.0)) / 60.0);
+            let tempLat: number = degrees + ((minutes + (seconds / 60)) / 60);
             if (tempLat > 90 || tempLat < 0) { //FIXME An exception should be thrown if degrees, minutes or seconds are negative
                 throw new Error("IllegalArgumentException: Latitude must be between 0 and  90. Use direction of S instead of negative.");
             }
@@ -230,7 +230,7 @@ export default class GeoLocation {
         } else {
             const degrees: number = degreesOrLongitude;
 
-            let longTemp: number = degrees + ((minutes + (seconds / 60.0)) / 60.0);
+            let longTemp: number = degrees + ((minutes + (seconds / 60)) / 60);
             if (longTemp > 180 || this.longitude < 0) { //FIXME An exception should be thrown if degrees, minutes or seconds are negative
                 throw new Error("IllegalArgumentException: Longitude must be between 0 and  180.  Use a direction of W instead of negative.");
             }
