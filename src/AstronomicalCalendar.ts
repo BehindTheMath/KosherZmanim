@@ -778,11 +778,7 @@ export default class AstronomicalCalendar {
         return clonedCalendar;
     }
 
-    public getClass() {
-        return {
-            getName: function() {
-                return "AstronomicalCalendar";
-            }
-        };
+    public getClassName() {
+        return "net.sourceforge.zmanim.AstronomicalCalendar";
     }
 }

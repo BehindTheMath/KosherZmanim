@@ -2680,11 +2680,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
         return this.getTimeOffset(sunset, this.getTemporalHour(sunset, sunrise) * 6);
     }
 
-    public getClass() {
-        return {
-            getName: function() {
-                return "ComplexZmanimCalendar";
-            }
-        };
+    public getClassName() {
+        return "net.sourceforge.zmanim.ComplexZmanimCalendar";
     }
 }

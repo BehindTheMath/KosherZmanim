@@ -494,11 +494,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
         this.candleLightingOffset = candleLightingOffset;
     }
 
-    public getClass() {
-        return {
-            getName: function() {
-                return "ZmanimCalendar";
-            }
-        };
+    public getClassName() {
+        return "net.sourceforge.zmanim.ZmanimCalendar";
     }
 }

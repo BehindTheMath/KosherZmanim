@@ -496,7 +496,7 @@ export default class ZmanimFormatter {
 
         return {
             date: astronomicalCalendar.getCalendar().format(df),
-            type: astronomicalCalendar.getClass().getName(),
+            type: astronomicalCalendar.getClassName(),
             algorithm: astronomicalCalendar.getAstronomicalCalculator().getCalculatorName(),
             location: astronomicalCalendar.getGeoLocation().getLocationName(),
             latitude: astronomicalCalendar.getGeoLocation().getLatitude(),
