@@ -779,7 +779,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      */
     private absDateToJewishDate(): void {
         // Approximation from below
-        this.jewishYear = (this.gregorianAbsDate + JewishDate.JEWISH_EPOCH) / 366;
+        this.jewishYear = (this.gregorianAbsDate - JewishDate.JEWISH_EPOCH) / 366;
         // Search forward for year from the approximation
         while (this.gregorianAbsDate >= JewishDate.jewishDateToAbsDate(this.jewishYear + 1, JewishDate.TISHREI, 1)) {
             this.jewishYear++;
