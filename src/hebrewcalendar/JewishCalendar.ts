@@ -496,7 +496,7 @@ export default class JewishCalendar extends JewishDate {
         // adjust for DST.
         const yerushalayimStandardTZ: string = "Israel";
         const geo: GeoLocation = new GeoLocation(locationName, latitude, longitude, yerushalayimStandardTZ);
-        const cal: GregorianCalendar = new GregorianCalendar(geo.getTimeZoneId());
+        const cal: GregorianCalendar = new GregorianCalendar(geo.getTimeZone());
         //cal.clear();
         const moladSeconds: number = molad.getMoladChalakim() * 10 / 3;
         cal.set(molad.getGregorianYear(), molad.getGregorianMonth(), molad.getGregorianDayOfMonth(),

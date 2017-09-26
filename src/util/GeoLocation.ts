@@ -268,7 +268,7 @@ export default class GeoLocation {
     /**
      * @return Returns the timeZone.
      */
-    public getTimeZoneId(): string {
+    public getTimeZone(): string {
         return this.timeZoneId;
     }
 
@@ -305,7 +305,7 @@ export default class GeoLocation {
      * @since 1.1
      */
     public getLocalMeanTimeOffset(): number {
-        return this.getLongitude() * 4 * GeoLocation.MINUTE_MILLIS - TimeZone.getRawOffset(this.getTimeZoneId());
+        return this.getLongitude() * 4 * GeoLocation.MINUTE_MILLIS - TimeZone.getRawOffset(this.getTimeZone());
     }
 
     /**
@@ -500,9 +500,9 @@ export default class GeoLocation {
         sb.append("\t<Latitude>").append(this.getLatitude().toString()).append("</Latitude>\n");
         sb.append("\t<Longitude>").append(this.getLongitude().toString()).append("</Longitude>\n");
         sb.append("\t<Elevation>").append(this.getElevation().toString()).append(" Meters").append("</Elevation>\n");
-        sb.append("\t<TimezoneName>").append(this.getTimeZoneId()).append("</TimezoneName>\n");
-        sb.append("\t<TimeZoneDisplayName>").append(TimeZone.getDisplayName(this.getTimeZoneId())).append("</TimeZoneDisplayName>\n");
-        sb.append("\t<TimezoneGMTOffset>").append((TimeZone.getRawOffset(this.getTimeZoneId()) / GeoLocation.HOUR_MILLIS).toString())
+        sb.append("\t<TimezoneName>").append(this.getTimeZone()).append("</TimezoneName>\n");
+        sb.append("\t<TimeZoneDisplayName>").append(TimeZone.getDisplayName(this.getTimeZone())).append("</TimeZoneDisplayName>\n");
+        sb.append("\t<TimezoneGMTOffset>").append((TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString())
                 .append("</TimezoneGMTOffset>\n");
 /*
         sb.append("\t<TimezoneDSTOffset>").append((this.getTimeZone().getDSTSavings() / GeoLocation.HOUR_MILLIS).toString())
@@ -524,7 +524,7 @@ export default class GeoLocation {
                 && this.longitude === geo.longitude
                 && this.elevation === geo.elevation
                 && (this.locationName === null ? geo.locationName === null : this.locationName === geo.locationName)
-                && (this.timeZoneId === null ? geo.timeZoneId === null : this.timeZoneId === geo.getTimeZoneId());
+                && (this.timeZoneId === null ? geo.timeZoneId === null : this.timeZoneId === geo.getTimeZone());
     }
 
     /**
@@ -559,11 +559,11 @@ export default class GeoLocation {
         sb.append("\nLatitude:\t\t\t").append(this.getLatitude().toString()).append("°");
         sb.append("\nLongitude:\t\t\t").append(this.getLongitude().toString()).append("°");
         sb.append("\nElevation:\t\t\t").append(this.getElevation().toString()).append(" Meters");
-        sb.append("\nTimezone Name:\t\t\t").append(this.getTimeZoneId());
+        sb.append("\nTimezone Name:\t\t\t").append(this.getTimeZone());
         /*
          * sb.append("\nTimezone Display Name:\t\t").append( getTimeZone().getDisplayName());
          */
-        sb.append("\nTimezone GMT Offset:\t\t").append((TimeZone.getRawOffset(this.getTimeZoneId()) / GeoLocation.HOUR_MILLIS).toString());
+        sb.append("\nTimezone GMT Offset:\t\t").append((TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString());
 /*
         sb.append("\nTimezone DST Offset:\t\t").append((this.getTimeZone().getDSTSavings() / GeoLocation.HOUR_MILLIS).toString());
 */

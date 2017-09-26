@@ -53,7 +53,7 @@ export default class GregorianCalendar extends Calendar {
     }
 
     public clone(): GregorianCalendar {
-        const clonedCalendar: GregorianCalendar = new GregorianCalendar(this.getTimeZoneId());
+        const clonedCalendar: GregorianCalendar = new GregorianCalendar(this.getTimeZone());
         clonedCalendar.setTimeInMillis(this.getTimeInMillis());
         return clonedCalendar;
     }

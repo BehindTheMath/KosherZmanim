@@ -116,7 +116,7 @@ export default abstract class Calendar {
         this.momentDate.add(value, this.shorthandLookup[field] as moment.unitOfTime.DurationConstructor);
     }
 
-    public getTimeZoneId(): string {
+    public getTimeZone(): string {
         return this.momentDate.tz();
     }
 

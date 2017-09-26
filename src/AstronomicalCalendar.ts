@@ -394,7 +394,7 @@ export default class AstronomicalCalendar {
      *            The location information used for calculating astronomical sun times.
      */
     constructor(geoLocation: GeoLocation = new GeoLocation()) {
-        this.setCalendar(new GregorianCalendar(geoLocation.getTimeZoneId()));
+        this.setCalendar(new GregorianCalendar(geoLocation.getTimeZone()));
         this.setGeoLocation(geoLocation); // duplicate call
         this.setAstronomicalCalculator(new SunTimesCalculator());
     }
@@ -569,7 +569,7 @@ export default class AstronomicalCalendar {
         cal.set(Calendar.YEAR, this.getCalendar().get(Calendar.YEAR));
         cal.set(Calendar.MONTH, this.getCalendar().get(Calendar.MONTH));
         cal.set(Calendar.DAY_OF_MONTH, this.getCalendar().get(Calendar.DAY_OF_MONTH));
-        const gmtOffset: number = TimeZone.getRawOffset(this.getCalendar().getTimeZoneId()) / (60 * AstronomicalCalendar.MINUTE_MILLIS); // raw non DST offset
+        const gmtOffset: number = TimeZone.getRawOffset(this.getCalendar().getTimeZone()) / (60 * AstronomicalCalendar.MINUTE_MILLIS); // raw non DST offset
         // Set the correct calendar date in UTC. For example Tokyo is 9 hours ahead of GMT. Sunrise at ~6 AM will be at
         // ~21 hours GMT of the previous day and has to be set accordingly. In the case of California USA that is 7
         // hours behind GMT, sunset at ~6 PM will be at ~1 GMT the following day and has to be set accordingly.
@@ -710,7 +710,7 @@ export default class AstronomicalCalendar {
      */
     public setGeoLocation(geoLocation: GeoLocation): void {
         this.geoLocation = geoLocation;
-        this.getCalendar().setTimeZone(geoLocation.getTimeZoneId());
+        this.getCalendar().setTimeZone(geoLocation.getTimeZone());
     }
 
     /**
@@ -754,7 +754,7 @@ export default class AstronomicalCalendar {
     public setCalendar(calendar: GregorianCalendar): void {
         this.calendar = calendar;
         if (this.getGeoLocation() != null) {// if available set the Calendar's timezone to the GeoLocation TimeZone
-            this.getCalendar().setTimeZone(this.getGeoLocation().getTimeZoneId());
+            this.getCalendar().setTimeZone(this.getGeoLocation().getTimeZone());
         }
     }
 
