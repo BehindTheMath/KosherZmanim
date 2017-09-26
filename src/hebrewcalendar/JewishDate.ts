@@ -16,7 +16,7 @@ import GregorianCalendar from "../polyfills/GregorianCalendar";
  * code. It was refactored to fit the KosherJava Zmanim API with simplification of the code, enhancements and some bug
  * fixing.
  *
- * Some of Avrom's original C++ code was translated from <a href="http://emr.cs.uiuc.edu/~reingold/calendar.C">C/C++
+ * Some of Avrom's original C++ code was translated from <a href="https://web.archive.org/web/20120124134148/http://emr.cs.uiuc.edu/~reingold/calendar.C">C/C++
  * code</a> in <a href="http://www.calendarists.com">Calendrical Calculations</a> by Nachum Dershowitz and Edward M.
  * Reingold, Software-- Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899- 928. Any method with the mark
  * "ND+ER" indicates that the method was taken from this source with minor modifications.
