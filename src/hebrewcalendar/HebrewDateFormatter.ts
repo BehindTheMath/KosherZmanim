@@ -570,12 +570,12 @@ export default class HebrewDateFormatter {
 
         let days: number = adjustedChalakim / DAY_CHALAKIM;
         adjustedChalakim = adjustedChalakim - (days * DAY_CHALAKIM);
-        const hours: number = Math.floor(adjustedChalakim / HOUR_CHALAKIM);
+        const hours: number = Math.trunc(adjustedChalakim / HOUR_CHALAKIM);
         if (hours >= 6) {
             days += 1;
         }
         adjustedChalakim = adjustedChalakim - (hours * HOUR_CHALAKIM);
-        const minutes: number = Math.floor(adjustedChalakim / MINUTE_CHALAKIM);
+        const minutes: number = Math.trunc(adjustedChalakim / MINUTE_CHALAKIM);
         adjustedChalakim = adjustedChalakim - minutes * MINUTE_CHALAKIM;
         return "Day: " + days % 7 + " hours: " + hours + ", minutes " + minutes + ", chalakim: " + adjustedChalakim;
     }

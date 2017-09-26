@@ -116,6 +116,6 @@ export default class YomiCalculator {
         }
         const a: number = year / 100;
         const b: number = 2 - a + a / 4;
-        return Math.floor(365.25 * (year + 4716) + Math.floor(30.6001 * (month + 1)) + day + b - 1524.5);
+        return Math.trunc(365.25 * (year + 4716) + Math.trunc(30.6001 * (month + 1)) + day + b - 1524.5);
     }
 }

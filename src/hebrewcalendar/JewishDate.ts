@@ -413,8 +413,8 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      */
     public static getJewishCalendarElapsedDays(year: number): number {
         const chalakimSince: number = JewishDate.getChalakimSinceMoladTohu(year, JewishDate.TISHREI);
-        const moladDay: number = Math.floor(chalakimSince / JewishDate.CHALAKIM_PER_DAY);
-        const moladParts: number = Math.floor(chalakimSince - moladDay * JewishDate.CHALAKIM_PER_DAY);
+        const moladDay: number = Math.trunc(chalakimSince / JewishDate.CHALAKIM_PER_DAY);
+        const moladParts: number = Math.trunc(chalakimSince - moladDay * JewishDate.CHALAKIM_PER_DAY);
         // delay Rosh Hashana for the 4 dechiyos
         return JewishDate.addDechiyos(year, moladDay, moladParts);
     }
@@ -844,7 +844,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      * @return the number of days from the Jewish epoch
      */
     private static moladToAbsDate(chalakim: number): number {
-        return Math.floor(chalakim / JewishDate.CHALAKIM_PER_DAY) + JewishDate.JEWISH_EPOCH;
+        return Math.trunc(chalakim / JewishDate.CHALAKIM_PER_DAY) + JewishDate.JEWISH_EPOCH;
     }
 
     /**
@@ -859,8 +859,8 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
     public JewishDate(molad: number) {
         this.absDateToDate(JewishDate.moladToAbsDate(molad));
         // long chalakimSince = getChalakimSinceMoladTohu(year, JewishDate.TISHREI);// tishrei
-        const conjunctionDay: number = Math.floor(molad / JewishDate.CHALAKIM_PER_DAY);
-        const conjunctionParts: number = Math.floor(molad - conjunctionDay * JewishDate.CHALAKIM_PER_DAY);
+        const conjunctionDay: number = Math.trunc(molad / JewishDate.CHALAKIM_PER_DAY);
+        const conjunctionParts: number = Math.trunc(molad - conjunctionDay * JewishDate.CHALAKIM_PER_DAY);
         this.setMoladTime(conjunctionParts);
     }
 */
@@ -928,8 +928,8 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
             const molad = jewishYearOrCalendarOrDateOrMolad as number;
             this.absDateToDate(JewishDate.moladToAbsDate(molad));
             // long chalakimSince = getChalakimSinceMoladTohu(year, JewishDate.TISHREI);// tishrei
-            const conjunctionDay: number = Math.floor(molad / JewishDate.CHALAKIM_PER_DAY);
-            const conjunctionParts: number = Math.floor(molad - conjunctionDay * JewishDate.CHALAKIM_PER_DAY);
+            const conjunctionDay: number = Math.trunc(molad / JewishDate.CHALAKIM_PER_DAY);
+            const conjunctionParts: number = Math.trunc(molad - conjunctionDay * JewishDate.CHALAKIM_PER_DAY);
             this.setMoladTime(conjunctionParts);
         }
     }

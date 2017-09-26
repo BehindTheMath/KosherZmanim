@@ -500,10 +500,10 @@ export default class JewishCalendar extends JewishDate {
         //cal.clear();
         const moladSeconds: number = molad.getMoladChalakim() * 10 / 3;
         cal.set(molad.getGregorianYear(), molad.getGregorianMonth(), molad.getGregorianDayOfMonth(),
-                molad.getMoladHours(), molad.getMoladMinutes(), Math.floor(moladSeconds));
-        cal.set(Calendar.MILLISECOND, Math.floor(1000 * (moladSeconds - Math.floor(moladSeconds))));
+                molad.getMoladHours(), molad.getMoladMinutes(), Math.trunc(moladSeconds));
+        cal.set(Calendar.MILLISECOND, Math.trunc(1000 * (moladSeconds - Math.trunc(moladSeconds))));
         // subtract local time difference of 20.94 minutes (20 minutes and 56.496 seconds) to get to Standard time
-        cal.add(Calendar.MILLISECOND, -1 * Math.floor(geo.getLocalMeanTimeOffset()));
+        cal.add(Calendar.MILLISECOND, -1 * Math.trunc(geo.getLocalMeanTimeOffset()));
         return cal.getTime();
     }
 

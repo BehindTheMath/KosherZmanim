@@ -579,11 +579,11 @@ export default class AstronomicalCalendar {
             cal.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-        const hours: number = Math.floor(calculatedTime); // retain only the hours
+        const hours: number = Math.trunc(calculatedTime); // retain only the hours
         calculatedTime -= hours;
-        const minutes: number = Math.floor(calculatedTime *= 60); // retain only the minutes
+        const minutes: number = Math.trunc(calculatedTime *= 60); // retain only the minutes
         calculatedTime -= minutes;
-        const seconds: number = Math.floor(calculatedTime *= 60); // retain only the seconds
+        const seconds: number = Math.trunc(calculatedTime *= 60); // retain only the seconds
         calculatedTime -= seconds; // remaining milliseconds
 
         cal.set(Calendar.HOUR_OF_DAY, hours);
