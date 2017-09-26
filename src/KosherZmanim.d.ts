@@ -16,10 +16,10 @@ declare interface String {
 }
 
 declare interface JsonOutput {
-    [key: string]: JsonOutputMetadata | object;
+    [key: string]: OutputMetadata | object;
 }
 
-declare interface JsonOutputMetadata {
+declare interface OutputMetadata {
     date: string;
     type: string;
     algorithm: string;
