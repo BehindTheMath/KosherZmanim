@@ -1,7 +1,6 @@
 import AstronomicalCalculator from "./AstronomicalCalculator";
-import Calendar from "../polyfills/Calendar";
 import GeoLocation from "./GeoLocation";
-import GregorianCalendar from "../polyfills/GregorianCalendar";
+import {Moment} from "moment-timezone";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times. This implementation is a port of the
@@ -27,7 +26,7 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
     /**
      * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
      */
-    public getUTCSunrise(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+    public getUTCSunrise(moment: Moment, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
         const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
@@ -37,7 +36,8 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
         // step 2: convert the longitude to hour value and calculate an approximate time
         const lngHour: number = geoLocation.getLongitude() / 15;
 
-        const t: number = calendar.get(Calendar.DAY_OF_YEAR) + ((6 - lngHour) / 24); // use 18 for sunset instead of 6
+        // use 18 for sunset instead of 6
+        const t: number = moment.dayOfYear() + ((6 - lngHour) / 24);
 
         // step 3: calculate the sun's mean anomaly
         const m: number = (0.9856 * t) - 3.289;
@@ -108,12 +108,12 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
     /**
      * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
      */
-    public getUTCSunset(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+    public getUTCSunset(moment: Moment, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
         const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
         // step 1: First calculate the day of the year
-        const N: number = calendar.get(Calendar.DAY_OF_YEAR);
+        const N: number = moment.dayOfYear();
 
         // step 2: convert the longitude to hour value and calculate an approximate time
         const lngHour: number = geoLocation.getLongitude() / 15;

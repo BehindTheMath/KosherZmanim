@@ -1,7 +1,8 @@
-import Calendar from "../polyfills/Calendar";
-import GregorianCalendar from "../polyfills/GregorianCalendar";
+import {Calendar} from "../polyfills/Utils";
 import Daf from "./Daf";
 import JewishCalendar from "./JewishCalendar";
+import {Moment} from "moment-timezone";
+import MomentTimezone = require("moment-timezone");
 
 export default class YerushalmiYomiCalculator {
     private static readonly DAF_YOMI_START_DAY: Date = new Date(1980, Calendar.FEBRUARY, 2);
@@ -23,9 +24,9 @@ export default class YerushalmiYomiCalculator {
      *             if the date is prior to the September 11, 1923 start date of the first Daf Yomi cycle
      */
     public static getDafYomiYerushalmi(jewishCalendar: JewishCalendar): Daf {
-        const nextCycle: GregorianCalendar = new GregorianCalendar();
-        const prevCycle: GregorianCalendar = new GregorianCalendar();
-        const requested: GregorianCalendar = jewishCalendar.getGregorianCalendar();
+        let nextCycle: Moment = MomentTimezone();
+        let prevCycle: Moment = MomentTimezone();
+        const requested: Moment = jewishCalendar.getMoment();
         let masechta: number = 0;
         let dafYomi: Daf = null;
         
@@ -35,25 +36,25 @@ export default class YerushalmiYomiCalculator {
         }
         
         
-        if (requested.getMoment().isBefore(YerushalmiYomiCalculator.DAF_YOMI_START_DAY)) {
+        if (requested.isBefore(YerushalmiYomiCalculator.DAF_YOMI_START_DAY)) {
             // TODO: should we return a null or throw an ?
             throw new Error(`IllegalArgumentException: ${requested} is prior to organized Daf Yomi Yerushlmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);
         }
         
         // Start to calculate current cycle. Initialize the start day
-        nextCycle.setTime(YerushalmiYomiCalculator.DAF_YOMI_START_DAY);
+        nextCycle = MomentTimezone(YerushalmiYomiCalculator.DAF_YOMI_START_DAY);
         
         // Go cycle by cycle, until we get the next cycle
-        while (requested.getMoment().isAfter(nextCycle.getMoment())) {
-            prevCycle.setTime(nextCycle.getTime());
+        while (requested.isAfter(nextCycle)) {
+            prevCycle = nextCycle.clone();
             
             // Adds the number of whole shas dafs. and the number of days that not have daf.
-            nextCycle.add(Calendar.DAY_OF_MONTH, YerushalmiYomiCalculator.WHOLE_SHAS_DAFS);
-            nextCycle.add(Calendar.DAY_OF_MONTH, YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, nextCycle));
+            nextCycle.add({days: YerushalmiYomiCalculator.WHOLE_SHAS_DAFS});
+            nextCycle.add({days: YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, nextCycle)});
         }
         
         // Get the number of days from cycle start until request.
-        const dafNo: number = -prevCycle.getMoment().diff(requested.getMoment(), "days");
+        const dafNo: number = -prevCycle.diff(requested, "days");
 
         // Get the number of special days to substract
         const specialDays: number = YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, requested);
@@ -79,7 +80,7 @@ export default class YerushalmiYomiCalculator {
      * @param jewishCalendar end date to calculate
      * @return the number of special days
      */
-    private static getNumOfSpecialDays(start: GregorianCalendar, end: GregorianCalendar): number {
+    private static getNumOfSpecialDays(start: Moment, end: Moment): number {
         
         // Find the start and end Jewish years
         const jewishStartYear: number = new JewishCalendar(start).getJewishYear();
@@ -97,8 +98,8 @@ export default class YerushalmiYomiCalculator {
             yomKippur.setJewishYear(i);
             tishaBeav.setJewishYear(i);
             
-            if (yomKippur.getGregorianCalendar().getMoment().isBetween(start.getMoment(), end.getMoment())) specialDays++;
-            if (tishaBeav.getGregorianCalendar().getMoment().isBetween(start.getMoment(), end.getMoment())) specialDays++;
+            if (yomKippur.getMoment().isBetween(start, end)) specialDays++;
+            if (tishaBeav.getMoment().isBetween(start, end)) specialDays++;
         }
         
         return specialDays;

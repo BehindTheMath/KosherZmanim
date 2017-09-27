@@ -1,4 +1,5 @@
-import momentTimezone = require("moment-timezone");
+import {Moment} from "moment-timezone";
+import MomentTimezone = require("moment-timezone");
 
 export default class Utils {
     // https://stackoverflow.com/a/40577337/8037425
@@ -19,8 +20,21 @@ export default class Utils {
 }
 
 export module TimeZone {
-    export function getRawOffset(timeZoneId: string): number {
-        return momentTimezone.tz(timeZoneId).utcOffset();
+    /**
+     * Returns the amount of time in milliseconds to add to UTC to get
+     * standard time in this time zone. Because this value is not
+     * affected by daylight saving time, it is called <I>raw
+     * offset</I>.
+     *
+     * @return the amount of raw offset time in milliseconds to add to UTC.
+     */
+    export function getRawOffset(moment: Moment): number;
+    export function getRawOffset(timeZoneId: string): number;
+    export function getRawOffset(momentOrTimeZoneId: Moment | string): number {
+        const moment: Moment = MomentTimezone.isMoment(momentOrTimeZoneId) ?
+            momentOrTimeZoneId : MomentTimezone.tz(momentOrTimeZoneId);
+
+        return moment.utcOffset() * 60 * 1000;
     }
 
     // TODO: This will return the current DST status, as opposed to Java which returns non-DST
@@ -37,7 +51,7 @@ export module TimeZone {
     */
 
     export function getOffset(timeZoneId: string, millisSinceEpoch: number): number {
-        return momentTimezone(millisSinceEpoch).tz(timeZoneId).utcOffset() * 60 * 1000;
+        return MomentTimezone(millisSinceEpoch).tz(timeZoneId).utcOffset() * 60 * 1000;
     }
 }
 
@@ -61,4 +75,28 @@ export module Zman {
         return zman1.duration === zman2.duration ? 0 : zman1.duration > zman2.duration ? 1 : -1;
     }
 }
+
+export module Calendar {
+    export const JANUARY: number = 0;
+    export const FEBRUARY: number = 1;
+    export const MARCH: number = 2;
+    export const APRIL: number = 3;
+    export const MAY: number = 4;
+    export const JUNE: number = 5;
+    export const JULY: number = 6;
+    export const AUGUST: number = 7;
+    export const SEPTEMBER: number = 8;
+    export const OCTOBER: number = 9;
+    export const NOVEMBER: number = 10;
+    export const DECEMBER: number = 11;
+
+    export function getZoneOffset(moment: Moment): number {
+        return moment.utcOffset() * 1000;
+    }
+
+    export function getDstOffset(moment: Moment): number {
+        return moment.isDST() ? 60 * 60 * 1000 : 0;
+    }
+}
+
 

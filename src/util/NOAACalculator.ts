@@ -1,7 +1,6 @@
 import AstronomicalCalculator from "./AstronomicalCalculator";
-import Calendar from "../polyfills/Calendar";
 import GeoLocation from "./GeoLocation";
-import GregorianCalendar from "../polyfills/GregorianCalendar";
+import {Moment} from "moment-timezone";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times based on the <a
@@ -38,11 +37,11 @@ export default class NOAACalculator extends AstronomicalCalculator {
     /**
      * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
      */
-    public getUTCSunrise(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+    public getUTCSunrise(moment: Moment, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
         const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-        let sunrise: number = NOAACalculator.getSunriseUTC(NOAACalculator.getJulianDay(calendar), geoLocation.getLatitude(), -geoLocation.getLongitude(),
+        let sunrise: number = NOAACalculator.getSunriseUTC(NOAACalculator.getJulianDay(moment), geoLocation.getLatitude(), -geoLocation.getLongitude(),
                 adjustedZenith);
         sunrise = sunrise / 60;
 
@@ -59,11 +58,11 @@ export default class NOAACalculator extends AstronomicalCalculator {
     /**
      * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
      */
-    public getUTCSunset(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+    public getUTCSunset(moment: Moment, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
         const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-        let sunset: number = NOAACalculator.getSunsetUTC(NOAACalculator.getJulianDay(calendar), geoLocation.getLatitude(), -geoLocation.getLongitude(),
+        let sunset: number = NOAACalculator.getSunsetUTC(NOAACalculator.getJulianDay(moment), geoLocation.getLatitude(), -geoLocation.getLongitude(),
                 adjustedZenith);
         sunset = sunset / 60;
 
@@ -85,10 +84,10 @@ export default class NOAACalculator extends AstronomicalCalculator {
      * @return the Julian day corresponding to the date Note: Number is returned for start of day. Fractional days
      *         should be added later.
      */
-    private static getJulianDay(calendar: GregorianCalendar): number {
-        let year: number = calendar.get(Calendar.YEAR);
-        let month: number = calendar.get(Calendar.MONTH) + 1;
-        const day: number = calendar.get(Calendar.DAY_OF_MONTH);
+    private static getJulianDay(moment: Moment): number {
+        let year: number = moment.year();
+        let month: number = moment.month() + 1;
+        const day: number = moment.date();
         if (month <= 2) {
             year -= 1;
             month += 12;
@@ -349,14 +348,13 @@ export default class NOAACalculator extends AstronomicalCalculator {
      * @return solar elevation in degrees - horizon is 0 degrees, civil twilight is -6 degrees
      */
 
-    public static getSolarElevation(cal: GregorianCalendar, lat: number, lon: number): number {
-        const julianDay: number = NOAACalculator.getJulianDay(cal);
+    public static getSolarElevation(moment: Moment, lat: number, lon: number): number {
+        const julianDay: number = NOAACalculator.getJulianDay(moment);
         const julianCenturies: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay);
 
-        const eot: number = NOAACalculator.getEquationOfTime(julianCenturies);
+        const equationOfTime: number = NOAACalculator.getEquationOfTime(julianCenturies);
 
-        let longitude: number = (cal.get(Calendar.HOUR_OF_DAY) + 12)
-                + (cal.get(Calendar.MINUTE) + eot + cal.get(Calendar.SECOND) / 60) / 60;
+        let longitude: number = (moment.hour() + 12) + (moment.minute() + equationOfTime + moment.second() / 60) / 60;
 
         longitude = -(longitude * 360 / 24) % 360;
         const hourAngleRad: number = Math.toRadians(lon - longitude);
@@ -375,27 +373,26 @@ export default class NOAACalculator extends AstronomicalCalculator {
      *
      * @param cal
      *            time of calculation
-     * @param lat
+     * @param latitude
      *            latitude of location for calculation
      * @param lon
      *            longitude of location for calculation
      * @return FIXME
      */
 
-    public static getSolarAzimuth(cal: GregorianCalendar, lat: number, lon: number): number {
-        const julianDay: number = NOAACalculator.getJulianDay(cal);
+    public static getSolarAzimuth(moment: Moment, latitude: number, lon: number): number {
+        const julianDay: number = NOAACalculator.getJulianDay(moment);
         const julianCenturies: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay);
 
-        const eot: number = NOAACalculator.getEquationOfTime(julianCenturies);
+        const equationOfTime: number = NOAACalculator.getEquationOfTime(julianCenturies);
 
-        let longitude: number = (cal.get(Calendar.HOUR_OF_DAY) + 12)
-                + (cal.get(Calendar.MINUTE) + eot + cal.get(Calendar.SECOND) / 60) / 60;
+        let longitude: number = (moment.hour() + 12) + (moment.minute() + equationOfTime + moment.second() / 60) / 60;
 
         longitude = -(longitude * 360 / 24) % 360;
         const hourAngleRad: number = Math.toRadians(lon - longitude);
         const declination: number = NOAACalculator.getSunDeclination(julianCenturies);
         const decRad: number = Math.toRadians(declination);
-        const latRad: number = Math.toRadians(lat);
+        const latRad: number = Math.toRadians(latitude);
 
         return Math.toDegrees(Math.atan(Math.sin(hourAngleRad)
                 / ((Math.cos(hourAngleRad) * Math.sin(latRad)) - (Math.tan(decRad) * Math.cos(latRad))))) + 180;

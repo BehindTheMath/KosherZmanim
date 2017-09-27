@@ -1,5 +1,5 @@
-import GregorianCalendar from "../polyfills/GregorianCalendar";
 import GeoLocation from "./GeoLocation";
+import {Moment} from "moment-timezone";
 
 /**
  * An abstract class that all sun time calculating classes extend. This allows the algorithm used to be changed at
@@ -104,7 +104,7 @@ export default abstract class AstronomicalCalculator {
      *         {@link java.lang.Double#NaN} will be returned.
      * @see #getElevationAdjustment(double)
      */
-    public abstract getUTCSunrise(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number,
+    public abstract getUTCSunrise(moment: Moment, geoLocation: GeoLocation, zenith: number,
                                   adjustForElevation: boolean): number;
 
     /**
@@ -128,7 +128,7 @@ export default abstract class AstronomicalCalculator {
      *         {@link java.lang.Double#NaN} will be returned.
      * @see #getElevationAdjustment(double)
      */
-    public abstract getUTCSunset(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number,
+    public abstract getUTCSunset(moment: Moment, geoLocation: GeoLocation, zenith: number,
                                  adjustForElevation: boolean): number;
 
     /**

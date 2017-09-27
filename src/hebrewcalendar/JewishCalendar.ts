@@ -1,10 +1,11 @@
-import Calendar from "../polyfills/Calendar";
-import GregorianCalendar from "../polyfills/GregorianCalendar";
 import GeoLocation from "../util/GeoLocation";
 import JewishDate from "./JewishDate";
 import Daf from "./Daf";
 import YomiCalculator from "./YomiCalculator";
 import YerushalmiYomiCalculator from "./YerushalmiYomiCalculator";
+import {Moment} from "moment-timezone";
+import MomentTimezone = require("moment-timezone");
+
 
 /**
  * The JewishCalendar extends the JewishDate class and adds calendar methods.
@@ -160,11 +161,11 @@ export default class JewishCalendar extends JewishDate {
      */
     constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number, inIsrael: boolean)
     constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number)
-    constructor(calendar: GregorianCalendar)
+    constructor(moment: Moment)
     constructor(date: Date)
     constructor()
-    constructor(jewishYearOrCalendarOrDate?: number | GregorianCalendar | Date, jewishMonth?: number, jewishDayOfMonth?: number, inIsrael?: boolean) {
-        super(jewishYearOrCalendarOrDate, jewishMonth, jewishDayOfMonth);
+    constructor(jewishYearOrMomentOrDate?: number | Moment | Date, jewishMonth?: number, jewishDayOfMonth?: number, inIsrael?: boolean) {
+        super(jewishYearOrMomentOrDate, jewishMonth, jewishDayOfMonth);
         if (inIsrael) this.setInIsrael(inIsrael);
     }
 
@@ -497,15 +498,22 @@ export default class JewishCalendar extends JewishDate {
         // adjust for DST.
         const yerushalayimStandardTZ: string = "Israel";
         const geo: GeoLocation = new GeoLocation(locationName, latitude, longitude, yerushalayimStandardTZ);
-        const cal: GregorianCalendar = new GregorianCalendar(geo.getTimeZone());
-        //cal.clear();
+
         const moladSeconds: number = molad.getMoladChalakim() * 10 / 3;
-        cal.set(molad.getGregorianYear(), molad.getGregorianMonth(), molad.getGregorianDayOfMonth(),
-                molad.getMoladHours(), molad.getMoladMinutes(), Math.trunc(moladSeconds));
-        cal.set(Calendar.MILLISECOND, Math.trunc(1000 * (moladSeconds - Math.trunc(moladSeconds))));
         // subtract local time difference of 20.94 minutes (20 minutes and 56.496 seconds) to get to Standard time
-        cal.add(Calendar.MILLISECOND, -1 * Math.trunc(geo.getLocalMeanTimeOffset()));
-        return cal.getTime();
+        const milliseconds: number = Math.trunc(1000 * (moladSeconds - Math.trunc(moladSeconds)))
+            - Math.trunc(geo.getLocalMeanTimeOffset());
+        const moment: Moment = MomentTimezone({
+            year: molad.getGregorianYear(),
+            month: molad.getGregorianMonth(),
+            day: molad.getGregorianDayOfMonth(),
+            hours: molad.getMoladHours(),
+            minutes: molad.getMoladMinutes(),
+            seconds: Math.trunc(moladSeconds),
+            milliseconds: milliseconds
+        }).tz(geo.getTimeZone());
+
+        return moment.toDate();
     }
 
     /**
@@ -518,10 +526,10 @@ export default class JewishCalendar extends JewishDate {
      */
     public getTchilasZmanKidushLevana3Days(): Date {
         const molad: Date = this.getMoladAsDate();
-        const cal: GregorianCalendar = new GregorianCalendar();
-        cal.setTime(molad);
-        cal.add(Calendar.HOUR, 72); // 3 days after the molad
-        return cal.getTime();
+
+        const moment: Moment = MomentTimezone(molad).add({hours: 72});
+
+        return moment.toDate();
     }
 
     /**
@@ -535,10 +543,10 @@ export default class JewishCalendar extends JewishDate {
      */
     public getTchilasZmanKidushLevana7Days(): Date {
         const molad: Date = this.getMoladAsDate();
-        const cal: GregorianCalendar = new GregorianCalendar();
-        cal.setTime(molad);
-        cal.add(Calendar.HOUR, 168); // 7 days after the molad
-        return cal.getTime();
+
+        const moment: Moment = MomentTimezone(molad).add({hours: 168});
+
+        return moment.toDate();
     }
 
     /**
@@ -554,16 +562,16 @@ export default class JewishCalendar extends JewishDate {
      */
     public getSofZmanKidushLevanaBetweenMoldos(): Date {
         const molad: Date = this.getMoladAsDate();
-        const cal: GregorianCalendar = new GregorianCalendar();
-        cal.setTime(molad);
-        // add half the time between molad and molad (half of 29 days, 12 hours and 793 chalakim (44 minutes, 3.3
-        // seconds), or 14 days, 18 hours, 22 minutes and 666 milliseconds)
-        cal.add(Calendar.DAY_OF_MONTH, 14);
-        cal.add(Calendar.HOUR_OF_DAY, 18);
-        cal.add(Calendar.MINUTE, 22);
-        cal.add(Calendar.SECOND, 1);
-        cal.add(Calendar.MILLISECOND, 666);
-        return cal.getTime();
+
+        const moment: Moment = MomentTimezone(molad).add({
+            day: 14,
+            hours: 18,
+            minutes: 22,
+            seconds: 1,
+            milliseconds: 666
+        });
+
+        return moment.toDate();
     }
 
     /**
@@ -583,10 +591,10 @@ export default class JewishCalendar extends JewishDate {
      */
     public getSofZmanKidushLevana15Days(): Date {
         const molad: Date = this.getMoladAsDate();
-        const cal: GregorianCalendar = new GregorianCalendar();
-        cal.setTime(molad);
-        cal.add(Calendar.DAY_OF_YEAR, 15); // 15 days after the molad
-        return cal.getTime();
+
+        const moment: Moment = MomentTimezone(molad).add({days: 15});
+
+        return moment.toDate();
     }
 
     /**

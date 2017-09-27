@@ -1,7 +1,6 @@
-import Calendar from "../polyfills/Calendar";
-import GregorianCalendar from "../polyfills/GregorianCalendar";
 import GeoLocation from "./GeoLocation";
 import AstronomicalCalculator from "./AstronomicalCalculator";
+import {Moment} from "moment-timezone";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times. This calculator uses the Java algorithm
@@ -27,12 +26,12 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
     /**
      * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
      */
-    public getUTCSunrise(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+    public getUTCSunrise(moment: Moment, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
         let doubleTime: number = Number.NaN;
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
         const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-        doubleTime = SunTimesCalculator.getTimeUTC(calendar, geoLocation.getLongitude(), geoLocation.getLatitude(),
+        doubleTime = SunTimesCalculator.getTimeUTC(moment, geoLocation.getLongitude(), geoLocation.getLatitude(),
                 adjustedZenith, true);
         return doubleTime;
     }
@@ -40,12 +39,12 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
     /**
      * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
      */
-    public getUTCSunset(calendar: GregorianCalendar, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+    public getUTCSunset(moment: Moment, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
         let doubleTime: number = Number.NaN;
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
         const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-        doubleTime = SunTimesCalculator.getTimeUTC(calendar, geoLocation.getLongitude(), geoLocation.getLatitude(),
+        doubleTime = SunTimesCalculator.getTimeUTC(moment, geoLocation.getLongitude(), geoLocation.getLatitude(),
                 adjustedZenith, false);
         return doubleTime;
     }
@@ -189,9 +188,9 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
      * @return the time as a double. If an error was encountered in the calculation (expected behavior for some
      *         locations such as near the poles, {@link Double.NaN} will be returned.
      */
-    private static getTimeUTC(calendar: GregorianCalendar, longitude: number, latitude: number, zenith: number,
+    private static getTimeUTC(moment: Moment, longitude: number, latitude: number, zenith: number,
             isSunrise: boolean): number {
-        const dayOfYear: number = calendar.get(Calendar.DAY_OF_YEAR);
+        const dayOfYear: number = moment.dayOfYear();
         const sunMeanAnomaly: number = SunTimesCalculator.getMeanAnomaly(dayOfYear, longitude, isSunrise);
         const sunTrueLong: number = SunTimesCalculator.getSunTrueLongitude(sunMeanAnomaly);
         const sunRightAscensionHours: number = SunTimesCalculator.getSunRightAscensionHours(sunTrueLong);

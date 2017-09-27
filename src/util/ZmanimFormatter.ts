@@ -1,6 +1,5 @@
 import StringBuffer from "../polyfills/StringBuffer";
-import Calendar from "../polyfills/Calendar";
-import GregorianCalendar from "../polyfills/GregorianCalendar";
+import {Calendar} from "../polyfills/Utils";
 import {TimeZone, Zman} from "../polyfills/Utils"
 import Time from "./Time";
 import AstronomicalCalendar from "../AstronomicalCalendar";
@@ -8,7 +7,9 @@ import ZmanimCalendar from "../ZmanimCalendar";
 import ComplexZmanimCalendar from "../ComplexZmanimCalendar";
 import Utils from "../polyfills/utils";
 import * as numeral from "numeral";
-import * as XMLBuilder from "xmlbuilder";
+import {Moment} from "moment-timezone";
+import MomentTimezone = require("moment-timezone");
+
 const xmlBuilder = require("xmlbuilder");
 
 /**
@@ -36,7 +37,7 @@ export default class ZmanimFormatter {
 
     private timeZoneId: string = null; // TimeZone.getTimeZone("UTC");
 
-    private calendar: Calendar;
+    private moment: Moment;
 
     /**
      * @return the timeZone
@@ -251,13 +252,13 @@ export default class ZmanimFormatter {
      *            settings.
      * @return the formatted String
      */
-    public formatDateTime(dateTime: Date, calendar: GregorianCalendar): string {
-        this.calendar = calendar;
+    public formatDateTime(dateTime: Date, moment: Moment): string {
+        this.moment = moment;
         if (this.dateFormat === "yyyy-MM-dd[T]HH:mm:ss") {
-            return this.getXSDateTime(dateTime, calendar);
+            return this.getXSDateTime(dateTime, moment);
         } else {
-            this.calendar.setTime(dateTime);
-            return this.calendar.getMoment().format(this.dateFormat);
+            this.moment = MomentTimezone(dateTime);
+            return this.moment.format(this.dateFormat);
         }
 
     }
@@ -276,17 +277,16 @@ export default class ZmanimFormatter {
      * @param calendar Calendar Object
      * @return the XSD dateTime
      */
-    public getXSDateTime(dateTime: Date, calendar: GregorianCalendar): string {
+    public getXSDateTime(dateTime: Date, moment: Moment): string {
         const xsdDateTimeFormat: string = "yyyy-MM-dd[T]HH:mm:ss";
         /*
          * if (xmlDateFormat == null || xmlDateFormat.trim().equals("")) { xmlDateFormat = xsdDateTimeFormat; }
          */
-        this.calendar.setTimeZone(this.getTimeZone());
-        this.calendar.setTime(dateTime);
+        this.moment = MomentTimezone(dateTime).tz(this.getTimeZone());
 
-        const sb: StringBuffer = new StringBuffer(this.calendar.getMoment().format(xsdDateTimeFormat));
+        const sb: StringBuffer = new StringBuffer(this.moment.format(xsdDateTimeFormat));
         // Must also include offset from UTF.
-        const offset: number = calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET); // Get the offset (in milliseconds)
+        const offset: number = Calendar.getZoneOffset(moment) + Calendar.getDstOffset(moment); // Get the offset (in milliseconds)
         // If there is no offset, we have "Coordinated Universal Time"
         if (offset === 0) {
             sb.append("Z");
@@ -495,7 +495,7 @@ export default class ZmanimFormatter {
         const df: string = "YYYY-MM-DD";
 
         return {
-            date: astronomicalCalendar.getCalendar().getMoment().format(df),
+            date: astronomicalCalendar.getMoment().format(df),
             type: astronomicalCalendar.getClassName(),
             algorithm: astronomicalCalendar.getAstronomicalCalculator().getCalculatorName(),
             location: astronomicalCalendar.getGeoLocation().getLocationName(),
@@ -504,7 +504,7 @@ export default class ZmanimFormatter {
             elevation: astronomicalCalendar.getGeoLocation().getElevation(),
             timeZoneName: TimeZone.getDisplayName(astronomicalCalendar.getGeoLocation().getTimeZone()),
             timeZoneID: astronomicalCalendar.getGeoLocation().getTimeZone(),
-            timeZoneOffset: TimeZone.getOffset(astronomicalCalendar.getGeoLocation().getTimeZone(), astronomicalCalendar.getCalendar().getTimeInMillis()) / ZmanimFormatter.HOUR_MILLIS
+            timeZoneOffset: TimeZone.getOffset(astronomicalCalendar.getGeoLocation().getTimeZone(), astronomicalCalendar.getMoment().utcOffset() * 1000) / ZmanimFormatter.HOUR_MILLIS
         };
     }
 
@@ -556,7 +556,7 @@ export default class ZmanimFormatter {
 
         const timesData: object = {};
         dateList.forEach((zman: Zman) => {
-            timesData[zman.zmanLabel] = formatter.formatDateTime(zman.zman, astronomicalCalendar.getCalendar());
+            timesData[zman.zmanLabel] = formatter.formatDateTime(zman.zman, astronomicalCalendar.getMoment());
         });
         durationList.forEach((zman: Zman) => {
             timesData[zman.zmanLabel] = formatter.format(Math.trunc(zman.duration));

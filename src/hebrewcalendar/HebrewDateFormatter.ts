@@ -384,7 +384,7 @@ export default class HebrewDateFormatter {
                     .getDayOfWeek()));
             return sb.toString();
         } else {
-            return jewishDate.getDayOfWeek() === 7 ? this.getTransliteratedShabbosDayOfWeek() : jewishDate.getGregorianCalendar().getMoment().format("EEEE");
+            return jewishDate.getDayOfWeek() === 7 ? this.getTransliteratedShabbosDayOfWeek() : jewishDate.getMoment().format("EEEE");
         }
     }
 

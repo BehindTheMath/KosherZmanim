@@ -1,8 +1,8 @@
-import Calendar from "../polyfills/Calendar";
-import GregorianCalendar from "../polyfills/GregorianCalendar";
+import {Calendar} from "../polyfills/Utils";
 import Daf from "./Daf";
-import {Moment} from "moment-timezone";
 import JewishCalendar from "./JewishCalendar";
+import {Moment} from "moment-timezone";
+import MomentTimezone = require("moment-timezone");
 
 /**
  * This class calculates the Daf Yomi page (daf) for a given date. The class currently only supports Daf Yomi Bavli, but
@@ -14,9 +14,17 @@ import JewishCalendar from "./JewishCalendar";
  */
 export default class YomiCalculator {
     // TODO: readonly for all?
-    private static dafYomiStartDate: Date = new GregorianCalendar(1923, Calendar.SEPTEMBER, 11).getTime();
+    private static dafYomiStartDate: Date = MomentTimezone({
+        year: 1923,
+        month: Calendar.SEPTEMBER,
+        date: 11
+    }).toDate();
     private static dafYomiJulianStartDay: number = YomiCalculator.getJulianDay(YomiCalculator.dafYomiStartDate);
-    private static shekalimChangeDate: Date = new GregorianCalendar(1975, Calendar.JUNE, 24).getTime();
+    private static shekalimChangeDate: Date = MomentTimezone({
+        year: 1975,
+        month: Calendar.JUNE,
+        date: 24
+    }).toDate();
     private static shekalimJulianChangeDay: number = YomiCalculator.getJulianDay(YomiCalculator.shekalimChangeDate);
 
     /**
@@ -50,7 +58,7 @@ export default class YomiCalculator {
         const blattPerMasechta: number[] = [ 64, 157, 105, 121, 22, 88, 56, 40, 35, 31, 32, 29, 27, 122, 112, 91, 66, 49, 90, 82,
                 119, 119, 176, 113, 24, 49, 76, 14, 120, 110, 142, 61, 34, 34, 28, 22, 4, 10, 4, 73 ];
 
-        const moment: Moment = calendar.getGregorianCalendar().getMoment();
+        const moment: Moment = calendar.getMoment();
 
         let dafYomi: Daf = null;
         const julianDay: number = this.getJulianDay(moment.toDate());
@@ -108,11 +116,9 @@ export default class YomiCalculator {
      * @return the Julian day number corresponding to the date
      */
     private static getJulianDay(date: Date): number {
-        const calendar: GregorianCalendar = new GregorianCalendar();
-        calendar.setTime(date);
-        let year: number = calendar.get(Calendar.YEAR);
-        let month: number = calendar.get(Calendar.MONTH) + 1;
-        const day: number = calendar.get(Calendar.DAY_OF_MONTH);
+        let year: number = date.getFullYear();
+        let month: number = date.getMonth() + 1;
+        const day: number = date.getDate();
         if (month <= 2) {
             year -= 1;
             month += 12;

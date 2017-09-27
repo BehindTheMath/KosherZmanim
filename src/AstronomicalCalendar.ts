@@ -1,13 +1,11 @@
 import {Long} from "./polyfills/JavaPolyfills";
-import Calendar from "./polyfills/Calendar";
-import GregorianCalendar from "./polyfills/GregorianCalendar";
-import {TimeZone} from "./polyfills/Utils";
 import GeoLocation from "./util/GeoLocation";
 import AstronomicalCalculator from "./util/AstronomicalCalculator";
 import SunTimesCalculator from "./util/SunTimesCalculator";
-
 import BigJS = require("big.js");
 type BigDecimal = BigJsLibrary.BigJS;
+import {Moment} from "moment-timezone";
+import MomentTimezone = require("moment-timezone");
 
 /**
  * A Java calendar that calculates astronomical times such as {@link #getSunrise() sunrise} and {@link #getSunset()
@@ -92,7 +90,7 @@ export default class AstronomicalCalendar {
     /**
      * The Java Calendar encapsulated by this class to track the current date used by the class
      */
-    private calendar: GregorianCalendar;
+    private moment: Moment = MomentTimezone();
 
     private geoLocation: GeoLocation;
 
@@ -227,10 +225,8 @@ export default class AstronomicalCalendar {
      */
     private getAdjustedSunsetDate(sunset: Date, sunrise: Date): Date {
         if (sunset != null && sunrise != null && sunrise.compareTo(sunset) >= 0) {
-            const clonedCalendar: GregorianCalendar = this.getCalendar().clone() as GregorianCalendar;
-            clonedCalendar.setTime(sunset);
-            clonedCalendar.add(Calendar.DAY_OF_MONTH, 1);
-            return clonedCalendar.getTime();
+            const moment: Moment = MomentTimezone(sunset).add({days: 1});
+            return moment.toDate();
         } else {
             return sunset;
         }
@@ -394,7 +390,7 @@ export default class AstronomicalCalendar {
      *            The location information used for calculating astronomical sun times.
      */
     constructor(geoLocation: GeoLocation = new GeoLocation()) {
-        this.setCalendar(new GregorianCalendar(geoLocation.getTimeZone()));
+        this.setMoment(MomentTimezone.tz(geoLocation.getTimeZone()));
         this.setGeoLocation(geoLocation); // duplicate call
         this.setAstronomicalCalculator(new SunTimesCalculator());
     }
@@ -410,7 +406,7 @@ export default class AstronomicalCalendar {
      *         not set, {@link Double#NaN} will be returned. See detailed explanation on top of the page.
      */
     public getUTCSunrise(zenith: number): number {
-        return this.getAstronomicalCalculator().getUTCSunrise(this.getCalendar(), this.getGeoLocation(), zenith, true);
+        return this.getAstronomicalCalculator().getUTCSunrise(this.getMoment(), this.getGeoLocation(), zenith, true);
     }
 
     /**
@@ -428,7 +424,7 @@ export default class AstronomicalCalendar {
      * @see AstronomicalCalendar#getUTCSeaLevelSunset
      */
     public getUTCSeaLevelSunrise(zenith: number): number {
-        return this.getAstronomicalCalculator().getUTCSunrise(this.getCalendar(), this.getGeoLocation(), zenith, false);
+        return this.getAstronomicalCalculator().getUTCSunrise(this.getMoment(), this.getGeoLocation(), zenith, false);
     }
 
     /**
@@ -443,7 +439,7 @@ export default class AstronomicalCalendar {
      * @see AstronomicalCalendar#getUTCSeaLevelSunset
      */
     public getUTCSunset(zenith: number): number {
-        return this.getAstronomicalCalculator().getUTCSunset(this.getCalendar(), this.getGeoLocation(), zenith, true);
+        return this.getAstronomicalCalculator().getUTCSunset(this.getMoment(), this.getGeoLocation(), zenith, true);
     }
 
     /**
@@ -462,7 +458,7 @@ export default class AstronomicalCalendar {
      * @see AstronomicalCalendar#getUTCSeaLevelSunrise
      */
     public getUTCSeaLevelSunset(zenith: number): number {
-        return this.getAstronomicalCalculator().getUTCSunset(this.getCalendar(), this.getGeoLocation(), zenith, false);
+        return this.getAstronomicalCalculator().getUTCSunset(this.getMoment(), this.getGeoLocation(), zenith, false);
     }
 
     /**
@@ -564,19 +560,18 @@ export default class AstronomicalCalendar {
         }
         let calculatedTime: number = time;
 
-        const cal: GregorianCalendar = new GregorianCalendar();
-        //cal.clear();// clear all fields
-        cal.set(Calendar.YEAR, this.getCalendar().get(Calendar.YEAR));
-        cal.set(Calendar.MONTH, this.getCalendar().get(Calendar.MONTH));
-        cal.set(Calendar.DAY_OF_MONTH, this.getCalendar().get(Calendar.DAY_OF_MONTH));
-        const gmtOffset: number = TimeZone.getRawOffset(this.getCalendar().getTimeZone()) / (60 * AstronomicalCalendar.MINUTE_MILLIS); // raw non DST offset
+        const moment: Moment = this.moment.clone();
+
+        // raw non DST offset in hours
+        const gmtOffset: number = this.moment.utcOffset() / 60;
+
         // Set the correct calendar date in UTC. For example Tokyo is 9 hours ahead of GMT. Sunrise at ~6 AM will be at
         // ~21 hours GMT of the previous day and has to be set accordingly. In the case of California USA that is 7
         // hours behind GMT, sunset at ~6 PM will be at ~1 GMT the following day and has to be set accordingly.
         if (time + gmtOffset > 24) {
-            cal.add(Calendar.DAY_OF_MONTH, -1);
+            moment.subtract({days: 1});
         } else if (time + gmtOffset < 0) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
+            moment.add( {days: 1});
         }
 
         const hours: number = Math.trunc(calculatedTime); // retain only the hours
@@ -586,11 +581,14 @@ export default class AstronomicalCalendar {
         const seconds: number = Math.trunc(calculatedTime *= 60); // retain only the seconds
         calculatedTime -= seconds; // remaining milliseconds
 
-        cal.set(Calendar.HOUR_OF_DAY, hours);
-        cal.set(Calendar.MINUTE, minutes);
-        cal.set(Calendar.SECOND, seconds);
-        cal.set(Calendar.MILLISECOND, calculatedTime * 1000);
-        return cal.getTime();
+        moment.set({
+            hours,
+            minutes,
+            seconds,
+            milliseconds: calculatedTime * 1000
+        });
+
+        return moment.toDate();
     }
 
     /**
@@ -674,7 +672,7 @@ export default class AstronomicalCalendar {
             return false;
         }
         const aCal: AstronomicalCalendar = object as AstronomicalCalendar;
-        return this.getCalendar() === aCal.getCalendar() && this.getGeoLocation().equals(aCal.getGeoLocation())
+        return this.getMoment() === aCal.getMoment() && this.getGeoLocation().equals(aCal.getGeoLocation())
             && this.getAstronomicalCalculator() === aCal.getAstronomicalCalculator();
     }
 
@@ -710,7 +708,7 @@ export default class AstronomicalCalendar {
      */
     public setGeoLocation(geoLocation: GeoLocation): void {
         this.geoLocation = geoLocation;
-        this.getCalendar().setTimeZone(geoLocation.getTimeZone());
+        this.moment.tz(geoLocation.getTimeZone());
     }
 
     /**
@@ -743,18 +741,19 @@ export default class AstronomicalCalendar {
      *
      * @return Returns the calendar.
      */
-    public getCalendar(): GregorianCalendar {
-        return this.calendar;
+    public getMoment(): MomentTimezone.Moment {
+        return this.moment;
     }
 
     /**
      * @param calendar
      *            The calendar to set.
      */
-    public setCalendar(calendar: GregorianCalendar): void {
-        this.calendar = calendar;
-        if (this.getGeoLocation() != null) {// if available set the Calendar's timezone to the GeoLocation TimeZone
-            this.getCalendar().setTimeZone(this.getGeoLocation().getTimeZone());
+    public setMoment(moment: Moment): void {
+        this.moment = moment;
+        if (this.getGeoLocation() != null) {
+            // if available set the Calendar's timezone to the GeoLocation TimeZone
+            this.moment = this.moment.tz(this.getGeoLocation().getTimeZone());
         }
     }
 
@@ -771,7 +770,7 @@ export default class AstronomicalCalendar {
      */
     public clone(): AstronomicalCalendar {
         const clonedCalendar: AstronomicalCalendar = new AstronomicalCalendar();
-        clonedCalendar.setCalendar(this.calendar);
+        clonedCalendar.setMoment(this.moment);
         clonedCalendar.setAstronomicalCalculator(this.astronomicalCalculator);
         clonedCalendar.setGeoLocation(this.geoLocation);
 

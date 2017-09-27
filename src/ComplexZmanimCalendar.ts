@@ -1,10 +1,9 @@
 import {Long} from "./polyfills/JavaPolyfills";
-import {TimeZone} from "./polyfills/Utils"
-import Calendar from "./polyfills/Calendar";
-import GregorianCalendar from "./polyfills/GregorianCalendar";
 import GeoLocation from "./util/GeoLocation";
 import ZmanimCalendar from "./ZmanimCalendar";
 import JewishCalendar from "./hebrewcalendar/JewishCalendar";
+import {Moment} from "moment-timezone";
+import MomentTimezone = require("moment-timezone");
 
 /**
  * This class extends ZmanimCalendar and provides many more zmanim than available in the ZmanimCalendar. The basis for
@@ -2267,8 +2266,9 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see GeoLocation#getLocalMeanTimeOffset()
      */
     public getFixedLocalChatzos(): Date {
-        return this.getTimeOffset(this.getDateFromTime(12 - TimeZone.getRawOffset(this.getGeoLocation().getTimeZone())
-                / ComplexZmanimCalendar.HOUR_MILLIS), -this.getGeoLocation().getLocalMeanTimeOffset());
+        return this.getTimeOffset(
+            this.getDateFromTime(12 - (this.getMoment().utcOffset() / ComplexZmanimCalendar.HOUR_MILLIS)),
+            -this.getGeoLocation().getLocalMeanTimeOffset());
     }
 
     /**
@@ -2321,15 +2321,10 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getSofZmanKidushLevanaBetweenMoldos(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar();
-        jewishCalendar.setGregorianDate(this.getCalendar().get(Calendar.YEAR), this.getCalendar().get(Calendar.MONTH),
-            this.getCalendar().get(Calendar.DAY_OF_MONTH));
-        const sofZmanKidushLevanaCalendar: GregorianCalendar = this.getCalendar().clone() as GregorianCalendar;
+        jewishCalendar.setGregorianDate(this.getMoment().year(), this.getMoment().month(), this.getMoment().date());
         const sofZmanKidushLevana: Date = jewishCalendar.getSofZmanKidushLevanaBetweenMoldos();
-        sofZmanKidushLevanaCalendar.setTime(sofZmanKidushLevana);
-        if (alos != null && tzais != null
-                && sofZmanKidushLevanaCalendar.get(Calendar.YEAR) === this.getCalendar().get(Calendar.YEAR)
-                && sofZmanKidushLevanaCalendar.get(Calendar.MONTH) === this.getCalendar().get(Calendar.MONTH)
-                && sofZmanKidushLevanaCalendar.get(Calendar.DAY_OF_MONTH) === this.getCalendar().get(Calendar.DAY_OF_MONTH)) {
+        const sofZmanKidushLevanaCalendar: Moment = MomentTimezone(sofZmanKidushLevana);
+        if (alos != null && tzais != null && sofZmanKidushLevanaCalendar.isSame(this.getMoment(), "date")) {
             if (sofZmanKidushLevana.after(alos) && sofZmanKidushLevana.before(tzais)) {
                 return alos;
             } else {
@@ -2390,15 +2385,11 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getSofZmanKidushLevana15Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar();
-        jewishCalendar.setGregorianDate(this.getCalendar().get(Calendar.YEAR), this.getCalendar().get(Calendar.MONTH),
-            this.getCalendar().get(Calendar.DAY_OF_MONTH));
-        const sofZmanKidushLevanaCalendar: GregorianCalendar = this.getCalendar().clone() as GregorianCalendar;
+        jewishCalendar.setGregorianDate(this.getMoment().year(), this.getMoment().month(), this.getMoment().date());
         const sofZmanKidushLevana: Date = jewishCalendar.getSofZmanKidushLevana15Days();
-        sofZmanKidushLevanaCalendar.setTime(sofZmanKidushLevana);
-        if (alos != null && tzais != null
-                && sofZmanKidushLevanaCalendar.get(Calendar.YEAR) === this.getCalendar().get(Calendar.YEAR)
-                && sofZmanKidushLevanaCalendar.get(Calendar.MONTH) === this.getCalendar().get(Calendar.MONTH)
-                && sofZmanKidushLevanaCalendar.get(Calendar.DAY_OF_MONTH) === this.getCalendar().get(Calendar.DAY_OF_MONTH)) {
+        const sofZmanKidushLevanaCalendar: Moment = MomentTimezone(sofZmanKidushLevana);
+
+        if (alos != null && tzais != null && sofZmanKidushLevanaCalendar.isSame(this.getMoment(), "date")) {
             if (sofZmanKidushLevana.after(alos) && sofZmanKidushLevana.before(tzais)) {
                 return alos;
             } else {
@@ -2452,17 +2443,10 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getTchilasZmanKidushLevana3Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar();
-        jewishCalendar.setGregorianDate(this.getCalendar().get(Calendar.YEAR), this.getCalendar().get(Calendar.MONTH),
-            this.getCalendar().get(Calendar.DAY_OF_MONTH));
+        jewishCalendar.setGregorianDate(this.getMoment().year(), this.getMoment().month(), this.getMoment().date());
         const tchilasZmanKidushLevana: Date = jewishCalendar.getTchilasZmanKidushLevana3Days();
-        const tchilasZmanKidushLevanaCalendar: GregorianCalendar = this.getCalendar().clone() as GregorianCalendar;
-        tchilasZmanKidushLevanaCalendar.setTime(tchilasZmanKidushLevana);
-        if (alos != null
-                && tzais != null
-                && tchilasZmanKidushLevanaCalendar.get(Calendar.YEAR) === this.getCalendar().get(Calendar.YEAR)
-                && tchilasZmanKidushLevanaCalendar.get(Calendar.MONTH) === this.getCalendar().get(Calendar.MONTH)
-                && tchilasZmanKidushLevanaCalendar.get(Calendar.DAY_OF_MONTH) === this.getCalendar().get(
-                        Calendar.DAY_OF_MONTH)) {
+        const tchilasZmanKidushLevanaCalendar: Moment = MomentTimezone(tchilasZmanKidushLevana);
+        if (alos != null && tzais != null && tchilasZmanKidushLevanaCalendar.isSame(this.getMoment(), "date")) {
             if (tchilasZmanKidushLevana.after(alos) && tchilasZmanKidushLevana.before(tzais)) {
                 return tzais;
             } else {
@@ -2508,18 +2492,11 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getTchilasZmanKidushLevana7Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar();
-        jewishCalendar.setGregorianDate(this.getCalendar().get(Calendar.YEAR), this.getCalendar().get(Calendar.MONTH),
-                this.getCalendar().get(Calendar.DAY_OF_MONTH));
+        jewishCalendar.setGregorianDate(this.getMoment().year(), this.getMoment().month(), this.getMoment().date());
 
-        const tchilasZmanKidushLevanaCalendar: GregorianCalendar = this.getCalendar().clone() as GregorianCalendar;
         const tchilasZmanKidushLevana: Date = jewishCalendar.getTchilasZmanKidushLevana7Days();
-        tchilasZmanKidushLevanaCalendar.setTime(tchilasZmanKidushLevana);
-        if (alos != null
-                && tzais != null
-                && tchilasZmanKidushLevanaCalendar.get(Calendar.YEAR) === this.getCalendar().get(Calendar.YEAR)
-                && tchilasZmanKidushLevanaCalendar.get(Calendar.MONTH) === this.getCalendar().get(Calendar.MONTH)
-                && tchilasZmanKidushLevanaCalendar.get(Calendar.DAY_OF_MONTH) === this.getCalendar().get(
-                        Calendar.DAY_OF_MONTH)) {
+        const tchilasZmanKidushLevanaCalendar: Moment = MomentTimezone(tchilasZmanKidushLevana);
+        if (alos != null && tzais != null && tchilasZmanKidushLevanaCalendar.isSame(this.getMoment(), "date")) {
             if (tchilasZmanKidushLevana.after(alos) && tchilasZmanKidushLevana.before(tzais)) {
                 return tzais;
             } else {
@@ -2674,7 +2651,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getSolarMidnight(): Date {
         const clonedCal: ZmanimCalendar = this.clone() as ZmanimCalendar;
-        clonedCal.getCalendar().add(Calendar.DAY_OF_MONTH, 1);
+        clonedCal.getMoment().add({months: 1});
         const sunset: Date = this.getSeaLevelSunset();
         const sunrise: Date = clonedCal.getSeaLevelSunrise();
         return this.getTimeOffset(sunset, this.getTemporalHour(sunset, sunrise) * 6);
