@@ -618,6 +618,16 @@ export default class HebrewDateFormatter {
         }
     }
 
+    public formatDafYomiYerushalmi(daf: Daf): string {
+        if (this.hebrewFormat) {
+            const dafName: string = daf.getDaf() == 0 ? "" : " " + this.formatHebrewNumber(daf.getDaf());
+            return daf.getYerushalmiMasechta() + dafName;
+        } else {
+            const dafName: string = daf.getDaf() == 0 ? "" : " " + daf.getDaf();
+            return daf.getYerushlmiMasechtaTransliterated() + dafName;
+        }
+    }
+
     /**
      * Returns a Hebrew formatted string of a number. The method can calculate from 0 - 9999.
      * <ul>

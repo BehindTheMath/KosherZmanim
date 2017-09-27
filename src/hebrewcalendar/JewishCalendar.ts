@@ -4,6 +4,7 @@ import GeoLocation from "../util/GeoLocation";
 import JewishDate from "./JewishDate";
 import Daf from "./Daf";
 import YomiCalculator from "./YomiCalculator";
+import YerushalmiYomiCalculator from "./YerushalmiYomiCalculator";
 
 /**
  * The JewishCalendar extends the JewishDate class and adds calendar methods.
@@ -597,6 +598,17 @@ export default class JewishCalendar extends JewishDate {
      */
     public getDafYomiBavli(): Daf {
         return YomiCalculator.getDafYomiBavli(this.getGregorianCalendar());
+    }
+
+    /**
+     * Returns the Daf Yomi (Yerushalmi) for the date that the calendar is set to. See the
+     * {@link HebrewDateFormatter#formatDafYomiYerushalmi(Daf)} for the ability to format the daf in Hebrew or transliterated
+     * masechta names.
+     *
+     * @return the daf as a {@link Daf}
+     */
+    public getDafYomiYerushalmi(): Daf {
+        return YerushalmiYomiCalculator.getDafYomiYerushalmi(this);
     }
 
     /**
