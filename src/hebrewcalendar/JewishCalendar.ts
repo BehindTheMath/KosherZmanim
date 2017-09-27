@@ -597,7 +597,7 @@ export default class JewishCalendar extends JewishDate {
      * @return the daf as a {@link Daf}
      */
     public getDafYomiBavli(): Daf {
-        return YomiCalculator.getDafYomiBavli(this.getGregorianCalendar());
+        return YomiCalculator.getDafYomiBavli(this);
     }
 
     /**

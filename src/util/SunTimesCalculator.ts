@@ -1,7 +1,7 @@
-import GregorianCalendar from "../polyfills/GregorianCalendar";
-import AstronomicalCalculator from "./AstronomicalCalculator";
 import Calendar from "../polyfills/Calendar";
+import GregorianCalendar from "../polyfills/GregorianCalendar";
 import GeoLocation from "./GeoLocation";
+import AstronomicalCalculator from "./AstronomicalCalculator";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times. This calculator uses the Java algorithm
@@ -32,8 +32,7 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
         const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-        doubleTime = SunTimesCalculator.getTimeUTC(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1,
-                calendar.get(Calendar.DAY_OF_MONTH), geoLocation.getLongitude(), geoLocation.getLatitude(),
+        doubleTime = SunTimesCalculator.getTimeUTC(calendar, geoLocation.getLongitude(), geoLocation.getLatitude(),
                 adjustedZenith, true);
         return doubleTime;
     }
@@ -46,8 +45,7 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
         const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-        doubleTime = SunTimesCalculator.getTimeUTC(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1,
-                calendar.get(Calendar.DAY_OF_MONTH), geoLocation.getLongitude(), geoLocation.getLatitude(),
+        doubleTime = SunTimesCalculator.getTimeUTC(calendar, geoLocation.getLongitude(), geoLocation.getLatitude(),
                 adjustedZenith, false);
         return doubleTime;
     }
@@ -90,17 +88,6 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
      */
     private static cosDeg(deg: number): number {
         return Math.cos(deg * 2 * Math.PI / 360);
-    }
-
-    /**
-     * Calculate the day of the year, where Jan 1st is day 1. Note that this method needs to know the year, because leap
-     * years have an impact here. Returns identical output to {@code Calendar.get(Calendar.DAY_OF_YEAR)}.
-     */
-    private static getDayOfYear(year: number, month: number, day: number): number {
-        const n1: number = 275 * month / 9;
-        const n2: number = (month + 9) / 12;
-        const n3: number = (1 + ((year - 4 * (year / 4) + 2) / 3));
-        return n1 - (n2 * n3) + day - 30;
     }
 
     /**
@@ -202,9 +189,9 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
      * @return the time as a double. If an error was encountered in the calculation (expected behavior for some
      *         locations such as near the poles, {@link Double.NaN} will be returned.
      */
-    private static getTimeUTC(year: number, month: number, day: number, longitude: number, latitude: number, zenith: number,
+    private static getTimeUTC(calendar: GregorianCalendar, longitude: number, latitude: number, zenith: number,
             isSunrise: boolean): number {
-        const dayOfYear: number = SunTimesCalculator.getDayOfYear(year, month, day);
+        const dayOfYear: number = calendar.get(Calendar.DAY_OF_YEAR);
         const sunMeanAnomaly: number = SunTimesCalculator.getMeanAnomaly(dayOfYear, longitude, isSunrise);
         const sunTrueLong: number = SunTimesCalculator.getSunTrueLongitude(sunMeanAnomaly);
         const sunRightAscensionHours: number = SunTimesCalculator.getSunRightAscensionHours(sunTrueLong);

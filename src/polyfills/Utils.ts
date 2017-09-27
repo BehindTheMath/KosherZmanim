@@ -37,7 +37,7 @@ export module TimeZone {
     */
 
     export function getOffset(timeZoneId: string, millisSinceEpoch: number): number {
-        return momentTimezone(millisSinceEpoch).tz(timeZoneId).utcOffset() * 1000;
+        return momentTimezone(millisSinceEpoch).tz(timeZoneId).utcOffset() * 60 * 1000;
     }
 }
 

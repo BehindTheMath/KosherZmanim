@@ -317,7 +317,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      * Computes the Gregorian date from the absolute date. ND+ER
      */
     private absDateToDate(absDate: number): void {
-        let year: number = absDate / 366; // Search forward year by year from approximate year
+        let year: number = Math.trunc(absDate / 366); // Search forward year by year from approximate year
         while (absDate >= JewishDate.gregorianDateToAbsDate(year + 1, 1, 1)) {
             year++;
         }
@@ -359,9 +359,9 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
         }
         return (absDate // days this year
                 + 365 * (year - 1) // days in previous years ignoring leap days
-                + (year - 1) / 4 // Julian leap days before this year
-                - (year - 1) / 100 // minus prior century years
-        + (year - 1) / 400); // plus prior years divisible by 400
+                + Math.trunc((year - 1) / 4) // Julian leap days before this year
+                - Math.trunc((year - 1) / 100) // minus prior century years
+        + Math.trunc((year - 1) / 400)); // plus prior years divisible by 400
     }
 
     /**
@@ -495,9 +495,9 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
         // Jewish lunar month = 29 days, 12 hours and 793 chalakim
         // chalakim since Molad Tohu BeHaRaD - 1 day, 5 hours and 204 chalakim
         const monthOfYear: number = JewishDate.getJewishMonthOfYear(year, month);
-        const monthsElapsed: number = (235 * ((year - 1) / 19)) // Months in complete 19 year lunar (Metonic) cycles so far
+        const monthsElapsed: number = (235 * Math.trunc((year - 1) / 19)) // Months in complete 19 year lunar (Metonic) cycles so far
                 + (12 * ((year - 1) % 19)) // Regular months in this cycle
-                + ((7 * ((year - 1) % 19) + 1) / 19) // Leap months this cycle
+                + Math.trunc((7 * ((year - 1) % 19) + 1) / 19) // Leap months this cycle
                 + (monthOfYear - 1); // add elapsed months till the start of the molad of the month
         // return chalakim prior to BeHaRaD + number of chalakim since
         return JewishDate.CHALAKIM_MOLAD_TOHU + (JewishDate.CHALAKIM_PER_MONTH * monthsElapsed);
@@ -779,7 +779,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      */
     private absDateToJewishDate(): void {
         // Approximation from below
-        this.jewishYear = (this.gregorianAbsDate - JewishDate.JEWISH_EPOCH) / 366;
+        this.jewishYear = Math.trunc((this.gregorianAbsDate - JewishDate.JEWISH_EPOCH) / 366);
         // Search forward for year from the approximation
         while (this.gregorianAbsDate >= JewishDate.jewishDateToAbsDate(this.jewishYear + 1, JewishDate.TISHREI, 1)) {
             this.jewishYear++;
@@ -873,9 +873,9 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      */
     private setMoladTime(chalakim: number): void {
         let adjustedChalakim: number = chalakim;
-        this.setMoladHours(adjustedChalakim / JewishDate.CHALAKIM_PER_HOUR);
+        this.setMoladHours(Math.trunc(adjustedChalakim / JewishDate.CHALAKIM_PER_HOUR));
         adjustedChalakim = adjustedChalakim - (this.getMoladHours() * JewishDate.CHALAKIM_PER_HOUR);
-        this.setMoladMinutes(adjustedChalakim / JewishDate.CHALAKIM_PER_MINUTE);
+        this.setMoladMinutes(Math.trunc(adjustedChalakim / JewishDate.CHALAKIM_PER_MINUTE));
         this.setMoladChalakim(adjustedChalakim - this.moladMinutes * JewishDate.CHALAKIM_PER_MINUTE);
     }
 
@@ -1185,12 +1185,23 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      * Returns a string containing the Jewish date in the form, "day Month, year" e.g. "21 Shevat, 5729". For more
      * complex formatting, use the formatter classes.
      *
+     * This functionality is duplicated from {@link HebrewDateFormatter} to avoid circular dependencies.
+     *
      * @return the Jewish date in the form "day Month, year" e.g. "21 Shevat, 5729"
      * @see HebrewDateFormatter#format(JewishDate)
-     * @deprecated This depends on a circular dependency. Use <pre>new HebrewDateFormatter().format(jewishDate)</pre> instead.
      */
-    public toString(): void {
-        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency.");
+    public toString(): string {
+        const transliteratedMonths: string[] = [ "Nissan", "Iyar", "Sivan", "Tammuz", "Av", "Elul", "Tishrei", "Cheshvan",
+            "Kislev", "Teves", "Shevat", "Adar", "Adar II", "Adar I" ];
+
+        let formattedMonth: string;
+        if (this.isJewishLeapYear() && this.jewishMonth === JewishDate.ADAR) {
+            formattedMonth = transliteratedMonths[13]; // return Adar I, not Adar in a leap year
+        } else {
+            formattedMonth = transliteratedMonths[this.jewishMonth - 1];
+        }
+
+        return this.getJewishDayOfMonth() + " " + formattedMonth + ", " + this.getJewishYear();
     }
 
     /**

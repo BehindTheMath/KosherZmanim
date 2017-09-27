@@ -39,7 +39,7 @@ export default class YomiCalculator {
      * @throws IllegalArgumentException
      *             if the date is prior to the September 11, 1923 start date of the first Daf Yomi cycle
      */
-    public static getDafYomiBavli(calendar: GregorianCalendar): Daf {
+    public static getDafYomiBavli(calendar: JewishCalendar): Daf {
         /*
          * The number of daf per masechta. Since the number of blatt in Shekalim changed on the 8th Daf Yomi cycle
          * beginning on June 24, 1975 from 13 to 22, the actual calculation for blattPerMasechta[4] will later be

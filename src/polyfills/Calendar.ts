@@ -91,7 +91,7 @@ export default abstract class Calendar {
     public static readonly DECEMBER: number = 11;
 
     protected momentDate: moment.Moment;
-    protected shorthandLookup: string[] = ["era", "year", "month", "", "", "date", "dayOfYear", "", "", "", "hour", "hour", "minute", "second", "millisecond"];
+    protected shorthandLookup: string[] = ["era", "year", "month", "", "", "day", "dayOfYear", "", "", "", "hour", "hour", "minute", "second", "millisecond"];
 
     protected constructor(timeZoneId: string = momentTimezone.tz.guess()) {
         this.momentDate = momentTimezone.tz(timeZoneId);
