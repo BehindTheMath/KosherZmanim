@@ -1,6 +1,8 @@
 import Calendar from "../polyfills/Calendar";
 import GregorianCalendar from "../polyfills/GregorianCalendar";
 import Daf from "./Daf";
+import {Moment} from "moment-timezone";
+import JewishCalendar from "./JewishCalendar";
 
 /**
  * This class calculates the Daf Yomi page (daf) for a given date. The class currently only supports Daf Yomi Bavli, but
@@ -47,17 +49,18 @@ export default class YomiCalculator {
          */
         const blattPerMasechta: number[] = [ 64, 157, 105, 121, 22, 88, 56, 40, 35, 31, 32, 29, 27, 122, 112, 91, 66, 49, 90, 82,
                 119, 119, 176, 113, 24, 49, 76, 14, 120, 110, 142, 61, 34, 34, 28, 22, 4, 10, 4, 73 ];
-        const date: Date = calendar.getTime();
+
+        const moment: Moment = calendar.getGregorianCalendar().getMoment();
 
         let dafYomi: Daf = null;
-        const julianDay: number = this.getJulianDay(date);
+        const julianDay: number = this.getJulianDay(moment.toDate());
         let cycleNo: number = 0;
         let dafNo: number = 0;
-        if (date.before(YomiCalculator.dafYomiStartDate)) {
+        if (moment.isBefore(YomiCalculator.dafYomiStartDate)) {
             // TODO: should we return a null or throw an IllegalArgumentException?
-            throw new Error(`IllegalArgumentException: ${date} is prior to organized Daf Yomi Bavli cycles that started on ${YomiCalculator.dafYomiStartDate}`);
+            throw new Error(`IllegalArgumentException: ${calendar} is prior to organized Daf Yomi Bavli cycles that started on ${YomiCalculator.dafYomiStartDate}`);
         }
-        if (date === YomiCalculator.shekalimChangeDate || date.after(YomiCalculator.shekalimChangeDate)) {
+        if (moment.isSameOrAfter(YomiCalculator.shekalimChangeDate)) {
             cycleNo = 8 + ((julianDay - YomiCalculator.shekalimJulianChangeDay) / 2711);
             dafNo = ((julianDay - YomiCalculator.shekalimJulianChangeDay) % 2711);
         } else {

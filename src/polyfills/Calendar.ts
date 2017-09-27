@@ -102,10 +102,7 @@ export default abstract class Calendar {
     public abstract get(field: FieldOptions): number;
 
     public setTime(date: Date): void {
-        this.momentDate.hour(date.getHours())
-            .minute(date.getMinutes())
-            .second(date.getSeconds())
-            .millisecond(date.getMilliseconds());
+        this.momentDate = momentTimezone(date);
     }
 
     public getTime(): Date {
@@ -137,15 +134,11 @@ export default abstract class Calendar {
         this.momentDate.add(millis - this.momentDate.valueOf(), "ms");
     }
 
-    public equals(calendar: Calendar): boolean {
-        return this.momentDate.isSame(calendar.getMoment());
-    }
-
-    public format(format: string): string {
-        return this.momentDate.format(format);
-    }
-
     public getMoment(): moment.Moment {
         return this.momentDate;
+    }
+
+    public toString(): string {
+        return this.momentDate.format();
     }
 }

@@ -257,7 +257,7 @@ export default class ZmanimFormatter {
             return this.getXSDateTime(dateTime, calendar);
         } else {
             this.calendar.setTime(dateTime);
-            return this.calendar.format(this.dateFormat);
+            return this.calendar.getMoment().format(this.dateFormat);
         }
 
     }
@@ -284,7 +284,7 @@ export default class ZmanimFormatter {
         this.calendar.setTimeZone(this.getTimeZone());
         this.calendar.setTime(dateTime);
 
-        const sb: StringBuffer = new StringBuffer(this.calendar.format(xsdDateTimeFormat));
+        const sb: StringBuffer = new StringBuffer(this.calendar.getMoment().format(xsdDateTimeFormat));
         // Must also include offset from UTF.
         const offset: number = calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET); // Get the offset (in milliseconds)
         // If there is no offset, we have "Coordinated Universal Time"
@@ -495,7 +495,7 @@ export default class ZmanimFormatter {
         const df: string = "YYYY-MM-DD";
 
         return {
-            date: astronomicalCalendar.getCalendar().format(df),
+            date: astronomicalCalendar.getCalendar().getMoment().format(df),
             type: astronomicalCalendar.getClassName(),
             algorithm: astronomicalCalendar.getAstronomicalCalculator().getCalculatorName(),
             location: astronomicalCalendar.getGeoLocation().getLocationName(),
