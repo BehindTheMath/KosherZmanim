@@ -9,9 +9,9 @@ import GeoLocation from "./GeoLocation";
  * @version 0.1
  */
 export default class GeoLocationUtils {
-    private static DISTANCE: number = 0;
-    private static INITIAL_BEARING: number = 1;
-    private static FINAL_BEARING: number = 2;
+    private static readonly DISTANCE: number = 0;
+    private static readonly INITIAL_BEARING: number = 1;
+    private static readonly FINAL_BEARING: number = 2;
 
     /**
      * Calculate the initial <a

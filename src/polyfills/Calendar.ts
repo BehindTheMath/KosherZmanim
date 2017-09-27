@@ -42,7 +42,7 @@ export enum Month {
  * This is not a 1:1 port, so check the method signatures before using.
  */
 export default abstract class Calendar {
-    public static Month = Month;
+    public static readonly Month = Month;
 
     public static readonly YEAR: number = 1;
     public static readonly MONTH: number = 2;

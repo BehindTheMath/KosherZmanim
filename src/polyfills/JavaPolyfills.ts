@@ -1,5 +1,5 @@
 export class Long {
-    public static MIN_VALUE: number = -9223372036854775808;
+    public static readonly MIN_VALUE: number = -9223372036854775808;
 }
 
 Math.toRadians = function(angdeg: number): number {
