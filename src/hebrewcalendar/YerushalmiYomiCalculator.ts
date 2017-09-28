@@ -24,18 +24,17 @@ export default class YerushalmiYomiCalculator {
      *             if the date is prior to the September 11, 1923 start date of the first Daf Yomi cycle
      */
     public static getDafYomiYerushalmi(jewishCalendar: JewishCalendar): Daf {
-        let nextCycle: Moment = MomentTimezone();
-        let prevCycle: Moment = MomentTimezone();
+        let nextCycle: Moment;
+        let prevCycle: Moment;
         const requested: Moment = jewishCalendar.getMoment();
         let masechta: number = 0;
         let dafYomi: Daf = null;
         
         // There is no Daf Yomi on Yom Kippur and Tisha B'Av.
-        if (jewishCalendar.getYomTovIndex() == JewishCalendar.YOM_KIPPUR || jewishCalendar.getYomTovIndex() == JewishCalendar.TISHA_BEAV) {
-            return new Daf(39,0);
+        if (jewishCalendar.getYomTovIndex() === JewishCalendar.YOM_KIPPUR || jewishCalendar.getYomTovIndex() === JewishCalendar.TISHA_BEAV) {
+            return new Daf(39, 0);
         }
-        
-        
+
         if (requested.isBefore(YerushalmiYomiCalculator.DAF_YOMI_START_DAY)) {
             // TODO: should we return a null or throw an ?
             throw new Error(`IllegalArgumentException: ${requested} is prior to organized Daf Yomi Yerushlmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);

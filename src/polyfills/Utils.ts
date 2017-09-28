@@ -5,10 +5,10 @@ export default class Utils {
     // https://stackoverflow.com/a/40577337/8037425
     public static getAllMethodNames(obj: object, excludeContructors: boolean = false): Array<string> {
         // let methods: Array<string> = [];
-        let methods: Set<string> = new Set();
+        const methods: Set<string> = new Set();
 
         while (obj = Reflect.getPrototypeOf(obj)) {
-            let keys: Array<string> = Reflect.ownKeys(obj) as Array<string>;
+            const keys: Array<string> = Reflect.ownKeys(obj) as Array<string>;
             // methods = methods.concat(keys);
             keys.filter((key: string) => !methods.has(key))
                 .filter((key: string) => !excludeContructors || key !== "constructor")
@@ -16,7 +16,7 @@ export default class Utils {
         }
 
         return Array.from(methods);
-    };
+    }
 }
 
 export module TimeZone {
@@ -98,5 +98,3 @@ export module Calendar {
         return moment.isDST() ? 60 * 60 * 1000 : 0;
     }
 }
-
-

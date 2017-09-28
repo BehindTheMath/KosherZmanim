@@ -1,5 +1,5 @@
 import StringBuffer from "../polyfills/StringBuffer";
-import {TimeZone} from "../polyfills/Utils"
+import {TimeZone} from "../polyfills/Utils";
 
 /**
  * A class that contains location information such as latitude and longitude required for astronomical calculations. The
@@ -526,29 +526,6 @@ export default class GeoLocation {
                 && (this.locationName === null ? geo.locationName === null : this.locationName === geo.locationName)
                 && (this.timeZoneId === null ? geo.timeZoneId === null : this.timeZoneId === geo.getTimeZone());
     }
-
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-/*
-    public hashCode(): number {
-
-        const result: number = 17;
-        const latLong: number = Double.doubleToLongBits(this.latitude);
-        const lonLong: number = Double.doubleToLongBits(this.longitude);
-        const elevLong: number = Double.doubleToLongBits(this.elevation);
-        const latInt: number = latLong ^ (latLong >>> 32);
-        const lonInt: number = lonLong ^ (lonLong >>> 32);
-        const elevInt: number = elevLong ^ (elevLong >>> 32);
-        result = 37 * result + getClass().hashCode();
-        result += 37 * result + latInt;
-        result += 37 * result + lonInt;
-        result += 37 * result + elevInt;
-        result += 37 * result + (this.locationName == null ? 0 : this.locationName.hashCode());
-        result += 37 * result + (this.timeZone == null ? 0 : this.timeZone.hashCode());
-        return result;
-    }
-*/
 
     /**
      * @see java.lang.Object#toString()

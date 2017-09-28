@@ -677,20 +677,6 @@ export default class AstronomicalCalendar {
     }
 
     /**
-     * @see java.lang.Object#hashCode()
-     */
-/*
-    public hashCode(): number {
-        let result: number = 17;
-        result = 37 * result + getClass().hashCode(); // needed or this and subclasses will return identical hash
-        result += 37 * result + getCalendar().hashCode();
-        result += 37 * result + getGeoLocation().hashCode();
-        result += 37 * result + getAstronomicalCalculator().hashCode();
-        return result;
-    }
-*/
-
-    /**
      * A method that returns the currently set {@link GeoLocation} which contains location information used for the
      * astronomical calculations.
      *

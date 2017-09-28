@@ -173,7 +173,7 @@ export default class HebrewDateFormatter {
         if (!jewishCalendar.isRoshChodesh()) {
             return "";
         }
-        let formattedRoshChodesh: string = "";
+        let formattedRoshChodesh: string;
         let month: number = jewishCalendar.getJewishMonth();
         if (jewishCalendar.getJewishDayOfMonth() === 30) {
             if (month < JewishCalendar.ADAR || (month === JewishCalendar.ADAR && jewishCalendar.isJewishLeapYear())) {
@@ -620,10 +620,10 @@ export default class HebrewDateFormatter {
 
     public formatDafYomiYerushalmi(daf: Daf): string {
         if (this.hebrewFormat) {
-            const dafName: string = daf.getDaf() == 0 ? "" : " " + this.formatHebrewNumber(daf.getDaf());
+            const dafName: string = daf.getDaf() === 0 ? "" : " " + this.formatHebrewNumber(daf.getDaf());
             return daf.getYerushalmiMasechta() + dafName;
         } else {
-            const dafName: string = daf.getDaf() == 0 ? "" : " " + daf.getDaf();
+            const dafName: string = daf.getDaf() === 0 ? "" : " " + daf.getDaf();
             return daf.getYerushlmiMasechtaTransliterated() + dafName;
         }
     }

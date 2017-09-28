@@ -6,7 +6,6 @@ import YerushalmiYomiCalculator from "./YerushalmiYomiCalculator";
 import {Moment} from "moment-timezone";
 import MomentTimezone = require("moment-timezone");
 
-
 /**
  * The JewishCalendar extends the JewishDate class and adds calendar methods.
  *
@@ -632,16 +631,4 @@ export default class JewishCalendar extends JewishDate {
         const jewishCalendar: JewishCalendar = object as JewishCalendar;
         return this.getAbsDate() === jewishCalendar.getAbsDate() && this.getInIsrael() === jewishCalendar.getInIsrael();
     }
-
-    /**
-     * @see Object#hashCode()
-     */
-/*
-    public hashCode(): number {
-        let result: number = 17;
-        result = 37 * result + getClass().hashCode(); // needed or this and subclasses will return identical hash
-        result += 37 * result + this.getAbsDate() + (this.getInIsrael() ? 1 : 3);
-        return result;
-    }
-*/
 }

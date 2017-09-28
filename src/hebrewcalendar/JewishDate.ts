@@ -637,7 +637,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      */
     private static validateGregorianDayOfMonth(dayOfMonth: number): void {
         if (dayOfMonth <= 0) {
-            throw "IllegalArgumentException: The day of month can't be less than 1. " + dayOfMonth + " is invalid.";
+            throw new Error("IllegalArgumentException: The day of month can't be less than 1. " + dayOfMonth + " is invalid.");
         }
     }
 
@@ -649,7 +649,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      */
     private static validateGregorianYear(year: number): void {
         if (year < 1) {
-            throw "IllegalArgumentException: Years < 1 can't be claculated. " + year + " is invalid.";
+            throw new Error("IllegalArgumentException: Years < 1 can't be claculated. " + year + " is invalid.");
         }
     }
 
@@ -1495,16 +1495,4 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
 
         return clone;
     }
-
-    /**
-     * @see Object#hashCode()
-     */
-/*
-    public hashCode(): number {
-        let result: number = 17;
-        result = 37 * result + getClass().hashCode(); // needed or this and subclasses will return identical hash
-        result += 37 * result + this.gregorianAbsDate;
-        return result;
-    }
-*/
 }

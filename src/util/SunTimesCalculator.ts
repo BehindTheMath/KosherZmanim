@@ -27,11 +27,10 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
      * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
      */
     public getUTCSunrise(moment: Moment, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
-        let doubleTime: number = Number.NaN;
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
         const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-        doubleTime = SunTimesCalculator.getTimeUTC(moment, geoLocation.getLongitude(), geoLocation.getLatitude(),
+        const doubleTime: number = SunTimesCalculator.getTimeUTC(moment, geoLocation.getLongitude(), geoLocation.getLatitude(),
                 adjustedZenith, true);
         return doubleTime;
     }
@@ -40,11 +39,10 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
      * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
      */
     public getUTCSunset(moment: Moment, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
-        let doubleTime: number = Number.NaN;
         const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
         const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-        doubleTime = SunTimesCalculator.getTimeUTC(moment, geoLocation.getLongitude(), geoLocation.getLatitude(),
+        const doubleTime: number = SunTimesCalculator.getTimeUTC(moment, geoLocation.getLongitude(), geoLocation.getLatitude(),
                 adjustedZenith, false);
         return doubleTime;
     }
@@ -189,7 +187,7 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
      *         locations such as near the poles, {@link Double.NaN} will be returned.
      */
     private static getTimeUTC(moment: Moment, longitude: number, latitude: number, zenith: number,
-            isSunrise: boolean): number {
+                              isSunrise: boolean): number {
         const dayOfYear: number = moment.dayOfYear();
         const sunMeanAnomaly: number = SunTimesCalculator.getMeanAnomaly(dayOfYear, longitude, isSunrise);
         const sunTrueLong: number = SunTimesCalculator.getSunTrueLongitude(sunMeanAnomaly);
