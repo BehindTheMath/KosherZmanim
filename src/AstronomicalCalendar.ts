@@ -317,7 +317,7 @@ export default class AstronomicalCalendar {
      * @return the {@link java.util.Date} with the offset in milliseconds added to it
      */
     public getTimeOffset(time: Date, offset: number): Date {
-        if (time === null || offset === Long.MIN_VALUE) {
+        if (time === null || offset === null) {
             return null;
         }
 
@@ -499,7 +499,7 @@ export default class AstronomicalCalendar {
      */
     public getTemporalHour(startOfday: Date = this.getSeaLevelSunrise(), endOfDay: Date = this.getSeaLevelSunset()): number {
         if (startOfday === null || endOfDay === null) {
-            return Long.MIN_VALUE;
+            return null;
         }
         return (endOfDay.getTime() - startOfday.getTime()) / 12;
     }

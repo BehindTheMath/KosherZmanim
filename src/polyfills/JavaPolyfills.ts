@@ -1,7 +1,3 @@
-export class Long {
-    public static readonly MIN_VALUE: number = -9223372036854775808;
-}
-
 Math.toRadians = function(angdeg: number): number {
     return angdeg / 180 * Math.PI;
 };
