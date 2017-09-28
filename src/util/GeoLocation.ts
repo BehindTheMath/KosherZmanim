@@ -1,4 +1,3 @@
-import StringBuffer from "../polyfills/StringBuffer";
 import {TimeZone} from "../polyfills/Utils";
 
 /**
@@ -494,22 +493,21 @@ export default class GeoLocation {
      * @return The XML formatted <code>String</code>.
      */
     public toXML(): string {
-        const sb: StringBuffer = new StringBuffer();
-        sb.append("<GeoLocation>\n");
-        sb.append("\t<LocationName>").append(this.getLocationName()).append("</LocationName>\n");
-        sb.append("\t<Latitude>").append(this.getLatitude().toString()).append("</Latitude>\n");
-        sb.append("\t<Longitude>").append(this.getLongitude().toString()).append("</Longitude>\n");
-        sb.append("\t<Elevation>").append(this.getElevation().toString()).append(" Meters").append("</Elevation>\n");
-        sb.append("\t<TimezoneName>").append(this.getTimeZone()).append("</TimezoneName>\n");
-        sb.append("\t<TimeZoneDisplayName>").append(TimeZone.getDisplayName(this.getTimeZone())).append("</TimeZoneDisplayName>\n");
-        sb.append("\t<TimezoneGMTOffset>").append((TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString())
-                .append("</TimezoneGMTOffset>\n");
-/*
-        sb.append("\t<TimezoneDSTOffset>").append((this.getTimeZone().getDSTSavings() / GeoLocation.HOUR_MILLIS).toString())
-                .append("</TimezoneDSTOffset>\n");
-*/
-        sb.append("</GeoLocation>");
-        return sb.toString();
+        let sb: string = "<GeoLocation>\n"
+            .concat("\t<LocationName>").concat(this.getLocationName()).concat("</LocationName>\n")
+            .concat("\t<Latitude>").concat(this.getLatitude().toString()).concat("</Latitude>\n")
+            .concat("\t<Longitude>").concat(this.getLongitude().toString()).concat("</Longitude>\n")
+            .concat("\t<Elevation>").concat(this.getElevation().toString()).concat(" Meters").concat("</Elevation>\n")
+            .concat("\t<TimezoneName>").concat(this.getTimeZone()).concat("</TimezoneName>\n")
+            .concat("\t<TimeZoneDisplayName>").concat(TimeZone.getDisplayName(this.getTimeZone())).concat("</TimeZoneDisplayName>\n")
+            .concat("\t<TimezoneGMTOffset>").concat((TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString())
+            .concat("</TimezoneGMTOffset>\n")
+            /*
+                    sb.append("\t<TimezoneDSTOffset>").append((this.getTimeZone().getDSTSavings() / GeoLocation.HOUR_MILLIS).toString())
+                            .append("</TimezoneDSTOffset>\n");
+            */
+            .concat("</GeoLocation>");
+        return sb;
     }
 
     /**
@@ -531,20 +529,19 @@ export default class GeoLocation {
      * @see java.lang.Object#toString()
      */
     public toString(): string {
-        const sb: StringBuffer = new StringBuffer();
-        sb.append("\nLocation Name:\t\t\t").append(this.getLocationName());
-        sb.append("\nLatitude:\t\t\t").append(this.getLatitude().toString()).append("°");
-        sb.append("\nLongitude:\t\t\t").append(this.getLongitude().toString()).append("°");
-        sb.append("\nElevation:\t\t\t").append(this.getElevation().toString()).append(" Meters");
-        sb.append("\nTimezone Name:\t\t\t").append(this.getTimeZone());
-        /*
-         * sb.append("\nTimezone Display Name:\t\t").append( getTimeZone().getDisplayName());
-         */
-        sb.append("\nTimezone GMT Offset:\t\t").append((TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString());
+        let sb: string = ("\nLocation Name:\t\t\t").concat(this.getLocationName())
+            .concat("\nLatitude:\t\t\t").concat(this.getLatitude().toString()).concat("°")
+            .concat("\nLongitude:\t\t\t").concat(this.getLongitude().toString()).concat("°")
+            .concat("\nElevation:\t\t\t").concat(this.getElevation().toString()).concat(" Meters")
+            .concat("\nTimezone Name:\t\t\t").concat(this.getTimeZone())
 /*
-        sb.append("\nTimezone DST Offset:\t\t").append((this.getTimeZone().getDSTSavings() / GeoLocation.HOUR_MILLIS).toString());
+            sb.append("\nTimezone Display Name:\t\t").append( getTimeZone().getDisplayName());
 */
-        return sb.toString();
+            .concat("\nTimezone GMT Offset:\t\t").concat((TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString());
+/*
+            sb.append("\nTimezone DST Offset:\t\t").append((this.getTimeZone().getDSTSavings() / GeoLocation.HOUR_MILLIS).toString());
+*/
+        return sb;
     }
 
     /**

@@ -1,4 +1,3 @@
-import StringBuffer from "../polyfills/StringBuffer";
 import Daf from "./Daf";
 import JewishDate from "./JewishDate";
 import JewishCalendar from "./JewishCalendar";
@@ -379,10 +378,8 @@ export default class HebrewDateFormatter {
      */
     public formatDayOfWeek(jewishDate: JewishDate): string {
         if (this.hebrewFormat) {
-            const sb: StringBuffer = new StringBuffer();
-            sb.append(this.longWeekFormat ? HebrewDateFormatter.hebrewDaysOfWeek[jewishDate.getDayOfWeek() - 1] : this.formatHebrewNumber(jewishDate
-                    .getDayOfWeek()));
-            return sb.toString();
+            return (this.longWeekFormat ? HebrewDateFormatter.hebrewDaysOfWeek[jewishDate.getDayOfWeek() - 1] :
+                this.formatHebrewNumber(jewishDate.getDayOfWeek()))
         } else {
             return jewishDate.getDayOfWeek() === 7 ? this.getTransliteratedShabbosDayOfWeek() : jewishDate.getMoment().format("EEEE");
         }
@@ -675,52 +672,54 @@ export default class HebrewDateFormatter {
         // next check for all possible single Hebrew digit years
         const singleDigitNumber: boolean = (shortNumber < 11 || (shortNumber < 100 && shortNumber % 10 === 0) || (shortNumber <= 400 && shortNumber % 100 === 0));
         const thousands: number = num / 1000; // get # thousands
-        const sb: StringBuffer = new StringBuffer();
+        let sb: string;
         // append thousands to String
         if (num % 1000 === 0) { // in year is 5000, 4000 etc
-            sb.append(jOnes[thousands]);
+            sb = sb.concat(jOnes[thousands]);
             if (this.isUseGershGershayim()) {
-                sb.append(HebrewDateFormatter.GERESH);
+                sb = sb.concat(HebrewDateFormatter.GERESH);
             }
-            sb.append(" ");
-            sb.append(ALAFIM); // add # of thousands plus word thousand (overide alafim boolean)
-            return sb.toString();
+            sb = sb.concat(" ");
+            sb = sb.concat(ALAFIM); // add # of thousands plus word thousand (overide alafim boolean)
+            return sb;
         } else if (this.useLonghebrewYears && num >= 1000) { // if alafim boolean display thousands
-            sb.append(jOnes[thousands]);
+            sb = sb.concat(jOnes[thousands]);
             if (this.isUseGershGershayim()) {
-                sb.append(HebrewDateFormatter.GERESH); // append thousands quote
+                sb = sb.concat(HebrewDateFormatter.GERESH); // append thousands quote
             }
-            sb.append(" ");
+            sb = sb.concat(" ");
         }
         num = num % 1000; // remove 1000s
         const hundreds: number = num / 100; // # of hundreds
-        sb.append(jHundreds[hundreds]); // add hundreds to String
+        sb = sb.concat(jHundreds[hundreds]); // add hundreds to String
         num = num % 100; // remove 100s
         if (num === 15) { // special case 15
-            sb.append(tavTaz[0]);
+            sb = sb.concat(tavTaz[0]);
         } else if (num === 16) { // special case 16
-            sb.append(tavTaz[1]);
+            sb = sb.concat(tavTaz[1]);
         } else {
             const tens: number = num / 10;
             if (num % 10 === 0) { // if evenly divisable by 10
                 if (singleDigitNumber === false) {
-                    sb.append(jTenEnds[tens]); // end letters so years like 5750 will end with an end nun
+                    sb = sb.concat(jTenEnds[tens]); // end letters so years like 5750 will end with an end nun
                 } else {
-                    sb.append(jTens[tens]); // standard letters so years like 5050 will end with a regular nun
+                    sb = sb.concat(jTens[tens]); // standard letters so years like 5050 will end with a regular nun
                 }
             } else {
-                sb.append(jTens[tens]);
+                sb = sb.concat(jTens[tens]);
                 num = num % 10;
-                sb.append(jOnes[num]);
+                sb = sb.concat(jOnes[num]);
             }
         }
         if (this.isUseGershGershayim()) {
             if (singleDigitNumber === true) {
-                sb.append(HebrewDateFormatter.GERESH); // append single quote
+                sb = sb.concat(HebrewDateFormatter.GERESH); // append single quote
             } else { // append double quote before last digit
-                sb.insert(sb.length() - 1, HebrewDateFormatter.GERSHAYIM);
+                sb = sb.substr(0, sb.length - 1)
+                    .concat(HebrewDateFormatter.GERSHAYIM)
+                    .concat(sb.substr(sb.length - 1, sb.length - sb.length - 1));
             }
         }
-        return sb.toString();
+        return sb;
     }
 }

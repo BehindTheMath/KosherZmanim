@@ -1,4 +1,3 @@
-import StringBuffer from "../polyfills/StringBuffer";
 import {Calendar} from "../polyfills/Utils";
 import {TimeZone, Zman} from "../polyfills/Utils";
 import Time from "./Time";
@@ -227,19 +226,15 @@ export default class ZmanimFormatter {
         if (this.timeFormat === ZmanimFormatter.XSD_DURATION_FORMAT) {
             return ZmanimFormatter.formatXSDDurationTime(time);
         }
-        const sb: StringBuffer = new StringBuffer();
-        sb.append(numeral(time.getHours()).format(this.hourNF));
-        sb.append(":");
-        sb.append(numeral(time.getMinutes()).format(ZmanimFormatter.minuteSecondNF).toString());
+        let sb: string = (numeral(time.getHours()).format(this.hourNF)).concat(":")
+            .concat(numeral(time.getMinutes()).format(ZmanimFormatter.minuteSecondNF).toString());
         if (this.useSeconds) {
-            sb.append(":");
-            sb.append(numeral(time.getSeconds()).format(ZmanimFormatter.minuteSecondNF).toString());
+            sb = sb.concat(":").concat(numeral(time.getSeconds()).format(ZmanimFormatter.minuteSecondNF).toString());
         }
         if (this.useMillis) {
-            sb.append(".");
-            sb.append(numeral(time.getMilliseconds()).format(ZmanimFormatter.milliNF).toString());
+            sb = sb.concat(".").concat(numeral(time.getMilliseconds()).format(ZmanimFormatter.milliNF).toString());
         }
-        return sb.toString();
+        return sb;
     }
 
     /**
@@ -284,21 +279,21 @@ export default class ZmanimFormatter {
          */
         this.moment = MomentTimezone(dateTime).tz(this.getTimeZone());
 
-        const sb: StringBuffer = new StringBuffer(this.moment.format(xsdDateTimeFormat));
+        let sb: string = this.moment.format(xsdDateTimeFormat);
         // Must also include offset from UTF.
         const offset: number = Calendar.getZoneOffset(moment) + Calendar.getDstOffset(moment); // Get the offset (in milliseconds)
         // If there is no offset, we have "Coordinated Universal Time"
         if (offset === 0) {
-            sb.append("Z");
+            sb = sb.concat("Z");
         } else {
             // Convert milliseconds to hours and minutes
             const hrs: number = offset / (60 * 60 * 1000);
             // In a few cases, the time zone may be +/-hh:30.
             const min: number = offset % (60 * 60 * 1000);
             const posneg: string = hrs < 0 ? "-" : "+";
-            sb.append(posneg + ZmanimFormatter.formatDigits(hrs) + ":" + ZmanimFormatter.formatDigits(min));
+            sb = sb.concat(posneg + ZmanimFormatter.formatDigits(hrs) + ":" + ZmanimFormatter.formatDigits(min));
         }
-        return sb.toString();
+        return sb;
     }
 
     /**
@@ -343,23 +338,24 @@ export default class ZmanimFormatter {
             time = new Time(timeOrMillis as number);
         }
 
-        const duration: StringBuffer = new StringBuffer();
+        let duration: string;
         if (time.getHours() !== 0 || time.getMinutes() !== 0 || time.getSeconds() !== 0 || time.getMilliseconds() !== 0) {
-            duration.append("P");
-            duration.append("T");
+            duration = duration.concat("P").concat("T");
 
-            if (time.getHours() !== 0) duration.append(time.getHours() + "H");
+            if (time.getHours() !== 0) duration = duration.concat(time.getHours() + "H");
 
-            if (time.getMinutes() !== 0) duration.append(time.getMinutes() + "M");
+            if (time.getMinutes() !== 0) duration = duration.concat(time.getMinutes() + "M");
 
             if (time.getSeconds() !== 0 || time.getMilliseconds() !== 0) {
-                duration.append(time.getSeconds() + "." + numeral(time.getMilliseconds()).format(ZmanimFormatter.milliNF));
-                duration.append("S");
+                duration = duration.concat(time.getSeconds() + "." + numeral(time.getMilliseconds()).format(ZmanimFormatter.milliNF));
+                duration = duration.concat("S");
             }
 
-            if (duration.length() === 1) duration.append("T0S"); // zero seconds
+            if (duration.length === 1) duration.concat("T0S"); // zero seconds
 
-            if (time.isNegative()) duration.insert(0, "-");
+            if (time.isNegative()) {
+                duration = duration.substr(0, 0).concat("-").concat(duration.substr(0, duration.length));
+            }
         }
         return duration.toString();
     }
