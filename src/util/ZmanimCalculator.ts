@@ -1,6 +1,7 @@
 import AstronomicalCalculator from "./AstronomicalCalculator";
 import GeoLocation from "./GeoLocation";
 import {Moment} from "moment-timezone";
+import {MathUtils} from "../polyfills/Utils";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times. This implementation is a port of the
@@ -43,7 +44,7 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
         const m: number = (0.9856 * t) - 3.289;
 
         // step 4: calculate the sun's true longitude
-        let l: number = m + (1.916 * Math.sin(Math.toRadians(m))) + (0.020 * Math.sin(Math.toRadians(2 * m))) + 282.634;
+        let l: number = m + (1.916 * Math.sin(MathUtils.degreesToRadians(m))) + (0.020 * Math.sin(MathUtils.degreesToRadians(2 * m))) + 282.634;
         while (l < 0) {
             const Lx: number = l + 360;
             l = Lx;
@@ -54,7 +55,7 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
         }
 
         // step 5a: calculate the sun's right ascension
-        let RA: number = Math.toDegrees(Math.atan(0.91764 * Math.tan(Math.toRadians(l))));
+        let RA: number = MathUtils.radiansToDegrees(Math.atan(0.91764 * Math.tan(MathUtils.degreesToRadians(l))));
 
         while (RA < 0) {
             const RAx: number = RA + 360;
@@ -74,15 +75,15 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
         RA /= 15;
 
         // step 6: calculate the sun's declination
-        const sinDec: number = 0.39782 * Math.sin(Math.toRadians(l));
+        const sinDec: number = 0.39782 * Math.sin(MathUtils.degreesToRadians(l));
         const cosDec: number = Math.cos(Math.asin(sinDec));
 
         // step 7a: calculate the sun's local hour angle
-        const cosH: number = (Math.cos(Math.toRadians(adjustedZenith)) - (sinDec * Math.sin(Math.toRadians(geoLocation
-                .getLatitude())))) / (cosDec * Math.cos(Math.toRadians(geoLocation.getLatitude())));
+        const cosH: number = (Math.cos(MathUtils.degreesToRadians(adjustedZenith)) - (sinDec * Math.sin(MathUtils.degreesToRadians(geoLocation
+                .getLatitude())))) / (cosDec * Math.cos(MathUtils.degreesToRadians(geoLocation.getLatitude())));
 
         // step 7b: finish calculating H and convert into hours
-        let H: number = 360 - Math.toDegrees(Math.acos(cosH));
+        let H: number = 360 - MathUtils.radiansToDegrees(Math.acos(cosH));
 
         // FOR SUNSET remove "360 - " from the above
 
@@ -124,7 +125,7 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
         const M: number = (0.9856 * t) - 3.289;
 
         // step 4: calculate the sun's true longitude
-        let L: number = M + (1.916 * Math.sin(Math.toRadians(M))) + (0.020 * Math.sin(Math.toRadians(2 * M))) + 282.634;
+        let L: number = M + (1.916 * Math.sin(MathUtils.degreesToRadians(M))) + (0.020 * Math.sin(MathUtils.degreesToRadians(2 * M))) + 282.634;
         while (L < 0) {
             const Lx: number = L + 360;
             L = Lx;
@@ -135,7 +136,7 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
         }
 
         // step 5a: calculate the sun's right ascension
-        let RA: number = Math.toDegrees(Math.atan(0.91764 * Math.tan(Math.toRadians(L))));
+        let RA: number = MathUtils.radiansToDegrees(Math.atan(0.91764 * Math.tan(MathUtils.degreesToRadians(L))));
         while (RA < 0) {
             const RAx: number = RA + 360;
             RA = RAx;
@@ -154,15 +155,15 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
         RA /= 15;
 
         // step 6: calculate the sun's declination
-        const sinDec: number = 0.39782 * Math.sin(Math.toRadians(L));
+        const sinDec: number = 0.39782 * Math.sin(MathUtils.degreesToRadians(L));
         const cosDec: number = Math.cos(Math.asin(sinDec));
 
         // step 7a: calculate the sun's local hour angle
-        const cosH: number = (Math.cos(Math.toRadians(adjustedZenith)) - (sinDec * Math.sin(Math.toRadians(geoLocation
-                .getLatitude())))) / (cosDec * Math.cos(Math.toRadians(geoLocation.getLatitude())));
+        const cosH: number = (Math.cos(MathUtils.degreesToRadians(adjustedZenith)) - (sinDec * Math.sin(MathUtils.degreesToRadians(geoLocation
+                .getLatitude())))) / (cosDec * Math.cos(MathUtils.degreesToRadians(geoLocation.getLatitude())));
 
         // step 7b: finish calculating H and convert into hours
-        let H: number = Math.toDegrees(Math.acos(cosH));
+        let H: number = MathUtils.radiansToDegrees(Math.acos(cosH));
         H = H / 15;
 
         // step 8: calculate local mean time

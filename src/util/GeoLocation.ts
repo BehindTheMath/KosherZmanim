@@ -1,4 +1,4 @@
-import {TimeZone} from "../polyfills/Utils";
+import {TimeZone, MathUtils} from "../polyfills/Utils";
 
 /**
  * A class that contains location information such as latitude and longitude required for astronomical calculations. The
@@ -371,9 +371,9 @@ export default class GeoLocation {
         const a: number = 6378137;
         const b: number = 6356752.3142;
         const f: number = 1 / 298.257223563; // WGS-84 ellipsiod
-        const L: number = Math.toRadians(location.getLongitude() - this.getLongitude());
-        const U1: number = Math.atan((1 - f) * Math.tan(Math.toRadians(this.getLatitude())));
-        const U2: number = Math.atan((1 - f) * Math.tan(Math.toRadians(location.getLatitude())));
+        const L: number = MathUtils.degreesToRadians(location.getLongitude() - this.getLongitude());
+        const U1: number = Math.atan((1 - f) * Math.tan(MathUtils.degreesToRadians(this.getLatitude())));
+        const U2: number = Math.atan((1 - f) * Math.tan(MathUtils.degreesToRadians(location.getLatitude())));
         const sinU1: number = Math.sin(U1), cosU1: number = Math.cos(U1);
         const sinU2: number = Math.sin(U2), cosU2: number = Math.cos(U2);
 
@@ -421,9 +421,9 @@ export default class GeoLocation {
         const distance: number = b * A * (sigma - deltaSigma);
 
         // initial bearing
-        const fwdAz: number = Math.toDegrees(Math.atan2(cosU2 * sinLambda, cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
+        const fwdAz: number = MathUtils.radiansToDegrees(Math.atan2(cosU2 * sinLambda, cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
         // final bearing
-        const revAz: number = Math.toDegrees(Math.atan2(cosU1 * sinLambda, -sinU1 * cosU2 + cosU1 * sinU2 * cosLambda));
+        const revAz: number = MathUtils.radiansToDegrees(Math.atan2(cosU1 * sinLambda, -sinU1 * cosU2 + cosU1 * sinU2 * cosLambda));
         if (formula === GeoLocation.DISTANCE) {
             return distance;
         } else if (formula === GeoLocation.INITIAL_BEARING) {
@@ -444,11 +444,11 @@ export default class GeoLocation {
      * @return the bearing in degrees
      */
     public getRhumbLineBearing(location: GeoLocation): number {
-        let dLon: number = Math.toRadians(location.getLongitude() - this.getLongitude());
-        const dPhi: number = Math.log(Math.tan(Math.toRadians(location.getLatitude()) / 2 + Math.PI / 4)
-                / Math.tan(Math.toRadians(this.getLatitude()) / 2 + Math.PI / 4));
+        let dLon: number = MathUtils.degreesToRadians(location.getLongitude() - this.getLongitude());
+        const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(location.getLatitude()) / 2 + Math.PI / 4)
+                / Math.tan(MathUtils.degreesToRadians(this.getLatitude()) / 2 + Math.PI / 4));
         if (Math.abs(dLon) > Math.PI) dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
-        return Math.toDegrees(Math.atan2(dLon, dPhi));
+        return MathUtils.radiansToDegrees(Math.atan2(dLon, dPhi));
     }
 
     /**
@@ -461,11 +461,11 @@ export default class GeoLocation {
      */
     public getRhumbLineDistance(location: GeoLocation): number {
         const R: number = 6371; // earth's mean radius in km
-        const dLat: number = Math.toRadians(location.getLatitude() - this.getLatitude());
-        let dLon: number = Math.toRadians(Math.abs(location.getLongitude() - this.getLongitude()));
-        const dPhi: number = Math.log(Math.tan(Math.toRadians(location.getLongitude()) / 2 + Math.PI / 4)
-                / Math.tan(Math.toRadians(this.getLatitude()) / 2 + Math.PI / 4));
-        const q: number = (Math.abs(dLat) > 1e-10) ? dLat / dPhi : Math.cos(Math.toRadians(this.getLatitude()));
+        const dLat: number = MathUtils.degreesToRadians(location.getLatitude() - this.getLatitude());
+        let dLon: number = MathUtils.degreesToRadians(Math.abs(location.getLongitude() - this.getLongitude()));
+        const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(location.getLongitude()) / 2 + Math.PI / 4)
+                / Math.tan(MathUtils.degreesToRadians(this.getLatitude()) / 2 + Math.PI / 4));
+        const q: number = (Math.abs(dLat) > 1e-10) ? dLat / dPhi : Math.cos(MathUtils.degreesToRadians(this.getLatitude()));
         // if dLon over 180° take shorter rhumb across 180° meridian:
         if (dLon > Math.PI) dLon = 2 * Math.PI - dLon;
         const d: number = Math.sqrt(dLat * dLat + q * q * dLon * dLon);

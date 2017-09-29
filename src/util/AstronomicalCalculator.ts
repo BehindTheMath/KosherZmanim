@@ -1,5 +1,6 @@
 import GeoLocation from "./GeoLocation";
 import {Moment} from "moment-timezone";
+import {MathUtils} from "../polyfills/Utils";
 
 /**
  * An abstract class that all sun time calculating classes extend. This allows the algorithm used to be changed at
@@ -158,7 +159,7 @@ export default abstract class AstronomicalCalculator {
      */
     public getElevationAdjustment(elevation: number): number {
         // double elevationAdjustment = 0.0347 * Math.sqrt(elevation);
-        const elevationAdjustment: number = Math.toDegrees(Math.acos(this.earthRadius / (this.earthRadius + (elevation / 1000))));
+        const elevationAdjustment: number = MathUtils.radiansToDegrees(Math.acos(this.earthRadius / (this.earthRadius + (elevation / 1000))));
         return elevationAdjustment;
 
     }

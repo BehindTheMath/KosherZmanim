@@ -64,11 +64,11 @@ export module TimeZone {
  */
 export module Zman {
     export function compareDateOrder(zman1: Zman, zman2: Zman): number {
-        return zman1.zman.compareTo(zman2.zman);
+        return DateUtils.compareTo(zman1.zman, zman2.zman);
     }
 
     export function compareNameOrder(zman1: Zman, zman2: Zman): number {
-        return zman1.zmanLabel.compareTo(zman2.zmanLabel);
+        return StringUtils.compareTo(zman1.zmanLabel, zman2.zmanLabel);
     }
 
     export function compareDurationOrder(zman1: Zman, zman2: Zman): number {
@@ -96,5 +96,92 @@ export module Calendar {
 
     export function getDstOffset(moment: Moment): number {
         return moment.isDST() ? 60 * 60 * 1000 : 0;
+    }
+}
+
+export module MathUtils {
+    export function degreesToRadians(degrees: number): number {
+        return degrees * Math.PI / 180;
+    }
+
+    export function radiansToDegrees(radians: number): number {
+        return radians * 180 / Math.PI;
+    }
+}
+
+export module StringUtils {
+    export function replaceAll(string: string, searchString: string, replaceString: string): string {
+        return string.split(searchString).join(replaceString);
+    }
+
+    /**
+     * Compares two strings lexicographically.
+     * The comparison is based on the Unicode value of each character in
+     * the strings. The character sequence represented by this
+     * {@code String} object is compared lexicographically to the
+     * character sequence represented by the argument string. The result is
+     * a negative integer if this {@code String} object
+     * lexicographically precedes the argument string. The result is a
+     * positive integer if this {@code String} object lexicographically
+     * follows the argument string. The result is zero if the strings
+     * are equal; {@code compareTo} returns {@code 0} exactly when
+     * the {@link #equals(Object)} method would return {@code true}.
+     * <p>
+     * This is the definition of lexicographic ordering. If two strings are
+     * different, then either they have different characters at some index
+     * that is a valid index for both strings, or their lengths are different,
+     * or both. If they have different characters at one or more index
+     * positions, let <i>k</i> be the smallest such index; then the string
+     * whose character at position <i>k</i> has the smaller value, as
+     * determined by using the &lt; operator, lexicographically precedes the
+     * other string. In this case, {@code compareTo} returns the
+     * difference of the two character values at position {@code k} in
+     * the two string -- that is, the value:
+     * <blockquote><pre>
+     * this.charAt(k)-anotherString.charAt(k)
+     * </pre></blockquote>
+     * If there is no index position at which they differ, then the shorter
+     * string lexicographically precedes the longer string. In this case,
+     * {@code compareTo} returns the difference of the lengths of the
+     * strings -- that is, the value:
+     * <blockquote><pre>
+     * this.length()-anotherString.length()
+     * </pre></blockquote>
+     *
+     * @param   string2   the {@code String} to be compared.
+     * @return  the value {@code 0} if the argument string is equal to
+     *          this string; a value less than {@code 0} if this string
+     *          is lexicographically less than the string argument; and a
+     *          value greater than {@code 0} if this string is
+     *          lexicographically greater than the string argument.
+     */
+    export function compareTo(string1: string, string2: string): number {
+        const len1: number = string1.length;
+        const len2: number = string2.length;
+        const lim: number = Math.min(len1, len2);
+        const v1: string[] = string1.split("");
+        const v2: string[] = string2.split("");
+
+        let k: number = 0;
+        while (k < lim) {
+            const c1: string = v1[k];
+            const c2: string = v2[k];
+            if (c1 !== c2) {
+                return c1.charCodeAt(0) - c2.charCodeAt(0);
+            }
+            k++;
+        }
+        return len1 - len2;
+    }
+}
+
+export module DateUtils {
+    export function compareTo(date1: Date, date2: Date): number {
+        const date1Millis = date1.getTime();
+        const date2Millis = date2.getTime();
+
+        if (date1Millis === date2Millis) return 0;
+        else if (date1Millis < date2Millis) return -1;
+        else if (date1Millis > date2Millis) return 1;
     }
 }

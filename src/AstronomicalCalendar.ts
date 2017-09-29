@@ -1,4 +1,3 @@
-import {Long} from "./polyfills/JavaPolyfills";
 import GeoLocation from "./util/GeoLocation";
 import AstronomicalCalculator from "./util/AstronomicalCalculator";
 import SunTimesCalculator from "./util/SunTimesCalculator";
@@ -6,6 +5,7 @@ import BigJS = require("big.js");
 type BigDecimal = BigJsLibrary.BigJS;
 import {Moment} from "moment-timezone";
 import MomentTimezone = require("moment-timezone");
+import {DateUtils} from "./polyfills/Utils";
 
 /**
  * A Java calendar that calculates astronomical times such as {@link #getSunrise() sunrise} and {@link #getSunset()
@@ -224,7 +224,7 @@ export default class AstronomicalCalendar {
      *         returned. See detailed explanation on top of the page.
      */
     private getAdjustedSunsetDate(sunset: Date, sunrise: Date): Date {
-        if (sunset != null && sunrise != null && sunrise.compareTo(sunset) >= 0) {
+        if (sunset != null && sunrise != null && DateUtils.compareTo(sunrise, sunset) >= 0) {
             const moment: Moment = MomentTimezone(sunset).add({days: 1});
             return moment.toDate();
         } else {

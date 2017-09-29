@@ -1,9 +1,9 @@
-import {Long} from "./polyfills/JavaPolyfills";
 import GeoLocation from "./util/GeoLocation";
 import ZmanimCalendar from "./ZmanimCalendar";
 import JewishCalendar from "./hebrewcalendar/JewishCalendar";
 import {Moment} from "moment-timezone";
 import MomentTimezone = require("moment-timezone");
+import {DateUtils} from "./polyfills/Utils";
 
 /**
  * This class extends ZmanimCalendar and provides many more zmanim than available in the ZmanimCalendar. The basis for
@@ -1364,8 +1364,8 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
         if (this.getMinchaGedola30Minutes() === null || this.getMinchaGedola() === null) {
             return null;
         } else {
-            return this.getMinchaGedola30Minutes().compareTo(this.getMinchaGedola()) > 0 ? this.getMinchaGedola30Minutes()
-                    : this.getMinchaGedola();
+            return DateUtils.compareTo(this.getMinchaGedola30Minutes(), this.getMinchaGedola()) > 0 ?
+                this.getMinchaGedola30Minutes() : this.getMinchaGedola();
         }
     }
 
@@ -2320,16 +2320,11 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSofZmanKidushLevana15Days(Date, Date)
      */
     public getSofZmanKidushLevanaBetweenMoldos(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
-        const jewishCalendar: JewishCalendar = new JewishCalendar();
-        jewishCalendar.setGregorianDate(this.getMoment().year(), this.getMoment().month(), this.getMoment().date());
-        const sofZmanKidushLevana: Date = jewishCalendar.getSofZmanKidushLevanaBetweenMoldos();
-        const sofZmanKidushLevanaCalendar: Moment = MomentTimezone(sofZmanKidushLevana);
-        if (alos != null && tzais != null && sofZmanKidushLevanaCalendar.isSame(this.getMoment(), "date")) {
-            if (sofZmanKidushLevana.after(alos) && sofZmanKidushLevana.before(tzais)) {
-                return alos;
-            } else {
-                return sofZmanKidushLevana;
-            }
+        const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
+        const sofZmanKidushLevana: Moment = MomentTimezone(jewishCalendar.getSofZmanKidushLevanaBetweenMoldos());
+
+        if (alos != null && tzais != null && sofZmanKidushLevana.isSame(this.getMoment(), "date")) {
+             return sofZmanKidushLevana.isBetween(alos, tzais) ? alos : sofZmanKidushLevana.toDate();
         }
         return null;
     }
@@ -2384,17 +2379,11 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSofZmanKidushLevanaBetweenMoldos(Date, Date)
      */
     public getSofZmanKidushLevana15Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
-        const jewishCalendar: JewishCalendar = new JewishCalendar();
-        jewishCalendar.setGregorianDate(this.getMoment().year(), this.getMoment().month(), this.getMoment().date());
-        const sofZmanKidushLevana: Date = jewishCalendar.getSofZmanKidushLevana15Days();
-        const sofZmanKidushLevanaCalendar: Moment = MomentTimezone(sofZmanKidushLevana);
+        const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
+        const sofZmanKidushLevana: Moment = MomentTimezone(jewishCalendar.getSofZmanKidushLevana15Days());
 
-        if (alos != null && tzais != null && sofZmanKidushLevanaCalendar.isSame(this.getMoment(), "date")) {
-            if (sofZmanKidushLevana.after(alos) && sofZmanKidushLevana.before(tzais)) {
-                return alos;
-            } else {
-                return sofZmanKidushLevana;
-            }
+        if (alos != null && tzais != null && sofZmanKidushLevana.isSame(this.getMoment(), "date")) {
+            return sofZmanKidushLevana.isBetween(alos, tzais) ? alos : sofZmanKidushLevana.toDate();
         }
         return null;
     }
@@ -2442,16 +2431,11 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getTchilasZmanKidushLevana7Days(Date, Date)
      */
     public getTchilasZmanKidushLevana3Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
-        const jewishCalendar: JewishCalendar = new JewishCalendar();
-        jewishCalendar.setGregorianDate(this.getMoment().year(), this.getMoment().month(), this.getMoment().date());
-        const tchilasZmanKidushLevana: Date = jewishCalendar.getTchilasZmanKidushLevana3Days();
-        const tchilasZmanKidushLevanaCalendar: Moment = MomentTimezone(tchilasZmanKidushLevana);
-        if (alos != null && tzais != null && tchilasZmanKidushLevanaCalendar.isSame(this.getMoment(), "date")) {
-            if (tchilasZmanKidushLevana.after(alos) && tchilasZmanKidushLevana.before(tzais)) {
-                return tzais;
-            } else {
-                return tchilasZmanKidushLevana;
-            }
+        const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
+        const tchilasZmanKidushLevana: Moment = MomentTimezone(jewishCalendar.getTchilasZmanKidushLevana3Days());
+
+        if (alos != null && tzais != null && tchilasZmanKidushLevana.isSame(this.getMoment(), "date")) {
+            return tchilasZmanKidushLevana.isBetween(alos, tzais) ? tzais : tchilasZmanKidushLevana.toDate();
         }
         return null;
     }
@@ -2491,17 +2475,11 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getTchilasZmanKidushLevana7Days()
      */
     public getTchilasZmanKidushLevana7Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
-        const jewishCalendar: JewishCalendar = new JewishCalendar();
-        jewishCalendar.setGregorianDate(this.getMoment().year(), this.getMoment().month(), this.getMoment().date());
+        const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
+        const tchilasZmanKidushLevana: Moment = MomentTimezone(jewishCalendar.getTchilasZmanKidushLevana7Days());
 
-        const tchilasZmanKidushLevana: Date = jewishCalendar.getTchilasZmanKidushLevana7Days();
-        const tchilasZmanKidushLevanaCalendar: Moment = MomentTimezone(tchilasZmanKidushLevana);
-        if (alos != null && tzais != null && tchilasZmanKidushLevanaCalendar.isSame(this.getMoment(), "date")) {
-            if (tchilasZmanKidushLevana.after(alos) && tchilasZmanKidushLevana.before(tzais)) {
-                return tzais;
-            } else {
-                return tchilasZmanKidushLevana;
-            }
+        if (alos != null && tzais != null && tchilasZmanKidushLevana.isSame(this.getMoment(), "date")) {
+            return tchilasZmanKidushLevana.isBetween(alos, tzais) ? tzais : tchilasZmanKidushLevana.toDate();
         }
         return null;
     }

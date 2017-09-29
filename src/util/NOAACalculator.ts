@@ -1,6 +1,7 @@
 import AstronomicalCalculator from "./AstronomicalCalculator";
 import GeoLocation from "./GeoLocation";
 import {Moment} from "moment-timezone";
+import {MathUtils} from "../polyfills/Utils";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times based on the <a
@@ -171,7 +172,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
     private static getSunEquationOfCenter(julianCenturies: number): number {
         const m: number = NOAACalculator.getSunGeometricMeanAnomaly(julianCenturies);
 
-        const mrad: number = Math.toRadians(m);
+        const mrad: number = MathUtils.degreesToRadians(m);
         const sinm: number = Math.sin(mrad);
         const sin2m: number = Math.sin(mrad + mrad);
         const sin3m: number = Math.sin(mrad + mrad + mrad);
@@ -219,7 +220,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
         const sunTrueLongitude: number = NOAACalculator.getSunTrueLongitude(julianCenturies);
 
         const omega: number = 125.04 - 1934.136 * julianCenturies;
-        const lambda: number = sunTrueLongitude - 0.00569 - 0.00478 * Math.sin(Math.toRadians(omega));
+        const lambda: number = sunTrueLongitude - 0.00569 - 0.00478 * Math.sin(MathUtils.degreesToRadians(omega));
         return lambda; // in degrees
     }
 
@@ -248,7 +249,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
         const obliquityOfEcliptic: number = NOAACalculator.getMeanObliquityOfEcliptic(julianCenturies);
 
         const omega: number = 125.04 - 1934.136 * julianCenturies;
-        return obliquityOfEcliptic + 0.00256 * Math.cos(Math.toRadians(omega)); // in degrees
+        return obliquityOfEcliptic + 0.00256 * Math.cos(MathUtils.degreesToRadians(omega)); // in degrees
     }
 
     /**
@@ -263,8 +264,8 @@ export default class NOAACalculator extends AstronomicalCalculator {
         const obliquityCorrection: number = NOAACalculator.getObliquityCorrection(julianCenturies);
         const lambda: number = NOAACalculator.getSunApparentLongitude(julianCenturies);
 
-        const sint: number = Math.sin(Math.toRadians(obliquityCorrection)) * Math.sin(Math.toRadians(lambda));
-        const theta: number = Math.toDegrees(Math.asin(sint));
+        const sint: number = Math.sin(MathUtils.degreesToRadians(obliquityCorrection)) * Math.sin(MathUtils.degreesToRadians(lambda));
+        const theta: number = MathUtils.radiansToDegrees(Math.asin(sint));
         return theta; // in degrees
     }
 
@@ -282,18 +283,18 @@ export default class NOAACalculator extends AstronomicalCalculator {
         const eccentricityEarthOrbit: number = NOAACalculator.getEarthOrbitEccentricity(julianCenturies);
         const geomMeanAnomalySun: number = NOAACalculator.getSunGeometricMeanAnomaly(julianCenturies);
 
-        let y: number = Math.tan(Math.toRadians(epsilon) / 2);
+        let y: number = Math.tan(MathUtils.degreesToRadians(epsilon) / 2);
         y *= y;
 
-        const sin2l0: number = Math.sin(2 * Math.toRadians(geomMeanLongSun));
-        const sinm: number = Math.sin(Math.toRadians(geomMeanAnomalySun));
-        const cos2l0: number = Math.cos(2 * Math.toRadians(geomMeanLongSun));
-        const sin4l0: number = Math.sin(4 * Math.toRadians(geomMeanLongSun));
-        const sin2m: number = Math.sin(2 * Math.toRadians(geomMeanAnomalySun));
+        const sin2l0: number = Math.sin(2 * MathUtils.degreesToRadians(geomMeanLongSun));
+        const sinm: number = Math.sin(MathUtils.degreesToRadians(geomMeanAnomalySun));
+        const cos2l0: number = Math.cos(2 * MathUtils.degreesToRadians(geomMeanLongSun));
+        const sin4l0: number = Math.sin(4 * MathUtils.degreesToRadians(geomMeanLongSun));
+        const sin2m: number = Math.sin(2 * MathUtils.degreesToRadians(geomMeanAnomalySun));
 
         const equationOfTime: number = y * sin2l0 - 2 * eccentricityEarthOrbit * sinm + 4 * eccentricityEarthOrbit * y
                 * sinm * cos2l0 - 0.5 * y * y * sin4l0 - 1.25 * eccentricityEarthOrbit * eccentricityEarthOrbit * sin2m;
-        return Math.toDegrees(equationOfTime) * 4; // in minutes of time
+        return MathUtils.radiansToDegrees(equationOfTime) * 4; // in minutes of time
     }
 
     /**
@@ -307,10 +308,10 @@ export default class NOAACalculator extends AstronomicalCalculator {
      * @return hour angle of sunrise in radians
      */
     private static getSunHourAngleAtSunrise(lat: number, solarDec: number, zenith: number): number {
-        const latRad: number = Math.toRadians(lat);
-        const sdRad: number = Math.toRadians(solarDec);
+        const latRad: number = MathUtils.degreesToRadians(lat);
+        const sdRad: number = MathUtils.degreesToRadians(solarDec);
 
-        return (Math.acos(Math.cos(Math.toRadians(zenith)) / (Math.cos(latRad) * Math.cos(sdRad)) - Math.tan(latRad)
+        return (Math.acos(Math.cos(MathUtils.degreesToRadians(zenith)) / (Math.cos(latRad) * Math.cos(sdRad)) - Math.tan(latRad)
                 * Math.tan(sdRad))); // in radians
     }
 
@@ -326,10 +327,10 @@ export default class NOAACalculator extends AstronomicalCalculator {
      * @return the hour angle of sunset in radians
      */
     private static getSunHourAngleAtSunset(lat: number, solarDec: number, zenith: number): number {
-        const latRad: number = Math.toRadians(lat);
-        const sdRad: number = Math.toRadians(solarDec);
+        const latRad: number = MathUtils.degreesToRadians(lat);
+        const sdRad: number = MathUtils.degreesToRadians(solarDec);
 
-        const hourAngle: number = (Math.acos(Math.cos(Math.toRadians(zenith)) / (Math.cos(latRad) * Math.cos(sdRad))
+        const hourAngle: number = (Math.acos(Math.cos(MathUtils.degreesToRadians(zenith)) / (Math.cos(latRad) * Math.cos(sdRad))
                 - Math.tan(latRad) * Math.tan(sdRad)));
         return -hourAngle; // in radians
     }
@@ -357,11 +358,11 @@ export default class NOAACalculator extends AstronomicalCalculator {
         let longitude: number = (moment.hour() + 12) + (moment.minute() + equationOfTime + moment.second() / 60) / 60;
 
         longitude = -(longitude * 360 / 24) % 360;
-        const hourAngleRad: number = Math.toRadians(lon - longitude);
+        const hourAngleRad: number = MathUtils.degreesToRadians(lon - longitude);
         const declination: number = NOAACalculator.getSunDeclination(julianCenturies);
-        const decRad: number = Math.toRadians(declination);
-        const latRad: number = Math.toRadians(lat);
-        return Math.toDegrees(Math.asin((Math.sin(latRad) * Math.sin(decRad))
+        const decRad: number = MathUtils.degreesToRadians(declination);
+        const latRad: number = MathUtils.degreesToRadians(lat);
+        return MathUtils.radiansToDegrees(Math.asin((Math.sin(latRad) * Math.sin(decRad))
                 + (Math.cos(latRad) * Math.cos(decRad) * Math.cos(hourAngleRad))));
 
     }
@@ -389,12 +390,12 @@ export default class NOAACalculator extends AstronomicalCalculator {
         let longitude: number = (moment.hour() + 12) + (moment.minute() + equationOfTime + moment.second() / 60) / 60;
 
         longitude = -(longitude * 360 / 24) % 360;
-        const hourAngleRad: number = Math.toRadians(lon - longitude);
+        const hourAngleRad: number = MathUtils.degreesToRadians(lon - longitude);
         const declination: number = NOAACalculator.getSunDeclination(julianCenturies);
-        const decRad: number = Math.toRadians(declination);
-        const latRad: number = Math.toRadians(latitude);
+        const decRad: number = MathUtils.degreesToRadians(declination);
+        const latRad: number = MathUtils.degreesToRadians(latitude);
 
-        return Math.toDegrees(Math.atan(Math.sin(hourAngleRad)
+        return MathUtils.radiansToDegrees(Math.atan(Math.sin(hourAngleRad)
                 / ((Math.cos(hourAngleRad) * Math.sin(latRad)) - (Math.tan(decRad) * Math.cos(latRad))))) + 180;
 
     }
@@ -426,7 +427,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
         let solarDec: number = NOAACalculator.getSunDeclination(tnoon);
         let hourAngle: number = NOAACalculator.getSunHourAngleAtSunrise(latitude, solarDec, zenith);
 
-        let delta: number = longitude - Math.toDegrees(hourAngle);
+        let delta: number = longitude - MathUtils.radiansToDegrees(hourAngle);
         let timeDiff: number = 4 * delta; // in minutes of time
         let timeUTC: number = 720 + timeDiff - eqTime; // in minutes
 
@@ -437,7 +438,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
         eqTime = NOAACalculator.getEquationOfTime(newt);
         solarDec = NOAACalculator.getSunDeclination(newt);
         hourAngle = NOAACalculator.getSunHourAngleAtSunrise(latitude, solarDec, zenith);
-        delta = longitude - Math.toDegrees(hourAngle);
+        delta = longitude - MathUtils.radiansToDegrees(hourAngle);
         timeDiff = 4 * delta;
         timeUTC = 720 + timeDiff - eqTime; // in minutes
         return timeUTC;
@@ -496,7 +497,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
         let solarDec: number = NOAACalculator.getSunDeclination(tnoon);
         let hourAngle: number = NOAACalculator.getSunHourAngleAtSunset(latitude, solarDec, zenith);
 
-        let delta: number = longitude - Math.toDegrees(hourAngle);
+        let delta: number = longitude - MathUtils.radiansToDegrees(hourAngle);
         let timeDiff: number = 4 * delta;
         let timeUTC: number = 720 + timeDiff - eqTime;
 
@@ -508,7 +509,7 @@ export default class NOAACalculator extends AstronomicalCalculator {
         solarDec = NOAACalculator.getSunDeclination(newt);
         hourAngle = NOAACalculator.getSunHourAngleAtSunset(latitude, solarDec, zenith);
 
-        delta = longitude - Math.toDegrees(hourAngle);
+        delta = longitude - MathUtils.radiansToDegrees(hourAngle);
         timeDiff = 4 * delta;
         timeUTC = 720 + timeDiff - eqTime; // in minutes
         return timeUTC;
