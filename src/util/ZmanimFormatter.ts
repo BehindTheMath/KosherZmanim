@@ -213,8 +213,6 @@ export default class ZmanimFormatter {
      *            The time <code>Object</code> to be formatted.
      * @return String The formatted <code>String</code>
      */
-    public format(time: Time): string;
-    public format(millis: number): string;
     public format(timeOrMillis: Time | number): string {
         let time: Time;
         if (timeOrMillis instanceof Time) {
@@ -327,8 +325,6 @@ export default class ZmanimFormatter {
      *            the duration as a Time object
      * @return the xsd:duration formatted String
      */
-    public static formatXSDDurationTime(time: Time): string;
-    public static formatXSDDurationTime(millis: number): string;
     public static formatXSDDurationTime(timeOrMillis: Time | number): string {
         let time: Time;
         if (timeOrMillis instanceof Time) {

@@ -909,12 +909,6 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
         return elapsedDays;
     }
 
-    constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number)
-    constructor(moment: Moment)
-    constructor(date: Date)
-    constructor(molad: number)
-    constructor()
-    constructor(jewishYearOrMomentOrDateOrMolad: number | Moment | Date, jewishMonth: number, jewishDayOfMonth: number)
     constructor(jewishYearOrMomentOrDateOrMolad?: number | Moment | Date, jewishMonth?: number, jewishDayOfMonth?: number) {
         if (!jewishYearOrMomentOrDateOrMolad) {
             this.resetDate();
@@ -1001,8 +995,6 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      * @throws IllegalArgumentException
      *             if the {@link Calendar#ERA} is {@link GregorianCalendar#BC}
      */
-    public setDate(moment: Moment): void;
-    public setDate(date: Date): void;
     public setDate(momentOrDate: Date | Moment): void {
         const date: Date = MomentTimezone.isDate(momentOrDate) ? momentOrDate : momentOrDate.toDate();
 

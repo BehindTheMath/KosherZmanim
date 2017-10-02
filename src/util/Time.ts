@@ -24,8 +24,6 @@ export default class Time {
 
     private negative: boolean = false;
 
-    constructor(hours: number, minutes?: number, seconds?: number, milliseconds?: number)
-    constructor(millis: number)
     constructor(hoursOrMillis: number, minutes?: number, seconds: number = 0, milliseconds: number = 0) {
         if (minutes) {
             this.hours = hoursOrMillis;

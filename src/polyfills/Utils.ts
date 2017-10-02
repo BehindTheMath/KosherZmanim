@@ -28,8 +28,6 @@ export module TimeZone {
      *
      * @return the amount of raw offset time in milliseconds to add to UTC.
      */
-    export function getRawOffset(moment: Moment): number;
-    export function getRawOffset(timeZoneId: string): number;
     // TODO: This will return the current DST status, as opposed to Java which returns non-DST
     export function getRawOffset(momentOrTimeZoneId: Moment | string): number {
         const moment: Moment = MomentTimezone.isMoment(momentOrTimeZoneId) ?

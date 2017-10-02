@@ -158,11 +158,6 @@ export default class JewishCalendar extends JewishDate {
      * @param inIsrael
      *            whether in Israel. This affects Yom Tov calculations
      */
-    constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number, inIsrael: boolean)
-    constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number)
-    constructor(moment: Moment)
-    constructor(date: Date)
-    constructor()
     constructor(jewishYearOrMomentOrDate?: number | Moment | Date, jewishMonth?: number, jewishDayOfMonth?: number, inIsrael?: boolean) {
         super(jewishYearOrMomentOrDate, jewishMonth, jewishDayOfMonth);
         if (inIsrael) this.setInIsrael(inIsrael);
