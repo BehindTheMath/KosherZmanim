@@ -30,25 +30,26 @@ export module TimeZone {
      */
     export function getRawOffset(moment: Moment): number;
     export function getRawOffset(timeZoneId: string): number;
+    // TODO: This will return the current DST status, as opposed to Java which returns non-DST
     export function getRawOffset(momentOrTimeZoneId: Moment | string): number {
         const moment: Moment = MomentTimezone.isMoment(momentOrTimeZoneId) ?
             momentOrTimeZoneId : MomentTimezone.tz(momentOrTimeZoneId);
 
-        return moment.utcOffset() * 60 * 1000;
+        const dstOffsetMinutes = moment.isDST() ? 60 : 0;
+        const offsetMinutes: number = moment.utcOffset() - dstOffsetMinutes;
+        return offsetMinutes * 60 * 1000;
     }
 
-    // TODO: This will return the current DST status, as opposed to Java which returns non-DST
     export function getDisplayName(timeZoneId: string): string {
-        const options: Intl.DateTimeFormatOptions = {
-            timeZone: timeZoneId,
-            timeZoneName: "long"
-        };
-        return new Date().toLocaleDateString("en-US", options).split(",")[1].trim();
+        const timezones: Array<TimezonesJsonItem> = require("timezones.json");
+        const displayName: string = timezones.filter((timezone: TimezonesJsonItem) => timezone.hasOwnProperty("utc") &&
+            timezone.utc.indexOf(timeZoneId) !== -1)[0].value;
+        return displayName;
     }
 
-    /*
-    public getDSTSavings(): number {}
-    */
+/*
+    export function getDSTSavings(): number {}
+*/
 
     export function getOffset(timeZoneId: string, millisSinceEpoch: number): number {
         return MomentTimezone(millisSinceEpoch).tz(timeZoneId).utcOffset() * 60 * 1000;
@@ -110,8 +111,8 @@ export module MathUtils {
 }
 
 export module StringUtils {
-    export function replaceAll(string: string, searchString: string, replaceString: string): string {
-        return string.split(searchString).join(replaceString);
+    export function replaceAll(str: string, searchString: string, replaceString: string): string {
+        return str.split(searchString).join(replaceString);
     }
 
     /**

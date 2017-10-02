@@ -5,7 +5,7 @@ import BigJS = require("big.js");
 type BigDecimal = BigJsLibrary.BigJS;
 import {Moment} from "moment-timezone";
 import MomentTimezone = require("moment-timezone");
-import {DateUtils} from "./polyfills/Utils";
+import {DateUtils, TimeZone} from "./polyfills/Utils";
 
 /**
  * A Java calendar that calculates astronomical times such as {@link #getSunrise() sunrise} and {@link #getSunset()
@@ -560,10 +560,14 @@ export default class AstronomicalCalendar {
         }
         let calculatedTime: number = time;
 
-        const moment: Moment = this.moment.clone();
+        const moment: Moment = MomentTimezone.tz({
+            year: this.moment.year(),
+            month: this.moment.month(),
+            date: this.moment.date()
+        }, "UTC");
 
         // raw non DST offset in hours
-        const gmtOffset: number = this.moment.utcOffset() / 60;
+        const gmtOffset: number = TimeZone.getRawOffset(this.moment) / (60 * AstronomicalCalendar.MINUTE_MILLIS);
 
         // Set the correct calendar date in UTC. For example Tokyo is 9 hours ahead of GMT. Sunrise at ~6 AM will be at
         // ~21 hours GMT of the previous day and has to be set accordingly. In the case of California USA that is 7
@@ -585,7 +589,7 @@ export default class AstronomicalCalendar {
             hours,
             minutes,
             seconds,
-            milliseconds: calculatedTime * 1000
+            milliseconds: Math.trunc(calculatedTime * 1000)
         });
 
         return moment.toDate();

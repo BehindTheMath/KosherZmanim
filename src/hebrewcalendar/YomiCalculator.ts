@@ -123,8 +123,8 @@ export default class YomiCalculator {
             year -= 1;
             month += 12;
         }
-        const a: number = year / 100;
-        const b: number = 2 - a + a / 4;
-        return Math.trunc(365.25 * (year + 4716) + Math.trunc(30.6001 * (month + 1)) + day + b - 1524.5);
+        const a: number = Math.trunc(year / 100);
+        const b: number = 2 - a + Math.trunc(a / 4);
+        return Math.trunc(Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + b - 1524.5);
     }
 }

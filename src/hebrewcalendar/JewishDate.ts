@@ -622,8 +622,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      */
     private static validateGregorianMonth(month: number): void {
         if (month > 11 || month < 0) {
-            throw "IllegalArgumentException: The Gregorian month has to be between 0 - 11. " + month
-                    + " is invalid.";
+            throw new Error(`IllegalArgumentException: The Gregorian month has to be between 0 - 11. ${month} is invalid.`);
         }
     }
 

@@ -380,7 +380,7 @@ export default class HebrewDateFormatter {
     public formatDayOfWeek(jewishDate: JewishDate): string {
         if (this.hebrewFormat) {
             return (this.longWeekFormat ? HebrewDateFormatter.hebrewDaysOfWeek[jewishDate.getDayOfWeek() - 1] :
-                this.formatHebrewNumber(jewishDate.getDayOfWeek()))
+                this.formatHebrewNumber(jewishDate.getDayOfWeek()));
         } else {
             return jewishDate.getDayOfWeek() === 7 ? this.getTransliteratedShabbosDayOfWeek() : jewishDate.getMoment().format("EEEE");
         }

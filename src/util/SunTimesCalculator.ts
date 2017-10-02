@@ -1,6 +1,7 @@
 import GeoLocation from "./GeoLocation";
 import AstronomicalCalculator from "./AstronomicalCalculator";
 import {Moment} from "moment-timezone";
+import {MathUtils} from "../polyfills/Utils";
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times. This calculator uses the Java algorithm
@@ -56,35 +57,40 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
      * sin of an angle in degrees
      */
     private static sinDeg(deg: number): number {
-        return Math.sin(deg * 2 * Math.PI / 360);
+        // return Math.sin(deg * 2 * Math.PI / 360);
+        return Math.sin(MathUtils.degreesToRadians(deg));
     }
 
     /**
      * acos of an angle, result in degrees
      */
     private static acosDeg(x: number): number {
-        return Math.acos(x) * 360 / (2 * Math.PI);
+        // return Math.acos(x) * 360 / (2 * Math.PI);
+        return MathUtils.radiansToDegrees(Math.acos(x));
     }
 
     /**
      * asin of an angle, result in degrees
      */
     private static asinDeg(x: number): number {
-        return Math.asin(x) * 360 / (2 * Math.PI);
+        // return Math.asin(x) * 360 / (2 * Math.PI);
+        return MathUtils.radiansToDegrees(Math.asin(x));
     }
 
     /**
      * tan of an angle in degrees
      */
     private static tanDeg(deg: number): number {
-        return Math.tan(deg * 2 * Math.PI / 360);
+        // return Math.tan(deg * 2 * Math.PI / 360);
+        return Math.tan(MathUtils.degreesToRadians(deg));
     }
 
     /**
      * cos of an angle in degrees
      */
     private static cosDeg(deg: number): number {
-        return Math.cos(deg * 2 * Math.PI / 360);
+        // return Math.cos(deg * 2 * Math.PI / 360);
+        return Math.cos(MathUtils.degreesToRadians(deg));
     }
 
     /**

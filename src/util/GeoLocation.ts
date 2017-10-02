@@ -493,7 +493,7 @@ export default class GeoLocation {
      * @return The XML formatted <code>String</code>.
      */
     public toXML(): string {
-        let sb: string = "<GeoLocation>\n"
+        const sb: string = "<GeoLocation>\n"
             .concat("\t<LocationName>").concat(this.getLocationName()).concat("</LocationName>\n")
             .concat("\t<Latitude>").concat(this.getLatitude().toString()).concat("</Latitude>\n")
             .concat("\t<Longitude>").concat(this.getLongitude().toString()).concat("</Longitude>\n")
@@ -529,7 +529,7 @@ export default class GeoLocation {
      * @see java.lang.Object#toString()
      */
     public toString(): string {
-        let sb: string = ("\nLocation Name:\t\t\t").concat(this.getLocationName())
+        const sb: string = ("\nLocation Name:\t\t\t").concat(this.getLocationName())
             .concat("\nLatitude:\t\t\t").concat(this.getLatitude().toString()).concat("°")
             .concat("\nLongitude:\t\t\t").concat(this.getLongitude().toString()).concat("°")
             .concat("\nElevation:\t\t\t").concat(this.getElevation().toString()).concat(" Meters")

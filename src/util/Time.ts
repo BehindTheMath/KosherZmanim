@@ -38,13 +38,13 @@ export default class Time {
                 this.negative = true;
                 adjustedMillis = Math.abs(adjustedMillis);
             }
-            this.hours = adjustedMillis / Time.HOUR_MILLIS;
+            this.hours = Math.trunc(adjustedMillis / Time.HOUR_MILLIS);
             adjustedMillis = adjustedMillis - this.hours * Time.HOUR_MILLIS;
 
-            this.minutes = adjustedMillis / Time.MINUTE_MILLIS;
+            this.minutes = Math.trunc(adjustedMillis / Time.MINUTE_MILLIS);
             adjustedMillis = adjustedMillis - this.minutes * Time.MINUTE_MILLIS;
 
-            this.seconds = adjustedMillis / Time.SECOND_MILLIS;
+            this.seconds = Math.trunc(adjustedMillis / Time.SECOND_MILLIS);
             adjustedMillis = adjustedMillis - this.seconds * Time.SECOND_MILLIS;
 
             this.milliseconds = adjustedMillis;

@@ -4,7 +4,7 @@ import Time from "./Time";
 import AstronomicalCalendar from "../AstronomicalCalendar";
 import ZmanimCalendar from "../ZmanimCalendar";
 import ComplexZmanimCalendar from "../ComplexZmanimCalendar";
-import Utils from "../polyfills/utils";
+import Utils from "../polyfills/Utils";
 import * as numeral from "numeral";
 import {Moment} from "moment-timezone";
 import MomentTimezone = require("moment-timezone");
@@ -255,7 +255,6 @@ export default class ZmanimFormatter {
             this.moment = MomentTimezone(dateTime);
             return this.moment.format(this.dateFormat);
         }
-
     }
 
     /**
@@ -340,7 +339,7 @@ export default class ZmanimFormatter {
 
         let duration: string;
         if (time.getHours() !== 0 || time.getMinutes() !== 0 || time.getSeconds() !== 0 || time.getMilliseconds() !== 0) {
-            duration = duration.concat("P").concat("T");
+            duration = ("P").concat("T");
 
             if (time.getHours() !== 0) duration = duration.concat(time.getHours() + "H");
 
@@ -358,6 +357,10 @@ export default class ZmanimFormatter {
             }
         }
         return duration.toString();
+    }
+
+    public static formatDecimal(num: number): string {
+        return num - Math.trunc(num) > 0 ? num.toString() : numeral(num).format("0.0");
     }
 
     /**
@@ -495,17 +498,18 @@ export default class ZmanimFormatter {
             type: astronomicalCalendar.getClassName(),
             algorithm: astronomicalCalendar.getAstronomicalCalculator().getCalculatorName(),
             location: astronomicalCalendar.getGeoLocation().getLocationName(),
-            latitude: astronomicalCalendar.getGeoLocation().getLatitude(),
-            longitude: astronomicalCalendar.getGeoLocation().getLongitude(),
-            elevation: astronomicalCalendar.getGeoLocation().getElevation(),
+            latitude: astronomicalCalendar.getGeoLocation().getLatitude().toString(),
+            longitude: astronomicalCalendar.getGeoLocation().getLongitude().toString(),
+            elevation: ZmanimFormatter.formatDecimal(astronomicalCalendar.getGeoLocation().getElevation()),
             timeZoneName: TimeZone.getDisplayName(astronomicalCalendar.getGeoLocation().getTimeZone()),
             timeZoneID: astronomicalCalendar.getGeoLocation().getTimeZone(),
-            timeZoneOffset: TimeZone.getOffset(astronomicalCalendar.getGeoLocation().getTimeZone(), astronomicalCalendar.getMoment().utcOffset() * 1000) / ZmanimFormatter.HOUR_MILLIS
+            timeZoneOffset: ZmanimFormatter.formatDecimal(TimeZone.getOffset(astronomicalCalendar.getGeoLocation().getTimeZone(),
+                astronomicalCalendar.getMoment().valueOf()) / ZmanimFormatter.HOUR_MILLIS)
         };
     }
 
     private static getZmanimOutput(astronomicalCalendar: AstronomicalCalendar): object {
-        const formatter: ZmanimFormatter = new ZmanimFormatter(ZmanimFormatter.XSD_DURATION_FORMAT, "YYYY-MM-DD[T]HH:mm:ss",
+        const formatter: ZmanimFormatter = new ZmanimFormatter(ZmanimFormatter.XSD_DURATION_FORMAT, "YYYY-MM-DD[T]HH:mm:ssZ",
             astronomicalCalendar.getGeoLocation().getTimeZone());
 
         /*
