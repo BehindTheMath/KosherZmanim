@@ -15,10 +15,15 @@
     "@types/moment-timezone": "^0.2.35",
     "@types/node": "^8.0.28",
     "@types/numeral": "0.0.22"
+    "@types/jest": "^21.1.1",
+    "jest": "^21.2.1",
+    "ts-jest": "^21.0.1",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.3",
   },
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
   },
   "author": "BehindTheMath",
   "license": "LGPL-3.0",
