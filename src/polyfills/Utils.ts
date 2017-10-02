@@ -1,9 +1,9 @@
 import {Moment} from "moment-timezone";
 import MomentTimezone = require("moment-timezone");
 
-export default class Utils {
+namespace Utils {
     // https://stackoverflow.com/a/40577337/8037425
-    public static getAllMethodNames(obj: object, excludeContructors: boolean = false): Array<string> {
+    export function getAllMethodNames(obj: object, excludeContructors: boolean = false): Array<string> {
         // let methods: Array<string> = [];
         const methods: Set<string> = new Set();
 
@@ -19,7 +19,9 @@ export default class Utils {
     }
 }
 
-export module TimeZone {
+export default Utils;
+
+export namespace TimeZone {
     /**
      * Returns the amount of time in milliseconds to add to UTC to get
      * standard time in this time zone. Because this value is not
@@ -61,7 +63,7 @@ export module TimeZone {
  * @author &copy; Eliyahu Hershfeld 2007-2011
  * @version 1.0
  */
-export module Zman {
+export namespace Zman {
     export function compareDateOrder(zman1: Zman, zman2: Zman): number {
         return DateUtils.compareTo(zman1.zman, zman2.zman);
     }
@@ -75,7 +77,7 @@ export module Zman {
     }
 }
 
-export module Calendar {
+export namespace Calendar {
     export const JANUARY: number = 0;
     export const FEBRUARY: number = 1;
     export const MARCH: number = 2;
@@ -98,7 +100,7 @@ export module Calendar {
     }
 }
 
-export module MathUtils {
+export namespace MathUtils {
     export function degreesToRadians(degrees: number): number {
         return degrees * Math.PI / 180;
     }
@@ -108,7 +110,7 @@ export module MathUtils {
     }
 }
 
-export module StringUtils {
+export namespace StringUtils {
     export function replaceAll(str: string, searchString: string, replaceString: string): string {
         return str.split(searchString).join(replaceString);
     }
@@ -174,7 +176,7 @@ export module StringUtils {
     }
 }
 
-export module DateUtils {
+export namespace DateUtils {
     export function compareTo(date1: Date, date2: Date): number {
         const date1Millis = date1.getTime();
         const date2Millis = date2.getTime();
