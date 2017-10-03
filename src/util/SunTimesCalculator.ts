@@ -211,13 +211,13 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
 
         const localMeanTime: number = SunTimesCalculator.getLocalMeanTime(localHour, sunRightAscensionHours,
                 SunTimesCalculator.getApproxTimeDays(dayOfYear, SunTimesCalculator.getHoursFromMeridian(longitude), isSunrise));
-        let pocessedTime: number = localMeanTime - SunTimesCalculator.getHoursFromMeridian(longitude);
-        while (pocessedTime < 0) {
-            pocessedTime += 24;
+        let processedTime: number = localMeanTime - SunTimesCalculator.getHoursFromMeridian(longitude);
+        while (processedTime < 0) {
+            processedTime += 24;
         }
-        while (pocessedTime >= 24) {
-            pocessedTime -= 24;
+        while (processedTime >= 24) {
+            processedTime -= 24;
         }
-        return pocessedTime;
+        return processedTime;
     }
 }
