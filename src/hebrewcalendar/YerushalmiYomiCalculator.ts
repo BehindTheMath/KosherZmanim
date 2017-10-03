@@ -1,8 +1,9 @@
 import {Calendar} from "../polyfills/Utils";
 import Daf from "./Daf";
 import JewishCalendar from "./JewishCalendar";
-import {Moment} from "moment-timezone";
-import MomentTimezone = require("moment-timezone");
+
+import MomentTimezone from "moment-timezone";
+import Moment = MomentTimezone.Moment;
 
 export default class YerushalmiYomiCalculator {
     private static readonly DAF_YOMI_START_DAY: Date = new Date(1980, Calendar.FEBRUARY, 2);

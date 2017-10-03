@@ -1,6 +1,7 @@
-import AstronomicalCalculator from "./AstronomicalCalculator";
 import GeoLocation from "./GeoLocation";
-import {Moment} from "moment-timezone";
+import AstronomicalCalculator from "./AstronomicalCalculator";
+import MomentTimezone from "moment-timezone";
+import Moment = MomentTimezone.Moment;
 import {MathUtils} from "../polyfills/Utils";
 
 /**

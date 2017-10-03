@@ -1,9 +1,10 @@
+import {DateUtils} from "./polyfills/Utils";
 import GeoLocation from "./util/GeoLocation";
 import ZmanimCalendar from "./ZmanimCalendar";
 import JewishCalendar from "./hebrewcalendar/JewishCalendar";
-import {Moment} from "moment-timezone";
-import MomentTimezone = require("moment-timezone");
-import {DateUtils} from "./polyfills/Utils";
+
+import MomentTimezone from "moment-timezone";
+import Moment = MomentTimezone.Moment;
 
 /**
  * This class extends ZmanimCalendar and provides many more zmanim than available in the ZmanimCalendar. The basis for

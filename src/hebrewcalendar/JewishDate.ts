@@ -1,6 +1,7 @@
 import {Calendar} from "../polyfills/Utils";
-import {Moment} from "moment-timezone";
-import MomentTimezone = require("moment-timezone");
+
+import MomentTimezone from "moment-timezone";
+import Moment = MomentTimezone.Moment;
 
 /**
  * The JewishDate class allows one to maintain an instance of a Gregorian date along with the corresponding Jewish date.

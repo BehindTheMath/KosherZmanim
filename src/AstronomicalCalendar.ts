@@ -1,11 +1,13 @@
+import {DateUtils, TimeZone} from "./polyfills/Utils";
 import GeoLocation from "./util/GeoLocation";
 import AstronomicalCalculator from "./util/AstronomicalCalculator";
 import SunTimesCalculator from "./util/SunTimesCalculator";
-import BigJS = require("big.js");
+
+import BigJS from "big.js";
 type BigDecimal = BigJsLibrary.BigJS;
-import {Moment} from "moment-timezone";
-import MomentTimezone = require("moment-timezone");
-import {DateUtils, TimeZone} from "./polyfills/Utils";
+
+import MomentTimezone from "moment-timezone";
+import Moment = MomentTimezone.Moment;
 
 /**
  * A Java calendar that calculates astronomical times such as {@link #getSunrise() sunrise} and {@link #getSunset()

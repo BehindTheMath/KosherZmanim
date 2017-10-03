@@ -1,8 +1,9 @@
 import {Calendar} from "../polyfills/Utils";
 import Daf from "./Daf";
 import JewishCalendar from "./JewishCalendar";
-import {Moment} from "moment-timezone";
-import MomentTimezone = require("moment-timezone");
+
+import MomentTimezone from "moment-timezone";
+import Moment = MomentTimezone.Moment;
 
 /**
  * This class calculates the Daf Yomi page (daf) for a given date. The class currently only supports Daf Yomi Bavli, but

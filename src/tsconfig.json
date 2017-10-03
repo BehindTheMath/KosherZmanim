@@ -5,6 +5,7 @@
     "target": "es6",
     "sourceMap": true,
     "outDir": "../js/"
+    "allowSyntheticDefaultImports": true,
   },
   "exclude": [
     "node_modules"

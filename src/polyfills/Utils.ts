@@ -1,5 +1,5 @@
-import {Moment} from "moment-timezone";
-import MomentTimezone = require("moment-timezone");
+import MomentTimezone from "moment-timezone";
+import Moment = MomentTimezone.Moment;
 
 namespace Utils {
     // https://stackoverflow.com/a/40577337/8037425

@@ -1,10 +1,11 @@
 import GeoLocation from "../util/GeoLocation";
-import JewishDate from "./JewishDate";
 import Daf from "./Daf";
+import JewishDate from "./JewishDate";
 import YomiCalculator from "./YomiCalculator";
 import YerushalmiYomiCalculator from "./YerushalmiYomiCalculator";
-import {Moment} from "moment-timezone";
-import MomentTimezone = require("moment-timezone");
+
+import MomentTimezone from "moment-timezone";
+import Moment = MomentTimezone.Moment;
 
 /**
  * The JewishCalendar extends the JewishDate class and adds calendar methods.

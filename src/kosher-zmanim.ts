@@ -19,10 +19,10 @@ import YerushalmiYomiCalculator from "./hebrewcalendar/YerushalmiYomiCalculator"
 import HebrewDateFormatter from "./hebrewcalendar/HebrewDateFormatter";
 import ZmanimFormatter from "./util/ZmanimFormatter";
 
-import {Moment} from "moment-timezone";
-import MomentTimezone = require("moment-timezone");
+import MomentTimezone from "moment-timezone";
+import Moment = MomentTimezone.Moment;
 
-export default class Zmanim {
+export default class KosherZmanim {
     private zmanimCalendar: ZmanimCalendar;
 
     public static readonly lib = {
