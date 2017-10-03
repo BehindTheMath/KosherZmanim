@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ZmanimJS Frontend Example</title>
+    <script src="https://rawgit.com/BehindTheMath/KosherZmanim/dev/dist/kosher-zmanim.min.js"></script>
+</head>
+<body>
+<table>
+    <tr><td><label for="date">Date</label></td><td><input id="date"/></td></tr>
+    <tr><td><label for="timeZoneId">Timezone ID</label></td><td><input id="timeZoneId" value="America/New_York"/></td></tr>
+    <tr><td><label for="locationName">Location Name</label></td><td><input id="locationName" value="Lakewood"/></td></tr>
+    <tr><td><label for="latitude">Latitude</label></td><td><input id="latitude" value="40.0821"/></td></tr>
+    <tr><td><label for="longitude">Longitude</label></td><td><input id="longitude" value="-74.2097"/></td></tr>
+    <tr><td><label for="elevation">Elevation</label></td><td><input id="elevation" value="0"/></td></tr>
+</table>
+
+<button id="calculate">Calculate</button>
+
+<p></p><div id="output"></div>
+
+<script>
+    (function () {
+        document.querySelector("input#date").value = new Date().toISOString();
+
+        document.querySelector("button#calculate").addEventListener("click", function () {
+            var zmanim = new KosherZmanim.default({
+                date: document.querySelector("input#date").value,
+                timeZoneId: document.querySelector("input#timeZoneId").value,
+                locationName: document.querySelector("input#locationName").value,
+                latitude: Number.parseInt(document.querySelector("input#latitude").value),
+                longitude: Number.parseInt(document.querySelector("input#longitude").value),
+                elevation: Number.parseInt(document.querySelector("input#elevation").value)
+            });
+
+            document.querySelector("div#output").innerText = JSON.stringify(zmanim.getZmanimJson()).replace(/([,|\{])/g, "$1\n");
+        })
+    })()
+</script>
+</body>
+</html>
