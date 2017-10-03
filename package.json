@@ -1,6 +1,6 @@
 {
   "name": "kosher-zmanim",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "lib-cjs/kosher-zmanim.js",
   "typings": "js/kosher-zmanim.d.ts",
