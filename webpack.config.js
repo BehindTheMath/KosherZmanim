@@ -2,7 +2,7 @@ const path = require("path");
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     context: __dirname,
     entry: {
         "kosher-zmanim": "./src/kosher-zmanim.ts",
