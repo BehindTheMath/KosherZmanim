@@ -600,7 +600,7 @@ export default class HebrewDateFormatter {
         jewishDate.setJewishDate(jewishYear, JewishDate.NISSAN, 15); // set to Pesach of the given year
         const pesachDayOfweek: number = jewishDate.getDayOfWeek();
         returnValue += this.formatHebrewNumber(pesachDayOfweek);
-        returnValue = StringUtils.replaceAll(returnValue, HebrewDateFormatter.GERESH, ""); // geresh is never used in the kviah format
+        returnValue = returnValue.replace(new RegExp(HebrewDateFormatter.GERESH, "g"), ""); // geresh is never used in the kviah format
         // boolean isLeapYear = JewishDate.isJewishLeapYear(jewishYear);
         // for efficiency we can avoid the expensive recalculation of the pesach day of week by adding 1 day to Rosh
         // Hashana for a 353 day year, 2 for a 354 day year, 3 for a 355 or 383 day year, 4 for a 384 day year and 5 for

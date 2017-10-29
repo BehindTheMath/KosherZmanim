@@ -7,15 +7,17 @@ namespace Utils {
         // let methods: Array<string> = [];
         const methods: Set<string> = new Set();
 
-        while (obj = Reflect.getPrototypeOf(obj)) {
+        while ((obj = Reflect.getPrototypeOf(obj)) && Reflect.getPrototypeOf(obj)) {
             const keys: Array<string> = Reflect.ownKeys(obj) as Array<string>;
             // methods = methods.concat(keys);
-            keys.filter((key: string) => !methods.has(key))
-                .filter((key: string) => !excludeContructors || key !== "constructor")
+            keys.filter((key: string) => !excludeContructors || key !== "constructor")
                 .forEach((key: string) => methods.add(key));
         }
 
-        return Array.from(methods);
+        return Array.from(methods)
+            // Convert Symbols to strings, if there are any
+            .map(value => value.toString())
+            .sort();
     }
 }
 
@@ -111,10 +113,6 @@ export namespace MathUtils {
 }
 
 export namespace StringUtils {
-    export function replaceAll(str: string, searchString: string, replaceString: string): string {
-        return str.split(searchString).join(replaceString);
-    }
-
     /**
      * Compares two strings lexicographically.
      * The comparison is based on the Unicode value of each character in
@@ -157,22 +155,14 @@ export namespace StringUtils {
      *          lexicographically greater than the string argument.
      */
     export function compareTo(string1: string, string2: string): number {
-        const len1: number = string1.length;
-        const len2: number = string2.length;
-        const lim: number = Math.min(len1, len2);
-        const v1: string[] = string1.split("");
-        const v2: string[] = string2.split("");
-
         let k: number = 0;
-        while (k < lim) {
-            const c1: string = v1[k];
-            const c2: string = v2[k];
-            if (c1 !== c2) {
-                return c1.charCodeAt(0) - c2.charCodeAt(0);
+        while (k < Math.min(string1.length, string2.length)) {
+            if (string1.substr(k, 1) !== string2.substr(k, 1)) {
+                return string1.charCodeAt(k) - string2.charCodeAt(k);
             }
             k++;
         }
-        return len1 - len2;
+        return string1.length - string2.length;
     }
 }
 
