@@ -3,8 +3,7 @@ import GeoLocation from "./util/GeoLocation";
 import AstronomicalCalculator from "./util/AstronomicalCalculator";
 import SunTimesCalculator from "./util/SunTimesCalculator";
 
-import BigJS from "big.js";
-type BigDecimal = BigJsLibrary.BigJS;
+import {Big} from "big.js";
 
 import MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
@@ -612,8 +611,8 @@ export default class AstronomicalCalendar {
         let offsetByDegrees: Date = this.getSeaLevelSunrise();
         const offsetByTime: Date = this.getTimeOffset(this.getSeaLevelSunrise(), -(minutes * AstronomicalCalendar.MINUTE_MILLIS));
 
-        let degrees: BigDecimal = new BigJS(0);
-        const incrementor: BigDecimal = new BigJS("0.0001");
+        let degrees: Big = new Big(0);
+        const incrementor: Big = new Big("0.0001");
         while (offsetByDegrees === null || offsetByDegrees.getTime() > offsetByTime.getTime()) {
             degrees = degrees.plus(incrementor);
             offsetByDegrees = this.getSunriseOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + Number.parseFloat(degrees.valueOf()));
@@ -636,8 +635,8 @@ export default class AstronomicalCalendar {
         let offsetByDegrees: Date = this.getSeaLevelSunset();
         const offsetByTime: Date = this.getTimeOffset(this.getSeaLevelSunset(), minutes * AstronomicalCalendar.MINUTE_MILLIS);
 
-        let degrees: BigDecimal = new BigJS(0);
-        const incrementor: BigDecimal = new BigJS("0.001");
+        let degrees: Big = new Big(0);
+        const incrementor: Big = new Big("0.001");
         while (offsetByDegrees === null || offsetByDegrees.getTime() < offsetByTime.getTime()) {
             degrees = degrees.plus(incrementor);
             offsetByDegrees = this.getSunsetOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + Number.parseFloat(degrees.valueOf()));
