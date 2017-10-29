@@ -56,7 +56,7 @@ export default class KosherZmanim {
         const geoLocation: GeoLocation = new GeoLocation(options.locationName, options.latitude, options.longitude, options.elevation || 0);
         geoLocation.setTimeZone(options.timeZoneId);
 
-        this.zmanimCalendar = new ZmanimCalendar(geoLocation);
+        this.zmanimCalendar = options.complexZmanim ? new ComplexZmanimCalendar(geoLocation) : new ZmanimCalendar(geoLocation);
         this.zmanimCalendar.setMoment(moment);
     }
 

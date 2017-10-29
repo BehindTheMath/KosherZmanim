@@ -59,6 +59,7 @@ The options object has the following structure:
     latitude: number;
     longitude: number;
     elevation?: number;
+    complexZmanim?: boolean
 }
 ```
 
