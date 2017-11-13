@@ -1,5 +1,6 @@
 const path = require("path");
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const FixDefaultImportPlugin = require('webpack-fix-default-import-plugin');
 
 module.exports = {
     devtool: 'source-map',
@@ -13,6 +14,7 @@ module.exports = {
         path: path.resolve(__dirname, "./dist"),
         libraryTarget: "umd",
         library: "KosherZmanim",
+        libraryExport: "default",
         umdNamedDefine: true
     },
     module: {
@@ -49,7 +51,8 @@ module.exports = {
                     }
                 }
             }
-        )
+        ),
+        new FixDefaultImportPlugin()
     ]
 };
 
