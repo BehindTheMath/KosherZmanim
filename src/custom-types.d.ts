@@ -29,6 +29,7 @@ declare interface ZmanimConstructorOptions {
     latitude: number;
     longitude: number;
     elevation?: number;
+    complexZmanim?: boolean;
 }
 
 declare interface TimezonesJsonItem {
