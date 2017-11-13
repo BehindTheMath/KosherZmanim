@@ -52,5 +52,6 @@
     "zmanim",
     "zman"
   ],
-  "repository": "BehindTheMath/KosherZmanim"
+  "repository": "BehindTheMath/KosherZmanim",
+  "unpkg": "dist/kosher-zmanim.min.js"
 }
