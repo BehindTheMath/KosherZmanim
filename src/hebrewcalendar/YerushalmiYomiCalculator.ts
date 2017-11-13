@@ -2,7 +2,7 @@ import {Calendar} from "../polyfills/Utils";
 import Daf from "./Daf";
 import JewishCalendar from "./JewishCalendar";
 
-import MomentTimezone from "moment-timezone";
+import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 
 export default class YerushalmiYomiCalculator {

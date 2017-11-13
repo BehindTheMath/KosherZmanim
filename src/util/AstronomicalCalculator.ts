@@ -1,5 +1,5 @@
 import GeoLocation from "./GeoLocation";
-import MomentTimezone from "moment-timezone";
+import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 import {MathUtils} from "../polyfills/Utils";
 

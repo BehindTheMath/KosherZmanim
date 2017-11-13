@@ -6,7 +6,7 @@ import ZmanimCalendar from "../ZmanimCalendar";
 import ComplexZmanimCalendar from "../ComplexZmanimCalendar";
 
 import * as numeral from "numeral";
-import MomentTimezone from "moment-timezone";
+import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 import xmlBuilder from "xmlbuilder";
 

@@ -1,4 +1,4 @@
-import MomentTimezone from "moment-timezone";
+import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 
 namespace Utils {

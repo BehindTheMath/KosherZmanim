@@ -1,6 +1,6 @@
 import {Calendar} from "../polyfills/Utils";
 
-import MomentTimezone from "moment-timezone";
+import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 
 /**

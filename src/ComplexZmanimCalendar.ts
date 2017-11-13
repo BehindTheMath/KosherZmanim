@@ -3,7 +3,7 @@ import GeoLocation from "./util/GeoLocation";
 import ZmanimCalendar from "./ZmanimCalendar";
 import JewishCalendar from "./hebrewcalendar/JewishCalendar";
 
-import MomentTimezone from "moment-timezone";
+import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 
 /**

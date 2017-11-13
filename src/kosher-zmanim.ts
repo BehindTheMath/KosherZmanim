@@ -19,7 +19,7 @@ import YerushalmiYomiCalculator from "./hebrewcalendar/YerushalmiYomiCalculator"
 import HebrewDateFormatter from "./hebrewcalendar/HebrewDateFormatter";
 import ZmanimFormatter from "./util/ZmanimFormatter";
 
-import MomentTimezone from "moment-timezone";
+import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 
 export default class KosherZmanim {
