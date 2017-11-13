@@ -31,9 +31,13 @@
     "webpack-fix-default-import-plugin": "^1.0.3"
   },
   "scripts": {
-    "clean": "shx rm -rf ./lib-es6/* ./lib-cjs/* ./dist/*",
+    "clean-es6": "shx rm -rf ./lib-es6/*",
+    "clean-cjs": "shx rm -rf ./lib-cjs/*",
+    "clean-dist": "shx rm -rf ./dist/*",
+    "clean-all": "npm run clean-es6 && npm run clean-cjs && npm run clean-dist",
     "build-es6": "cd src && tsc -module es6 --outDir ../lib-es6/",
-    "build": "npm run clean && cd src && tsc && cd ../ && npm run build-es6 && webpack",
+    "build": "npm run clean-all && cd src && tsc && cd ../ && npm run build-es6 && webpack",
+    "lint": "tslint -p ./src/",
     "test": "jest",
     "start:idea": "cd src && ts-node %NODE_DEBUG_OPTION% --ignore false ./work/test.ts",
     "webpack-build": "webpack",
