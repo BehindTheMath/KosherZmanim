@@ -6,51 +6,49 @@ Things will break, and APIs will change. Do not use this in production yet.
 Kosher Zmanim is a TS/JS port of the [KosherJava](KosherJava/zmanim) library.
 
 # Installation
-**Node:**
+**NPM:**
 ```
 npm install --save kosher-zmanim
 ```
 
-**Browser:**
+**UMD (browser):**
 ```html
-<script src="https://rawgit.com/BehindTheMath/KosherZmanim/dev/dist/kosher-zmanim.min.js"></script>
+<script src="https://unpkg.com/kosher-zmanim/dist/kosher-zmanim.min.js"></script>
 ```
 
 # Usage and Documentation
-#### Library:
-**Node / ES6:**
+#### Importing
+**ES6 modules / Typescript:**
 ```javascript
 import KosherZmanim from "kosher-zmanim";
-
-const zmanimcalendar = new KosherZmanim.lib.ZmanimCalendar;
 ```
 
-**ES5:**
+**Node:**
 ```javascript
-var zmanimcalendar = new KosherZmanim.default.lib.ZmanimCalendar;
+const KosherZmanim = require("kosher-zmanim");
 ```
-The KosherJava library has been ported to JS, following the original API as close as possible. This is exposed as either `KosherZmanim.lib.*` or `KosherZmanim.default.lib.*`, following the above examples. You can instatiate or extend those classes as necessary, the same way you would in Java.
+
+**UMD (browser):**
+
+For UMD, a global `KosherZmanim` object is exposed.
+
+#### Library Usage:
+```javascript
+const zmanimCalendar = new KosherZmanim.lib.ZmanimCalendar();
+```
+The KosherJava library has been ported to JS, following the original API as close as possible. This is exposed as `KosherZmanim.lib.*`, following the above example. You can instatiate or extend those classes as necessary, the same way you would in Java.
 
 #### Simple usage
-Alternatively, KosherZmanim can be instatiated, and then there are 2 utility methods: `getZmanimJson()`, and `getZmanimXML()`
+Alternatively, KosherZmanim can be instatiated, and then there are 2 utility methods: `getZmanimJson()`, and `getZmanimXML()`.
 
-**Node / ES6:**
 ```javascript
-import KosherZmanim from "kosher-zmanim";
-
-const zmanim = new KosherZmanim(options);
-console.dir(zmanim.getZmanimJson());
-```
-
-**ES5:**
-```javascript
-var zmanim = new KosherZmanim.default(options);
-console.dir(zmanim.getZmanimJson());
+const kosherZmanim = new KosherZmanim(options);
+const zmanim = kosherZmanim.getZmanimJSON();
 ```
 (See [here](/examples/frontend-example/frontend-example.html) for an example).
 
 ##### `options` object
-The options object has the following structure:
+The `options` object has the following structure:
 ```
 {
     date: Date | string | number;
@@ -62,6 +60,9 @@ The options object has the following structure:
     complexZmanim?: boolean
 }
 ```
+
+## Note about how zmanim are calculated
+The zmanim are calculated based on the day of year, which is not dependent on timezone. This means that the zmanim will be calculated for the location selected, on the day of year passed, and then displayed at the equivalent time in the selected timezone.
 
 # Breaking changes from KosherJava
 * `AstronomicalCalendar.getTemporalHour()` returns `null` instead of `Long.MIN_VALUE` if the calculations cannot be completed.
