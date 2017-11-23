@@ -204,7 +204,7 @@ export default class JewishCalendar extends JewishDate {
             }
             if (this.isUseModernHolidays()
                     && ((this.getJewishDayOfMonth() === 26 && this.getDayOfWeek() === 5)
-                            || (this.getJewishDayOfMonth() === 28 && this.getDayOfWeek() === 1)
+                            || (this.getJewishDayOfMonth() === 28 && this.getDayOfWeek() === 2)
                             || (this.getJewishDayOfMonth() === 27 && this.getDayOfWeek() !== 1 && this.getDayOfWeek() !== 6))) {
                 return JewishCalendar.YOM_HASHOAH;
             }
