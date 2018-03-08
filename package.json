@@ -7,27 +7,27 @@
   "module": "lib-es6/kosher-zmanim.js",
   "dependencies": {
     "big.js": "^5.0.3",
-    "moment": "^2.18.1",
-    "moment-timezone": "^0.5.13",
+    "moment": "^2.21.0",
+    "moment-timezone": "^0.5.14",
     "numeral": "^2.0.6",
     "timezones.json": "github:dmfilipenko/timezones.json",
-    "xmlbuilder": "^9.0.4"
+    "xmlbuilder": "^9.0.7"
   },
   "devDependencies": {
     "@types/big.js": "4.0.0",
-    "@types/jest": "^21.1.1",
-    "@types/moment-timezone": "^0.5.0",
-    "@types/node": "^8.0.47",
+    "@types/jest": "^21.1.10",
+    "@types/moment-timezone": "^0.5.4",
+    "@types/node": "^8.9.4",
     "@types/numeral": "0.0.22",
     "@types/xmlbuilder": "0.0.31",
     "jest": "^21.2.1",
     "shx": "^0.2.2",
-    "ts-jest": "^21.0.1",
+    "ts-jest": "^21.2.4",
     "ts-loader": "^2.3.1",
     "ts-node": "^3.3.0",
-    "typescript": "^2.5.3",
+    "typescript": "^2.7.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
-    "webpack": "^3.3.0",
+    "webpack": "^3.11.0",
     "webpack-fix-default-import-plugin": "^1.0.3"
   },
   "scripts": {
