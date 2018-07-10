@@ -146,8 +146,8 @@ export default class SunTimesCalculator extends AstronomicalCalculator {
         const a: number = 0.91764 * SunTimesCalculator.tanDeg(sunTrueLongitude);
         let ra: number = 360 / (2 * Math.PI) * Math.atan(a);
 
-        const lQuadrant: number = Math.trunc(sunTrueLongitude / 90) * 90;
-        const raQuadrant: number = Math.trunc(ra / 90) * 90;
+        const lQuadrant: number = Math.floor(sunTrueLongitude / 90) * 90;
+        const raQuadrant: number = Math.floor(ra / 90) * 90;
         ra = ra + (lQuadrant - raQuadrant);
 
         return ra / SunTimesCalculator.DEG_PER_HOUR; // convert to hours

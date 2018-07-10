@@ -68,8 +68,8 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
         }
 
         // step 5b: right ascension value needs to be in the same quadrant as L
-        const lQuadrant: number = Math.trunc(l / 90) * 90;
-        const raQuadrant: number = Math.trunc(RA / 90) * 90;
+        const lQuadrant: number = Math.floor(l / 90) * 90;
+        const raQuadrant: number = Math.floor(RA / 90) * 90;
         RA = RA + (lQuadrant - raQuadrant);
 
         // step 5c: right ascension value needs to be converted into hours
@@ -148,8 +148,8 @@ export default class ZmanimCalculator extends AstronomicalCalculator {
         }
 
         // step 5b: right ascension value needs to be in the same quadrant as L
-        const Lquadrant: number = Math.trunc(L / 90) * 90;
-        const RAquadrant: number = Math.trunc(RA / 90) * 90;
+        const Lquadrant: number = Math.floor(L / 90) * 90;
+        const RAquadrant: number = Math.floor(RA / 90) * 90;
         RA = RA + (Lquadrant - RAquadrant);
 
         // step 5c: right ascension value needs to be converted into hours
