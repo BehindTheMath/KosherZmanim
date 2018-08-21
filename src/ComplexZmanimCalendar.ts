@@ -1,4 +1,4 @@
-import {DateUtils} from "./polyfills/Utils";
+import {DateUtils, TimeZone} from "./polyfills/Utils";
 import GeoLocation from "./util/GeoLocation";
 import ZmanimCalendar from "./ZmanimCalendar";
 import JewishCalendar from "./hebrewcalendar/JewishCalendar";
@@ -2268,7 +2268,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getFixedLocalChatzos(): Date {
         return this.getTimeOffset(
-            this.getDateFromTime(12 - (this.getMoment().utcOffset() / ComplexZmanimCalendar.HOUR_MILLIS)),
+            this.getDateFromTime(12 - TimeZone.getRawOffset(this.getMoment()) / ComplexZmanimCalendar.HOUR_MILLIS),
             -this.getGeoLocation().getLocalMeanTimeOffset());
     }
 
