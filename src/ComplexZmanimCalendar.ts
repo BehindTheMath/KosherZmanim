@@ -2630,7 +2630,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getSolarMidnight(): Date {
         const clonedCal: ZmanimCalendar = this.clone() as ZmanimCalendar;
-        clonedCal.getMoment().add({months: 1});
+        clonedCal.getMoment().add({days: 1});
         const sunset: Date = this.getSeaLevelSunset();
         const sunrise: Date = clonedCal.getSeaLevelSunrise();
         return this.getTimeOffset(sunset, this.getTemporalHour(sunset, sunrise) * 6);
