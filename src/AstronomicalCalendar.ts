@@ -761,7 +761,7 @@ export default class AstronomicalCalendar {
      */
     public clone(): AstronomicalCalendar {
         const clonedCalendar: AstronomicalCalendar = new AstronomicalCalendar();
-        clonedCalendar.setMoment(this.moment);
+        clonedCalendar.setMoment(MomentTimezone(this.moment));
         clonedCalendar.setAstronomicalCalculator(this.astronomicalCalculator);
         clonedCalendar.setGeoLocation(this.geoLocation);
 
