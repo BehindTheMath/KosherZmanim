@@ -43,7 +43,7 @@ Alternatively, KosherZmanim can be instatiated, and then there are 2 utility met
 
 ```javascript
 const kosherZmanim = new KosherZmanim(options);
-const zmanim = kosherZmanim.getZmanimJSON();
+const zmanim = kosherZmanim.getZmanimJson();
 ```
 (See [here](/examples/frontend-example/frontend-example.html) for an example).
 
