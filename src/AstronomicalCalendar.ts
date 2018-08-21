@@ -744,7 +744,7 @@ export default class AstronomicalCalendar {
         this.moment = moment;
         if (this.getGeoLocation() != null) {
             // if available set the Calendar's timezone to the GeoLocation TimeZone
-            this.moment = this.moment.tz(this.getGeoLocation().getTimeZone());
+            this.moment.tz(this.getGeoLocation().getTimeZone());
         }
     }
 
