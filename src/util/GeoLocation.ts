@@ -87,12 +87,14 @@ export default class GeoLocation {
      *            the <code>TimeZone</code> for the location.
      */
     constructor(name: string, latitude: number, longitude: number, elevation: number, timeZoneId?: string)
-    constructor(name: string, latitude: number, longitude: number, timeZone: string)
+    constructor(name: string, latitude: number, longitude: number, timeZoneId: string)
     constructor()
     constructor(name: string = "Greenwich, England", latitude: number = 51.4772, longitude: number = 0, elevationOrTimeZoneId?: number | string, timeZoneId?: string) {
         let elevation: number = 0;
         if (timeZoneId) {
             elevation = elevationOrTimeZoneId as number;
+        } else {
+            timeZoneId = elevationOrTimeZoneId as string;
         }
 
         this.setLocationName(name);
