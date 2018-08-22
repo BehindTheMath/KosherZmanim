@@ -53,5 +53,14 @@
     "zman"
   ],
   "repository": "BehindTheMath/KosherZmanim",
-  "unpkg": "dist/kosher-zmanim.min.js"
+  "unpkg": "dist/kosher-zmanim.min.js",
+  "files": [
+    "dist/*",
+    "examples/frontend-example/frontend-example.html",
+    "lib-cjs/**/*",
+    "lib-es6/**/*",
+    "jest.config.js",
+    "jest.config.json",
+    "webpack.config.js"
+  ]
 }
