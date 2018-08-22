@@ -720,7 +720,7 @@ export default class HebrewDateFormatter {
             } else { // append double quote before last digit
                 sb = sb.substr(0, sb.length - 1)
                     .concat(HebrewDateFormatter.GERSHAYIM)
-                    .concat(sb.substr(sb.length - 1, sb.length - sb.length - 1));
+                    .concat(sb.substr(sb.length - 1, 1));
             }
         }
         return sb;
