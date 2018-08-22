@@ -647,6 +647,8 @@ export default class HebrewDateFormatter {
      *
      */
     public formatHebrewNumber(num: number): string {
+        if (num !== Math.trunc(num)) throw new Error("IllegalArgumentException: number must be an integer.");
+
         if (num < 0) {
             throw new Error("IllegalArgumentException: negative numbers can't be formatted");
         } else if (num > 9999) {
@@ -672,8 +674,8 @@ export default class HebrewDateFormatter {
         const shortNumber: number = num % 1000; // discard thousands
         // next check for all possible single Hebrew digit years
         const singleDigitNumber: boolean = (shortNumber < 11 || (shortNumber < 100 && shortNumber % 10 === 0) || (shortNumber <= 400 && shortNumber % 100 === 0));
-        const thousands: number = num / 1000; // get # thousands
-        let sb: string;
+        const thousands: number = Math.trunc(num / 1000); // get # thousands
+        let sb: string = "";
         // append thousands to String
         if (num % 1000 === 0) { // in year is 5000, 4000 etc
             sb = sb.concat(jOnes[thousands]);
@@ -691,7 +693,7 @@ export default class HebrewDateFormatter {
             sb = sb.concat(" ");
         }
         num = num % 1000; // remove 1000s
-        const hundreds: number = num / 100; // # of hundreds
+        const hundreds: number = Math.trunc(num / 100); // # of hundreds
         sb = sb.concat(jHundreds[hundreds]); // add hundreds to String
         num = num % 100; // remove 100s
         if (num === 15) { // special case 15
@@ -699,7 +701,7 @@ export default class HebrewDateFormatter {
         } else if (num === 16) { // special case 16
             sb = sb.concat(tavTaz[1]);
         } else {
-            const tens: number = num / 10;
+            const tens: number = Math.trunc(num / 10);
             if (num % 10 === 0) { // if evenly divisable by 10
                 if (singleDigitNumber === false) {
                     sb = sb.concat(jTenEnds[tens]); // end letters so years like 5750 will end with an end nun
