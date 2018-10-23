@@ -2268,7 +2268,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getFixedLocalChatzos(): Date {
         return this.getTimeOffset(
-            this.getDateFromTime(12 - TimeZone.getRawOffset(this.getMoment()) / ComplexZmanimCalendar.HOUR_MILLIS),
+            this.getDateFromTime(12 - TimeZone.getRawOffset(this.getMoment()) / ComplexZmanimCalendar.HOUR_MILLIS, true),
             -this.getGeoLocation().getLocalMeanTimeOffset());
     }
 
