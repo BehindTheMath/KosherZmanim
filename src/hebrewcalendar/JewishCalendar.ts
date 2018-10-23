@@ -27,7 +27,6 @@ import Moment = MomentTimezone.Moment;
  * @see java.util.Calendar
  * @author &copy; Avrom Finkelstien 2002
  * @author &copy; Eliyahu Hershfeld 2011 - 2016
- * @version 1.0.0
  */
 export default class JewishCalendar extends JewishDate {
     public static readonly EREV_PESACH: number = 0;
@@ -373,6 +372,29 @@ export default class JewishCalendar extends JewishDate {
         const holidayIndex: number = this.getYomTovIndex();
         return holidayIndex === JewishCalendar.PESACH || holidayIndex === JewishCalendar.SHAVUOS || holidayIndex === JewishCalendar.SUCCOS || holidayIndex === JewishCalendar.SHEMINI_ATZERES ||
                 holidayIndex === JewishCalendar.SIMCHAS_TORAH || holidayIndex === JewishCalendar.ROSH_HASHANA  || holidayIndex === JewishCalendar.YOM_KIPPUR;
+    }
+
+
+    /**
+     * Returns true if the day has candle lighting. This will return true on erev <em>Shabbos</em>, erev <em>Yom Tov</em>, the
+     * first day of <em>Rosh Hashana</em> and erev the second days of <em>Yom Tov</em> out of Israel.
+     *
+     * @return if the day has candle lighting
+     */
+    public hasCandleLighting(): boolean {
+        return this.getDayOfWeek() == 6 || this.isErevYomTov() || this.isErevYomTovSheni();
+    }
+
+    /**
+     * Retruns true if the day is the second day of <em>Yom Tov</em>.
+     * @return
+     */
+    public isErevYomTovSheni(): boolean {
+        return (this.getJewishMonth() == JewishCalendar.TISHREI && (this.getJewishDayOfMonth() == 1))
+            || (!this.getInIsrael()
+                && ((this.getJewishMonth() == JewishCalendar.NISSAN && (this.getJewishDayOfMonth() == 15 || this.getJewishDayOfMonth() == 21))
+                    || (this.getJewishMonth() == JewishCalendar.TISHREI && (this.getJewishDayOfMonth() == 15 || this.getJewishDayOfMonth() == 22))
+                    || (this.getJewishMonth() == JewishCalendar.SIVAN && this.getJewishDayOfMonth() == 6)));
     }
 
     /**
