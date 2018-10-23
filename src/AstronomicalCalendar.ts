@@ -380,7 +380,8 @@ export default class AstronomicalCalendar {
      *         not set, {@link Double#NaN} will be returned. See detailed explanation on top of the page.
      */
     public getUTCSunrise(zenith: number): number {
-        return this.getAstronomicalCalculator().getUTCSunrise(this.getMoment(), this.getGeoLocation(), zenith, true);
+        return this.getAstronomicalCalculator()
+            .getUTCSunrise(this.getAdjustedMoment(), this.getGeoLocation(), zenith, true);
     }
 
     /**
@@ -398,7 +399,8 @@ export default class AstronomicalCalendar {
      * @see AstronomicalCalendar#getUTCSeaLevelSunset
      */
     public getUTCSeaLevelSunrise(zenith: number): number {
-        return this.getAstronomicalCalculator().getUTCSunrise(this.getMoment(), this.getGeoLocation(), zenith, false);
+        return this.getAstronomicalCalculator()
+            .getUTCSunrise(this.getAdjustedMoment(), this.getGeoLocation(), zenith, false);
     }
 
     /**
@@ -413,7 +415,8 @@ export default class AstronomicalCalendar {
      * @see AstronomicalCalendar#getUTCSeaLevelSunset
      */
     public getUTCSunset(zenith: number): number {
-        return this.getAstronomicalCalculator().getUTCSunset(this.getMoment(), this.getGeoLocation(), zenith, true);
+        return this.getAstronomicalCalculator()
+            .getUTCSunset(this.getAdjustedMoment(), this.getGeoLocation(), zenith, true);
     }
 
     /**
@@ -432,7 +435,8 @@ export default class AstronomicalCalendar {
      * @see AstronomicalCalendar#getUTCSeaLevelSunrise
      */
     public getUTCSeaLevelSunset(zenith: number): number {
-        return this.getAstronomicalCalculator().getUTCSunset(this.getMoment(), this.getGeoLocation(), zenith, false);
+        return this.getAstronomicalCalculator()
+            .getUTCSunset(this.getAdjustedMoment(), this.getGeoLocation(), zenith, false);
     }
 
     /**
@@ -529,16 +533,17 @@ export default class AstronomicalCalendar {
      * @param isSunrise true if the time is sunrise, and false if it is sunset
      * @return The Date.
      */
-    protected getDateFromTime(time: number, isSunrise: boolean): Date {
+    protected getDateFromTime(time: number, isSunrise: boolean): Date | null {
         if (Number.isNaN(time)) {
             return null;
         }
         let calculatedTime: number = time;
 
+        const adjustedMoment: MomentTimezone.Moment = this.getAdjustedMoment();
         const moment: Moment = MomentTimezone.tz({
-            year: this.moment.year(),
-            month: this.moment.month(),
-            date: this.moment.date()
+            year: adjustedMoment.year(),
+            month: adjustedMoment.month(),
+            date: adjustedMoment.date()
         }, "UTC");
 
         const hours: number = Math.trunc(calculatedTime); // retain only the hours
@@ -613,6 +618,22 @@ export default class AstronomicalCalendar {
             offsetByDegrees = this.getSunsetOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + Number.parseFloat(degrees.valueOf()));
         }
         return Number.parseFloat(degrees.valueOf());
+    }
+
+    /**
+     * Adjusts the <code>Calendar</code> to deal with edge cases where the location crosses the antimeridian.
+     *
+     * @see GeoLocation#getAntimeridianAdjustment()
+     * @return the adjusted Calendar
+     */
+    private getAdjustedMoment(): MomentTimezone.Moment {
+        const offset: -1 | 0 | 1 = this.getGeoLocation().getAntimeridianAdjustment();
+        if (offset === 0) {
+            return this.getMoment();
+        }
+        const adjustedMoment: MomentTimezone.Moment = this.getMoment().clone();
+        adjustedMoment.add({days: offset});
+        return adjustedMoment;
     }
 
     /**

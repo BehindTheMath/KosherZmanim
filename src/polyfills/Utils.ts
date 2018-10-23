@@ -42,11 +42,12 @@ export namespace TimeZone {
         return offsetMinutes * 60 * 1000;
     }
 
-    export function getDisplayName(timeZoneId: string): string {
+    export function getDisplayName(timeZoneId: string, short: boolean = false): string {
         const timezones: Array<TimezonesJsonItem> = require("timezones.json");
-        const displayName: string = timezones.filter((timezone: TimezonesJsonItem) => timezone.hasOwnProperty("utc") &&
-            timezone.utc.indexOf(timeZoneId) !== -1)[0].value;
-        return displayName;
+        const timezone: TimezonesJsonItem = timezones
+            .filter((timezone: TimezonesJsonItem) => timezone.hasOwnProperty("utc") &&
+                timezone.utc.indexOf(timeZoneId) !== -1)[0];
+        return short ? timezone.abbr : timezone.value;
     }
 
 /*

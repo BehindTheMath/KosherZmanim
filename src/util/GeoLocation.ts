@@ -309,6 +309,42 @@ export default class GeoLocation {
         return this.getLongitude() * 4 * GeoLocation.MINUTE_MILLIS - TimeZone.getRawOffset(this.getTimeZone());
     }
 
+
+    /**
+     * Adjust the date for <a href="https://en.wikipedia.org/wiki/180th_meridian">antimeridian</a> crossover. This is
+     * needed to deal with edge cases such as Samoa that use a different calendar date than expected based on their
+     * geographic location.
+     *
+     * The actual Time Zone offset may deviate from the expected offset based on the longitude. Since the 'absolute time'
+     * calculations are always based on longitudinal offset from UTC for a given date, the date is presumed to only
+     * increase East of the Prime Meridian, and to only decrease West of it. For Time Zones that cross the antimeridian,
+     * the date will be artificially adjusted before calculation to conform with this presumption.
+     *
+     * For example, Apia, Samoa with a longitude of -171.75 uses a local offset of +14:00.  When calculating sunrise for
+     * 2018-02-03, the calculator should operate using 2018-02-02 since the expected zone is -11.  After determining the
+     * UTC time, the local DST offset of <a href="https://en.wikipedia.org/wiki/UTC%2B14:00">UTC+14:00</a> should be applied
+     * to bring the date back to 2018-02-03.
+     *
+     * @return the number of days to adjust the date This will typically be 0 unless the date crosses the antimeridian
+     */
+    public getAntimeridianAdjustment(): -1 | 1 | 0 {
+        const localHoursOffset: number = this.getLocalMeanTimeOffset() / GeoLocation.HOUR_MILLIS;
+
+        // if the offset is 20 hours or more in the future (never expected anywhere other
+        // than a location using a timezone across the anti meridian to the east such as Samoa)
+        if (localHoursOffset >= 20) {
+            // roll the date forward a day
+            return 1;
+        } else if (localHoursOffset <= -20) {
+            // if the offset is 20 hours or more in the past (no current location is known
+            // that crosses the antimeridian to the west, but better safe than sorry)
+            // roll the date back a day
+            return -1;
+        }
+        //99.999% of the world will have no adjustment
+        return 0;
+    }
+
     /**
      * Calculate the initial <a href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> bearing between this
      * Object and a second Object passed to this method using <a
@@ -535,10 +571,9 @@ export default class GeoLocation {
             .concat("\nLatitude:\t\t\t").concat(this.getLatitude().toString()).concat("°")
             .concat("\nLongitude:\t\t\t").concat(this.getLongitude().toString()).concat("°")
             .concat("\nElevation:\t\t\t").concat(this.getElevation().toString()).concat(" Meters")
-            .concat("\nTimezone Name:\t\t\t").concat(this.getTimeZone())
-/*
-            sb.append("\nTimezone Display Name:\t\t").append( getTimeZone().getDisplayName());
-*/
+            .concat("\nTimezone ID:\t\t\t").concat(this.getTimeZone())
+            .concat("\nTimezone Display Name:\t\t").concat(TimeZone.getDisplayName(this.getTimeZone()))
+            .concat(" (").concat(TimeZone.getDisplayName(this.getTimeZone(), true)).concat(")")
             .concat("\nTimezone GMT Offset:\t\t").concat((TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString());
 /*
             sb.append("\nTimezone DST Offset:\t\t").append((this.getTimeZone().getDSTSavings() / GeoLocation.HOUR_MILLIS).toString());
