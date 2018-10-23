@@ -92,7 +92,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * is 3.8&deg; below {@link #GEOMETRIC_ZENITH geometric zenith} at this time in Jerusalem on March 16, about 4 days
      * before the equinox, the day that a solar hour is 60 minutes.
      *
-     * @see #getTzaisGeonim3Point7Degrees()
+     * @see #getTzaisGeonim3Point8Degrees()
      */
     protected static readonly ZENITH_3_POINT_8: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 3.8;
 
@@ -231,6 +231,17 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
     protected static readonly ZENITH_3_POINT_676: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 3.676;
 
     protected static readonly ZENITH_5_POINT_88: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 5.88;
+
+    /**
+     * The zenith of 6.45&deg; below {@link #GEOMETRIC_ZENITH geometric zenith} (90&deg;). This calculation is used for
+     * calculating <em>tzais</em> (nightfall) according to some opinions. This is based on the calculations of Rav
+     * Yechiel Michel Tukachinsky of the position of the sun no later than {@link #getTzaisGeonim6Point45Degrees() 31
+	 * minutes} after sunset in Jerusalem, and at the height of the summer solstice, this zman is 28 minutes after
+     * <em>shkiah</em>. This computes to 6.45&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}
+     *
+     * @see #getTzaisGeonim6Point45Degrees()
+     */
+    protected static readonly ZENITH_6_POINT_45: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 6.45;
 
     private ateretTorahSunsetOffset: number = 40;
 
@@ -1672,8 +1683,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
     /**
      * This method returns <em>Bain Hashmashos</em> of <em>Rabainu Tam</em> calculated as a 58.5 minute offset after
      * sunset. <em>Bain hashmashos</em> is 3/4 of a <em>Mil</em> before <em>tzais</em> or 3 1/4 <em>Mil</em> after
-     * sunset. With a <em>Mil</em> calculated as 18 minutes, 3.25 * 18
-     * = 58.5 minutes.
+     * sunset. With a <em>Mil</em> calculated as 18 minutes, 3.25 * 18 = 58.5 minutes.
      *
      * @return the <code>Date</code> of 58.5 minutes after sunset. If the calculation can't be computed such as in the
      *         Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
@@ -1860,6 +1870,23 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
     }
 
     /**
+     * This method returns the <em>tzais</em> (nightfall) based on the opinion of the <em>Geonim</em> as calculated by Rabbi
+     * Yechiel Michel Tukachinsky. It is based on of the position of the sun no later than {@link #getTzaisGeonim6Point45Degrees() 31
+	 * minutes} after sunset in Jerusalem, and at the height of the summer solstice, this zman is 28 minutes after
+     * <em>shkiah</em>. This computes to 6.45&deg; below the western horizon. (FIXME: additional documentation details needed)
+     *
+     * @return the <code>Date</code> representing the time when the sun is 6.45&deg; below sea level. If the
+     *         calculation can't be computed such as northern and southern locations even south of the Arctic Circle and
+     *         north of the Antarctic Circle where the sun may not reach low enough below the horizon for this
+     *         calculation, a null will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}
+     *         documentation.
+     * @see #ZENITH_6_POINT_45
+     */
+    public getTzaisGeonim6Point45Degrees(): Date {
+        return this.getSunsetOffsetByDegrees(ComplexZmanimCalendar.ZENITH_6_POINT_45);
+    }
+
+    /**
      * This method returns the <em>tzais</em> (nightfall) based on the opinion of the <em>Geonim</em> calculated as 30
      * minutes after sunset during the equinox in Yerushalayim. The sun's position at this time computes to
      * {@link #ZENITH_7_POINT_083 7.083&deg; (or 7&deg; 5\u2032} below the western horizon. Note that this is a common
@@ -1959,8 +1986,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * to {@link #getAlos72Zmanis() alos} to reach this time. This time is 3
      * <em> {@link #getShaahZmanisAteretTorah() shaos zmaniyos}</em> (temporal hours) after
      * <em>{@link #getAlos72Zmanis()
-     * alos 72 zmaniyos}</em>.
-     * <b>Note: </b> Based on this calculation <em>chatzos</em> will not be at midday.
+     * alos 72 zmaniyos}</em>. <b>Note: </b> Based on this calculation <em>chatzos</em> will not be at midday.
      *
      * @return the <code>Date</code> of the latest <em>zman krias shema</em> based on this calculation. If the
      *         calculation can't be computed such as in the Arctic Circle where there is at least one day a year where
@@ -2341,6 +2367,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      *         <em>alos</em> and <em>tzais</em>, <em>alos</em> will be returned
      * @see #getSofZmanKidushLevanaBetweenMoldos()
      * @see #getSofZmanKidushLevana15Days(Date, Date)
+     * @see JewishCalendar#getSofZmanKidushLevanaBetweenMoldos()
      */
     public getSofZmanKidushLevanaBetweenMoldos(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
@@ -2367,6 +2394,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      *         <em>alos</em> and <em>tzais</em>, <em>alos</em> will be returned
      * @see #getSofZmanKidushLevanaBetweenMoldos(Date, Date)
      * @see #getSofZmanKidushLevana15Days()
+     * @see JewishCalendar#getSofZmanKidushLevanaBetweenMoldos()
      */
 /*
     public getSofZmanKidushLevanaBetweenMoldos(): Date {
@@ -2400,6 +2428,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      *         <em>tzais</em>, <em>alos</em> will be returned
      *
      * @see #getSofZmanKidushLevanaBetweenMoldos(Date, Date)
+     * @see JewishCalendar#getSofZmanKidushLevana15Days()
      */
     public getSofZmanKidushLevana15Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
@@ -2430,6 +2459,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      *
      * @see #getSofZmanKidushLevana15Days(Date, Date)
      * @see #getSofZmanKidushLevanaBetweenMoldos()
+     * @see JewishCalendar#getSofZmanKidushLevana15Days()
      */
 /*
     public getSofZmanKidushLevana15Days(): Date {
@@ -2452,6 +2482,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      *         <em>tzais</em>, <em>tzais</em> will be returned
      * @see #getTchilasZmanKidushLevana3Days()
      * @see #getTchilasZmanKidushLevana7Days(Date, Date)
+     * @see JewishCalendar#getTchilasZmanKidushLevana3Days()
      */
     public getTchilasZmanKidushLevana3Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
@@ -2474,6 +2505,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      *         <em>tzais</em>, <em>tzais</em> will be returned
      * @see #getTchilasZmanKidushLevana3Days(Date, Date)
      * @see #getTchilasZmanKidushLevana7Days()
+     * @see JewishCalendar#getTchilasZmanKidushLevana3Days()
      */
 /*
     public getTchilasZmanKidushLevana3Days(): Date {
@@ -2496,6 +2528,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      *         <em>tzais</em>, <em>tzais</em> will be returned
      * @see #getTchilasZmanKidushLevana3Days(Date, Date)
      * @see #getTchilasZmanKidushLevana7Days()
+     * @see JewishCalendar#getTchilasZmanKidushLevana7Days()
      */
     public getTchilasZmanKidushLevana7Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
@@ -2518,6 +2551,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      *         <em>tzais</em>, <em>tzais</em> will be returned
      * @see #getTchilasZmanKidushLevana7Days(Date, Date)
      * @see #getTchilasZmanKidushLevana3Days()
+     * @see JewishCalendar#getTchilasZmanKidushLevana7Days()
      */
 /*
     public getTchilasZmanKidushLevana7Days(): Date {
