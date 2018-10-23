@@ -190,154 +190,158 @@ export default class JewishCalendar extends JewishDate {
      * @return A String containing the holiday name or an empty string if it is not a holiday.
      */
     public getYomTovIndex(): number {
+        const day: number = this.getJewishDayOfMonth();
+        const dayOfWeek: number = this.getDayOfWeek();
+
         // check by month (starts from Nissan)
         switch (this.getJewishMonth()) {
-        case JewishCalendar.NISSAN:
-            if (this.getJewishDayOfMonth() === 14) {
-                return JewishCalendar.EREV_PESACH;
-            } else if (this.getJewishDayOfMonth() === 15 || this.getJewishDayOfMonth() === 21
-                    || (!this.inIsrael && (this.getJewishDayOfMonth() === 16 || this.getJewishDayOfMonth() === 22))) {
-                return JewishCalendar.PESACH;
-            } else if (this.getJewishDayOfMonth() >= 17 && this.getJewishDayOfMonth() <= 20
-                    || (this.getJewishDayOfMonth() === 16 && this.inIsrael)) {
-                return JewishCalendar.CHOL_HAMOED_PESACH;
-            }
-            if (this.isUseModernHolidays()
-                    && ((this.getJewishDayOfMonth() === 26 && this.getDayOfWeek() === 5)
-                            || (this.getJewishDayOfMonth() === 28 && this.getDayOfWeek() === 2)
-                            || (this.getJewishDayOfMonth() === 27 && this.getDayOfWeek() !== 1 && this.getDayOfWeek() !== 6))) {
-                return JewishCalendar.YOM_HASHOAH;
-            }
-            break;
-        case JewishCalendar.IYAR:
-            if (this.isUseModernHolidays()
-                    && ((this.getJewishDayOfMonth() === 4 && this.getDayOfWeek() === 3)
-                            || ((this.getJewishDayOfMonth() === 3 || this.getJewishDayOfMonth() === 2) && this.getDayOfWeek() === 4) || (this.getJewishDayOfMonth() === 5 && this.getDayOfWeek() === 2))) {
-                return JewishCalendar.YOM_HAZIKARON;
-            }
-            // if 5 Iyar falls on Wed Yom Haatzmaut is that day. If it fal1s on Friday or Shabbos it is moved back to
-            // Thursday. If it falls on Monday it is moved to Tuesday
-            if (this.isUseModernHolidays()
-                    && ((this.getJewishDayOfMonth() === 5 && this.getDayOfWeek() === 4)
-                            || ((this.getJewishDayOfMonth() === 4 || this.getJewishDayOfMonth() === 3) && this.getDayOfWeek() === 5) || (this.getJewishDayOfMonth() === 6 && this.getDayOfWeek() === 3))) {
-                return JewishCalendar.YOM_HAATZMAUT;
-            }
-            if (this.getJewishDayOfMonth() === 14) {
-                return JewishCalendar.PESACH_SHENI;
-            }
-            if (this.isUseModernHolidays() && this.getJewishDayOfMonth() === 28) {
-                return JewishCalendar.YOM_YERUSHALAYIM;
-            }
-            break;
-        case JewishCalendar.SIVAN:
-            if (this.getJewishDayOfMonth() === 5) {
-                return JewishCalendar.EREV_SHAVUOS;
-            } else if (this.getJewishDayOfMonth() === 6 || (this.getJewishDayOfMonth() === 7 && !this.inIsrael)) {
-                return JewishCalendar.SHAVUOS;
-            }
-            break;
-        case JewishCalendar.TAMMUZ:
-            // push off the fast day if it falls on Shabbos
-            if ((this.getJewishDayOfMonth() === 17 && this.getDayOfWeek() !== 7)
-                    || (this.getJewishDayOfMonth() === 18 && this.getDayOfWeek() === 1)) {
-                return JewishCalendar.SEVENTEEN_OF_TAMMUZ;
-            }
-            break;
-        case JewishCalendar.AV:
-            // if Tisha B'av falls on Shabbos, push off until Sunday
-            if ((this.getDayOfWeek() === 1 && this.getJewishDayOfMonth() === 10)
-                    || (this.getDayOfWeek() !== 7 && this.getJewishDayOfMonth() === 9)) {
-                return JewishCalendar.TISHA_BEAV;
-            } else if (this.getJewishDayOfMonth() === 15) {
-                return JewishCalendar.TU_BEAV;
-            }
-            break;
-        case JewishCalendar.ELUL:
-            if (this.getJewishDayOfMonth() === 29) {
-                return JewishCalendar.EREV_ROSH_HASHANA;
-            }
-            break;
-        case JewishCalendar.TISHREI:
-            if (this.getJewishDayOfMonth() === 1 || this.getJewishDayOfMonth() === 2) {
-                return JewishCalendar.ROSH_HASHANA;
-            } else if ((this.getJewishDayOfMonth() === 3 && this.getDayOfWeek() !== 7)
-                    || (this.getJewishDayOfMonth() === 4 && this.getDayOfWeek() === 1)) {
-                // push off Tzom Gedalia if it falls on Shabbos
-                return JewishCalendar.FAST_OF_GEDALYAH;
-            } else if (this.getJewishDayOfMonth() === 9) {
-                return JewishCalendar.EREV_YOM_KIPPUR;
-            } else if (this.getJewishDayOfMonth() === 10) {
-                return JewishCalendar.YOM_KIPPUR;
-            } else if (this.getJewishDayOfMonth() === 14) {
-                return JewishCalendar.EREV_SUCCOS;
-            }
-            if (this.getJewishDayOfMonth() === 15 || (this.getJewishDayOfMonth() === 16 && !this.inIsrael)) {
-                return JewishCalendar.SUCCOS;
-            }
-            if (this.getJewishDayOfMonth() >= 17 && this.getJewishDayOfMonth() <= 20 || (this.getJewishDayOfMonth() === 16 && this.inIsrael)) {
-                return JewishCalendar.CHOL_HAMOED_SUCCOS;
-            }
-            if (this.getJewishDayOfMonth() === 21) {
-                return JewishCalendar.HOSHANA_RABBA;
-            }
-            if (this.getJewishDayOfMonth() === 22) {
-                return JewishCalendar.SHEMINI_ATZERES;
-            }
-            if (this.getJewishDayOfMonth() === 23 && !this.inIsrael) {
-                return JewishCalendar.SIMCHAS_TORAH;
-            }
-            break;
-        case JewishCalendar.KISLEV: // no yomtov in CHESHVAN
-            // if (getJewishDayOfMonth() == 24) {
-            // return EREV_CHANUKAH;
-            // } else
-            if (this.getJewishDayOfMonth() >= 25) {
-                return JewishCalendar.CHANUKAH;
-            }
-            break;
-        case JewishCalendar.TEVES:
-            if (this.getJewishDayOfMonth() === 1 || this.getJewishDayOfMonth() === 2
-                    || (this.getJewishDayOfMonth() === 3 && this.isKislevShort())) {
-                return JewishCalendar.CHANUKAH;
-            } else if (this.getJewishDayOfMonth() === 10) {
-                return JewishCalendar.TENTH_OF_TEVES;
-            }
-            break;
-        case JewishCalendar.SHEVAT:
-            if (this.getJewishDayOfMonth() === 15) {
-                return JewishCalendar.TU_BESHVAT;
-            }
-            break;
-        case JewishCalendar.ADAR:
-            if (!this.isJewishLeapYear()) {
+            case JewishCalendar.NISSAN:
+                if (day === 14) {
+                    return JewishCalendar.EREV_PESACH;
+                } else if (day === 15 || day === 21 || (!this.inIsrael && (day === 16 || day === 22))) {
+                    return JewishCalendar.PESACH;
+                } else if (day >= 17 && day <= 20 || (day === 16 && this.inIsrael)) {
+                    return JewishCalendar.CHOL_HAMOED_PESACH;
+                }
+
+                if (this.isUseModernHolidays()
+                    && ((day === 26 && dayOfWeek === 5) || (day === 28 && dayOfWeek === 2)
+                        || (day === 27 && dayOfWeek !== 1 && dayOfWeek !== 6))) {
+                    return JewishCalendar.YOM_HASHOAH;
+                }
+                break;
+            case JewishCalendar.IYAR:
+                if (this.isUseModernHolidays()
+                    && ((day === 4 && dayOfWeek === 3) || ((day === 3 || day === 2) && dayOfWeek === 4)
+                        || (day === 5 && dayOfWeek === 2))) {
+                    return JewishCalendar.YOM_HAZIKARON;
+                }
+
+                // if 5 Iyar falls on Wed Yom Haatzmaut is that day. If it fal1s on Friday or Shabbos it is moved back to
+                // Thursday. If it falls on Monday it is moved to Tuesday
+                if (this.isUseModernHolidays() && ((day === 5 && dayOfWeek === 4)
+                    || ((day === 4 || day === 3) && dayOfWeek === 5) || (day === 6 && dayOfWeek === 3))) {
+                    return JewishCalendar.YOM_HAATZMAUT;
+                }
+
+                if (day === 14) {
+                    return JewishCalendar.PESACH_SHENI;
+                }
+
+                if (this.isUseModernHolidays() && day === 28) {
+                    return JewishCalendar.YOM_YERUSHALAYIM;
+                }
+                break;
+            case JewishCalendar.SIVAN:
+                if (day === 5) {
+                    return JewishCalendar.EREV_SHAVUOS;
+                } else if (day === 6 || (day === 7 && !this.inIsrael)) {
+                    return JewishCalendar.SHAVUOS;
+                }
+                break;
+            case JewishCalendar.TAMMUZ:
+                // push off the fast day if it falls on Shabbos
+                if ((day === 17 && dayOfWeek !== 7) || (day === 18 && dayOfWeek === 1)) {
+                    return JewishCalendar.SEVENTEEN_OF_TAMMUZ;
+                }
+                break;
+            case JewishCalendar.AV:
+                // if Tisha B'av falls on Shabbos, push off until Sunday
+                if ((dayOfWeek === 1 && day === 10) || (dayOfWeek !== 7 && day === 9)) {
+                    return JewishCalendar.TISHA_BEAV;
+                } else if (day === 15) {
+                    return JewishCalendar.TU_BEAV;
+                }
+                break;
+            case JewishCalendar.ELUL:
+                if (day === 29) {
+                    return JewishCalendar.EREV_ROSH_HASHANA;
+                }
+                break;
+            case JewishCalendar.TISHREI:
+                if (day === 1 || day === 2) {
+                    return JewishCalendar.ROSH_HASHANA;
+                } else if ((day === 3 && dayOfWeek !== 7) || (day === 4 && dayOfWeek === 1)) {
+                    // push off Tzom Gedalia if it falls on Shabbos
+                    return JewishCalendar.FAST_OF_GEDALYAH;
+                } else if (day === 9) {
+                    return JewishCalendar.EREV_YOM_KIPPUR;
+                } else if (day === 10) {
+                    return JewishCalendar.YOM_KIPPUR;
+                } else if (day === 14) {
+                    return JewishCalendar.EREV_SUCCOS;
+                }
+
+                if (day === 15 || (day === 16 && !this.inIsrael)) {
+                    return JewishCalendar.SUCCOS;
+                }
+
+                if (day >= 17 && day <= 20 || (day === 16 && this.inIsrael)) {
+                    return JewishCalendar.CHOL_HAMOED_SUCCOS;
+                }
+
+                if (day === 21) {
+                    return JewishCalendar.HOSHANA_RABBA;
+                }
+
+                if (day === 22) {
+                    return JewishCalendar.SHEMINI_ATZERES;
+                }
+
+                if (day === 23 && !this.inIsrael) {
+                    return JewishCalendar.SIMCHAS_TORAH;
+                }
+                break;
+            case JewishCalendar.KISLEV: // no yomtov in CHESHVAN
+                // if (day == 24) {
+                // return EREV_CHANUKAH;
+                // } else
+                if (day >= 25) {
+                    return JewishCalendar.CHANUKAH;
+                }
+                break;
+            case JewishCalendar.TEVES:
+                if (day === 1 || day === 2 || (day === 3 && this.isKislevShort())) {
+                    return JewishCalendar.CHANUKAH;
+                } else if (day === 10) {
+                    return JewishCalendar.TENTH_OF_TEVES;
+                }
+                break;
+            case JewishCalendar.SHEVAT:
+                if (day === 15) {
+                    return JewishCalendar.TU_BESHVAT;
+                }
+                break;
+            case JewishCalendar.ADAR:
+                if (!this.isJewishLeapYear()) {
+                    // if 13th Adar falls on Friday or Shabbos, push back to Thursday
+                    if (((day === 11 || day === 12) && dayOfWeek === 5) || (day === 13 && !(dayOfWeek === 6 || dayOfWeek === 7))) {
+                        return JewishCalendar.FAST_OF_ESTHER;
+                    }
+
+                    if (day === 14) {
+                        return JewishCalendar.PURIM;
+                    } else if (day === 15) {
+                        return JewishCalendar.SHUSHAN_PURIM;
+                    }
+                } else { // else if a leap year
+                    if (day === 14) {
+                        return JewishCalendar.PURIM_KATAN;
+                    }
+                }
+                break;
+            case JewishCalendar.ADAR_II:
                 // if 13th Adar falls on Friday or Shabbos, push back to Thursday
-                if (((this.getJewishDayOfMonth() === 11 || this.getJewishDayOfMonth() === 12) && this.getDayOfWeek() === 5)
-                        || (this.getJewishDayOfMonth() === 13 && !(this.getDayOfWeek() === 6 || this.getDayOfWeek() === 7))) {
+                if (((day === 11 || day === 12) && dayOfWeek === 5) || (day === 13 && !(dayOfWeek === 6 || dayOfWeek === 7))) {
                     return JewishCalendar.FAST_OF_ESTHER;
                 }
-                if (this.getJewishDayOfMonth() === 14) {
+
+                if (day === 14) {
                     return JewishCalendar.PURIM;
-                } else if (this.getJewishDayOfMonth() === 15) {
+                } else if (day === 15) {
                     return JewishCalendar.SHUSHAN_PURIM;
                 }
-            } else { // else if a leap year
-                if (this.getJewishDayOfMonth() === 14) {
-                    return JewishCalendar.PURIM_KATAN;
-                }
-            }
-            break;
-        case JewishCalendar.ADAR_II:
-            // if 13th Adar falls on Friday or Shabbos, push back to Thursday
-            if (((this.getJewishDayOfMonth() === 11 || this.getJewishDayOfMonth() === 12) && this.getDayOfWeek() === 5)
-                    || (this.getJewishDayOfMonth() === 13 && !(this.getDayOfWeek() === 6 || this.getDayOfWeek() === 7))) {
-                return JewishCalendar.FAST_OF_ESTHER;
-            }
-            if (this.getJewishDayOfMonth() === 14) {
-                return JewishCalendar.PURIM;
-            } else if (this.getJewishDayOfMonth() === 15) {
-                return JewishCalendar.SHUSHAN_PURIM;
-            }
-            break;
+                break;
         }
         // if we get to this stage, then there are no holidays for the given date return -1
         return -1;
@@ -427,11 +431,13 @@ export default class JewishCalendar extends JewishDate {
      * @return the day of Chanukah or -1 if it is not Chanukah.
      */
     public getDayOfChanukah(): number {
+        const day: number = this.getJewishDayOfMonth();
+
         if (this.isChanukah()) {
             if (this.getJewishMonth() === JewishCalendar.KISLEV) {
-                return this.getJewishDayOfMonth() - 24;
+                return day - 24;
             } else { // teves
-                return this.isKislevShort() ? this.getJewishDayOfMonth() + 5 : this.getJewishDayOfMonth() + 6;
+                return this.isKislevShort() ? day + 5 : day + 6;
             }
         } else {
             return -1;
@@ -459,16 +465,18 @@ export default class JewishCalendar extends JewishDate {
      */
     public getDayOfOmer(): number {
         let omer: number = -1; // not a day of the Omer
+        const month: number = this.getJewishMonth();
+        const day: number = this.getJewishDayOfMonth();
 
         // if Nissan and second day of Pesach and on
-        if (this.getJewishMonth() === JewishCalendar.NISSAN && this.getJewishDayOfMonth() >= 16) {
-            omer = this.getJewishDayOfMonth() - 15;
+        if (month === JewishCalendar.NISSAN && day >= 16) {
+            omer = day - 15;
             // if Iyar
-        } else if (this.getJewishMonth() === JewishCalendar.IYAR) {
-            omer = this.getJewishDayOfMonth() + 15;
+        } else if (month === JewishCalendar.IYAR) {
+            omer = day + 15;
             // if Sivan and before Shavuos
-        } else if (this.getJewishMonth() === JewishCalendar.SIVAN && this.getJewishDayOfMonth() < 6) {
-            omer = this.getJewishDayOfMonth() + 44;
+        } else if (month === JewishCalendar.SIVAN && day < 6) {
+            omer = day + 44;
         }
         return omer;
     }

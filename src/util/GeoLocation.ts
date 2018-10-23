@@ -568,8 +568,8 @@ export default class GeoLocation {
      */
     public toString(): string {
         const sb: string = ("\nLocation Name:\t\t\t").concat(this.getLocationName())
-            .concat("\nLatitude:\t\t\t").concat(this.getLatitude().toString()).concat("°")
-            .concat("\nLongitude:\t\t\t").concat(this.getLongitude().toString()).concat("°")
+            .concat("\nLatitude:\t\t\t").concat(this.getLatitude().toString()).concat("\u00B0")
+            .concat("\nLongitude:\t\t\t").concat(this.getLongitude().toString()).concat("\u00B0")
             .concat("\nElevation:\t\t\t").concat(this.getElevation().toString()).concat(" Meters")
             .concat("\nTimezone ID:\t\t\t").concat(this.getTimeZone())
             .concat("\nTimezone Display Name:\t\t").concat(TimeZone.getDisplayName(this.getTimeZone()))
