@@ -19,13 +19,13 @@ import {StringUtils} from "../polyfills/Utils";
  * @see net.sourceforge.zmanim.hebrewcalendar.JewishCalendar
  * 
  * @author &copy; Eliyahu Hershfeld 2011 - 2015
- * @version 0.3
  */
 export default class HebrewDateFormatter {
     private hebrewFormat: boolean = false;
     private useLonghebrewYears: boolean = false;
     private useGershGershayim: boolean = true;
     private longWeekFormat: boolean = true;
+    private weekFormat: "dddd" | "ddd" | null = null;
 
     /**
      * returns if the {@link #formatDayOfWeek(JewishDate)} will use the long format such as
@@ -50,6 +50,8 @@ export default class HebrewDateFormatter {
      */
     public setLongWeekFormat(longWeekFormat: boolean): void {
         this.longWeekFormat = longWeekFormat;
+
+        this.weekFormat = longWeekFormat ? "dddd" : "ddd";
     }
 
     private static readonly GERESH: string = "\u05F3";
@@ -379,10 +381,25 @@ export default class HebrewDateFormatter {
      */
     public formatDayOfWeek(jewishDate: JewishDate): string {
         if (this.hebrewFormat) {
-            return (this.longWeekFormat ? HebrewDateFormatter.hebrewDaysOfWeek[jewishDate.getDayOfWeek() - 1] :
-                this.formatHebrewNumber(jewishDate.getDayOfWeek()));
+            if (this.isLongWeekFormat()) {
+                return HebrewDateFormatter.hebrewDaysOfWeek[jewishDate.getDayOfWeek() - 1];
+            } else {
+                if (jewishDate.getDayOfWeek() == 7) {
+                    return this.formatHebrewNumber(300);
+                } else {
+                    return this.formatHebrewNumber(jewishDate.getDayOfWeek());
+                }
+            }
         } else {
-            return jewishDate.getDayOfWeek() === 7 ? this.getTransliteratedShabbosDayOfWeek() : jewishDate.getMoment().format("EEEE");
+            if (jewishDate.getDayOfWeek() == 7) {
+                if (this.isLongWeekFormat()) {
+                    return this.getTransliteratedShabbosDayOfWeek();
+                } else {
+                    return this.getTransliteratedShabbosDayOfWeek().substring(0, 3);
+                }
+            } else {
+                return jewishDate.getMoment().format(this.weekFormat || undefined);
+            }
         }
     }
 
@@ -668,7 +685,7 @@ export default class HebrewDateFormatter {
         const jOnes: string[] = ["", "\u05D0", "\u05D1", "\u05D2", "\u05D3", "\u05D4", "\u05D5", "\u05D6",
                 "\u05D7", "\u05D8" ];
 
-        if (num === 0) { // do we realy need this? Should it be applicable to a date?
+        if (num === 0) { // do we really need this? Should it be applicable to a date?
             return EFES;
         }
         const shortNumber: number = num % 1000; // discard thousands
