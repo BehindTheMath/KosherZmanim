@@ -338,7 +338,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      *
      * @return the number of days since January 1, 1
      */
-    protected getAbsDate(): number {
+    public getAbsDate(): number {
         return this.gregorianAbsDate;
     }
 
@@ -576,15 +576,15 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
                             + ", " + dayOfMonth + " is invalid.");
         }
         if (hours < 0 || hours > 23) {
-            throw new Error("IllegalArgumentException: Hours < 0 > 23 can't be set. " + hours + " is invalid.");
+            throw new Error("IllegalArgumentException: Hours < 0 or > 23 can't be set. " + hours + " is invalid.");
         }
 
         if (minutes < 0 || minutes > 59) {
-            throw new Error("IllegalArgumentException: Minutes < 0 > 59 can't be set. " + minutes + " is invalid.");
+            throw new Error("IllegalArgumentException: Minutes < 0 or > 59 can't be set. " + minutes + " is invalid.");
         }
 
         if (chalakim < 0 || chalakim > 17) {
-            throw new Error("IllegalArgumentException: Chalakim/parts < 0 > 17 can't be set. " + chalakim
+            throw new Error("IllegalArgumentException: Chalakim/parts < 0 or > 17 can't be set. " + chalakim
                 + " is invalid. For larger numbers such as 793 (TaShTzaG) break the chalakim into minutes (18 chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793 (TaShTzaG)");
         }
     }
@@ -831,7 +831,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
     public getMolad(): JewishDate {
         const moladDate: JewishDate = new JewishDate(this.getChalakimSinceMoladTohu());
         if (moladDate.getMoladHours() >= 6) {
-            moladDate.forward();
+            moladDate.forward(Calendar.DATE, 1);
         }
         moladDate.setMoladHours((moladDate.getMoladHours() + 18) % 24);
         return moladDate;
@@ -1204,52 +1204,100 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      * </code>
      * </pre>
      *
+     * @param field the calendar field to be forwarded. The must be {@link Calendar#DATE}, {@link Calendar#MONTH} or {@link Calendar#YEAR}
+     * @param amount the positive amount to move forward
+     * @throws IllegalArgumentException if the field is anything besides {@link Calendar#DATE}, {@link Calendar#MONTH}
+     * or {@link Calendar#YEAR} or if the amount is less than 1
+     *
      * @see #back()
      * @see Calendar#add(int, int)
      * @see Calendar#roll(int, int)
      */
-    public forward(): void {
-        // Change Gregorian date
-        if (this.gregorianDayOfMonth === JewishDate.getLastDayOfGregorianMonth(this.gregorianMonth, this.gregorianYear)) {
-            // if last day of year
-            if (this.gregorianMonth === 12) {
-                this.gregorianYear++;
-                this.gregorianMonth = 1;
-                this.gregorianDayOfMonth = 1;
-            } else {
-                this.gregorianMonth++;
-                this.gregorianDayOfMonth = 1;
+    public forward(field: number, amount: number): void {
+        if (field != Calendar.DATE && field != Calendar.MONTH && field != Calendar.YEAR) {
+            throw new Error("IllegalArgumentException: Unsupported field was passed to Forward. Only Calendar.DATE, Calendar.MONTH or Calendar.YEAR are supported.");
+        }
+        if (amount < 1) {
+            throw new Error("IllegalArgumentException: JewishDate.forward() does not support amounts less than 1. See JewishDate.back()");
+        }
+        if (field == Calendar.DATE) {
+            // Change Gregorian date
+            for (let i = 0; i < amount; i++) {
+                if (this.gregorianDayOfMonth == JewishDate.getLastDayOfGregorianMonth(this.gregorianMonth, this.gregorianYear)) {
+                    // if last day of year
+                    if (this.gregorianMonth == 12) {
+                        this.gregorianYear++;
+                        this.gregorianMonth = 1;
+                        this.gregorianDayOfMonth = 1;
+                    } else {
+                        this.gregorianMonth++;
+                        this.gregorianDayOfMonth = 1;
+                    }
+                } else {
+                    // if not last day of month
+                    this.gregorianDayOfMonth++;
+                }
+
+                // Change the Jewish Date
+                if (this.jewishDay == this.getDaysInJewishMonth()) {
+                    // if it last day of elul (i.e. last day of Jewish year)
+                    if (this.jewishMonth == JewishDate.ELUL) {
+                        this.jewishYear++;
+                        this.jewishMonth++;
+                        this.jewishDay = 1;
+                    } else if (this.jewishMonth == JewishDate.getLastMonthOfJewishYear(this.jewishYear)) {
+                        // if it is the last day of Adar, or Adar II as case may be
+                        this.jewishMonth = JewishDate.NISSAN;
+                        this.jewishDay = 1;
+                    } else {
+                        this.jewishMonth++;
+                        this.jewishDay = 1;
+                    }
+                } else {
+                    // if not last date of month
+                    this.jewishDay++;
+                }
+
+                if (this.dayOfWeek == 7) {
+                    // if last day of week, loop back to Sunday
+                    this.dayOfWeek = 1;
+                } else {
+                    this.dayOfWeek++;
+                }
+
+                // increment the absolute date
+                this.gregorianAbsDate++;
             }
-        } else { // if not last day of month
-            this.gregorianDayOfMonth++;
+        } else if (field == Calendar.MONTH) {
+            this.forwardJewishMonth(amount);
+        } else if (field == Calendar.YEAR) {
+            this.setJewishYear(this.getJewishYear() + amount);
         }
+    }
 
-        // Change the Jewish Date
-        if (this.jewishDay === this.getDaysInJewishMonth()) {
-            // if it last day of elul (i.e. last day of Jewish year)
-            if (this.jewishMonth === JewishDate.ELUL) {
-                this.jewishYear++;
-                this.jewishMonth++;
-                this.jewishDay = 1;
-            } else if (this.jewishMonth === JewishDate.getLastMonthOfJewishYear(this.jewishYear)) {
-                // if it is the last day of Adar, or Adar II as case may be
-                this.jewishMonth = JewishDate.NISSAN;
-                this.jewishDay = 1;
+    /**
+     * Forward the Jewish date by the number of months passed in.
+     * FIXME: Deal with forwarding a date such as 30 Nisan by a month. 30 Iyar does not exist. This should be dealt with similar to
+     * the way that the Java Calendar behaves (not that simple since there is a difference between add() or roll().
+     *
+     * @throws IllegalArgumentException if the amount is less than 1
+     * @param amount the number of months to roll the month forward
+     */
+    private forwardJewishMonth(amount: number): void {
+        if (amount < 1) {
+            throw new Error("IllegalArgumentException: the amount of months to forward has to be greater than zero.");
+        }
+        for (let i = 0; i < amount; i++) {
+            if (this.getJewishMonth() == JewishDate.ELUL) {
+                this.setJewishMonth(JewishDate.TISHREI);
+                this.setJewishYear(this.getJewishYear() + 1);
+            } else if ((!this.isJewishLeapYear() && this.getJewishMonth() == JewishDate.ADAR)
+                || (this.isJewishLeapYear() && this.getJewishMonth() == JewishDate.ADAR_II)) {
+                this.setJewishMonth(JewishDate.NISSAN);
             } else {
-                this.jewishMonth++;
-                this.jewishDay = 1;
+                this.setJewishMonth(this.getJewishMonth() + 1);
             }
-        } else { // if not last date of month
-            this.jewishDay++;
         }
-
-        if (this.dayOfWeek === 7) { // if last day of week, loop back to Sunday
-            this.dayOfWeek = 1;
-        } else {
-            this.dayOfWeek++;
-        }
-
-        this.gregorianAbsDate++; // increment the absolute date
     }
 
     /**
