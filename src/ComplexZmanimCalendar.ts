@@ -1,4 +1,4 @@
-import {DateUtils, TimeZone} from "./polyfills/Utils";
+import {DateUtils, TimeZone, Calendar} from "./polyfills/Utils";
 import GeoLocation from "./util/GeoLocation";
 import ZmanimCalendar from "./ZmanimCalendar";
 import JewishCalendar from "./hebrewcalendar/JewishCalendar";
@@ -2374,14 +2374,49 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
     }
 
     /**
+     * Returns the Date of the molad based time if it occures on the current date.Since Kiddush Levana can only be said
+     * during the day, there are parameters to limit it to between <em>alos</em> and <em>tzais</em>. If the time occurs
+     * between alos and tzais, tzais will be returned
+     *
+     * @param moladBasedTime
+     *            the molad based time such as molad, techilas and sof zman Kiddush Levana
+     * @param alos
+     *            optional start of day to limit molad times to the end of the night before or beginning of the next night. Ignored if
+     *            either this or tzais are null.
+     * @param tzais
+     *            optional end of day to limit molad times to the end of the night before or beginning of the next night. Ignored if
+     *            either this or alos are null
+     * @param techila
+     *            is it the start of Kiddus Levana time or the end? If it is start roll it to the next <em>tzais</em>, and and if it
+     *            is the end, return the end of the previous night (alos passed in). Ignored if either alos or tzais are null.
+     * @return the molad based time. If the zman does not occur during the current date, null will be returned.
+     */
+    private getMoladBasedTime(moladBasedTime: Date, alos: Date, tzais: Date, techila: boolean): Date {
+        const lastMidnight: Date = this.getMidnightLastNight();
+        const midnightTonigh: Date = this.getMidnightTonight();
+        if (!(moladBasedTime.before(lastMidnight) || moladBasedTime.after(midnightTonigh))) {
+            if (alos != null || tzais != null) {
+                if (techila && !(moladBasedTime.before(tzais) || moladBasedTime.after(alos))) {
+                    return tzais;
+                } else {
+                    return alos;
+                }
+            }
+            return moladBasedTime;
+        }
+        return null;
+    }
+
+    /**
      * Returns the latest time of Kiddush Levana according to the <a
      * href="http://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> opinion that it is calculated as
      * halfway between molad and molad. This adds half the 29 days, 12 hours and 793 chalakim time between molad and
-     * molad (14 days, 18 hours, 22 minutes and 666 milliseconds) to the month's molad. If the time of
-     * <em>sof zman Kiddush Levana</em> occurs during the day (between the <em>alos</em> and <em>tzais</em> passed in as
-     * parameters), it returns the <em>alos</em> passed in. If a null alos or tzais are passed to this method, the
-     * non-daytime adjusted time will be returned. This method is available in the 1.3 release of the API but may change
-     * or be removed in the future since it depends on the still changing {@link JewishCalendar} and related classes.
+     * molad (14 days, 18 hours, 22 minutes and 666 milliseconds) to the month's molad. The sof zman Kiddush Levana
+     * will be returned even if it occures durring the day. To limit the time to between <em>tzais</em> and <alos>, see
+     * {@link #getSofZmanKidushLevanaBetweenMoldos(Date, Date)}.
+     * This method is available in the current release of the API but may change or be removed in the future since it
+     * depends on the still changing {@link JewishCalendar} and related classes, and adds a dependancy to the
+     * {@link net.sourceforge.hebrewcalendar} package.
      *
      * @param alos
      *            the begining of the Jewish day. If Kidush Levana occurs durning the day (starting at alos and ending
@@ -2397,14 +2432,11 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSofZmanKidushLevana15Days(Date, Date)
      * @see JewishCalendar#getSofZmanKidushLevanaBetweenMoldos()
      */
-    public getSofZmanKidushLevanaBetweenMoldos(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
+    public getSofZmanKidushLevanaBetweenMoldos(alos: Date = null, tzais: Date = null): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
-        const sofZmanKidushLevana: Moment = MomentTimezone(jewishCalendar.getSofZmanKidushLevanaBetweenMoldos());
 
-        if (alos != null && tzais != null && sofZmanKidushLevana.isSame(this.getMoment(), "date")) {
-             return sofZmanKidushLevana.isBetween(alos, tzais) ? alos : sofZmanKidushLevana.toDate();
-        }
-        return null;
+        //TODO optimize for impossible dates
+        return this.getMoladBasedTime(jewishCalendar.getSofZmanKidushLevanaBetweenMoldos(), alos, tzais, false);
     }
 
     /**
@@ -2438,10 +2470,10 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * {@link #getSofZmanKidushLevanaBetweenMoldos(Date, Date) half way between molad and mold} is of the opinion that
      * Mechaber agrees to his opinion. Also see the Aruch Hashulchan. For additional details on the subject, See Rabbi
      * Dovid Heber's very detailed writeup in Siman Daled (chapter 4) of <a
-     * href="http://www.worldcat.org/oclc/461326125">Shaarei Zmanim</a>. If the time of <em>sof zman Kiddush Levana</em>
-     * occurs during the day (between the <em>alos</em> and <em>tzais</em> passed in as parameters), it returns the
-     * <em>alos</em> passed in. If a null alos or tzais are passed to this method, the non-daytime adjusted time will be
-     * returned. This method is available in the 1.3 release of the API but may change or be removed in the future since
+     * href="http://www.worldcat.org/oclc/461326125">Shaarei Zmanim</a>. The sof zman Kiddush Levana will be returned
+     * even if it occures durring the day. To limit the time to between <em>tzais</em> and <alos>, see
+     * {@link #getSofZmanKidushLevana15Days(Date, Date)}.
+     * This method is available in the 1.3 release of the API but may change or be removed in the future since
      * it depends on the still changing {@link JewishCalendar} and related classes.
      *
      * @param alos
@@ -2458,14 +2490,11 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSofZmanKidushLevanaBetweenMoldos(Date, Date)
      * @see JewishCalendar#getSofZmanKidushLevana15Days()
      */
-    public getSofZmanKidushLevana15Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
+    public getSofZmanKidushLevana15Days(alos: Date = null, tzais: Date = null): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
-        const sofZmanKidushLevana: Moment = MomentTimezone(jewishCalendar.getSofZmanKidushLevana15Days());
 
-        if (alos != null && tzais != null && sofZmanKidushLevana.isSame(this.getMoment(), "date")) {
-            return sofZmanKidushLevana.isBetween(alos, tzais) ? alos : sofZmanKidushLevana.toDate();
-        }
-        return null;
+        //TODO optimize for impossible dates
+        return this.getMoladBasedTime(jewishCalendar.getSofZmanKidushLevana15Days(), alos, tzais, false);
     }
 
     /**
@@ -2503,9 +2532,13 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * removed in the future since it depends on the still changing {@link JewishCalendar} and related classes.
      *
      * @param alos
-     *            the begining of the Jewish day
+     *            the begining of the Jewish day. If Kidush Levana occurs durning the day (starting at alos and ending
+     *            at tzais), the time returned will be tzais. If either the alos or tzais parameters are null, no daytime
+     *            adjustment will be made.
      * @param tzais
-     *            the end of the Jewish day
+     *           the end of the Jewish day. If Kidush Levana occurs durning the day (starting at alos and ending at
+     *            tzais), the time returned will be tzais. If either the alos or tzais parameters are null, no daytime
+     *            adjustment will be made.
      * @return the Date representing the moment 3 days after the molad. If the time occurs between <em>alos</em> and
      *         <em>tzais</em>, <em>tzais</em> will be returned
      * @see #getTchilasZmanKidushLevana3Days()
@@ -2514,12 +2547,9 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getTchilasZmanKidushLevana3Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
-        const tchilasZmanKidushLevana: Moment = MomentTimezone(jewishCalendar.getTchilasZmanKidushLevana3Days());
 
-        if (alos != null && tzais != null && tchilasZmanKidushLevana.isSame(this.getMoment(), "date")) {
-            return tchilasZmanKidushLevana.isBetween(alos, tzais) ? tzais : tchilasZmanKidushLevana.toDate();
-        }
-        return null;
+        //TODO optimize for impossible dates
+        return this.getMoladBasedTime(jewishCalendar.getTchilasZmanKidushLevana3Days(), alos, tzais, true);
     }
 
     /**
@@ -2542,30 +2572,85 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
 */
 
     /**
+     * Returns the time of <em>Molad</em>.
+     * This method is available in the current release of the API but may change or be
+     * removed in the future since it depends on the still changing {@link JewishCalendar} and related classes.
+     *
+     * @see #getTchilasZmanKidushLevana3Days()
+     * see #getTchilasZmanKidushLevana7Days(Date, Date)
+     * @see JewishCalendar#getMoladAsDate()
+     */
+    public getZmanMolad(): Date {
+        const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
+        let molad: Date = this.getMoladBasedTime(jewishCalendar.getMoladAsDate(), null, null, true);
+        if (molad == null && jewishCalendar.getJewishDayOfMonth() > 27) {
+            //attempt to get the following molad. FIXME test with Rapa Iti in 2028 and other extreme cases
+            jewishCalendar.forward(Calendar.MONTH, 1);
+            molad = this.getMoladBasedTime(jewishCalendar.getMoladAsDate(), null, null, true);
+        }
+        return molad;
+    }
+
+    /**
+     * Used by Molad based zmanim to determine if zmanim occur during the current day.
+     * @see #getMoladBasedTime(Date, Date, Date, boolean)
+     * @return previous midnight
+     */
+    private getMidnightLastNight(): Date {
+        const midnight: Moment = MomentTimezone(this.getMoment());
+        // reset hour, minutes, seconds and millis
+        midnight.set({
+            hour: 0,
+            minutes: 0,
+            seconds: 0,
+            milliseconds: 0
+        });
+        return midnight.toDate();
+    }
+
+    /**
+     * Used by Molad based zmanim to determine if zmanim occur during the current day.
+     * @see #getMoladBasedTime(Date, Date, Date, boolean)
+     * @return following midnight
+     */
+    private getMidnightTonight(): Date {
+        const midnight: Moment = MomentTimezone(this.getMoment());
+        midnight.add({days: 1});
+        midnight.set({
+            hour: 0,
+            minutes: 0,
+            seconds: 0,
+            milliseconds: 0
+        });
+        return midnight.toDate();
+    }
+
+    /**
      * Returns the earliest time of <em>Kiddush Levana</em> according to the opinions that it should not be said until 7
      * days after the molad. If the time of <em>tchilas zman Kiddush Levana</em> occurs during the day (between
      * <em>{@link ZmanimCalendar#getAlos72() Alos}</em> and <em>{@link ZmanimCalendar#getTzais72() tzais}</em>) it
-     * return the next <em>tzais</em>. This method is available in the 1.3 release of the API but may change or be
+     * return the next <em>tzais</em>. This method is available in the current release of the API but may change or be
      * removed in the future since it depends on the still changing {@link JewishCalendar} and related classes.
      *
      * @param alos
-     *            the begining of the Jewish day
+     *            the begining of the Jewish day. If Kidush Levana occurs durning the day (starting at alos and ending
+     *            at tzais), the time returned will be tzais. If either the alos or tzais parameters are null, no daytime
+     *            adjustment will be made.
      * @param tzais
-     *            the end of the Jewish day
+     *            the end of the Jewish day. If Kidush Levana occurs durning the day (starting at alos and ending at
+     *            tzais), the time returned will be tzais. If either the alos or tzais parameters are null, no daytime
+     *            adjustment will be made.
      * @return the Date representing the moment 7 days after the molad. If the time occurs between <em>alos</em> and
      *         <em>tzais</em>, <em>tzais</em> will be returned
      * @see #getTchilasZmanKidushLevana3Days(Date, Date)
      * @see #getTchilasZmanKidushLevana7Days()
      * @see JewishCalendar#getTchilasZmanKidushLevana7Days()
      */
-    public getTchilasZmanKidushLevana7Days(alos: Date = this.getAlos72(), tzais: Date = this.getTzais72()): Date {
+    public getTchilasZmanKidushLevana7Days(alos: Date = null, tzais: Date = null): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
-        const tchilasZmanKidushLevana: Moment = MomentTimezone(jewishCalendar.getTchilasZmanKidushLevana7Days());
 
-        if (alos != null && tzais != null && tchilasZmanKidushLevana.isSame(this.getMoment(), "date")) {
-            return tchilasZmanKidushLevana.isBetween(alos, tzais) ? tzais : tchilasZmanKidushLevana.toDate();
-        }
-        return null;
+        //TODO optimize for impossible dates
+        return this.getMoladBasedTime(jewishCalendar.getTchilasZmanKidushLevana7Days(), alos, tzais, true);
     }
 
     /**
