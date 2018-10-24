@@ -57,7 +57,7 @@ export default class YomiCalculator {
          * adjusted based on the cycle.
          */
         const blattPerMasechta: number[] = [ 64, 157, 105, 121, 22, 88, 56, 40, 35, 31, 32, 29, 27, 122, 112, 91, 66, 49, 90, 82,
-                119, 119, 176, 113, 24, 49, 76, 14, 120, 110, 142, 61, 34, 34, 28, 22, 4, 10, 4, 73 ];
+                119, 119, 176, 113, 24, 49, 76, 14, 120, 110, 142, 61, 34, 34, 28, 22, 4, 9, 5, 73 ];
 
         const moment: Moment = calendar.getMoment();
 
