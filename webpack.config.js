@@ -7,7 +7,7 @@ module.exports = {
     context: __dirname,
     entry: {
         "kosher-zmanim": "./src/kosher-zmanim.ts",
-        "kosher-zmanim.min": "./src/kosher-zmanim.ts"
+        "kosher-zmanim.min": "./src/kosher-zmanim.ts",
     },
     output: {
         filename: "[name].js",
@@ -15,7 +15,7 @@ module.exports = {
         libraryTarget: "umd",
         library: "KosherZmanim",
         libraryExport: "default",
-        umdNamedDefine: true
+        umdNamedDefine: true,
     },
     module: {
         rules: [
@@ -29,17 +29,17 @@ module.exports = {
                             logInfoToStdOut: true,
                             compilerOptions: {
                                 target: "es5",
-                                module: "es6"
+                                module: "es6",
                             },
-                            configFile: "src/tsconfig.json"
-                        }
-                    }
-                ]
-            }
-        ]
+                            configFile: "src/tsconfig.json",
+                        },
+                    },
+                ],
+            },
+        ],
     },
     resolve: {
-        extensions: [".ts", ".js"]
+        extensions: [".ts", ".js"],
     },
     plugins: [
         new UglifyJSPlugin({
@@ -47,12 +47,12 @@ module.exports = {
                 include: /\.min\.js$/,
                 uglifyOptions: {
                     mangle: {
-                        keep_fnames: true
-                    }
-                }
-            }
+                        keep_fnames: true,
+                    },
+                },
+            },
         ),
-        new FixDefaultImportPlugin()
-    ]
+        new FixDefaultImportPlugin(),
+    ],
 };
 

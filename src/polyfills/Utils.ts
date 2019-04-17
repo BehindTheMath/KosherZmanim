@@ -15,7 +15,7 @@ namespace Utils {
         }
 
         return Array.from(methods)
-            // Convert Symbols to strings, if there are any
+        // Convert Symbols to strings, if there are any
             .map(value => value.toString())
             .sort();
     }
@@ -93,6 +93,10 @@ export namespace Calendar {
     export const OCTOBER: number = 9;
     export const NOVEMBER: number = 10;
     export const DECEMBER: number = 11;
+
+    export const DATE = 5;
+    export const MONTH = 2;
+    export const YEAR = 1;
 
     export function getZoneOffset(moment: Moment): number {
         return moment.utcOffset() * 1000;

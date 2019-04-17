@@ -1,0 +1,17 @@
+.idea/
+node_modules/
+lib-cjs/
+tsserver.cmd
+tsserver
+tsc.cmd
+tsc
+/test/
+KosherJava.jar
+lib-es6/
+work/
+jest.config.json
+/src/*.js
+/src/*.js.map
+webpack
+webpack.cmd
+*.tgz

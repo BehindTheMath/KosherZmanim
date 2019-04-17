@@ -16,11 +16,11 @@ export default class YerushalmiYomiCalculator {
      * given date. The first Daf Yomi cycle started on Tu B'Shvat 5740 (Febuary 2, 1980) and calculations prior to this
      * date will result in an
      * IllegalArgumentException thrown.
-     * 
+     *
      * @param jewishCalendar
      *            the calendar date for calculation
      * @return the {@link Daf}.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the date is prior to the September 11, 1923 start date of the first Daf Yomi cycle
      */
@@ -40,26 +40,26 @@ export default class YerushalmiYomiCalculator {
             // TODO: should we return a null or throw an ?
             throw new Error(`IllegalArgumentException: ${requested} is prior to organized Daf Yomi Yerushlmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);
         }
-        
+
         // Start to calculate current cycle. Initialize the start day
         nextCycle = MomentTimezone(YerushalmiYomiCalculator.DAF_YOMI_START_DAY);
-        
+
         // Go cycle by cycle, until we get the next cycle
         while (requested.isAfter(nextCycle)) {
             prevCycle = nextCycle.clone();
-            
+
             // Adds the number of whole shas dafs. and the number of days that not have daf.
             nextCycle.add({days: YerushalmiYomiCalculator.WHOLE_SHAS_DAFS});
             nextCycle.add({days: YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, nextCycle)});
         }
-        
+
         // Get the number of days from cycle start until request.
         const dafNo: number = -prevCycle.diff(requested, "days");
 
         // Get the number of special days to substract
         const specialDays: number = YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, requested);
         let total: number = dafNo - specialDays;
-                
+
         /* Finally find the daf. */
         for (let i: number = 0; i < YerushalmiYomiCalculator.BLATT_PER_MASECHTA.length; i++) {
             if (total <= YerushalmiYomiCalculator.BLATT_PER_MASECHTA[i]) {
@@ -72,23 +72,23 @@ export default class YerushalmiYomiCalculator {
 
         return dafYomi;
     }
-    
+
     /**
      * Return the number of special days (Yom Kippur and Tisha B'Av) on which there is no daf, between the two given dates
-     * 
+     *
      * @param numOfDays number of days to calculate
      * @param jewishCalendar end date to calculate
      * @return the number of special days
      */
     private static getNumOfSpecialDays(start: Moment, end: Moment): number {
-        
+
         // Find the start and end Jewish years
         const jewishStartYear: number = new JewishCalendar(start).getJewishYear();
         const jewishEndYear: number = new JewishCalendar(end).getJewishYear();
-        
+
         // Value to return
         let specialDays: number = 0;
-        
+
         // Instance of the special dates
         const yomKippur: JewishCalendar = new JewishCalendar(jewishStartYear, 7, 10);
         const tishaBeav: JewishCalendar = new JewishCalendar(jewishStartYear, 5, 9);
@@ -97,11 +97,11 @@ export default class YerushalmiYomiCalculator {
         for (let i: number = jewishStartYear; i <= jewishEndYear; i++) {
             yomKippur.setJewishYear(i);
             tishaBeav.setJewishYear(i);
-            
+
             if (yomKippur.getMoment().isBetween(start, end)) specialDays++;
             if (tishaBeav.getMoment().isBetween(start, end)) specialDays++;
         }
-        
+
         return specialDays;
     }
 }

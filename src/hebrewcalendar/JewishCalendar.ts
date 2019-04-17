@@ -382,7 +382,7 @@ export default class JewishCalendar extends JewishDate {
      * @return if the day has candle lighting
      */
     public hasCandleLighting(): boolean {
-        return this.getDayOfWeek() == 6 || this.isErevYomTov() || this.isErevYomTovSheni();
+        return this.getDayOfWeek() === 6 || this.isErevYomTov() || this.isErevYomTovSheni();
     }
 
     /**
@@ -390,11 +390,11 @@ export default class JewishCalendar extends JewishDate {
      * @return
      */
     public isErevYomTovSheni(): boolean {
-        return (this.getJewishMonth() == JewishCalendar.TISHREI && (this.getJewishDayOfMonth() == 1))
+        return (this.getJewishMonth() === JewishCalendar.TISHREI && (this.getJewishDayOfMonth() === 1))
             || (!this.getInIsrael()
-                && ((this.getJewishMonth() == JewishCalendar.NISSAN && (this.getJewishDayOfMonth() == 15 || this.getJewishDayOfMonth() == 21))
-                    || (this.getJewishMonth() == JewishCalendar.TISHREI && (this.getJewishDayOfMonth() == 15 || this.getJewishDayOfMonth() == 22))
-                    || (this.getJewishMonth() == JewishCalendar.SIVAN && this.getJewishDayOfMonth() == 6)));
+                && ((this.getJewishMonth() === JewishCalendar.NISSAN && (this.getJewishDayOfMonth() === 15 || this.getJewishDayOfMonth() === 21))
+                    || (this.getJewishMonth() === JewishCalendar.TISHREI && (this.getJewishDayOfMonth() === 15 || this.getJewishDayOfMonth() === 22))
+                    || (this.getJewishMonth() === JewishCalendar.SIVAN && this.getJewishDayOfMonth() === 6)));
     }
 
     /**
@@ -519,7 +519,7 @@ export default class JewishCalendar extends JewishDate {
         const latitude: number = 31.778; // Har Habayis latitude
         const longitude: number = 35.2354; // Har Habayis longitude
 
-        // The molad calculation always extepcst output in standard time. Using "Asia/Jerusalem" timezone will incorrect
+        // The molad calculation always expects output in standard time. Using "Asia/Jerusalem" timezone will incorrect
         // adjust for DST.
         const yerushalayimStandardTZ: string = "Etc/GMT+2";
         const geo: GeoLocation = new GeoLocation(locationName, latitude, longitude, yerushalayimStandardTZ);

@@ -10,7 +10,7 @@ import GeoLocation from "./util/GeoLocation";
  * <b>Note:</b> It is important to read the technical notes on top of the {@link AstronomicalCalculator} documentation.
  * <h2>Disclaimer:</h2> I did my best to get accurate results but please do not rely on these zmanim for
  * <em>halacha lemaaseh</em>.
- * 
+ *
  * @author &copy; Eliyahu Hershfeld 2004 - 2014
  */
 export default class ZmanimCalendar extends AstronomicalCalendar {

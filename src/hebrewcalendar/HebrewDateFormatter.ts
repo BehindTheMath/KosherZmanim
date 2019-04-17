@@ -5,7 +5,7 @@ import {StringUtils} from "../polyfills/Utils";
 
 /**
  * The HebrewDateFormatter class formats a {@link JewishDate}.
- * 
+ *
  * The class formats Jewish dates in Hebrew or Latin chars, and has various settings. Sample full date output includes
  * (using various options):
  * <ul>
@@ -14,10 +14,10 @@ import {StringUtils} from "../polyfills/Utils";
  * <li>&#x5D4;&#x5F3; &#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5DB;&#x5F4;&#x5D8;</li>
  * <li>&#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5DA;&#x5F3;</li>
  * </ul>
- * 
+ *
  * @see net.sourceforge.zmanim.hebrewcalendar.JewishDate
  * @see net.sourceforge.zmanim.hebrewcalendar.JewishCalendar
- * 
+ *
  * @author &copy; Eliyahu Hershfeld 2011 - 2015
  */
 export default class HebrewDateFormatter {
@@ -384,14 +384,14 @@ export default class HebrewDateFormatter {
             if (this.isLongWeekFormat()) {
                 return HebrewDateFormatter.hebrewDaysOfWeek[jewishDate.getDayOfWeek() - 1];
             } else {
-                if (jewishDate.getDayOfWeek() == 7) {
+                if (jewishDate.getDayOfWeek() === 7) {
                     return this.formatHebrewNumber(300);
                 } else {
                     return this.formatHebrewNumber(jewishDate.getDayOfWeek());
                 }
             }
         } else {
-            if (jewishDate.getDayOfWeek() == 7) {
+            if (jewishDate.getDayOfWeek() === 7) {
                 if (this.isLongWeekFormat()) {
                     return this.getTransliteratedShabbosDayOfWeek();
                 } else {

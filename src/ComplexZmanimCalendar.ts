@@ -18,7 +18,7 @@ import Moment = MomentTimezone.Moment;
  * time before or after {@link #getSunrise sunrise} and {@link #getSunset sunset} and are of interest for calculation
  * beyond <em>zmanim</em> calculations. Here are some examples:
  * First create the Calendar for the location you would like to calculate:
- * 
+ *
  * <pre>
  * String locationName = &quot;Lakewood, NJ&quot;;
  * double latitude = 40.0828; // Lakewood, NJ
@@ -33,24 +33,24 @@ import Moment = MomentTimezone.Moment;
  * czc.getCalendar().set(Calendar.MONTH, Calendar.FEBRUARY);
  * czc.getCalendar().set(Calendar.DAY_OF_MONTH, 8);
  * </pre>
- * 
+ *
  * <b>Note:</b> For locations such as Israel where the beginning and end of daylight savings time can fluctuate from
  * year to year create a {@link java.util.SimpleTimeZone} with the known start and end of DST.
  * To get <em>alos</em> calculated as 14&deg; below the horizon (as calculated in the calendars published in Montreal),
  * add {@link AstronomicalCalendar#GEOMETRIC_ZENITH} (90) to the 14&deg; offset to get the desired time:
- * 
+ *
  * <pre>
  * Date alos14 = czc.getSunriseOffsetByDegrees({@link AstronomicalCalendar#GEOMETRIC_ZENITH} + 14);
  * </pre>
- * 
+ *
  * To get <em>mincha gedola</em> calculated based on the MGA using a <em>shaah
  * zmanis</em> based on the day starting 16.1&deg; below the horizon (and ending 16.1&deg; after sunset) the following
  * calculation can be used:
- * 
+ *
  * <pre>
  * Date minchaGedola = czc.getTimeOffset(czc.getAlos16point1Degrees(), czc.getShaahZmanis16Point1Degrees() * 6.5);
  * </pre>
- * 
+ *
  * A little more complex example would be calculating <em>plag hamincha</em> based on a <em>shaah zmanis</em> that was
  * not present in this class. While a drop more complex it is still rather easy. For example if you wanted to calculate
  * <em>plag</em> based on the day starting 12&deg; before sunrise and ending 12&deg; after sunset as calculated in the
@@ -59,17 +59,17 @@ import Moment = MomentTimezone.Moment;
  * {@link #getSunTransit() solar transit} (solar midday)). The steps involved would be to first calculate the
  * <em>shaah zmanis</em> and then use that time in milliseconds to calculate 10.75 hours after sunrise starting at
  * 12&deg; before sunset
- * 
+ *
  * <pre>
  * long shaahZmanis = czc.getTemporalHour(czc.getSunriseOffsetByDegrees({@link AstronomicalCalendar#GEOMETRIC_ZENITH} + 12),
  *                         czc.getSunsetOffsetByDegrees({@link AstronomicalCalendar#GEOMETRIC_ZENITH} + 12));
- * Date plag = getTimeOffset(czc.getSunriseOffsetByDegrees({@link AstronomicalCalendar#GEOMETRIC_ZENITH} + 12), 
+ * Date plag = getTimeOffset(czc.getSunriseOffsetByDegrees({@link AstronomicalCalendar#GEOMETRIC_ZENITH} + 12),
  *                     shaahZmanis * 10.75);
  * </pre>
- * 
+ *
  * <h2>Disclaimer:</h2> While I did my best to get accurate results please do not rely on these zmanim for
  * <em>halacha lemaaseh</em>
- * 
+ *
  * @author &copy; Eliyahu Hershfeld 2004 - 2016
  */
 export default class ComplexZmanimCalendar extends ZmanimCalendar {
@@ -190,10 +190,6 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
     protected static readonly ZENITH_26_DEGREES: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 26;
 
     /**
-     * Experimental and may not make the final 1.3 cut
-     */
-
-    /**
      * The zenith of 4.37&deg; below {@link #GEOMETRIC_ZENITH geometric zenith} (90&deg;). This calculation is used for
      * calculating <em>tzais</em> (nightfall) according to some opinions. This calculation is based on the position of
      * the sun {@link #getTzaisGeonim4Point37Degrees() 16 7/8 minutes} after sunset (3/4 of a 22.5 minute Mil) in
@@ -215,6 +211,9 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     protected static readonly ZENITH_4_POINT_61: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 4.61;
 
+    /**
+     * @see #getTzaisGeonim4Point8Degrees()
+     */
     protected static readonly ZENITH_4_POINT_8: number = ComplexZmanimCalendar.GEOMETRIC_ZENITH + 4.8;
 
     /**
@@ -264,7 +263,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      * The zenith of 6.45&deg; below {@link #GEOMETRIC_ZENITH geometric zenith} (90&deg;). This calculation is used for
      * calculating <em>tzais</em> (nightfall) according to some opinions. This is based on the calculations of Rav
      * Yechiel Michel Tukachinsky of the position of the sun no later than {@link #getTzaisGeonim6Point45Degrees() 31
-	 * minutes} after sunset in Jerusalem, and at the height of the summer solstice, this zman is 28 minutes after
+     * minutes} after sunset in Jerusalem, and at the height of the summer solstice, this zman is 28 minutes after
      * <em>shkiah</em>. This computes to 6.45&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}
      *
      * @see #getTzaisGeonim6Point45Degrees()
@@ -2583,7 +2582,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
     public getZmanMolad(): Date {
         const jewishCalendar: JewishCalendar = new JewishCalendar(this.getMoment());
         let molad: Date = this.getMoladBasedTime(jewishCalendar.getMoladAsDate(), null, null, true);
-        if (molad == null && jewishCalendar.getJewishDayOfMonth() > 27) {
+        if (molad === null && jewishCalendar.getJewishDayOfMonth() > 27) {
             //attempt to get the following molad. FIXME test with Rapa Iti in 2028 and other extreme cases
             jewishCalendar.forward(Calendar.MONTH, 1);
             molad = this.getMoladBasedTime(jewishCalendar.getMoladAsDate(), null, null, true);

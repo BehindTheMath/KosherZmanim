@@ -33,7 +33,6 @@ import Moment = MomentTimezone.Moment;
  * @see java.util.Calendar
  * @author &copy; Avrom Finkelstien 2002
  * @author &copy; Eliyahu Hershfeld 2011 - 2015
- * @version 0.2.6
  */
 export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
     /**
@@ -850,7 +849,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
 
     /**
      * Constructor that creates a JewishDate based on a molad passed in. The molad would be the number of chalakim/parts
-     * starting at the begining of Sunday prior to the molad Tohu BeHaRaD (Be = Monday, Ha= 5 hours and Rad =204
+     * starting at the beginning of Sunday prior to the molad Tohu BeHaRaD (Be = Monday, Ha= 5 hours and Rad =204
      * chalakim/parts) - prior to the start of the Jewish calendar. BeHaRaD is 23:11:20 on Sunday night(5 hours 204/1080
      * chalakim after sunset on Sunday evening).
      *
@@ -881,7 +880,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
     }
 
     /**
-     * returns the number of days from Rosh Hashana of the date passed in, till the full date passed in.
+     * returns the number of days from Rosh Hashana of the date passed in, to the full date passed in.
      *
      * @param year
      *            the Jewish year
@@ -1191,10 +1190,9 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
     }
 
     /**
-     * Rolls the date forward by 1 day. It modifies both the Gregorian and Jewish dates accordingly. The API does not
-     * currently offer the ability to forward more than one day t a time, or to forward by month or year. If such
-     * manipulation is required use the {@link Calendar} class {@link Calendar#add(int, int)} or
-     * {@link Calendar#roll(int, int)} methods in the following manner.
+     * Rolls the date, month or year forward by the amount passed in. It modifies both the Gregorian and Jewish dates
+     * accordingly. If manipulation beyond the fields supported here is required, use the {@link Calendar} class
+     * {@link Calendar#add(int, int)} or {@link Calendar#roll(int, int)} methods in the following manner.
      *
      * <pre>
      * <code>
@@ -1214,18 +1212,18 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      * @see Calendar#roll(int, int)
      */
     public forward(field: number, amount: number): void {
-        if (field != Calendar.DATE && field != Calendar.MONTH && field != Calendar.YEAR) {
+        if (field !== Calendar.DATE && field !== Calendar.MONTH && field !== Calendar.YEAR) {
             throw new Error("IllegalArgumentException: Unsupported field was passed to Forward. Only Calendar.DATE, Calendar.MONTH or Calendar.YEAR are supported.");
         }
         if (amount < 1) {
             throw new Error("IllegalArgumentException: JewishDate.forward() does not support amounts less than 1. See JewishDate.back()");
         }
-        if (field == Calendar.DATE) {
+        if (field === Calendar.DATE) {
             // Change Gregorian date
             for (let i = 0; i < amount; i++) {
-                if (this.gregorianDayOfMonth == JewishDate.getLastDayOfGregorianMonth(this.gregorianMonth, this.gregorianYear)) {
+                if (this.gregorianDayOfMonth === JewishDate.getLastDayOfGregorianMonth(this.gregorianMonth, this.gregorianYear)) {
                     // if last day of year
-                    if (this.gregorianMonth == 12) {
+                    if (this.gregorianMonth === 12) {
                         this.gregorianYear++;
                         this.gregorianMonth = 1;
                         this.gregorianDayOfMonth = 1;
@@ -1239,13 +1237,13 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
                 }
 
                 // Change the Jewish Date
-                if (this.jewishDay == this.getDaysInJewishMonth()) {
+                if (this.jewishDay === this.getDaysInJewishMonth()) {
                     // if it last day of elul (i.e. last day of Jewish year)
-                    if (this.jewishMonth == JewishDate.ELUL) {
+                    if (this.jewishMonth === JewishDate.ELUL) {
                         this.jewishYear++;
                         this.jewishMonth++;
                         this.jewishDay = 1;
-                    } else if (this.jewishMonth == JewishDate.getLastMonthOfJewishYear(this.jewishYear)) {
+                    } else if (this.jewishMonth === JewishDate.getLastMonthOfJewishYear(this.jewishYear)) {
                         // if it is the last day of Adar, or Adar II as case may be
                         this.jewishMonth = JewishDate.NISSAN;
                         this.jewishDay = 1;
@@ -1258,7 +1256,7 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
                     this.jewishDay++;
                 }
 
-                if (this.dayOfWeek == 7) {
+                if (this.dayOfWeek === 7) {
                     // if last day of week, loop back to Sunday
                     this.dayOfWeek = 1;
                 } else {
@@ -1268,9 +1266,9 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
                 // increment the absolute date
                 this.gregorianAbsDate++;
             }
-        } else if (field == Calendar.MONTH) {
+        } else if (field === Calendar.MONTH) {
             this.forwardJewishMonth(amount);
-        } else if (field == Calendar.YEAR) {
+        } else if (field === Calendar.YEAR) {
             this.setJewishYear(this.getJewishYear() + amount);
         }
     }
@@ -1288,11 +1286,11 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
             throw new Error("IllegalArgumentException: the amount of months to forward has to be greater than zero.");
         }
         for (let i = 0; i < amount; i++) {
-            if (this.getJewishMonth() == JewishDate.ELUL) {
+            if (this.getJewishMonth() === JewishDate.ELUL) {
                 this.setJewishMonth(JewishDate.TISHREI);
                 this.setJewishYear(this.getJewishYear() + 1);
-            } else if ((!this.isJewishLeapYear() && this.getJewishMonth() == JewishDate.ADAR)
-                || (this.isJewishLeapYear() && this.getJewishMonth() == JewishDate.ADAR_II)) {
+            } else if ((!this.isJewishLeapYear() && this.getJewishMonth() === JewishDate.ADAR)
+                || (this.isJewishLeapYear() && this.getJewishMonth() === JewishDate.ADAR_II)) {
                 this.setJewishMonth(JewishDate.NISSAN);
             } else {
                 this.setJewishMonth(this.getJewishMonth() + 1);
@@ -1525,7 +1523,6 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      * A method that creates a <a href="http://en.wikipedia.org/wiki/Object_copy#Deep_copy">deep copy</a> of the object.
      *
      * @see Object#clone()
-     * @since 1.1
      */
     public clone(): JewishDate {
         const clone: JewishDate = new JewishDate(this.jewishYear, this.jewishMonth, this.jewishDay);
