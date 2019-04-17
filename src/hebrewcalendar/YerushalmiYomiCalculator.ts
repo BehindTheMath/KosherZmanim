@@ -29,8 +29,8 @@ export default class YerushalmiYomiCalculator {
         let prevCycle: Moment;
         const requested: Moment = jewishCalendar.getMoment();
         let masechta: number = 0;
-        let dafYomi: Daf = null;
-        
+        let dafYomi: Daf;
+
         // There is no Daf Yomi on Yom Kippur and Tisha B'Av.
         if (jewishCalendar.getYomTovIndex() === JewishCalendar.YOM_KIPPUR || jewishCalendar.getYomTovIndex() === JewishCalendar.TISHA_BEAV) {
             return new Daf(39, 0);
@@ -54,7 +54,7 @@ export default class YerushalmiYomiCalculator {
         }
 
         // Get the number of days from cycle start until request.
-        const dafNo: number = -prevCycle.diff(requested, "days");
+        const dafNo: number = -prevCycle!.diff(requested, "days");
 
         // Get the number of special days to substract
         const specialDays: number = YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, requested);
@@ -70,7 +70,7 @@ export default class YerushalmiYomiCalculator {
             masechta++;
         }
 
-        return dafYomi;
+        return dafYomi!;
     }
 
     /**

@@ -93,9 +93,9 @@ export default class AstronomicalCalendar {
      */
     private moment: Moment = MomentTimezone();
 
-    private geoLocation: GeoLocation;
+    private geoLocation!: GeoLocation;
 
-    private astronomicalCalculator: AstronomicalCalculator;
+    private astronomicalCalculator!: AstronomicalCalculator;
 
     /**
      * The getSunrise method Returns a <code>Date</code> representing the
@@ -113,7 +113,7 @@ export default class AstronomicalCalendar {
      * @see #getSeaLevelSunrise()
      * @see AstronomicalCalendar#getUTCSunrise
      */
-    public getSunrise(): Date {
+    public getSunrise(): Date | null {
         const sunrise: number = this.getUTCSunrise(AstronomicalCalendar.GEOMETRIC_ZENITH);
         if (Number.isNaN(sunrise)) {
             return null;
@@ -135,7 +135,7 @@ export default class AstronomicalCalendar {
      * @see AstronomicalCalendar#getUTCSeaLevelSunrise
      * @see #getSeaLevelSunset()
      */
-    public getSeaLevelSunrise(): Date {
+    public getSeaLevelSunrise(): Date | null {
         const sunrise: number = this.getUTCSeaLevelSunrise(AstronomicalCalendar.GEOMETRIC_ZENITH);
         if (Number.isNaN(sunrise)) {
             return null;
@@ -151,7 +151,7 @@ export default class AstronomicalCalendar {
      *         can't be computed, null will be returned. See detailed explanation on top of the page.
      * @see #CIVIL_ZENITH
      */
-    public getBeginCivilTwilight(): Date {
+    public getBeginCivilTwilight(): Date | null {
         return this.getSunriseOffsetByDegrees(AstronomicalCalendar.CIVIL_ZENITH);
     }
 
@@ -162,7 +162,7 @@ export default class AstronomicalCalendar {
      *         calculation can't be computed null will be returned. See detailed explanation on top of the page.
      * @see #NAUTICAL_ZENITH
      */
-    public getBeginNauticalTwilight(): Date {
+    public getBeginNauticalTwilight(): Date | null {
         return this.getSunriseOffsetByDegrees(AstronomicalCalendar.NAUTICAL_ZENITH);
     }
 
@@ -174,7 +174,7 @@ export default class AstronomicalCalendar {
      *         calculation can't be computed, null will be returned. See detailed explanation on top of the page.
      * @see #ASTRONOMICAL_ZENITH
      */
-    public getBeginAstronomicalTwilight(): Date {
+    public getBeginAstronomicalTwilight(): Date | null {
         return this.getSunriseOffsetByDegrees(AstronomicalCalendar.ASTRONOMICAL_ZENITH);
     }
 
@@ -197,7 +197,7 @@ export default class AstronomicalCalendar {
      * @see #getSeaLevelSunset()
      * @see AstronomicalCalendar#getUTCSunset
      */
-    public getSunset(): Date {
+    public getSunset(): Date | null {
         const sunset: number = this.getUTCSunset(AstronomicalCalendar.GEOMETRIC_ZENITH);
         if (Number.isNaN(sunset)) {
             return null;
@@ -218,7 +218,7 @@ export default class AstronomicalCalendar {
      * @see AstronomicalCalendar#getSunset
      * @see AstronomicalCalendar#getUTCSeaLevelSunset 2see {@link #getSunset()}
      */
-    public getSeaLevelSunset(): Date {
+    public getSeaLevelSunset(): Date | null {
         const sunset: number = this.getUTCSeaLevelSunset(AstronomicalCalendar.GEOMETRIC_ZENITH);
         if (Number.isNaN(sunset)) {
             return null;
@@ -234,7 +234,7 @@ export default class AstronomicalCalendar {
      *         the calculation can't be computed, null will be returned. See detailed explanation on top of the page.
      * @see #CIVIL_ZENITH
      */
-    public getEndCivilTwilight(): Date {
+    public getEndCivilTwilight(): Date | null {
         return this.getSunsetOffsetByDegrees(AstronomicalCalendar.CIVIL_ZENITH);
     }
 
@@ -246,7 +246,7 @@ export default class AstronomicalCalendar {
      *         page.
      * @see #NAUTICAL_ZENITH
      */
-    public getEndNauticalTwilight(): Date {
+    public getEndNauticalTwilight(): Date | null {
         return this.getSunsetOffsetByDegrees(AstronomicalCalendar.NAUTICAL_ZENITH);
     }
 
@@ -258,7 +258,7 @@ export default class AstronomicalCalendar {
      *         of the page.
      * @see #ASTRONOMICAL_ZENITH
      */
-    public getEndAstronomicalTwilight(): Date {
+    public getEndAstronomicalTwilight(): Date | null {
         return this.getSunsetOffsetByDegrees(AstronomicalCalendar.ASTRONOMICAL_ZENITH);
     }
 
@@ -313,7 +313,7 @@ export default class AstronomicalCalendar {
      *         not rise, and one where it does not set, a null will be returned. See detailed explanation on top of the
      *         page.
      */
-    public getSunriseOffsetByDegrees(offsetZenith: number): Date {
+    public getSunriseOffsetByDegrees(offsetZenith: number): Date | null {
         const dawn: number = this.getUTCSunrise(offsetZenith);
         if (Number.isNaN(dawn)) {
             return null;
@@ -336,7 +336,7 @@ export default class AstronomicalCalendar {
      *         rise, and one where it does not set, a null will be returned. See detailed explanation on top of the
      *         page.
      */
-    public getSunsetOffsetByDegrees(offsetZenith: number): Date {
+    public getSunsetOffsetByDegrees(offsetZenith: number): Date | null {
         const sunset: number = this.getUTCSunset(offsetZenith);
         if (Number.isNaN(sunset)) {
             return null;
@@ -475,7 +475,8 @@ export default class AstronomicalCalendar {
      *
      * @see #getTemporalHour()
      */
-    public getTemporalHour(startOfday: Date = this.getSeaLevelSunrise(), endOfDay: Date = this.getSeaLevelSunset()): number {
+    public getTemporalHour(startOfday: Date | null = this.getSeaLevelSunrise(),
+                           endOfDay: Date | null = this.getSeaLevelSunset()): number {
         if (startOfday === null || endOfDay === null) {
             return null;
         }
@@ -519,7 +520,7 @@ export default class AstronomicalCalendar {
      *         Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
      *         not set, null will be returned. See detailed explanation on top of the page.
      */
-    public getSunTransit(startOfDay: Date = this.getSeaLevelSunrise(), endOfDay: Date = this.getSeaLevelSunset()): Date {
+    public getSunTransit(startOfDay: Date | null = this.getSeaLevelSunrise(), endOfDay: Date | null = this.getSeaLevelSunset()): Date | null {
         const temporalHour: number = this.getTemporalHour(startOfDay, endOfDay);
         return this.getTimeOffset(startOfDay, temporalHour * 6);
     }
@@ -584,8 +585,8 @@ export default class AstronomicalCalendar {
      * @see #getSunsetSolarDipFromOffset(double)
      */
     public getSunriseSolarDipFromOffset(minutes: number): number {
-        let offsetByDegrees: Date = this.getSeaLevelSunrise();
-        const offsetByTime: Date = this.getTimeOffset(this.getSeaLevelSunrise(), -(minutes * AstronomicalCalendar.MINUTE_MILLIS));
+        let offsetByDegrees: Date | null = this.getSeaLevelSunrise();
+        const offsetByTime: Date | null = this.getTimeOffset(this.getSeaLevelSunrise(), -(minutes * AstronomicalCalendar.MINUTE_MILLIS));
 
         let degrees: Big = new Big(0);
         const incrementor: Big = new Big("0.0001");
@@ -608,8 +609,8 @@ export default class AstronomicalCalendar {
      * @see #getSunriseSolarDipFromOffset(double)
      */
     public getSunsetSolarDipFromOffset(minutes: number): number {
-        let offsetByDegrees: Date = this.getSeaLevelSunset();
-        const offsetByTime: Date = this.getTimeOffset(this.getSeaLevelSunset(), minutes * AstronomicalCalendar.MINUTE_MILLIS);
+        let offsetByDegrees: Date | null = this.getSeaLevelSunset();
+        const offsetByTime: Date | null = this.getTimeOffset(this.getSeaLevelSunset(), minutes * AstronomicalCalendar.MINUTE_MILLIS);
 
         let degrees: Big = new Big(0);
         const incrementor: Big = new Big("0.001");

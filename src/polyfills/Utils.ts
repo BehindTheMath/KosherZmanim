@@ -59,27 +59,6 @@ export namespace TimeZone {
     }
 }
 
-/**
- * Wrapper class for an astronomical time, mostly used to sort collections of
- * astronomical times.
- *
- * @author &copy; Eliyahu Hershfeld 2007-2011
- * @version 1.0
- */
-export namespace Zman {
-    export function compareDateOrder(zman1: Zman, zman2: Zman): number {
-        return DateUtils.compareTo(zman1.zman, zman2.zman);
-    }
-
-    export function compareNameOrder(zman1: Zman, zman2: Zman): number {
-        return StringUtils.compareTo(zman1.zmanLabel, zman2.zmanLabel);
-    }
-
-    export function compareDurationOrder(zman1: Zman, zman2: Zman): number {
-        return zman1.duration === zman2.duration ? 0 : zman1.duration > zman2.duration ? 1 : -1;
-    }
-}
-
 export namespace Calendar {
     export const JANUARY: number = 0;
     export const FEBRUARY: number = 1;
@@ -172,6 +151,7 @@ export namespace StringUtils {
 }
 
 export namespace DateUtils {
+    // @ts-ignore
     export function compareTo(date1: Date, date2: Date): number {
         const date1Millis = date1.getTime();
         const date2Millis = date2.getTime();

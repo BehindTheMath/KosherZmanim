@@ -15,13 +15,6 @@ declare interface OutputMetadata {
     timeZoneOffset: string;
 }
 
-declare interface Zman {
-    zmanLabel?: string;
-    zman?: Date;
-    duration?: number;
-    zmanDescription?: Date;
-}
-
 declare interface ZmanimConstructorOptions {
     date: Date | string | number;
     timeZoneId: string;

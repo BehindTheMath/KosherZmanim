@@ -61,7 +61,7 @@ export default class YomiCalculator {
 
         const moment: Moment = calendar.getMoment();
 
-        let dafYomi: Daf = null;
+        let dafYomi: Daf;
         const julianDay: number = this.getJulianDay(moment.toDate());
         let cycleNo: number = 0;
         let dafNo: number = 0;
@@ -106,7 +106,7 @@ export default class YomiCalculator {
             }
         }
 
-        return dafYomi;
+        return dafYomi!;
     }
 
     /**

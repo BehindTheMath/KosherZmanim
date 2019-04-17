@@ -162,12 +162,12 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      */
     public static readonly SHELAIMIM: number = 2;
 
-    private jewishMonth: number;
-    private jewishDay: number;
-    private jewishYear: number;
-    private moladHours: number;
-    private moladMinutes: number;
-    private moladChalakim: number;
+    private jewishMonth!: number;
+    private jewishDay!: number;
+    private jewishYear!: number;
+    private moladHours!: number;
+    private moladMinutes!: number;
+    private moladChalakim!: number;
 
     /**
      * Returns the molad hours. Only a JewishDate object populated with {@link #getMolad()},
@@ -274,18 +274,18 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
      * The month, where 1 == January, 2 == February, etc... Note that this is different than the Java's Calendar class
      * where January ==0
      */
-    private gregorianMonth: number;
+    private gregorianMonth!: number;
 
     /** The day of the Gregorian month */
-    private gregorianDayOfMonth: number;
+    private gregorianDayOfMonth!: number;
 
     /** The Gregorian year */
-    private gregorianYear: number;
+    private gregorianYear!: number;
 
     /** 1 == Sunday, 2 == Monday, etc... */
-    private dayOfWeek: number;
+    private dayOfWeek!: number;
 
-    private gregorianAbsDate: number;
+    private gregorianAbsDate!: number;
 
     /**
      * Returns the number of days in a given month in a given month and year.
@@ -909,11 +909,16 @@ export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/
         return elapsedDays;
     }
 
+    constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number)
+    constructor(molad: number)
+    constructor(date: Date)
+    constructor(moment: Moment)
+    constructor()
     constructor(jewishYearOrMomentOrDateOrMolad?: number | Moment | Date, jewishMonth?: number, jewishDayOfMonth?: number) {
         if (!jewishYearOrMomentOrDateOrMolad) {
             this.resetDate();
         } else if (jewishMonth) {
-            this.setJewishDate(jewishYearOrMomentOrDateOrMolad as number, jewishMonth, jewishDayOfMonth);
+            this.setJewishDate(jewishYearOrMomentOrDateOrMolad as number, jewishMonth, jewishDayOfMonth!);
         } else if (MomentTimezone.isMoment(jewishYearOrMomentOrDateOrMolad)) {
             this.setDate(jewishYearOrMomentOrDateOrMolad as Moment);
         } else if (jewishYearOrMomentOrDateOrMolad instanceof Date) {

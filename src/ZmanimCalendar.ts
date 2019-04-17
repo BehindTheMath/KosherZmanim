@@ -64,7 +64,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         top of the {@link AstronomicalCalendar} documentation.
      * @see #ZENITH_8_POINT_5
      */
-    public getTzais(): Date {
+    public getTzais(): Date | null {
         return this.getSunsetOffsetByDegrees(ZmanimCalendar.ZENITH_8_POINT_5);
     }
 
@@ -79,7 +79,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         low enough below the horizon for this calculation, a null will be returned. See detailed explanation on
      *         top of the {@link AstronomicalCalendar} documentation.
      */
-    public getAlosHashachar(): Date {
+    public getAlosHashachar(): Date | null {
         return this.getSunriseOffsetByDegrees(ZmanimCalendar.ZENITH_16_POINT_1);
     }
 
@@ -95,7 +95,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         a null will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}
      *         documentation.
      */
-    public getAlos72(): Date {
+    public getAlos72(): Date | null {
         return this.getTimeOffset(this.getSeaLevelSunrise(), -72 * ZmanimCalendar.MINUTE_MILLIS);
     }
 
@@ -109,7 +109,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         there is at least one day where the sun does not rise, and one where it does not set, a null will be
      *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
      */
-    public getChatzos(): Date {
+    public getChatzos(): Date | null {
         return this.getSunTransit();
     }
 
@@ -132,7 +132,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         a year where the sun does not rise, and one where it does not set, a null will be returned. See detailed
      *         explanation on top of the {@link AstronomicalCalendar} documentation.
      */
-    public getSofZmanShma(startOfDay: Date, endOfDay: Date): Date {
+    public getSofZmanShma(startOfDay: Date | null, endOfDay: Date | null): Date | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
         return this.getTimeOffset(startOfDay, shaahZmanis * 3);
     }
@@ -151,7 +151,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         not rise, and one where it does not set, a null will be returned. See detailed explanation on top of the
      *         {@link AstronomicalCalendar} documentation.
      */
-    public getSofZmanShmaGRA(): Date {
+    public getSofZmanShmaGRA(): Date | null {
         return this.getSofZmanShma(this.getSeaLevelSunrise(), this.getSeaLevelSunset());
     }
 
@@ -171,7 +171,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      * @see ComplexZmanimCalendar#getAlos72()
      * @see ComplexZmanimCalendar#getSofZmanShmaMGA72Minutes()
      */
-    public getSofZmanShmaMGA(): Date {
+    public getSofZmanShmaMGA(): Date | null {
         return this.getSofZmanShma(this.getAlos72(), this.getTzais72());
     }
 
@@ -186,7 +186,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         and one where it does not set, a null will be returned See detailed explanation on top of the
      *         {@link AstronomicalCalendar} documentation.
      */
-    public getTzais72(): Date {
+    public getTzais72(): Date | null {
         return this.getTimeOffset(this.getSeaLevelSunset(), 72 * ZmanimCalendar.MINUTE_MILLIS);
     }
 
@@ -204,7 +204,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      * @see #getCandleLightingOffset()
      * @see #setCandleLightingOffset(double)
      */
-    public getCandleLighting(): Date {
+    public getCandleLighting(): Date | null {
         return this.getTimeOffset(this.getSeaLevelSunset(), -this.getCandleLightingOffset() * ZmanimCalendar.MINUTE_MILLIS);
     }
 
@@ -227,7 +227,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         one day a year where the sun does not rise, and one where it does not set, a null will be returned. See
      *         detailed explanation on top of the {@link AstronomicalCalendar} documentation.
      */
-    public getSofZmanTfila(startOfDay: Date, endOfDay: Date): Date {
+    public getSofZmanTfila(startOfDay: Date | null, endOfDay: Date | null): Date | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
         return this.getTimeOffset(startOfDay, shaahZmanis * 4);
     }
@@ -245,7 +245,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         not set, a null will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}
      *         documentation.
      */
-    public getSofZmanTfilaGRA(): Date {
+    public getSofZmanTfilaGRA(): Date | null {
         return this.getSofZmanTfila(this.getSeaLevelSunrise(), this.getSeaLevelSunset());
     }
 
@@ -265,7 +265,7 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      * @see #getShaahZmanisMGA()
      * @see #getAlos72()
      */
-    public getSofZmanTfilaMGA(): Date {
+    public getSofZmanTfilaMGA(): Date | null {
         return this.getSofZmanTfila(this.getAlos72(), this.getTzais72());
     }
 
@@ -288,7 +288,8 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         at least one day a year where the sun does not rise, and one where it does not set, a null will be
      *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
      */
-    public getMinchaGedola(startOfDay: Date = this.getSeaLevelSunrise(), endOfDay: Date = this.getSeaLevelSunset()): Date {
+    public getMinchaGedola(startOfDay: Date | null = this.getSeaLevelSunrise(),
+                           endOfDay: Date | null = this.getSeaLevelSunset()): Date | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
         return this.getTimeOffset(startOfDay, shaahZmanis * 6.5);
     }
@@ -337,7 +338,8 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         at least one day a year where the sun does not rise, and one where it does not set, a null will be
      *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
      */
-    public getMinchaKetana(startOfDay: Date = this.getSeaLevelSunrise(), endOfDay: Date = this.getSeaLevelSunset()): Date {
+    public getMinchaKetana(startOfDay: Date | null = this.getSeaLevelSunrise(),
+                           endOfDay: Date | null = this.getSeaLevelSunset()): Date | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
         return this.getTimeOffset(startOfDay, shaahZmanis * 9.5);
     }
@@ -380,7 +382,8 @@ export default class ZmanimCalendar extends AstronomicalCalendar {
      *         at least one day a year where the sun does not rise, and one where it does not set, a null will be
      *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
      */
-    public getPlagHamincha(startOfDay: Date = this.getSeaLevelSunrise(), endOfDay: Date = this.getSeaLevelSunset()): Date {
+    public getPlagHamincha(startOfDay: Date | null = this.getSeaLevelSunrise(),
+                           endOfDay: Date | null = this.getSeaLevelSunset()): Date | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
         return this.getTimeOffset(startOfDay, shaahZmanis * 10.75);
     }

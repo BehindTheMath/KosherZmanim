@@ -10,11 +10,11 @@ import {TimeZone, MathUtils} from "../polyfills/Utils";
  * @version 1.1
  */
 export default class GeoLocation {
-    private latitude: number;
-    private longitude: number;
-    private locationName: string;
-    private timeZoneId: string;
-    private elevation: number;
+    private latitude!: number;
+    private longitude!: number;
+    private locationName!: string;
+    private timeZoneId!: string;
+    private elevation!: number;
     private static readonly DISTANCE: number = 0;
     private static readonly INITIAL_BEARING: number = 1;
     private static readonly FINAL_BEARING: number = 2;
@@ -163,7 +163,7 @@ export default class GeoLocation {
         } else {
             const degrees: number = degreesOrLatitude;
 
-            let tempLat: number = degrees + ((minutes + (seconds / 60)) / 60);
+            let tempLat: number = degrees + ((minutes + (seconds! / 60)) / 60);
             if (tempLat > 90 || tempLat < 0) { //FIXME An exception should be thrown if degrees, minutes or seconds are negative
                 throw new Error("IllegalArgumentException: Latitude must be between 0 and  90. Use direction of S instead of negative.");
             }
@@ -231,7 +231,7 @@ export default class GeoLocation {
         } else {
             const degrees: number = degreesOrLongitude;
 
-            let longTemp: number = degrees + ((minutes + (seconds / 60)) / 60);
+            let longTemp: number = degrees + ((minutes + (seconds! / 60)) / 60);
             if (longTemp > 180 || this.longitude < 0) { //FIXME An exception should be thrown if degrees, minutes or seconds are negative
                 throw new Error("IllegalArgumentException: Longitude must be between 0 and  180.  Use a direction of W instead of negative.");
             }
