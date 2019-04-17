@@ -1,4 +1,4 @@
-import {DateUtils, TimeZone, Calendar} from "./polyfills/Utils";
+import {DateUtils, TimeZone, Calendar, Long_MIN_VALUE} from "./polyfills/Utils";
 import GeoLocation from "./util/GeoLocation";
 import ZmanimCalendar from "./ZmanimCalendar";
 import JewishCalendar from "./hebrewcalendar/JewishCalendar";
@@ -605,7 +605,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getAlos72Zmanis(): Date | null {
         const shaahZmanis: number = this.getShaahZmanisGra();
-        if (shaahZmanis === null) {
+        if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
         return this.getTimeOffset(this.getSeaLevelSunrise(), shaahZmanis * -1.2);
@@ -642,7 +642,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getAlos90Zmanis(): Date | null {
         const shaahZmanis: number = this.getShaahZmanisGra();
-        if (shaahZmanis === null) {
+        if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
         return this.getTimeOffset(this.getSeaLevelSunrise(), shaahZmanis * -1.5);
@@ -663,7 +663,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getAlos96Zmanis(): Date | null {
         const shaahZmanis: number = this.getShaahZmanisGra();
-        if (shaahZmanis === null) {
+        if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
         return this.getTimeOffset(this.getSeaLevelSunrise(), shaahZmanis * -1.6);
@@ -717,7 +717,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getAlos120Zmanis(): Date | null {
         const shaahZmanis: number = this.getShaahZmanisGra();
-        if (shaahZmanis === null) {
+        if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
         return this.getTimeOffset(this.getSeaLevelSunrise(), shaahZmanis * -2);
@@ -2164,7 +2164,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getTzais72Zmanis(): Date | null {
         const shaahZmanis: number = this.getShaahZmanisGra();
-        if (shaahZmanis === null) {
+        if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
         return this.getTimeOffset(this.getSeaLevelSunset(), shaahZmanis * 1.2);
@@ -2182,7 +2182,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getTzais90Zmanis(): Date | null {
         const shaahZmanis: number = this.getShaahZmanisGra();
-        if (shaahZmanis === null) {
+        if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
         return this.getTimeOffset(this.getSeaLevelSunset(), shaahZmanis * 1.5);
@@ -2200,7 +2200,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getTzais96Zmanis(): Date | null {
         const shaahZmanis: number = this.getShaahZmanisGra();
-        if (shaahZmanis === null) {
+        if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
         return this.getTimeOffset(this.getSeaLevelSunset(), shaahZmanis * 1.6);
@@ -2254,7 +2254,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getTzais120Zmanis(): Date | null {
         const shaahZmanis: number = this.getShaahZmanisGra();
-        if (shaahZmanis === null) {
+        if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
         return this.getTimeOffset(this.getSeaLevelSunset(), shaahZmanis * 2);

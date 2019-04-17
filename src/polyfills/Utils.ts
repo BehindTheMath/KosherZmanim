@@ -161,3 +161,6 @@ export namespace DateUtils {
         else if (date1Millis > date2Millis) return 1;
     }
 }
+
+// export const Long_MIN_VALUE = 0;
+export const Long_MIN_VALUE = NaN;

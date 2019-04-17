@@ -1,4 +1,4 @@
-import {DateUtils, TimeZone} from "./polyfills/Utils";
+import {DateUtils, TimeZone, Long_MIN_VALUE} from "./polyfills/Utils";
 import GeoLocation from "./util/GeoLocation";
 import AstronomicalCalculator from "./util/AstronomicalCalculator";
 import SunTimesCalculator from "./util/SunTimesCalculator";
@@ -223,7 +223,7 @@ export default class AstronomicalCalendar {
         if (Number.isNaN(sunset)) {
             return null;
         } else {
-            return this.getAdjustedSunsetDate(this.getDateFromTime(sunset, false));
+            return this.getAdjustedSunsetDate(this.getDateFromTime(sunset, false), this.getSeaLevelSunrise());
         }
     }
 
@@ -290,8 +290,8 @@ export default class AstronomicalCalendar {
      *            the offset in milliseconds to add to the time.
      * @return the {@link java.util.Date} with the offset in milliseconds added to it
      */
-    public getTimeOffset(time: Date, offset: number): Date {
-        if (time === null || offset === null) {
+    public getTimeOffset(time: Date | null, offset: number): Date | null {
+        if (time === null || offset === Long_MIN_VALUE || Number.isNaN(offset)) {
             return null;
         }
 
@@ -478,7 +478,7 @@ export default class AstronomicalCalendar {
     public getTemporalHour(startOfday: Date | null = this.getSeaLevelSunrise(),
                            endOfDay: Date | null = this.getSeaLevelSunset()): number {
         if (startOfday === null || endOfDay === null) {
-            return null;
+            return Long_MIN_VALUE;
         }
         return (endOfDay.getTime() - startOfday.getTime()) / 12;
     }
