@@ -526,22 +526,22 @@ export default class JewishCalendar extends JewishDate {
 
         // The molad calculation always expects output in standard time. Using "Asia/Jerusalem" timezone will incorrect
         // adjust for DST.
-        const yerushalayimStandardTZ: string = "Etc/GMT+2";
+        const yerushalayimStandardTZ: string = "Etc/GMT-2";
         const geo: GeoLocation = new GeoLocation(locationName, latitude, longitude, yerushalayimStandardTZ);
 
         const moladSeconds: number = molad.getMoladChalakim() * 10 / 3;
         // subtract local time difference of 20.94 minutes (20 minutes and 56.496 seconds) to get to Standard time
-        const milliseconds: number = Math.trunc(1000 * (moladSeconds - Math.trunc(moladSeconds)))
-            - Math.trunc(geo.getLocalMeanTimeOffset());
-        const moment: Moment = MomentTimezone({
+        const milliseconds: number = Math.trunc(1000 * (moladSeconds - Math.trunc(moladSeconds)));
+        const moment: Moment = MomentTimezone.tz({
             year: molad.getGregorianYear(),
             month: molad.getGregorianMonth(),
             day: molad.getGregorianDayOfMonth(),
             hours: molad.getMoladHours(),
             minutes: molad.getMoladMinutes(),
             seconds: Math.trunc(moladSeconds),
-            milliseconds: milliseconds
-        }).tz(geo.getTimeZone());
+            milliseconds
+        }, geo.getTimeZone());
+        moment.subtract({milliseconds: Math.trunc(geo.getLocalMeanTimeOffset())});
 
         return moment.toDate();
     }

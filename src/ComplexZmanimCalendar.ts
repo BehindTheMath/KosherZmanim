@@ -2393,9 +2393,11 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
     private getMoladBasedTime(moladBasedTime: Date, alos: Date | null, tzais: Date | null, techila: boolean): Date | null {
         const lastMidnight: Date = this.getMidnightLastNight();
         const midnightTonigh: Date = this.getMidnightTonight();
-        if (!(moladBasedTime.before(lastMidnight) || moladBasedTime.after(midnightTonigh))) {
-            if (alos != null || tzais != null) {
-                if (techila && !(moladBasedTime.before(tzais) || moladBasedTime.after(alos))) {
+
+        const moladBasedTimeMoment = MomentTimezone(moladBasedTime);
+        if (!(moladBasedTimeMoment.isBefore(lastMidnight) || moladBasedTimeMoment.isAfter(midnightTonigh))) {
+            if (alos !== null || tzais !== null) {
+                if (techila && !(moladBasedTimeMoment.isBefore(tzais!) || moladBasedTimeMoment.isAfter(alos!))) {
                     return tzais;
                 } else {
                     return alos;

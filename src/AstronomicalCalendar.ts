@@ -207,6 +207,32 @@ export default class AstronomicalCalendar {
     }
 
     /**
+     * A method that will roll the sunset time forward a day if sunset occurs before sunrise. This is a rare occurrence
+     * and will typically happen when calculating very early and late twilights in a location with a time zone far off
+     * from its natural 15&deg; boundaries. This method will ensure that in this case, the sunset will be incremented to
+     * the following date. An example of this is Marquette, Michigan that far west of the natural boundaries for EST.
+     * When you add in DST this pushes it an additional hour off. Calculating the extreme 26&deg;twilight on March 6th
+     * it start at 2:34:30 on the 6th and end at 1:01:46 on the following day March 7th. Occurrences are more common in
+     * the polar region for dips as low as 3&deg; (Tested for Hooper Bay, Alaska). TODO: Since the occurrences are rare,
+     * look for optimization to avoid relatively expensive calls to this method.
+     *
+     * @param sunset
+     *            the sunset date to adjust if needed
+     * @param sunrise
+     *            the sunrise to compare to the sunset
+     * @return the adjusted sunset date. If the calculation can't be computed such as in the Arctic Circle where there
+     *         is at least one day a year where the sun does not rise, and one where it does not set, a null will be
+     *         returned. See detailed explanation on top of the page.
+     */
+    private getAdjustedSunsetDate(sunset: Date | null, sunrise: Date | null): Date | null {
+        if (sunset !== null && sunrise !== null && MomentTimezone(sunrise).isAfter(sunset)) {
+            return MomentTimezone(sunset).add({days: 1}).toDate();
+        } else {
+            return sunset;
+        }
+    }
+
+/**
      * A method that returns the sunset without {@link AstronomicalCalculator#getElevationAdjustment(double) elevation
      * adjustment}. Non-sunrise and sunset calculations such as dawn and dusk, depend on the amount of visible light,
      * something that is not affected by elevation. This method returns sunset calculated at sea level. This forms the
@@ -341,7 +367,8 @@ export default class AstronomicalCalendar {
         if (Number.isNaN(sunset)) {
             return null;
         } else {
-            return this.getAdjustedSunsetDate(this.getDateFromTime(sunset, false));
+            return this.getAdjustedSunsetDate(this.getDateFromTime(sunset, false),
+                this.getSunriseOffsetByDegrees(offsetZenith));
         }
     }
 
