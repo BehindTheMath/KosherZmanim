@@ -549,3 +549,20 @@ export default class ZmanimFormatter {
         return timesData;
     }
 }
+
+export interface JsonOutput {
+    [key: string]: OutputMetadata | object;
+}
+
+export interface OutputMetadata {
+    date: string;
+    type: string;
+    algorithm: string;
+    location: string;
+    latitude: string;
+    longitude: string;
+    elevation: string;
+    timeZoneName: string;
+    timeZoneID: string;
+    timeZoneOffset: string;
+}

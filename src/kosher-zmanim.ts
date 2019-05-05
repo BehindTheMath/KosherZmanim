@@ -17,7 +17,7 @@ import YomiCalculator from "./hebrewcalendar/YomiCalculator";
 import YerushalmiYomiCalculator from "./hebrewcalendar/YerushalmiYomiCalculator";
 
 import HebrewDateFormatter from "./hebrewcalendar/HebrewDateFormatter";
-import ZmanimFormatter from "./util/ZmanimFormatter";
+import ZmanimFormatter, {JsonOutput} from "./util/ZmanimFormatter";
 
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
@@ -48,7 +48,7 @@ export default class KosherZmanim {
         ZmanimFormatter: ZmanimFormatter,
 
         MomentTimezone: MomentTimezone
-};
+    };
 
     constructor(options: ZmanimConstructorOptions) {
         const moment: Moment = MomentTimezone.tz(options.date, options.timeZoneId);
@@ -70,4 +70,14 @@ export default class KosherZmanim {
     public getZmanimJson(): JsonOutput {
         return ZmanimFormatter.toJSON(this.zmanimCalendar);
     }
+}
+
+export interface ZmanimConstructorOptions {
+    date: Date | string | number;
+    timeZoneId: string;
+    locationName: string;
+    latitude: number;
+    longitude: number;
+    elevation?: number;
+    complexZmanim?: boolean;
 }
