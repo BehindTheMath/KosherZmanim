@@ -1120,7 +1120,7 @@ export default class ComplexZmanimCalendar extends ZmanimCalendar {
         if (chatzos === null || this.getSunrise() === null) {
             return null;
         }
-        const diff: number = (chatzos.getTime() - this.getSeaLevelSunrise().getTime()) / 2;
+        const diff: number = (chatzos.getTime() - this.getSeaLevelSunrise()!.getTime()) / 2;
         return this.getTimeOffset(chatzos, -diff);
     }
 
