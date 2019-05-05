@@ -60,8 +60,11 @@ export default class KosherZmanim {
         this.zmanimCalendar.setMoment(moment);
     }
 
+    /**
+     * @deprecated
+     */
     public getZmanimXML(): string {
-        return ZmanimFormatter.toXML(this.zmanimCalendar);
+        throw new Error("This method is no longer supported");
     }
 
     public getZmanimJson(): JsonOutput {

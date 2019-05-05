@@ -8,7 +8,6 @@ import ComplexZmanimCalendar from "../ComplexZmanimCalendar";
 import * as numeral from "numeral";
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
-import xmlBuilder from "xmlbuilder";
 import {Zman} from "./Zman";
 
 /**
@@ -391,25 +390,10 @@ export default class ZmanimFormatter {
      *
      *         TODO: add proper schema, and support for nulls. XSD duration (for solar hours), should probably return
      *         nil and not P
+     * @deprecated
      */
-    public static toXML(astronomicalCalendar: AstronomicalCalendar): string {
-        const jsonMetadata: OutputMetadata = ZmanimFormatter.getOutputMetadata(astronomicalCalendar);
-        const zmanimOutput: Record<string, string> = ZmanimFormatter.getZmanimOutput(astronomicalCalendar);
-
-        const root: string = ZmanimFormatter.getOutputKey(astronomicalCalendar);
-
-        const xml = xmlBuilder.create(root)
-            .att("date", jsonMetadata.date).att("type", jsonMetadata.type)
-            .att("algorithm", jsonMetadata.algorithm).att("location", jsonMetadata.location)
-            .att("latitude", jsonMetadata.latitude).att("longitude", jsonMetadata.longitude)
-            .att("elevation", jsonMetadata.elevation).att("timeZoneName", jsonMetadata.timeZoneName)
-            .att("timeZoneID", jsonMetadata.timeZoneID).att("timeZoneOffset", jsonMetadata.timeZoneOffset);
-
-        Object.keys(zmanimOutput).forEach(key => {
-            xml.element(key, zmanimOutput[key]);
-        });
-
-        return xml.end({pretty: true});
+    public static toXML(): void {
+        throw new Error("This method is no longer supported");
     }
 
     /**
