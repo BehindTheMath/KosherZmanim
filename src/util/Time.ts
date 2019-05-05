@@ -7,7 +7,7 @@
  * @version 0.9.0
  */
 
-export default class Time {
+export class Time {
     private static readonly SECOND_MILLIS: number = 1000;
 
     private static readonly MINUTE_MILLIS: number = Time.SECOND_MILLIS * 60;

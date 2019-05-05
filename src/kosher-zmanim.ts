@@ -1,28 +1,28 @@
-import Time from "./util/Time";
-import GeoLocation from "./util/GeoLocation";
-import GeoLocationUtils from "./util/GeoLocationUtils";
+import {Time} from "./util/Time";
+import {GeoLocation} from "./util/GeoLocation";
+import {GeoLocationUtils} from "./util/GeoLocationUtils";
 
-import NOAACalculator from "./util/NOAACalculator";
-import SunTimesCalculator from "./util/SunTimesCalculator";
-import ZmanimCalculator from "./util/ZmanimCalculator";
+import {NOAACalculator} from "./util/NOAACalculator";
+import {SunTimesCalculator} from "./util/SunTimesCalculator";
+import {ZmanimCalculator} from "./util/ZmanimCalculator";
 
-import AstronomicalCalendar from "./AstronomicalCalendar";
-import ZmanimCalendar from "./ZmanimCalendar";
-import ComplexZmanimCalendar from "./ComplexZmanimCalendar";
+import {AstronomicalCalendar} from "./AstronomicalCalendar";
+import {ZmanimCalendar} from "./ZmanimCalendar";
+import {ComplexZmanimCalendar} from "./ComplexZmanimCalendar";
 
-import JewishDate from "./hebrewcalendar/JewishDate";
-import JewishCalendar from "./hebrewcalendar/JewishCalendar";
-import Daf from "./hebrewcalendar/Daf";
-import YomiCalculator from "./hebrewcalendar/YomiCalculator";
-import YerushalmiYomiCalculator from "./hebrewcalendar/YerushalmiYomiCalculator";
+import {JewishDate} from "./hebrewcalendar/JewishDate";
+import {JewishCalendar} from "./hebrewcalendar/JewishCalendar";
+import {Daf} from "./hebrewcalendar/Daf";
+import {YomiCalculator} from "./hebrewcalendar/YomiCalculator";
+import {YerushalmiYomiCalculator} from "./hebrewcalendar/YerushalmiYomiCalculator";
 
-import HebrewDateFormatter from "./hebrewcalendar/HebrewDateFormatter";
-import ZmanimFormatter, {JsonOutput} from "./util/ZmanimFormatter";
+import {HebrewDateFormatter} from "./hebrewcalendar/HebrewDateFormatter";
+import {ZmanimFormatter, JsonOutput} from "./util/ZmanimFormatter";
 
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 
-export default class KosherZmanim {
+export class KosherZmanim {
     private zmanimCalendar: ZmanimCalendar;
 
     public static readonly lib = {

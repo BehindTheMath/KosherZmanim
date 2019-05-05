@@ -1,5 +1,5 @@
-import GeoLocation from "./GeoLocation";
-import AstronomicalCalculator from "./AstronomicalCalculator";
+import {GeoLocation} from "./GeoLocation";
+import {AstronomicalCalculator} from "./AstronomicalCalculator";
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 import {MathUtils} from "../polyfills/Utils";
@@ -17,7 +17,7 @@ import {MathUtils} from "../polyfills/Utils";
  * @author &copy; Kevin Boone 2000
  * @version 1.1
  */
-export default class SunTimesCalculator extends AstronomicalCalculator {
+export class SunTimesCalculator extends AstronomicalCalculator {
     /**
      * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getCalculatorName()
      */

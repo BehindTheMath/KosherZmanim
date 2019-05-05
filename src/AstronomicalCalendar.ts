@@ -1,7 +1,7 @@
-import {DateUtils, TimeZone, Long_MIN_VALUE} from "./polyfills/Utils";
-import GeoLocation from "./util/GeoLocation";
-import AstronomicalCalculator from "./util/AstronomicalCalculator";
-import SunTimesCalculator from "./util/SunTimesCalculator";
+import {Long_MIN_VALUE} from "./polyfills/Utils";
+import {GeoLocation} from "./util/GeoLocation";
+import {AstronomicalCalculator} from "./util/AstronomicalCalculator";
+import {SunTimesCalculator} from "./util/SunTimesCalculator";
 
 import {Big} from "big.js";
 
@@ -50,7 +50,7 @@ import Moment = MomentTimezone.Moment;
  *
  * @author &copy; Eliyahu Hershfeld 2004 - 2016
  */
-export default class AstronomicalCalendar {
+export class AstronomicalCalendar {
     /**
      * 90&deg; below the vertical. Used as a basis for most calculations since the location of the sun is 90&deg; below
      * the horizon at sunrise and sunset.

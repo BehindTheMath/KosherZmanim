@@ -1,9 +1,9 @@
 import {Calendar, TimeZone} from "../polyfills/Utils";
-import Utils from "../polyfills/Utils";
-import Time from "./Time";
-import AstronomicalCalendar from "../AstronomicalCalendar";
-import ZmanimCalendar from "../ZmanimCalendar";
-import ComplexZmanimCalendar from "../ComplexZmanimCalendar";
+import {Utils} from "../polyfills/Utils";
+import {Time} from "./Time";
+import {AstronomicalCalendar} from "../AstronomicalCalendar";
+import {ZmanimCalendar} from "../ZmanimCalendar";
+import {ComplexZmanimCalendar} from "../ComplexZmanimCalendar";
 
 import * as numeral from "numeral";
 import * as MomentTimezone from "moment-timezone";
@@ -18,7 +18,7 @@ import {Zman, ZmanWithDuration, ZmanWithZmanDate} from "./Zman";
  * @author &copy; Eliyahu Hershfeld 2004 - 2014
  * @version 1.2
  */
-export default class ZmanimFormatter {
+export class ZmanimFormatter {
     private prependZeroHours: boolean = false;
 
     private useSeconds: boolean = false;

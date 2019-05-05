@@ -1,5 +1,5 @@
-import GeoLocation from "./GeoLocation";
-import AstronomicalCalculator from "./AstronomicalCalculator";
+import {GeoLocation} from "./GeoLocation";
+import {AstronomicalCalculator} from "./AstronomicalCalculator";
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 import {MathUtils} from "../polyfills/Utils";
@@ -14,11 +14,11 @@ import {MathUtils} from "../polyfills/Utils";
  * href="http://en.wikipedia.org/wiki/Jean_Meeus">Jean Meeus</a>. Added to the algorithm is an adjustment of the zenith
  * to account for elevation. The algorithm can be found in the <a
  * href="http://en.wikipedia.org/wiki/Sunrise_equation">Wikipedia Sunrise Equation</a> article.
- * 
+ *
  * @author &copy; Eliyahu Hershfeld 2011 - 2014
  * @version 0.1
  */
-export default class NOAACalculator extends AstronomicalCalculator {
+export class NOAACalculator extends AstronomicalCalculator {
     /**
      * The <a href="http://en.wikipedia.org/wiki/Julian_day">Julian day</a> of January 1, 2000
      */

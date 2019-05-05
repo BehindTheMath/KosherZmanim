@@ -1,8 +1,8 @@
-import GeoLocation from "../util/GeoLocation";
-import Daf from "./Daf";
-import JewishDate from "./JewishDate";
-import YomiCalculator from "./YomiCalculator";
-import YerushalmiYomiCalculator from "./YerushalmiYomiCalculator";
+import {GeoLocation} from "../util/GeoLocation";
+import {Daf} from "./Daf";
+import {JewishDate} from "./JewishDate";
+import {YomiCalculator} from "./YomiCalculator";
+import {YerushalmiYomiCalculator} from "./YerushalmiYomiCalculator";
 
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
@@ -28,7 +28,7 @@ import Moment = MomentTimezone.Moment;
  * @author &copy; Avrom Finkelstien 2002
  * @author &copy; Eliyahu Hershfeld 2011 - 2016
  */
-export default class JewishCalendar extends JewishDate {
+export class JewishCalendar extends JewishDate {
     public static readonly EREV_PESACH: number = 0;
     public static readonly PESACH: number = 1;
     public static readonly CHOL_HAMOED_PESACH: number = 2;

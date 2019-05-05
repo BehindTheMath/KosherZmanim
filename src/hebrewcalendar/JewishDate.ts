@@ -34,7 +34,7 @@ import Moment = MomentTimezone.Moment;
  * @author &copy; Avrom Finkelstien 2002
  * @author &copy; Eliyahu Hershfeld 2011 - 2015
  */
-export default class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
+export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
     /**
      * Value of the month field indicating Nissan, the first numeric month of the year in the Jewish calendar. With the
      * year starting at {@link #TISHREI}, it would actually be the 7th (or 8th in a {@link #isJewishLeapYear() leap

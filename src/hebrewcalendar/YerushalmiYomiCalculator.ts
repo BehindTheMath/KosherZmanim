@@ -1,11 +1,11 @@
 import {Calendar} from "../polyfills/Utils";
-import Daf from "./Daf";
-import JewishCalendar from "./JewishCalendar";
+import {Daf} from "./Daf";
+import {JewishCalendar} from "./JewishCalendar";
 
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 
-export default class YerushalmiYomiCalculator {
+export class YerushalmiYomiCalculator {
     private static readonly DAF_YOMI_START_DAY: Date = new Date(1980, Calendar.FEBRUARY, 2);
     private static readonly WHOLE_SHAS_DAFS: number = 1554;
     private static readonly BLATT_PER_MASECHTA: number[] = [ 68, 37, 34, 44, 31, 59, 26, 33, 28, 20, 13, 92, 65, 71, 22,

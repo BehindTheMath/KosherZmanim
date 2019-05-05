@@ -1,6 +1,6 @@
 import {Calendar} from "../polyfills/Utils";
-import Daf from "./Daf";
-import JewishCalendar from "./JewishCalendar";
+import {Daf} from "./Daf";
+import {JewishCalendar} from "./JewishCalendar";
 
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
@@ -13,7 +13,7 @@ import Moment = MomentTimezone.Moment;
  * @author &copy; Eliyahu Hershfeld 2011 - 2015
  * @version 0.0.1
  */
-export default class YomiCalculator {
+export class YomiCalculator {
     // TODO: readonly for all?
     private static dafYomiStartDate: Date = MomentTimezone({
         year: 1923,

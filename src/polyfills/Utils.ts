@@ -2,7 +2,7 @@ import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 import timezones, {Timezone} from 'timezones.json';
 
-namespace Utils {
+export namespace Utils {
     // https://stackoverflow.com/a/40577337/8037425
     export function getAllMethodNames(obj: object, excludeContructors: boolean = false): Array<string> {
         // let methods: Array<string> = [];
@@ -21,8 +21,6 @@ namespace Utils {
             .sort();
     }
 }
-
-export default Utils;
 
 export namespace TimeZone {
     /**

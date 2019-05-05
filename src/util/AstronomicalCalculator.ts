@@ -1,4 +1,4 @@
-import GeoLocation from "./GeoLocation";
+import {GeoLocation} from "./GeoLocation";
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 import {MathUtils} from "../polyfills/Utils";
@@ -10,7 +10,7 @@ import {MathUtils} from "../polyfills/Utils";
  *
  * @author &copy; Eliyahu Hershfeld 2004 - 2014
  */
-export default abstract class AstronomicalCalculator {
+export abstract class AstronomicalCalculator {
     /**
      * The commonly used average solar refraction. Calendrical Calculations lists a more accurate global average of
      * 34.478885263888294

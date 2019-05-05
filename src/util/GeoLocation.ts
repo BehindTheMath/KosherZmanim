@@ -9,7 +9,7 @@ import {TimeZone, MathUtils} from "../polyfills/Utils";
  * @author &copy; Eliyahu Hershfeld 2004 - 2016
  * @version 1.1
  */
-export default class GeoLocation {
+export class GeoLocation {
     private latitude!: number;
     private longitude!: number;
     private locationName!: string;

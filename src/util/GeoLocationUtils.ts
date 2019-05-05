@@ -1,4 +1,4 @@
-import GeoLocation from "./GeoLocation";
+import {GeoLocation} from "./GeoLocation";
 import {MathUtils} from "../polyfills/Utils";
 
 /**
@@ -9,7 +9,7 @@ import {MathUtils} from "../polyfills/Utils";
  * @author &copy; Eliyahu Hershfeld 2009 - 2014
  * @version 0.1
  */
-export default class GeoLocationUtils {
+export class GeoLocationUtils {
     private static readonly DISTANCE: number = 0;
     private static readonly INITIAL_BEARING: number = 1;
     private static readonly FINAL_BEARING: number = 2;

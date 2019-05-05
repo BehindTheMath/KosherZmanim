@@ -1,5 +1,5 @@
-import AstronomicalCalendar from "./AstronomicalCalendar";
-import GeoLocation from "./util/GeoLocation";
+import {AstronomicalCalendar} from "./AstronomicalCalendar";
+import {GeoLocation} from "./util/GeoLocation";
 
 /**
  * The ZmanimCalendar is a specialized calendar that can calculate sunrise and sunset and Jewish <em>zmanim</em>
@@ -13,7 +13,7 @@ import GeoLocation from "./util/GeoLocation";
  *
  * @author &copy; Eliyahu Hershfeld 2004 - 2014
  */
-export default class ZmanimCalendar extends AstronomicalCalendar {
+export class ZmanimCalendar extends AstronomicalCalendar {
 
     /**
      * The zenith of 16.1&deg; below geometric zenith (90&deg;). This calculation is used for determining <em>alos</em>

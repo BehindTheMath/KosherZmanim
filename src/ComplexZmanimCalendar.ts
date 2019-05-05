@@ -1,7 +1,7 @@
 import {DateUtils, TimeZone, Calendar, Long_MIN_VALUE} from "./polyfills/Utils";
-import GeoLocation from "./util/GeoLocation";
-import ZmanimCalendar from "./ZmanimCalendar";
-import JewishCalendar from "./hebrewcalendar/JewishCalendar";
+import {GeoLocation} from "./util/GeoLocation";
+import {ZmanimCalendar} from "./ZmanimCalendar";
+import {JewishCalendar} from "./hebrewcalendar/JewishCalendar";
 
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
@@ -72,7 +72,7 @@ import Moment = MomentTimezone.Moment;
  *
  * @author &copy; Eliyahu Hershfeld 2004 - 2016
  */
-export default class ComplexZmanimCalendar extends ZmanimCalendar {
+export class ComplexZmanimCalendar extends ZmanimCalendar {
 
     /**
      * The zenith of 3.7&deg; below {@link #GEOMETRIC_ZENITH geometric zenith} (90&deg;). This calculation is used for

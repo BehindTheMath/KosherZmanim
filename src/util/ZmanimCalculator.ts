@@ -1,5 +1,5 @@
-import GeoLocation from "./GeoLocation";
-import AstronomicalCalculator from "./AstronomicalCalculator";
+import {GeoLocation} from "./GeoLocation";
+import {AstronomicalCalculator} from "./AstronomicalCalculator";
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
 import {MathUtils} from "../polyfills/Utils";
@@ -10,12 +10,12 @@ import {MathUtils} from "../polyfills/Utils";
  * href="http://sourceforge.net/projects/zmanim/">Zmanim</a> project. Ken's algorithm is based on the US Naval Almanac
  * algorithm. Added to Ken's code is adjustment of the zenith to account for elevation. Originally released under the
  * GPL, it has been released under the LGPL as of April 8, 2010.
- * 
+ *
  * @author &copy; Chanoch (Ken) Bloom 2003 - 2004
  * @author &copy; Eliyahu Hershfeld 2004 - 2011
  * @version 1.1
  */
-export default class ZmanimCalculator extends AstronomicalCalculator {
+export class ZmanimCalculator extends AstronomicalCalculator {
     private calculatorName: string = "US Naval Almanac Algorithm";
 
     /**

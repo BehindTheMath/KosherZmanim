@@ -1,10 +1,10 @@
 /**
  * An Object representing a Daf in the Daf Yomi cycle.
- * 
+ *
  * @author &copy; Eliyahu Hershfeld 2011 - 2014
  * @version 0.0.2
  */
-export default class Daf {
+export class Daf {
     private masechtaNumber: number;
     private daf: number;
 
