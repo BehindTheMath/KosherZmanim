@@ -57,6 +57,9 @@ export namespace TimeZone {
     }
 }
 
+/**
+ * java.util.Calendar
+ */
 export namespace Calendar {
     export const JANUARY: number = 0;
     export const FEBRUARY: number = 1;
@@ -75,25 +78,49 @@ export namespace Calendar {
     export const MONTH = 2;
     export const YEAR = 1;
 
+    /**
+     * Returns the offset from UTC in ms.
+     * Calendar.get(Calendar.ZONE_OFFSET)
+     * @param moment
+     */
     export function getZoneOffset(moment: Moment): number {
         return moment.utcOffset() * 1000;
     }
 
+    /**
+     * Returns the offset for DST in ms.
+     * Calendar.get(Calendar.DST_OFFSET)
+     * @param moment
+     */
     export function getDstOffset(moment: Moment): number {
         return moment.isDST() ? 60 * 60 * 1000 : 0;
     }
 }
 
+/**
+ * java.lang.Math
+ */
 export namespace MathUtils {
+    /**
+     * java.lang.Math.toRadians
+     * @param degrees
+     */
     export function degreesToRadians(degrees: number): number {
         return degrees * Math.PI / 180;
     }
 
+    /**
+     * java.lang.Math.toDegrees
+     * @param radians
+     */
     export function radiansToDegrees(radians: number): number {
         return radians * 180 / Math.PI;
     }
 }
 
+/**
+ * java.lang.String
+ */
 export namespace StringUtils {
     /**
      * Compares two strings lexicographically.
@@ -129,6 +156,7 @@ export namespace StringUtils {
      * this.length()-anotherString.length()
      * </pre></blockquote>
      *
+     * @param string1
      * @param   string2   the {@code String} to be compared.
      * @return  the value {@code 0} if the argument string is equal to
      *          this string; a value less than {@code 0} if this string
@@ -149,6 +177,11 @@ export namespace StringUtils {
 }
 
 export namespace DateUtils {
+    /**
+     * Compares 2 Dates
+     * @param date1
+     * @param date2
+     */
     // @ts-ignore
     export function compareTo(date1: Date, date2: Date): number {
         const date1Millis = date1.getTime();
