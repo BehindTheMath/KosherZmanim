@@ -16,9 +16,8 @@ export namespace Utils {
                 .forEach((key: string) => methods.add(key));
         }
 
-        return Array.from(methods)
         // Convert Symbols to strings, if there are any
-            .map(value => value.toString())
+        return Array.from(methods, value => value.toString())
             .sort();
     }
 }
