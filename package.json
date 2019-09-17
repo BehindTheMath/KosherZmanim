@@ -2,9 +2,9 @@
   "name": "kosher-zmanim",
   "version": "0.2.4",
   "description": "",
-  "main": "lib-cjs/kosher-zmanim.js",
+  "main": "dist/lib-cjs/kosher-zmanim.js",
   "typings": "js/kosher-zmanim.d.ts",
-  "module": "lib-es6/kosher-zmanim.js",
+  "module": "dist/lib-es6/kosher-zmanim.js",
   "dependencies": {
     "big.js": "5.2.2",
     "moment": "2.24.0",
@@ -29,12 +29,8 @@
     "webpack-cli": "^3.3.8"
   },
   "scripts": {
-    "clean-es6": "shx rm -rf ./lib-es6/*",
-    "clean-cjs": "shx rm -rf ./lib-cjs/*",
-    "clean-dist": "shx rm -rf ./dist/*",
-    "clean-all": "npm run clean-es6 && npm run clean-cjs && npm run clean-dist",
-    "build-es6": "cd src && tsc -module es6 --outDir ../lib-es6/",
-    "build": "npm run clean-all && cd src && tsc && cd ../ && npm run build-es6 && webpack",
+    "clean": "shx rm -rf ./dist/*",
+    "build": "npm run clean && cd src && tsc && tsc -module es6 --outDir ../dist/lib-es6/ && webpack",
     "lint": "tslint -p ./src/",
     "test": "jest",
     "start:idea": "ts-node --ignore false ./work/test.ts",
