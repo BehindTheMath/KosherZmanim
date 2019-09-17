@@ -498,16 +498,23 @@ export class GeoLocation {
      * @return the distance in Meters
      */
     public getRhumbLineDistance(location: GeoLocation): number {
-        const R: number = 6371; // earth's mean radius in km
-        const dLat: number = MathUtils.degreesToRadians(location.getLatitude() - this.getLatitude());
-        let dLon: number = MathUtils.degreesToRadians(Math.abs(location.getLongitude() - this.getLongitude()));
-        const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(location.getLongitude()) / 2 + Math.PI / 4)
-                / Math.tan(MathUtils.degreesToRadians(this.getLatitude()) / 2 + Math.PI / 4));
-        const q: number = (Math.abs(dLat) > 1e-10) ? dLat / dPhi : Math.cos(MathUtils.degreesToRadians(this.getLatitude()));
+        const earthRadius: number = 6378137; // earth's mean radius in km
+        const dLat: number = MathUtils.degreesToRadians(location.getLatitude()) - MathUtils.degreesToRadians(this.getLatitude());
+        let dLon: number = Math.abs(MathUtils.degreesToRadians(location.getLongitude()) - MathUtils.degreesToRadians(this.getLongitude()));
+        const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(location.getLatitude()) / 2 + Math.PI / 4)
+          / Math.tan(MathUtils.degreesToRadians(this.getLatitude()) / 2 + Math.PI / 4));
+
+        let q: number = dLat / dPhi;
+        if (!Number.isFinite(q)) {
+            q = Math.cos(MathUtils.degreesToRadians(this.getLatitude()));
+        }
+
         // if dLon over 180° take shorter rhumb across 180° meridian:
-        if (dLon > Math.PI) dLon = 2 * Math.PI - dLon;
+        if (dLon > Math.PI) {
+            dLon = 2 * Math.PI - dLon;
+        }
         const d: number = Math.sqrt(dLat * dLat + q * q * dLon * dLon);
-        return d * R;
+        return d * earthRadius;
     }
 
     /**
