@@ -4,7 +4,6 @@ import {GeoLocationUtils} from "./util/GeoLocationUtils";
 
 import {NOAACalculator} from "./util/NOAACalculator";
 import {SunTimesCalculator} from "./util/SunTimesCalculator";
-import {ZmanimCalculator} from "./util/ZmanimCalculator";
 
 import {AstronomicalCalendar} from "./AstronomicalCalendar";
 import {ZmanimCalendar} from "./ZmanimCalendar";
@@ -32,7 +31,6 @@ export class KosherZmanim {
 
         NOAACalculator: NOAACalculator,
         SunTimesCalculator: SunTimesCalculator,
-        ZmanimCalculator: ZmanimCalculator,
 
         AstronomicalCalendar: AstronomicalCalendar,
         ZmanimCalendar: ZmanimCalendar,
