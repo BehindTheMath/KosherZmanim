@@ -611,13 +611,16 @@ export class AstronomicalCalendar {
      * @return the degrees below the horizon before sunrise that match the offset in minutes passed it as a parameter.
      * @see #getSunsetSolarDipFromOffset(double)
      */
-    public getSunriseSolarDipFromOffset(minutes: number): number {
+    public getSunriseSolarDipFromOffset(minutes: number): number | null {
+        if (Number.isNaN(minutes)) return null;
+
         let offsetByDegrees: Date | null = this.getSeaLevelSunrise();
         const offsetByTime: Date | null = this.getTimeOffset(this.getSeaLevelSunrise(), -(minutes * AstronomicalCalendar.MINUTE_MILLIS));
 
         let degrees: Big = new Big(0);
         const incrementor: Big = new Big("0.0001");
-        while (offsetByDegrees === null || offsetByDegrees.getTime() > offsetByTime.getTime()) {
+        // If `minutes` is not `NaN` and `offsetByDegrees` is not null, `offsetByTime` should not be null
+        while (offsetByDegrees === null || offsetByDegrees.getTime() > offsetByTime!.getTime()) {
             degrees = degrees.plus(incrementor);
             offsetByDegrees = this.getSunriseOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + Number.parseFloat(degrees.valueOf()));
         }
@@ -635,13 +638,16 @@ export class AstronomicalCalendar {
      * @return the degrees below the horizon after sunset that match the offset in minutes passed it as a parameter.
      * @see #getSunriseSolarDipFromOffset(double)
      */
-    public getSunsetSolarDipFromOffset(minutes: number): number {
+    public getSunsetSolarDipFromOffset(minutes: number): number | null {
+        if (Number.isNaN(minutes)) return null;
+
         let offsetByDegrees: Date | null = this.getSeaLevelSunset();
         const offsetByTime: Date | null = this.getTimeOffset(this.getSeaLevelSunset(), minutes * AstronomicalCalendar.MINUTE_MILLIS);
 
         let degrees: Big = new Big(0);
         const incrementor: Big = new Big("0.001");
-        while (offsetByDegrees === null || offsetByDegrees.getTime() < offsetByTime.getTime()) {
+        // If `minutes` is not `NaN` and `offsetByDegrees` is not null, `offsetByTime` should not be null
+        while (offsetByDegrees === null || offsetByDegrees.getTime() < offsetByTime!.getTime()) {
             degrees = degrees.plus(incrementor);
             offsetByDegrees = this.getSunsetOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + Number.parseFloat(degrees.valueOf()));
         }
@@ -762,7 +768,7 @@ export class AstronomicalCalendar {
      */
     public setMoment(moment: Moment): void {
         this.moment = moment;
-        if (this.getGeoLocation() !== null) {
+        if (this.getGeoLocation()) {
             // if available set the Calendar's timezone to the GeoLocation TimeZone
             this.moment.tz(this.getGeoLocation().getTimeZone());
         }

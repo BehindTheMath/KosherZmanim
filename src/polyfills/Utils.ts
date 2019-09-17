@@ -1,6 +1,7 @@
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
-import timezones, {Timezone} from 'timezones.json';
+import {Timezone} from 'timezones.json';
+const timezones: Timezone[] = require('timezones.json');
 
 export namespace Utils {
     // https://stackoverflow.com/a/40577337/8037425
@@ -42,9 +43,8 @@ export namespace TimeZone {
     }
 
     export function getDisplayName(timeZoneId: string, short: boolean = false): string {
-        const timezone: Timezone = timezones
-            .filter((timezone: Timezone) => timezone.hasOwnProperty("utc") &&
-                timezone.utc.indexOf(timeZoneId) !== -1)[0];
+        const timezone: Timezone = timezones.filter((timezone: Timezone) =>
+          timezone.hasOwnProperty("utc") && timezone.utc.includes(timeZoneId))[0];
         return short ? timezone.abbr : timezone.value;
     }
 

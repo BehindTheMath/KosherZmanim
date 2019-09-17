@@ -25,8 +25,8 @@ export class YerushalmiYomiCalculator {
      *             if the date is prior to the September 11, 1923 start date of the first Daf Yomi cycle
      */
     public static getDafYomiYerushalmi(jewishCalendar: JewishCalendar): Daf {
-        let nextCycle: Moment;
-        let prevCycle: Moment;
+        let nextCycle: Moment = MomentTimezone();
+        let prevCycle: Moment = MomentTimezone();
         const requested: Moment = jewishCalendar.getMoment();
         let masechta: number = 0;
         let dafYomi: Daf;
@@ -54,7 +54,7 @@ export class YerushalmiYomiCalculator {
         }
 
         // Get the number of days from cycle start until request.
-        const dafNo: number = -prevCycle!.diff(requested, "days");
+        const dafNo: number = -prevCycle.diff(requested, "days");
 
         // Get the number of special days to substract
         const specialDays: number = YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, requested);
