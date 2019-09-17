@@ -8,7 +8,7 @@ import {MathUtils} from "../polyfills/Utils";
  * runtime, easily allowing comparison the results of using different algorithms. TODO: consider methods that would
  * allow atmospheric modeling. This can currently be adjusted by {@link #setRefraction(double) setting the refraction}.
  *
- * @author &copy; Eliyahu Hershfeld 2004 - 2014
+ * @author &copy; Eliyahu Hershfeld 2004 - 2018
  */
 export abstract class AstronomicalCalculator {
     /**

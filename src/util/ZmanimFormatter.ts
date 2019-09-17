@@ -15,7 +15,7 @@ import {Zman, ZmanWithDuration, ZmanWithZmanDate} from "./Zman";
  * example the {@link net.sourceforge.zmanim.AstronomicalCalendar#getTemporalHour()} returns the length of the hour in
  * milliseconds. This class can format this time.
  *
- * @author &copy; Eliyahu Hershfeld 2004 - 2014
+ * @author &copy; Eliyahu Hershfeld 2004 - 2018
  * @version 1.2
  */
 export class ZmanimFormatter {

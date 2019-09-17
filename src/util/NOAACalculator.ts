@@ -15,8 +15,7 @@ import {MathUtils} from "../polyfills/Utils";
  * to account for elevation. The algorithm can be found in the <a
  * href="http://en.wikipedia.org/wiki/Sunrise_equation">Wikipedia Sunrise Equation</a> article.
  *
- * @author &copy; Eliyahu Hershfeld 2011 - 2014
- * @version 0.1
+ * @author &copy; Eliyahu Hershfeld 2011 - 2018
  */
 export class NOAACalculator extends AstronomicalCalculator {
     /**
@@ -258,8 +257,8 @@ export class NOAACalculator extends AstronomicalCalculator {
      *
      * @param julianCenturies
      *            the number of Julian centuries since J2000.0
-     * @param sun
-     *            's declination in degrees
+     * @return
+     *            the sun's declination in degrees
      */
     private static getSunDeclination(julianCenturies: number): number {
         const obliquityCorrection: number = NOAACalculator.getObliquityCorrection(julianCenturies);
@@ -306,6 +305,8 @@ export class NOAACalculator extends AstronomicalCalculator {
      *            , the latitude of observer in degrees
      * @param solarDec
      *            the declination angle of sun in degrees
+     * @param zenith
+     *            the zenith
      * @return hour angle of sunrise in radians
      */
     private static getSunHourAngleAtSunrise(lat: number, solarDec: number, zenith: number): number {
@@ -325,6 +326,8 @@ export class NOAACalculator extends AstronomicalCalculator {
      *            the latitude of observer in degrees
      * @param solarDec
      *            the declination angle of sun in degrees
+     * @param zenith
+     *            the zenith
      * @return the hour angle of sunset in radians
      */
     private static getSunHourAngleAtSunset(lat: number, solarDec: number, zenith: number): number {
@@ -411,6 +414,8 @@ export class NOAACalculator extends AstronomicalCalculator {
      *            the latitude of observer in degrees
      * @param longitude
      *            the longitude of observer in degrees
+     * @param zenith
+     *            the zenith
      * @return the time in minutes from zero UTC
      */
     private static getSunriseUTC(julianDay: number, latitude: number, longitude: number, zenith: number): number {
@@ -481,6 +486,7 @@ export class NOAACalculator extends AstronomicalCalculator {
      * @param longitude
      *            : longitude of observer in degrees
      * @param zenith
+     *            the zenith
      * @return the time in minutes from zero Universal Coordinated Time (UTC)
      */
     private static getSunsetUTC(julianDay: number, latitude: number, longitude: number, zenith: number): number {

@@ -13,7 +13,7 @@ import {MathUtils} from "../polyfills/Utils";
  * href="http://search.barnesandnoble.com/booksearch/isbnInquiry.asp?isbn=0160515106">Barnes &amp; Noble</a>) and is
  * used with his permission. Added to Kevin's code is adjustment of the zenith to account for elevation.
  *
- * @author &copy; Eliyahu Hershfeld 2004 - 2011
+ * @author &copy; Eliyahu Hershfeld 2004 - 2018
  * @author &copy; Kevin Boone 2000
  * @version 1.1
  */
@@ -87,7 +87,10 @@ export class SunTimesCalculator extends AstronomicalCalculator {
     }
 
     /**
-     * cos of an angle in degrees
+     * Calculate cosine of the angle in degrees
+     *
+     * @param deg degrees
+     * @return cosine of the angle in degrees
      */
     private static cosDeg(deg: number): number {
         // return Math.cos(deg * 2 * Math.PI / 360);
@@ -103,8 +106,15 @@ export class SunTimesCalculator extends AstronomicalCalculator {
     }
 
     /**
-     * Gets the approximate time of sunset or sunrise In _days_ since midnight Jan 1st, assuming 6am and 6pm events. We
-     * need this figure to derive the Sun's mean anomaly
+     * Calculate the approximate time of sunset or sunrise in days since midnight Jan 1st, assuming 6am and 6pm events. We
+     * need this figure to derive the Sun's mean anomaly.
+     *
+     * @param dayOfYear the day of year
+     * @param hoursFromMeridian hours from the meridian
+     * @param isSunrise true for sunrise and false for sunset
+     *
+     * @return the approximate time of sunset or sunrise in days since midnight Jan 1st, assuming 6am and 6pm events. We
+     * need this figure to derive the Sun's mean anomaly.
      */
     private static getApproxTimeDays(dayOfYear: number, hoursFromMeridian: number, isSunrise: boolean): number {
         if (isSunrise) {
@@ -116,6 +126,11 @@ export class SunTimesCalculator extends AstronomicalCalculator {
 
     /**
      * Calculate the Sun's mean anomaly in degrees, at sunrise or sunset, given the longitude in degrees
+     *
+     * @param dayOfYear the day of the year
+     * @param longitude longitude
+     * @param isSunrise true for sunrise and false for sunset
+     * @return the Sun's mean anomaly in degrees
      */
     private static getMeanAnomaly(dayOfYear: number, longitude: number, isSunrise: boolean): number {
         return (0.9856 * SunTimesCalculator.getApproxTimeDays(dayOfYear, SunTimesCalculator.getHoursFromMeridian(longitude), isSunrise)) - 3.289;
@@ -154,7 +169,12 @@ export class SunTimesCalculator extends AstronomicalCalculator {
     }
 
     /**
-     * Gets the cosine of the Sun's local hour angle
+     * Calculate the cosine of the Sun's local hour angle
+     *
+     * @param sunTrueLongitude the sun's true longitude
+     * @param latitude the latitude
+     * @param zenith the zenith
+     * @return the cosine of the Sun's local hour angle
      */
     private static getCosLocalHourAngle(sunTrueLongitude: number, latitude: number, zenith: number): number {
         const sinDec: number = 0.39782 * SunTimesCalculator.sinDeg(sunTrueLongitude);
@@ -167,6 +187,12 @@ export class SunTimesCalculator extends AstronomicalCalculator {
      * there were no time zone. That is, the time difference between the location and the Meridian depended entirely on
      * the longitude. We can't do anything with this time directly; we must convert it to UTC and then to a local time.
      * The result is expressed as a fractional number of hours since midnight
+     *
+     * @param localHour the local hour
+     * @param sunRightAscensionHours the sun's right ascention in hours
+     * @param approxTimeDays approximate time days
+     *
+     * @return the fractional number of hours since midnight as a double
      */
     private static getLocalMeanTime(localHour: number, sunRightAscensionHours: number, approxTimeDays: number): number {
         return localHour + sunRightAscensionHours - (0.06571 * approxTimeDays) - 6.622;

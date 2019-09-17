@@ -6,8 +6,7 @@ import {MathUtils} from "../polyfills/Utils";
  * Most of the code in this class is ported from <a href="http://www.movable-type.co.uk/">Chris Veness'</a>
  * <a href="http://www.fsf.org/licensing/licenses/lgpl.html">LGPL</a> Javascript Implementation
  *
- * @author &copy; Eliyahu Hershfeld 2009 - 2014
- * @version 0.1
+ * @author &copy; Eliyahu Hershfeld 2009 - 2018
  */
 export class GeoLocationUtils {
     private static readonly DISTANCE: number = 0;
@@ -15,14 +14,11 @@ export class GeoLocationUtils {
     private static readonly FINAL_BEARING: number = 2;
 
     /**
-     * Calculate the initial <a
-     * href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> initial bearing
-     * between this Object and a second Object passed to this method using <a
-     * href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a>
-     * inverse formula See T Vincenty, "<a
-     * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse
-     * Solutions of Geodesics on the Ellipsoid with application of nested
-     * equations</a>", Survey Review, vol XXII no 176, 1975.
+     * Calculate the <a href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> initial bearing between this Object and
+     * a second Object passed to this method using <a href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus
+     * Vincenty's</a> inverse formula See T Vincenty, "<a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and
+     * Inverse Solutions of Geodesics on the Ellipsoid with application of nested equations</a>", Survey Review, vol XXII
+     * no 176, 1975.
      *
      * @param location
      *            the initial location
@@ -35,14 +31,10 @@ export class GeoLocationUtils {
     }
 
     /**
-     * Calculate the final <a
-     * href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> final bearing
-     * between this Object and a second Object passed to this method using <a
-     * href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a>
-     * inverse formula See T Vincenty, "<a
-     * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse
-     * Solutions of Geodesics on the Ellipsoid with application of nested
-     * equations</a>", Survey Review, vol XXII no 176, 1975.
+     * Calculate the <a href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> final bearing between this Object
+     * and a second Object passed to this method using <a href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a>
+     * inverse formula See T Vincenty, "<a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics
+     * on the Ellipsoid with application of nested equations</a>", Survey Review, vol XXII no 176, 1975.
      *
      * @param location
      *            the initial location
@@ -55,16 +47,12 @@ export class GeoLocationUtils {
     }
 
     /**
-     * Calculate <a
-     * href="http://en.wikipedia.org/wiki/Great-circle_distance">geodesic
-     * distance</a> in Meters between this Object and a second Object passed to
-     * this method using the <a
-     * href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae">Thaddeus Vincenty formulae</a>.
-     * See T Vincenty, "<a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse
-     * Solutions of Geodesics on the Ellipsoid with application of nested
-     * equations</a>", Survey Review, vol XXII no 176, 1975.
-     *
-     * This uses the WGS-84 geodetic model
+     * Calculate <a href="http://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> in Meters
+     * between this Object and a second Object passed to this method using <a
+     * href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty,
+     * "<a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the
+     * Ellipsoid with application of nested equations</a>", Survey Review, vol XXII no 176, 1975. This uses the
+     * WGS-84 geodetic model.
      * @param location
      *            the initial location
      * @param destination
@@ -76,16 +64,11 @@ export class GeoLocationUtils {
     }
 
     /**
-     * Calculate <a
-     * href="http://en.wikipedia.org/wiki/Great-circle_distance">geodesic
-     * distance</a> in Meters between this Object and a second Object passed to
-     * this method using <a
-     * href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a>
-     * inverse formula See T Vincenty, "<a
-     * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse
-     * Solutions of Geodesics on the Ellipsoid with application of nested
-     * equations</a>", Survey Review, vol XXII no 176, 1975. This uses
-     * the <a href="https://en.wikipedia.org/wiki/World_Geodetic_System#A_new_World_Geodetic_System:_WGS_84">WGS-84 geodetic model</a>.
+     * Calculates the initial <a href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> bearing, final bearing or
+     * <a href="http://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> using <a href=
+     * "http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
+     * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
+     * with application of nested equations</a>", Survey Review, vol XXII no 176, 1975.
      *
      * @param location
      *            the initial location
@@ -94,7 +77,12 @@ export class GeoLocationUtils {
      * @param formula
      *            This formula calculates initial bearing ({@link #INITIAL_BEARING}),
      *            final bearing ({@link #FINAL_BEARING}) and distance ({@link #DISTANCE}).
-     * @param the geodesic distance, initial or final bearing (based on the formula passed in)
+     * @return
+     *            the geodesic distance, initial or final bearing (based on the formula passed in) between the location
+     *            and destination in Meters
+     * @see #getGeodesicDistance(GeoLocation, GeoLocation)
+     * @see #getGeodesicInitialBearing(GeoLocation, GeoLocation)
+     * @see #getGeodesicFinalBearing(GeoLocation, GeoLocation)
      */
     private static vincentyFormula(location: GeoLocation, destination: GeoLocation, formula: number): number {
         const a: number = 6378137; // length of semi-major axis of the ellipsoid (radius at equator) in metres based on WGS-84
@@ -103,6 +91,7 @@ export class GeoLocationUtils {
         const L: number = MathUtils.degreesToRadians(destination.getLongitude() - location.getLongitude()); //difference in longitude of two points;
         const U1: number = Math.atan((1 - f) * Math.tan(MathUtils.degreesToRadians(location.getLatitude()))); // reduced latitude (latitude on the auxiliary sphere)
         const U2: number = Math.atan((1 - f) * Math.tan(MathUtils.degreesToRadians(destination.getLatitude()))); // reduced latitude (latitude on the auxiliary sphere)
+
         const sinU1: number = Math.sin(U1), cosU1: number = Math.cos(U1);
         const sinU2: number = Math.sin(U2), cosU2: number = Math.cos(U2);
 
@@ -171,7 +160,7 @@ export class GeoLocationUtils {
             return fwdAz;
         } else if (formula === GeoLocationUtils.FINAL_BEARING) {
             return revAz;
-        } else { // should never happpen
+        } else { // should never happen
             return Number.NaN;
         }
     }
@@ -196,9 +185,9 @@ export class GeoLocationUtils {
     }
 
     /**
-     * Returns the <a href="http://en.wikipedia.org/wiki/Rhumb_line">rhumb line</a>
-     * distance from the current location to the GeoLocation passed in.
-     * Ported from <a href="http://www.movable-type.co.uk/">Chris Veness'</a> Javascript Implementation
+     * Returns the <a href="http://en.wikipedia.org/wiki/Rhumb_line">rhumb line</a> distance from the current
+     * location to the GeoLocation passed in. Ported from <a href="http://www.movable-type.co.uk/">Chris Veness'</a>
+     * Javascript Implementation.
      *
      * @param location
      *            the initial location

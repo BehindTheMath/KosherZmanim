@@ -468,7 +468,7 @@ export class GeoLocation {
             return fwdAz;
         } else if (formula === GeoLocation.FINAL_BEARING) {
             return revAz;
-        } else { // should never happpen
+        } else { // should never happen
             return Number.NaN;
         }
     }
