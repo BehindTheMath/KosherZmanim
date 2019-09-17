@@ -2900,12 +2900,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSunsetBaalHatanya()
      */
     private getSunriseBaalHatanya(): Date | null {
-        const sunrise: number = this.getUTCSeaLevelSunrise(ComplexZmanimCalendar.ZENITH_1_POINT_583);
-        if (Number.isNaN(sunrise)) {
-            return null;
-        } else {
-            return this.getDateFromTime(sunrise, true);
-        }
+        return this.getSunriseOffsetByDegrees(ComplexZmanimCalendar.ZENITH_1_POINT_583)
     }
 
     /**
@@ -2929,12 +2924,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see AstronomicalCalendar#getUTCSeaLevelSunset
      */
     private getSunsetBaalHatanya(): Date | null {
-        const sunset: number = this.getUTCSeaLevelSunset(ComplexZmanimCalendar.ZENITH_1_POINT_583);
-        if (Number.isNaN(sunset)) {
-            return null;
-        } else {
-            return this.getDateFromTime(sunset, false);
-        }
+        return this.getSunsetOffsetByDegrees(ComplexZmanimCalendar.ZENITH_1_POINT_583);
     }
 
     /**
