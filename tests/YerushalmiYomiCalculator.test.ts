@@ -1,7 +1,7 @@
-import {Daf} from "../hebrewcalendar/Daf";
-import {YerushalmiYomiCalculator} from "../hebrewcalendar/YerushalmiYomiCalculator";
-import {JewishDate} from "../hebrewcalendar/JewishDate";
-import {JewishCalendar} from "../hebrewcalendar/JewishCalendar";
+import {Daf} from "../src/hebrewcalendar/Daf";
+import {YerushalmiYomiCalculator} from "../src/hebrewcalendar/YerushalmiYomiCalculator";
+import {JewishDate} from "../src/hebrewcalendar/JewishDate";
+import {JewishCalendar} from "../src/hebrewcalendar/JewishCalendar";
 
 test("Gets Yerushalmi daf for 10 Elul 5777 (Kiddushin 8)", () => {
     const jewishCalendar: JewishCalendar = new JewishCalendar(5777, JewishDate.ELUL, 10);

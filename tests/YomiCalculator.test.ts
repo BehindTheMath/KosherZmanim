@@ -1,7 +1,7 @@
-import {Daf} from "../hebrewcalendar/Daf";
-import {YomiCalculator} from "../hebrewcalendar/YomiCalculator";
-import {JewishDate} from "../hebrewcalendar/JewishDate";
-import {JewishCalendar} from "../hebrewcalendar/JewishCalendar";
+import {Daf} from "../src/hebrewcalendar/Daf";
+import {YomiCalculator} from "../src/hebrewcalendar/YomiCalculator";
+import {JewishDate} from "../src/hebrewcalendar/JewishDate";
+import {JewishCalendar} from "../src/hebrewcalendar/JewishCalendar";
 
 test("Gets Bavli daf for 12 Kislev 5685 (Yoma 2)", () => {
     const jewishCalendar: JewishCalendar = new JewishCalendar(5685, JewishDate.KISLEV, 12);
