@@ -23,10 +23,10 @@
     "ts-jest": "23.1.4",
     "ts-loader": "5.4.5",
     "ts-node": "8.1.0",
-    "typescript": "3.4.5",
-    "uglifyjs-webpack-plugin": "0.4.6",
+    "typescript": "^3.6.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "4.30.0",
-    "webpack-fix-default-import-plugin": "1.0.3"
+    "webpack-cli": "^3.3.8"
   },
   "scripts": {
     "clean-es6": "shx rm -rf ./lib-es6/*",
@@ -37,7 +37,7 @@
     "build": "npm run clean-all && cd src && tsc && cd ../ && npm run build-es6 && webpack",
     "lint": "tslint -p ./src/",
     "test": "jest",
-    "start:idea": "cd src && ts-node %NODE_DEBUG_OPTION% --ignore false ./work/test.ts",
+    "start:idea": "ts-node --ignore false ./work/test.ts",
     "webpack-build": "webpack",
     "webpack-debug": "webpack --debug",
     "webpack-display-errors": "webpack --display-error-details"
@@ -54,11 +54,6 @@
   "unpkg": "dist/kosher-zmanim.min.js",
   "files": [
     "dist/*",
-    "examples/frontend-example/frontend-example.html",
-    "lib-cjs/**/*",
-    "lib-es6/**/*",
-    "jest.config.js",
-    "jest.config.json",
-    "webpack.config.js"
+    "examples/frontend-example/frontend-example.html"
   ]
 }
