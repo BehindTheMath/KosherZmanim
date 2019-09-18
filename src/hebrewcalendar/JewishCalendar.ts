@@ -545,7 +545,7 @@ export class JewishCalendar extends JewishDate {
      * @return if the day is a <em>Yom Tov</em> that is <em>assur bemlacha</em> or <em>Shabbos</em>
      */
     public isAssurBemelacha(): boolean {
-        return this.getDayOfWeek() == 7 || this.isYomTovAssurBemelacha();
+        return this.getDayOfWeek() === 7 || this.isYomTovAssurBemelacha();
     }
 
     /**
