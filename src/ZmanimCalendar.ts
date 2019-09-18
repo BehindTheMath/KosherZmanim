@@ -1,5 +1,7 @@
 import {AstronomicalCalendar} from "./AstronomicalCalendar";
 import {GeoLocation} from "./util/GeoLocation";
+import {JewishCalendar} from "./hebrewcalendar/JewishCalendar";
+import {DateUtils} from "./polyfills/Utils";
 
 /**
  * The ZmanimCalendar is a specialized calendar that can calculate sunrise and sunset and Jewish <em>zmanim</em>
@@ -642,5 +644,39 @@ export class ZmanimCalendar extends AstronomicalCalendar {
 
     public getClassName() {
         return "net.sourceforge.zmanim.ZmanimCalendar";
+    }
+
+    /**
+     * This is a utility method to determine if the current Date (date-time) passed in has a <em>melacha</em> (work) prohibition.
+     * Since there are many opinions on the time of <em>tzais</em>, the <em>tzais</em> for the current day has to be passed to this
+     * class. Sunset is the classes current day's {@link #getElevationAdjustedSunset() elevation adjusted sunset} that observes the
+     * {@link isUseElevation()} settings. The {@link JewishCalendar#getInIsrael()} will be set by the inIsrael parameter.
+     *
+     * @param currentTime the current time
+     * @param tzais the time of tzais
+     * @param inIsrael whether to use Israel holiday scheme or not
+     *
+     * @return true if <em>melacha</em> is prohibited or false if it is not.
+     *
+     * @see JewishCalendar#isAssurBemelacha()
+     * @see JewishCalendar#hasCandleLighting()
+     * @see JewishCalendar#setInIsrael(boolean)
+     */
+    public isAssurBemlacha(currentTime: Date, tzais: Date, inIsrael: boolean): boolean {
+        const jewishCalendar: JewishCalendar = new JewishCalendar();
+        jewishCalendar.setGregorianDate(this.getMoment().year(), this.getMoment().month(), this.getMoment().day());
+        jewishCalendar.setInIsrael(inIsrael);
+
+        //erev shabbos, YT or YT sheni and after shkiah
+        if (jewishCalendar.hasCandleLighting() && DateUtils.compareTo(currentTime, this.getElevationAdjustedSunset()) >= 0) {
+            return true;
+        }
+
+        //is shabbos or YT and it is before tzais
+        if (jewishCalendar.isAssurBemelacha() && DateUtils.compareTo(currentTime, tzais) <= 0) {
+            return true;
+        }
+
+        return false;
     }
 }
