@@ -435,8 +435,31 @@ export class JewishCalendar extends JewishDate {
      * @see #CHOL_HAMOED_SUCCOS
      */
     public isCholHamoed(): boolean {
+        return this.isCholHamoedPesach() || this.isCholHamoedSuccos();
+    }
+
+    /**
+     * Returns true if the current day is <em>Chol Hamoed</em> of <em>Pesach</em>.
+     *
+     * @return true if the current day is <em>Chol Hamoed</em> of <em>Pesach</em>
+     * @see #isYomTov()
+     * @see #CHOL_HAMOED_PESACH
+     */
+    public isCholHamoedPesach(): boolean {
         const holidayIndex: number = this.getYomTovIndex();
-        return holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH || holidayIndex === JewishCalendar.CHOL_HAMOED_SUCCOS;
+        return holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH;
+    }
+
+    /**
+     * Returns true if the current day is <em>Chol Hamoed</em> of <em>Succos</em>.
+     *
+     * @return true if the current day is <em>Chol Hamoed</em> of <em>Succos</em>
+     * @see #isYomTov()
+     * @see #CHOL_HAMOED_SUCCOS
+     */
+    public isCholHamoedSuccos(): boolean {
+        const holidayIndex: number = this.getYomTovIndex();
+        return holidayIndex === JewishCalendar.CHOL_HAMOED_SUCCOS;
     }
 
     /**
