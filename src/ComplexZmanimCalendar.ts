@@ -3340,15 +3340,13 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         explanation on top of the {@link AstronomicalCalendar} documentation.
      */
     public getMinchaGedolaBaalHatanyaGreaterThan30(): Date | null {
-        if (this.getTimeOffset(this.getSunriseBaalHatanya(), this.getShaahZmanisBaalHatanya() * 6.5) === null
-            || this.getMinchaGedolaBaalHatanya() === null) {
+        if (this.getMinchaGedola30Minutes() === null || this.getMinchaGedolaBaalHatanya() === null) {
             return null;
-        } else {
-            return this.getTimeOffset(this.getSunriseBaalHatanya(), this.getShaahZmanisBaalHatanya() * 6.5)!.valueOf() >
-            this.getMinchaGedolaBaalHatanya()!.valueOf() ?
-                this.getTimeOffset(this.getSunriseBaalHatanya(), this.getShaahZmanisBaalHatanya() * 6.5) :
-                this.getMinchaGedolaBaalHatanya();
         }
+
+        return DateUtils.compareTo(this.getMinchaGedola30Minutes(), this.getMinchaGedolaBaalHatanya()) > 0
+          ? this.getMinchaGedola30Minutes()
+          : this.getMinchaGedolaBaalHatanya();
     }
 
     /**
