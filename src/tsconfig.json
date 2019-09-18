@@ -4,7 +4,7 @@
     "declaration": true,
     "target": "es6",
     "sourceMap": true,
-    "outDir": "../lib-cjs/",
+    "outDir": "../dist/lib-cjs/",
     "lib": ["es6"],
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
