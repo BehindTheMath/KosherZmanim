@@ -38,7 +38,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      * @see #isUseElevation()
      * @see #setUseElevation(boolean)
      */
-    private useElevation: boolean;
+    private useElevation: boolean = false;
 
     /**
      * Is elevation above sea level calculated for times besides sunrise and sunset. According to Rabbi Dovid Yehuda
@@ -125,7 +125,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     *          {@link AstronomicalCalendar#getSunrise()} if it is true.
     * @see net.sourceforge.zmanim.AstronomicalCalendar#getSunrise()
     */
-    public getElevationAdjustedSunrise(): Date {
+    public getElevationAdjustedSunrise(): Date | null {
         if (this.isUseElevation()) {
             return super.getSunrise();
         }
@@ -141,7 +141,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     *          {@link AstronomicalCalendar#getSunset()} if it is true.
     * @see net.sourceforge.zmanim.AstronomicalCalendar#getSunset()
     */
-    public getElevationAdjustedSunset(): Date {
+    public getElevationAdjustedSunset(): Date | null {
         if (this.isUseElevation()) {
             return super.getSunset();
         }
