@@ -12,7 +12,8 @@ import Moment = MomentTimezone.Moment;
  *
  * This open source Java code was originally ported by <a href="http://www.facebook.com/avromf">Avrom Finkelstien</a>
  * from his C++ code. It was refactored to fit the KosherJava Zmanim API with simplification of the code, enhancements
- * and some bug fixing.
+ * and some bug fixing. The class allows setting whether the holiday scheme follows the Israel scheme or outside Israel
+ * scheme. The default is the outside Israel scheme.
  *
  * The class allows setting whether the holiday scheme follows the Israel scheme or outside Israel scheme. The default is the outside Israel scheme.
  *
@@ -20,7 +21,7 @@ import Moment = MomentTimezone.Moment;
  * <ol>
  * <li>Add Isru Chag</li>
  * <li>Shabbos Mevarchim</li>
- * <li>Mishna yomis etc)</li>
+ * <li>Mishna yomis etc</li>
  * </ol>
  *
  * @see java.util.Date
@@ -381,14 +382,33 @@ export class JewishCalendar extends JewishDate {
                 holidayIndex === JewishCalendar.SIMCHAS_TORAH || holidayIndex === JewishCalendar.ROSH_HASHANA  || holidayIndex === JewishCalendar.YOM_KIPPUR;
     }
 
+    /**
+     * Returns true if it is <em>Shabbos</em> or if it is a <em>Yom Tov</em> day that has a <em>melacha</em> (work)  prohibition.
+     * This method will return false for a.
+     * @return if the day is a <em>Yom Tov</em> that is <em>assur bemlacha</em> or <em>Shabbos</em>
+     */
+    public isAssurBemelacha(): boolean {
+        return this.getDayOfWeek() == 7 || this.isYomTovAssurBemelacha();
+    }
 
     /**
      * Returns true if the day has candle lighting. This will return true on erev <em>Shabbos</em>, erev <em>Yom Tov</em>, the
-     * first day of <em>Rosh Hashana</em> and erev the second days of <em>Yom Tov</em> out of Israel.
+     * first day of <em>Rosh Hashana</em> and the first days of <em>Yom Tov</em> out of Israel. It is identical
+     * to calling {@link isTomorrowYomTov()}.
      *
      * @return if the day has candle lighting
      */
     public hasCandleLighting(): boolean {
+        return this.isTomorrowShabbosOrYomTov();
+    }
+
+    /**
+     * Returns true if tomorrow is <em>Shabbos</em> or <em>Yom Tov</em>. This will return true on erev <em>Shabbos</em>, erev
+     * <em>Yom Tov</em>, the first day of <em>Rosh Hashana</em> and <em>erev</em> the first days of <em>Yom Tov</em> out of
+     * Israel. It is identical to calling {@link hasCandleLighting()}.
+     * @return
+     */
+    public isTomorrowShabbosOrYomTov(): boolean {
         return this.getDayOfWeek() === 6 || this.isErevYomTov() || this.isErevYomTovSheni();
     }
 
