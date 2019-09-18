@@ -884,6 +884,15 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
     /**
      * returns the number of days from Rosh Hashana of the date passed in, to the full date passed in.
      *
+     * @return the number of days
+     */
+    public getDaysSinceStartOfJewishYear(): number {
+        return JewishDate.getDaysSinceStartOfJewishYear(this.getJewishYear(), this.getJewishMonth(), this.getJewishDayOfMonth());
+    }
+
+    /**
+     * returns the number of days from Rosh Hashana of the date passed in, to the full date passed in.
+     *
      * @param year
      *            the Jewish year
      * @param month
