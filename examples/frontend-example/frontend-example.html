@@ -13,11 +13,12 @@
     <tr><td><label for="latitude">Latitude</label></td><td><input id="latitude" value="40.0821"/></td></tr>
     <tr><td><label for="longitude">Longitude</label></td><td><input id="longitude" value="-74.2097"/></td></tr>
     <tr><td><label for="elevation">Elevation</label></td><td><input id="elevation" value="0"/></td></tr>
+    <tr><td><label for="complex">Complex Zmanim</label></td><td><input type="checkbox" id="complex" checked/></td></tr>
 </table>
 
 <button id="calculate">Calculate</button>
 
-<p></p><div id="output"></div>
+<p></p><pre id="output"></pre>
 
 <script>
     (function () {
@@ -30,10 +31,11 @@
                 locationName: document.querySelector("input#locationName").value,
                 latitude: Number.parseInt(document.querySelector("input#latitude").value),
                 longitude: Number.parseInt(document.querySelector("input#longitude").value),
-                elevation: Number.parseInt(document.querySelector("input#elevation").value)
+                elevation: Number.parseInt(document.querySelector("input#elevation").value),
+                complexZmanim: document.querySelector("input#complex").checked,
             });
 
-            document.querySelector("div#output").innerText = JSON.stringify(zmanim.getZmanimJson()).replace(/([,|\{])/g, "$1\n");
+            document.querySelector("#output").innerText = JSON.stringify(KosherZmanim.getZmanimJson(options), null, 2);
         })
     })()
 </script>
