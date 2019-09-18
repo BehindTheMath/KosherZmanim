@@ -517,7 +517,7 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
     }
 
     /**
-     * Converts the the {@link JewishDate#NISSAN} based constants used by this class to numeric month starting from
+     * Converts the {@link JewishDate#NISSAN} based constants used by this class to numeric month starting from
      * {@link JewishDate#TISHREI}. This is required for Molad claculations.
      *
      * @param year

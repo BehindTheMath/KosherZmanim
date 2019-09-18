@@ -62,10 +62,10 @@ export class HebrewDateFormatter {
     private transliteratedShabbosDayOfweek: string = "Shabbos";
 
     /**
-     * Returns the day of Shabbos transliterated into Latin chars. The default uses Ashkenazi pronounciation "Shabbos".
+     * Returns the day of Shabbos transliterated into Latin chars. The default uses Ashkenazi pronunciation "Shabbos".
      * This can be overwritten using the {@link #setTransliteratedShabbosDayOfWeek(String)}
      *
-     * @return the transliteratedShabbos. The default list of months uses Ashkenazi pronounciation "Shabbos".
+     * @return the transliteratedShabbos. The default list of months uses Ashkenazi pronunciation "Shabbos".
      * @see #setTransliteratedShabbosDayOfWeek(String)
      * @see #formatDayOfWeek(JewishDate)
      */
@@ -120,7 +120,7 @@ export class HebrewDateFormatter {
      *
      * @param transliteratedHolidays
      *            the transliteratedHolidays to set. Ensure that the sequence exactly matches the list returned by the
-     *            defaulyt
+     *            default
      */
     public setTransliteratedHolidayList(transliteratedHolidays: string[]): void {
         this.transliteratedHolidays = transliteratedHolidays;
@@ -291,7 +291,7 @@ export class HebrewDateFormatter {
             "\u05D0\u05D3\u05E8 \u05D0" ];
 
     /**
-     * list of transliterated parshiyos using the default Ashkenazi pronounciation. The formatParsha method uses this
+     * list of transliterated parshiyos using the default Ashkenazi pronunciation. The formatParsha method uses this
      * for transliterated parsha display. This list can be overridden (for Sephardi English transliteration for example)
      * by setting the {@link #setTransliteratedParshiosList(String[])}.
      *
@@ -469,7 +469,7 @@ export class HebrewDateFormatter {
      * calculated for 729 and format as &#x5EA;&#x5E9;&#x5DB;&#x5F4;&#x5D8;. When set to true the long format year such
      * as &#x5D4;&#x5F3; &#x5EA;&#x5E9;&#x5DB;&#x5F4;&#x5D8; for 5729/1969 is returned.
      *
-     * @return true if set to use the the thousands digit when formatting Hebrew dates and numbers.
+     * @return true if set to use the thousands digit when formatting Hebrew dates and numbers.
      */
     public isUseLongHebrewYears(): boolean {
         return this.useLonghebrewYears;
