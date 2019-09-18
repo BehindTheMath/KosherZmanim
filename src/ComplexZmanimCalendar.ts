@@ -1312,7 +1312,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (chatzos === null || this.getSunrise() === null) {
             return null;
         }
-        const diff: number = (chatzos.getTime() - this.getElevationAdjustedSunset()!.getTime()) / 2;
+        const diff: number = (chatzos.getTime() - this.getElevationAdjustedSunrise()!.getTime()) / 2;
         return this.getTimeOffset(chatzos, -diff);
     }
 
@@ -1948,7 +1948,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
             return null;
         }
 
-        return this.getTimeOffset(this.getElevationAdjustedSunrise(), (sunrise.getTime() - alos19Point8.getTime()) * (5 / 18));
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), (sunrise.getTime() - alos19Point8.getTime()) * (5 / 18));
     }
 
     /**
