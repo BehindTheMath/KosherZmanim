@@ -182,7 +182,9 @@ export namespace DateUtils {
      * @param date2
      */
     // @ts-ignore
-    export function compareTo(date1: Date, date2: Date): number {
+    export function compareTo(date1: Date | null, date2: Date | null): number {
+        if (date1 === null || date2 === null) throw new Error('NullPointerException');
+
         const date1Millis = date1.getTime();
         const date2Millis = date2.getTime();
 

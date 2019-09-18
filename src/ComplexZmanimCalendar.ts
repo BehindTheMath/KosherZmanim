@@ -885,7 +885,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         explanation on top of the {@link AstronomicalCalendar} documentation.
      * @see #ASTRONOMICAL_ZENITH
      */
-    public getAlos19Degrees(): Date {
+    public getAlos19Degrees(): Date | null {
         return this.getSunriseOffsetByDegrees(ComplexZmanimCalendar.ZENITH_19_DEGREES);
     }
 
@@ -1004,7 +1004,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #ZENITH_7_POINT_65
      * @see #getMisheyakir9Point5Degrees()
      */
-    public getMisheyakir7Point65Degrees(): Date {
+    public getMisheyakir7Point65Degrees(): Date | null {
         return this.getSunriseOffsetByDegrees(ComplexZmanimCalendar.ZENITH_7_POINT_65);
     }
 
@@ -1031,7 +1031,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #ZENITH_9_POINT_5
      * @see #getMisheyakir7Point65Degrees()
      */
-    public getMisheyakir9Point5Degrees(): Date {
+    public getMisheyakir9Point5Degrees(): Date | null {
         return this.getSunriseOffsetByDegrees(ComplexZmanimCalendar.ZENITH_9_POINT_5);
     }
 
@@ -2151,7 +2151,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         documentation.
      * @see #ZENITH_7_POINT_67
      */
-    public getTzaisGeonim7Point67Degrees(): Date {
+    public getTzaisGeonim7Point67Degrees(): Date | null {
         return this.getSunsetOffsetByDegrees(ComplexZmanimCalendar.ZENITH_7_POINT_67);
     }
 
@@ -2179,7 +2179,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         the Antarctic Circle where the sun may not reach low enough below the horizon for this calculation, a
      *         null will be returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
      */
-    public getTzaisGeonim9Point3Degrees(): Date {
+    public getTzaisGeonim9Point3Degrees(): Date | null {
         return this.getSunsetOffsetByDegrees(ComplexZmanimCalendar.ZENITH_9_POINT_3);
     }
 
@@ -2198,7 +2198,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *
      * @see #getTzais60()
      */
-    public getTzaisGeonim9Point75Degrees(): Date {
+    public getTzaisGeonim9Point75Degrees(): Date | null {
         return this.getSunsetOffsetByDegrees(ComplexZmanimCalendar.ZENITH_9_POINT_75);
     }
 
@@ -2829,7 +2829,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
             return null;
         }
 
-        let zman: Date = this.getMoladBasedTime(jewishCalendar.getTchilasZmanKidushLevana3Days(), null, null, true);
+        let zman: Date | null = this.getMoladBasedTime(jewishCalendar.getTchilasZmanKidushLevana3Days(), null, null, true);
 
         //Get the following month's zman kiddush Levana for the extreme case of Rapa Iti in French Polynesia on Dec 2027 when
         // kiddush Levana can be said on Rosh Chodesh (the evening of the 30th). See Rabbi Dovid Heber's Shaarei Zmanim chapter 4 (page 32)
