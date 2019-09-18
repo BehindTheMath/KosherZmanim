@@ -717,7 +717,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getSunrise(), shaahZmanis * -1.2);
+        return this.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -1.2);
     }
 
     /**
@@ -734,7 +734,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         documentation.
      */
     public getAlos96(): Date | null {
-        return this.getTimeOffset(this.getSunrise(), -96 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunrise(), -96 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -757,7 +757,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getSunrise(), shaahZmanis * -1.5);
+        return this.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -1.5);
     }
 
     /**
@@ -780,7 +780,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getSunrise(), shaahZmanis * -1.6);
+        return this.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -1.6);
     }
 
     /**
@@ -795,7 +795,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         documentation.
      */
     public getAlos90(): Date | null {
-        return this.getTimeOffset(this.getSunrise(), -90 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunrise(), -90 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -810,7 +810,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         documentation.
      */
     public getAlos120(): Date | null {
-        return this.getTimeOffset(this.getSunrise(), -120 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunrise(), -120 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -833,7 +833,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getSunrise(), shaahZmanis * -2);
+        return this.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -2);
     }
 
     /**
@@ -1267,7 +1267,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSeaLevelSunset()
      */
     public getSofZmanShmaAlos16Point1ToSunset(): Date | null {
-        return this.getSofZmanShma(this.getAlos16Point1Degrees(), this.getSunset());
+        return this.getSofZmanShma(this.getAlos16Point1Degrees(), this.getElevationAdjustedSunset());
     }
 
     /**
@@ -1312,7 +1312,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (chatzos === null || this.getSunrise() === null) {
             return null;
         }
-        const diff: number = (chatzos.getTime() - this.getSunrise()!.getTime()) / 2;
+        const diff: number = (chatzos.getTime() - this.getElevationAdjustedSunset()!.getTime()) / 2;
         return this.getTimeOffset(chatzos, -diff);
     }
 
@@ -1519,6 +1519,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * before {@link ZmanimCalendar#getChatzos()}. This is based on the opinions that calculate
      * <em>sof zman krias shema</em> as {@link #getSofZmanShma3HoursBeforeChatzos()}. This returns the time of 2 hours
      * before {@link ZmanimCalendar#getChatzos()}.
+     * TODO: Add hyperlinks to documentation
      *
      * @return the <code>Date</code> of the latest <em>zman krias shema</em>. If the calculation can't be computed such
      *         as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where
@@ -1539,7 +1540,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * {@link #getMinchaGedolaGreaterThan30()}for a convenience method that returns the later of the 2 calculations. One
      * should not use this time to start <em>mincha</em> before the standard
      * <em>{@link #getMinchaGedola() mincha gedola}</em>. See <em>Shulchan Aruch
-     * Orach Chayim Siman Raish Lamed Gimel seif alef</em> and the <em>Shaar Hatziyon seif katan ches</em>. TODO links
+     * Orach Chayim Siman Raish Lamed Gimel seif alef</em> and the <em>Shaar Hatziyon seif katan ches</em>.
+     * TODO: Add hyperlinks to documentation.
      *
      * @return the <code>Date</code> of 30 minutes after <em>chatzos</em>. If the calculation can't be computed such as
      *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
@@ -1846,7 +1848,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSeaLevelSunset()
      */
     public getPlagAlosToSunset(): Date | null {
-        return this.getPlagHamincha(this.getAlos16Point1Degrees(), this.getSunset());
+        return this.getPlagHamincha(this.getAlos16Point1Degrees(), this.getElevationAdjustedSunset());
     }
 
     /**
@@ -1909,7 +1911,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *
      */
     public getBainHasmashosRT58Point5Minutes(): Date | null {
-        return this.getTimeOffset(this.getSunset(), 58.5 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), 58.5 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -1919,7 +1921,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @return the <code>Date</code> of the <em>bain hashmashos</em> of <em>Rabbeinu Tam</em> in this calculation. If the
      *         calculation can't be computed such as northern and southern locations even south of the Arctic Circle and
      *         north of the Antarctic Circle where the sun may not reach low enough below the horizon for this
-     *         calculation, a null will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}
+     *         calculation, a null will be returnegetBainHasmashosRT2Starsd. See detailed explanation on top of the {@link AstronomicalCalendar}
      *         documentation.
      * @see #getTzaisGeonim7Point083Degrees()
      */
@@ -1941,12 +1943,12 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      */
     public getBainHasmashosRT2Stars(): Date | null {
         const alos19Point8: Date | null = this.getAlos19Point8Degrees();
-        const sunrise: Date | null = this.getSunrise();
+        const sunrise: Date | null = this.getElevationAdjustedSunrise();
         if (alos19Point8 === null || sunrise === null) {
             return null;
         }
 
-        return this.getTimeOffset(this.getSunset(), (sunrise.getTime() - alos19Point8.getTime()) * (5 / 18));
+        return this.getTimeOffset(this.getElevationAdjustedSunrise(), (sunrise.getTime() - alos19Point8.getTime()) * (5 / 18));
     }
 
     /**
@@ -2054,9 +2056,11 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
     /**
      * This method returns the <em>tzais</em> (nightfall) based on the opinion of the <em>Geonim</em> calculated as 3/4
      * of a 24 minute <em><a href= "http://en.wikipedia.org/wiki/Biblical_and_Talmudic_units_of_measurement" >Mil</a></em>,
-     * based on a <em>Mil</em> being 24 minutes, and is calculated as 18 + 2 + 4 for a total of 24 minutes (TODO: additional
-     * documentation details needed). It is the sun's position at {@link #ZENITH_5_POINT_88 5.88&deg;} below the western
-     * horizon. This is a very early <em>zman</em> and should not be relied on without Rabbinical guidance.
+     * based on a <em>Mil</em> being 24 minutes, and is calculated as 18 + 2 + 4 for a total of 24 minutes. It is the
+     * sun's position at {@link #ZENITH_5_POINT_88 5.88&deg;} below the western horizon. This is a very early
+     * <em>zman</em> and should not be relied on without Rabbinical guidance.
+     *
+     * @todo Additional detailed documentation needed.
      *
      * @return the <code>Date</code> representing the time when the sun is 5.88&deg; below sea level. If the calculation
      *         can't be computed such as northern and southern locations even south of the Arctic Circle and north of
@@ -2072,8 +2076,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * This method returns the <em>tzais</em> (nightfall) based on the opinion of the <em>Geonim</em> calculated as 3/4
      * of a <a href= "http://en.wikipedia.org/wiki/Biblical_and_Talmudic_units_of_measurement" >Mil</a> based on the
      * sun's position at {@link #ZENITH_4_POINT_8 4.8&deg;} below the western horizon. This is based on Rabbi Leo Levi's
-     * calculations. TODO: additional documentation needed. This is the This is a very early <em>zman</em> and should
-     * not be relied on without Rabbinical guidance.
+     * calculations. This is the This is a very early <em>zman</em> and should not be relied on without Rabbinical guidance.
+     * @todo Additional documentation needed.
      *
      * @return the <code>Date</code> representing the time when the sun is 4.8&deg; below sea level. If the calculation
      *         can't be computed such as northern and southern locations even south of the Arctic Circle and north of
@@ -2090,7 +2094,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * <a href="https://en.wikipedia.org/wiki/Yechiel_Michel_Tucazinsky">Rabbi Yechiel Michel Tucazinsky</a>. It is
      * based on of the position of the sun no later than {@link #getTzaisGeonim6Point45Degrees() 31 minutes} after sunset
      * in Jerusalem, and at the height of the summer solstice, this zman is 28 minutes after <em>shkiah</em>. This
-     * computes to 6.45&deg; below the western horizon. (TODO: additional documentation details needed)
+     * computes to 6.45&deg; below the western horizon.
+     * @todo Additional documentation details needed.
      *
      * @return the <code>Date</code> representing the time when the sun is 6.45&deg; below sea level. If the
      *         calculation can't be computed such as northern and southern locations even south of the Arctic Circle and
@@ -2134,9 +2139,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * href="https://www.worldcat.org/oclc/179728985">The radiance of Shabbos</a> as the earliest zman for New York. This
      * zman is also listed in the <a href="http://www.hebrewbooks.org/pdfpager.aspx?req=1927&amp;pgnum=90">Divrei Shalom
      * Vol. III, chapter 75</a>, and <a href="http://www.hebrewbooks.org/pdfpager.aspx?req=892&amp;pgnum=431">Bais Av"i Vol.
-     * III, chapter 117</a>. This zman is also listed in the Divrei Shalom etc. chapter 177 (TODO link source). Since this
+     * III, chapter 117</a>. This zman is also listed in the Divrei Shalom etc. chapter 177. Since this
      * zman depends on the level of light, Rabbi Yaakov Shakow presented this degree based calculation to Rabbi <a href=
      * "https://en.wikipedia.org/wiki/Shmuel_Kamenetsky">Rabbi Shmuel Kamenetsky</a> who agreed to it.
+     * @todo add hyperlinks to source of Divrei Shalom.
      *
      * @return the <code>Date</code> representing the time when the sun is 7.67&deg; below sea level. If the
      *         calculation can't be computed such as northern and southern locations even south of the Arctic Circle and
@@ -2209,7 +2215,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos60()
      */
     public getTzais60(): Date | null {
-        return this.getTimeOffset(this.getSunset(), 60 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), 60 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2229,7 +2235,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #setAteretTorahSunsetOffset(double)
      */
     public getTzaisAteretTorah(): Date | null {
-        return this.getTimeOffset(this.getSunset(), this.getAteretTorahSunsetOffset() * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), this.getAteretTorahSunsetOffset() * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2421,7 +2427,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getSunset(), shaahZmanis * 1.2);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 1.2);
     }
 
     /**
@@ -2438,7 +2444,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getSunset(), shaahZmanis * 1.5);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 1.5);
     }
 
     /**
@@ -2455,7 +2461,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getSunset(), shaahZmanis * 1.6);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 1.6);
     }
 
     /**
@@ -2474,7 +2480,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos90()
      */
     public getTzais90(): Date | null {
-        return this.getTimeOffset(this.getSunset(), 90 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), 90 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2492,7 +2498,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos120()
      */
     public getTzais120(): Date | null {
-        return this.getTimeOffset(this.getSunset(), 120 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), 120 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2509,7 +2515,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getSunset(), shaahZmanis * 2);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 2);
     }
 
     /**
@@ -2578,7 +2584,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos96()
      */
     public getTzais96(): Date | null {
-        return this.getTimeOffset(this.getSunset(), 96 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), 96 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2733,7 +2739,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * <em>tzais</em> passed in as parameters), it returns the <em>alos</em> passed in. If a null alos or tzais are
      * passed to this method, the non-daytime adjusted time will be returned.
      * This method is available in the 1.3 release of the API but may change or be removed in the future since
-     * it depends on the still changing {@link JewishCalendar} and related classes. TODO hyperlinks
+     * it depends on the still changing {@link JewishCalendar} and related classes.
+     * @todo Add hyperlinks to documentation.
      *
      * @param alos
      *            the beginning of the Jewish day. If Kidush Levana occurs during the day (starting at alos and ending
@@ -3048,7 +3055,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         {@link AstronomicalCalendar} documentation.
      */
     public getSofZmanBiurChametzGRA(): Date | null {
-        return this.getTimeOffset(this.getSunrise(), this.getShaahZmanisGra() * 5);
+        return this.getTimeOffset(this.getElevationAdjustedSunrise(), this.getShaahZmanisGra() * 5);
     }
 
     /**
@@ -3189,13 +3196,13 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *
      * A method that returns a <em>shaah zmanis</em> ( {@link #getTemporalHour(Date, Date) temporal hour}) calculated
      * based on the <em><a href="https://en.wikipedia.org/wiki/Shneur_Zalman_of_Liadi">Baal Hatanya</a></em>'s <em>netz
-     * amiti</em> and <em>shkiah amiti</em> using a dip of 1.583&deg; below the sea level horizon. TODO use sunrise and
-     * sunset comments. his calculation divides the day based on the opinion of the <em>Baal Hatanya</em> that the day
-     * runs from {@link #getSunriseBaalHatanya() netz amiti} to {@link #getSunsetBaalHatanya() shkiah amiti}. The
-     * calculations are based on a day from {@link #getSunriseBaalHatanya() sea level netz amiti} to
-     * {@link #getSunsetBaalHatanya() sea level shkiah amiti}. The day is split into 12 equal parts with each one being a
-     * <em>shaah zmanis</em>. This method is similar to {@link #getTemporalHour}, but all calculations are based on a sea
-     * level sunrise and sunset.
+     * amiti</em> and <em>shkiah amiti</em> using a dip of 1.583&deg; below the sea level horizon. This calculation divides
+     * the day based on the opinion of the <em>Baal Hatanya</em> that the day runs from {@link #getSunriseBaalHatanya()
+	   * netz amiti} to {@link #getSunsetBaalHatanya() shkiah amiti}. The calculations are based on a day from {@link
+     * #getSunriseBaalHatanya() sea level netz amiti} to {@link #getSunsetBaalHatanya() sea level shkiah amiti}. The day
+     * is split into 12 equal parts with each one being a <em>shaah zmanis</em>. This method is similar to {@link
+     * #getTemporalHour}, but all calculations are based on a sea level sunrise and sunset.
+     * @todo Copy sunrise and sunset comments here as applicable.
      *
      * @return the <code>long</code> millisecond length of a <em>shaah zmanis</em> calculated from
      *         {@link #getSunriseBaalHatanya() <em>netz amiti</em> (sunrise)} to {@link #getSunsetBaalHatanya() <em>shkiah amiti</em>

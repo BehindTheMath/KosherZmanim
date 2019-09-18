@@ -115,16 +115,15 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     private candleLightingOffset: number = 18;
 
     /**
-    * This method overrides the {@link AstronomicalCalendar#getSunrise()} and will return {@link #getSeaLevelSunrise()
-    * sea level sunrise} if {@link #isUseElevation()} is false (the default), or elevation adjusted {@link
-    * AstronomicalCalendar#getSunrise()} if it is true. This allows all zmanim in this and extending classes (such as
-    * the {@link ComplexZmanimCalendar}) to automatically adjust to the elevation setting.
+     * This method will return {@link #getSeaLevelSunrise() sea level sunrise} if {@link #isUseElevation()} is false
+     * (the default), or elevation adjusted {@link AstronomicalCalendar#getSunrise()} if it is true. This allows relevant zmanim
+     * in this and extending classes (such as the {@link ComplexZmanimCalendar}) to automatically adjust to the elevation setting.
     *
     * @return {@link #getSeaLevelSunrise()} if {@link #isUseElevation()} is false (the default), or elevation adjusted
     *          {@link AstronomicalCalendar#getSunrise()} if it is true.
     * @see net.sourceforge.zmanim.AstronomicalCalendar#getSunrise()
     */
-    public getSunrise(): Date {
+    public getElevationAdjustedSunrise(): Date {
         if (this.isUseElevation()) {
             return super.getSunrise();
         }
@@ -132,16 +131,15 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     }
 
     /**
-    * This method overrides the {@link AstronomicalCalendar#getSunset()} and will return {@link #getSeaLevelSunset()
-    * sea level sunset} if {@link #isUseElevation()} is false (the default), or elevation adjusted {@link
-    * #getSunset()} if it is true. This allows all zmanim in this and extending classes (such as
-    * the {@link ComplexZmanimCalendar}) to automatically adjust to the elevation setting.
+     * This method will return {@link #getSeaLevelSunrise() sea level sunrise} if {@link #isUseElevation()} is false
+     * (the default), or elevation adjusted {@link AstronomicalCalendar#getSunrise()} if it is true. This allows relevant zmanim
+     * in this and extending classes (such as the {@link ComplexZmanimCalendar}) to automatically adjust to the elevation setting.
     *
     * @return {@link #getSeaLevelSunset()} if {@link #isUseElevation()} is false (the default), or elevation adjusted
     *          {@link AstronomicalCalendar#getSunset()} if it is true.
     * @see net.sourceforge.zmanim.AstronomicalCalendar#getSunset()
     */
-    public getSunset(): Date {
+    public getElevationAdjustedSunset(): Date {
         if (this.isUseElevation()) {
             return super.getSunset();
         }
@@ -201,7 +199,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      *         documentation.
      */
     public getAlos72(): Date | null {
-        return this.getTimeOffset(this.getSunrise(), -72 * ZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunrise(), -72 * ZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -266,7 +264,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      * documentation.
      */
     public getSofZmanShmaGRA(): Date | null {
-        return this.getSofZmanShma(this.getSunrise(), this.getSunset());
+        return this.getSofZmanShma(this.getElevationAdjustedSunrise(), this.getElevationAdjustedSunset());
     }
 
     /**
@@ -304,7 +302,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      *         {@link AstronomicalCalendar} documentation.
      */
     public getTzais72(): Date | null {
-        return this.getTimeOffset(this.getSunset(), 72 * ZmanimCalendar.MINUTE_MILLIS);
+        return this.getTimeOffset(this.getElevationAdjustedSunset(), 72 * ZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -371,7 +369,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      *         documentation.
      */
     public getSofZmanTfilaGRA(): Date | null {
-        return this.getSofZmanTfila(this.getSunrise(), this.getSunset());
+        return this.getSofZmanTfila(this.getElevationAdjustedSunrise(), this.getElevationAdjustedSunset());
     }
 
     /**
@@ -416,8 +414,8 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      *         at least one day a year where the sun does not rise, and one where it does not set, a null will be
      *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
      */
-    public getMinchaGedola(startOfDay: Date | null = this.getSunrise(),
-                           endOfDay: Date | null = this.getSunset()): Date | null {
+    public getMinchaGedola(startOfDay: Date | null = this.getElevationAdjustedSunrise(),
+                           endOfDay: Date | null = this.getElevationAdjustedSunset()): Date | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
         return this.getTimeOffset(startOfDay, shaahZmanis * 6.5);
     }
@@ -472,8 +470,8 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      *         at least one day a year where the sun does not rise, and one where it does not set, a null will be
      *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
      */
-    public getMinchaKetana(startOfDay: Date | null = this.getSunrise(),
-                           endOfDay: Date | null = this.getSunset()): Date | null {
+    public getMinchaKetana(startOfDay: Date | null = this.getElevationAdjustedSunrise(),
+                           endOfDay: Date | null = this.getElevationAdjustedSunset()): Date | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
         return this.getTimeOffset(startOfDay, shaahZmanis * 9.5);
     }
@@ -511,7 +509,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      * The time from the start of day to the end of day are divided into 12 <em>shaos zmaniyos</em> (temporal hours), and
      * <em>plag hamincha</em> is calculated as 10.75 of those <em>shaos zmaniyos</em> after the beginning of the day. As an
      * example, passing {@link #getSunrise() sunrise} and {@link #getSunset sunset} or {@link #getSeaLevelSunrise() sea level
-	 * sunrise} and {@link #getSeaLevelSunset() sea level sunset} (depending on the {@link #isUseElevation()} elevation
+	   * sunrise} and {@link #getSeaLevelSunset() sea level sunset} (depending on the {@link #isUseElevation()} elevation
      * setting) to this method will return <em>plag mincha</em> according to the opinion of the
      * <em><a href="https://en.wikipedia.org/wiki/Vilna_Gaon">GRA</a></em>.
      *
@@ -524,8 +522,8 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      *         at least one day a year where the sun does not rise, and one where it does not set, a null will be
      *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
      */
-    public getPlagHamincha(startOfDay: Date | null = this.getSunrise(),
-                           endOfDay: Date | null = this.getSunset()): Date | null {
+    public getPlagHamincha(startOfDay: Date | null = this.getElevationAdjustedSunrise(),
+                           endOfDay: Date | null = this.getElevationAdjustedSunset()): Date | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
         return this.getTimeOffset(startOfDay, shaahZmanis * 10.75);
     }
@@ -570,7 +568,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      * @see ComplexZmanimCalendar#getShaahZmanisBaalHatanya()
      */
     public getShaahZmanisGra(): number {
-        return this.getTemporalHour(this.getSunrise(), this.getSunset());
+        return this.getTemporalHour(this.getElevationAdjustedSunrise(), this.getElevationAdjustedSunset());
     }
 
     /**
