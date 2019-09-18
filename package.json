@@ -33,6 +33,7 @@
     "build": "npm run clean && cd src && tsc && tsc -module es6 --outDir ../dist/lib-es6/ && webpack",
     "lint": "tslint -p ./src/",
     "test": "jest",
+    "prepublishOnly": "npm run build",
     "start:idea": "ts-node --ignore false ./work/test.ts",
     "webpack-build": "webpack",
     "webpack-debug": "webpack --debug",
