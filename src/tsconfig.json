@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "declaration": true,
+    "declaration": false,
     "target": "es6",
     "sourceMap": true,
     "outDir": "../dist/lib-cjs/",

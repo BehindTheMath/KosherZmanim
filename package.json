@@ -2,9 +2,35 @@
   "name": "kosher-zmanim",
   "version": "0.2.4",
   "description": "",
+  "author": "BehindTheMath",
+  "license": "LGPL-3.0",
+  "bugs": "BehindTheMath/KosherZmanim/issues",
+  "homepage": "BehindTheMath/KosherZmanim",
+  "repository": "BehindTheMath/KosherZmanim",
   "main": "dist/lib-cjs/kosher-zmanim.js",
-  "typings": "js/kosher-zmanim.d.ts",
+  "types": "dist/types/kosher-zmanim.d.ts",
   "module": "dist/lib-es6/kosher-zmanim.js",
+  "scripts": {
+    "clean": "rimraf ./dist/*",
+    "build": "npm run clean && npm run build:cjs && npm run build:es6 && npm run build:types && webpack",
+    "build:cjs": "tsc -module commonjs --outDir ./dist/lib-cjs/ -p ./src/",
+    "build:es6": "tsc -module es6 --outDir ./dist/lib-es6/ -p ./src/",
+    "build:types": "tsc --declaration true --emitDeclarationOnly --outDir ./dist/types/ -p ./src/",
+    "lint": "tslint -p ./src/",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "zmanim",
+    "zman",
+    "kosherzmanim",
+    "kosher-zmanim"
+  ],
+  "unpkg": "dist/kosher-zmanim.min.js",
+  "files": [
+    "dist/*",
+    "examples/frontend-example/frontend-example.html"
+  ],
   "dependencies": {
     "big.js": "5.2.2",
     "moment": "2.24.0",
@@ -16,41 +42,15 @@
     "@types/big.js": "4.0.5",
     "@types/jest": "24.0.12",
     "@types/moment-timezone": "0.5.12",
-    "@types/node": "12.0.0",
+    "@types/node": "^12.7.5",
     "@types/numeral": "0.0.25",
     "jest": "24.8.0",
-    "shx": "0.3.2",
+    "rimraf": "^3.0.0",
     "ts-jest": "23.1.4",
     "ts-loader": "5.4.5",
-    "ts-node": "8.1.0",
     "typescript": "^3.6.3",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "4.30.0",
     "webpack-cli": "^3.3.8"
-  },
-  "scripts": {
-    "clean": "shx rm -rf ./dist/*",
-    "build": "npm run clean && cd src && tsc && tsc -module es6 --outDir ../dist/lib-es6/ && webpack",
-    "lint": "tslint -p ./src/",
-    "test": "jest",
-    "prepublishOnly": "npm run build",
-    "start:idea": "ts-node --ignore false ./work/test.ts",
-    "webpack-build": "webpack",
-    "webpack-debug": "webpack --debug",
-    "webpack-display-errors": "webpack --display-error-details"
-  },
-  "author": "BehindTheMath",
-  "license": "LGPL-3.0",
-  "bugs": "BehindTheMath/KosherZmanim/issues",
-  "homepage": "BehindTheMath/KosherZmanim",
-  "keywords": [
-    "zmanim",
-    "zman"
-  ],
-  "repository": "BehindTheMath/KosherZmanim",
-  "unpkg": "dist/kosher-zmanim.min.js",
-  "files": [
-    "dist/*",
-    "examples/frontend-example/frontend-example.html"
-  ]
+  }
 }
