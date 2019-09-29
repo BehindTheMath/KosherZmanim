@@ -15,7 +15,6 @@ module.exports = {
     path: path.resolve(__dirname, "./dist"),
     libraryTarget: "umd",
     library: "KosherZmanim",
-    libraryExport: "default",
     umdNamedDefine: true,
   },
   module: {

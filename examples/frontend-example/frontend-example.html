@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ZmanimJS Frontend Example</title>
-    <script src="https://rawgit.com/BehindTheMath/KosherZmanim/dev/dist/kosher-zmanim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/kosher-zmanim/dist/kosher-zmanim.js"></script>
 </head>
 <body>
 <table>
@@ -25,7 +25,7 @@
         document.querySelector("input#date").value = new Date().toISOString();
 
         document.querySelector("button#calculate").addEventListener("click", function () {
-            var zmanim = new KosherZmanim.default({
+            const options = {
                 date: document.querySelector("input#date").value,
                 timeZoneId: document.querySelector("input#timeZoneId").value,
                 locationName: document.querySelector("input#locationName").value,
@@ -33,7 +33,7 @@
                 longitude: Number.parseInt(document.querySelector("input#longitude").value),
                 elevation: Number.parseInt(document.querySelector("input#elevation").value),
                 complexZmanim: document.querySelector("input#complex").checked,
-            });
+            };
 
             document.querySelector("#output").innerText = JSON.stringify(KosherZmanim.getZmanimJson(options), null, 2);
         })
