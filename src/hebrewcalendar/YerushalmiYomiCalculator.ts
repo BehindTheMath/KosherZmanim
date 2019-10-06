@@ -10,7 +10,7 @@ import Moment = MomentTimezone.Moment;
  * "https://en.wikipedia.org/wiki/Daf_Yomi">Daf Yomi</a> page ({@link Daf}) for the a given date.
  *
  * @author &copy; elihaidv
- * @author &copy; Eliyahu Hershfeld 2017 - 2018
+ * @author &copy; Eliyahu Hershfeld 2017 - 2019
  */
 export class YerushalmiYomiCalculator {
     private static readonly DAF_YOMI_START_DAY: Date = new Date(1980, Calendar.FEBRUARY, 2);

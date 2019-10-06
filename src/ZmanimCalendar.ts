@@ -29,7 +29,7 @@ import {DateUtils} from "./polyfills/Utils";
  * reviewing, correcting and making suggestions on the documentation in this library.
  * <h2>Disclaimer:</h2> I did my best to get accurate results, but please double-check before relying on these zmanim for
  *
- * @author &copy; Eliyahu Hershfeld 2004 - 2018
+ * @author &copy; Eliyahu Hershfeld 2004 - 2019
  */
 export class ZmanimCalendar extends AstronomicalCalendar {
 

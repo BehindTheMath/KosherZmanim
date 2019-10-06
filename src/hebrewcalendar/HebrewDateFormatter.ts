@@ -24,6 +24,7 @@ export class HebrewDateFormatter {
     private useLonghebrewYears: boolean = false;
     private useGershGershayim: boolean = true;
     private longWeekFormat: boolean = true;
+    private useFinalFormLetters: boolean = false;
     private weekFormat: "dddd" | "ddd" | null = null;
 
     /**
@@ -463,6 +464,31 @@ export class HebrewDateFormatter {
         this.useGershGershayim = useGershGershayim;
     }
 
+      /**
+       * Returns whether the class is set to use the &#x05DE;&#x05E0;&#x05E6;&#x05E4;&#x05F4;&#x05DA; letters when
+       * formatting years ending in 20, 40, 50, 80 and 90. Traditionally non-final form letters are used, so the year
+       * 5780 would be formatted as &#x05EA;&#x05E9;&#x05F4;&#x05E4; if the default false is used here. If this returns
+       * true, the format &#x05EA;&#x05E9;&#x05F4;&#x05E3; would be used.
+       *
+       * @return true if set to use final form letters when formatting Hebrew years. The default value is false.
+       */
+      public isUseFinalFormLetters(): boolean {
+        return this.useFinalFormLetters;
+      }
+
+      /**
+       * When formatting a Hebrew Year, traditionally years ending in 20, 40, 50, 80 and 90 are formatted using non-final
+       * form letters for example &#x05EA;&#x05E9;&#x05F4;&#x05E4; for the year 5780. Setting this to true (the default
+       * is false) will use the final form letters for &#x05DE;&#x05E0;&#x05E6;&#x05E4;&#x05F4;&#x05DA; and will format
+       * the year 5780 as &#x05EA;&#x05E9;&#x05F4;&#x05E3;.
+       *
+       * @param useFinalFormLetters
+       *            Set this to true to use final form letters when formatting Hebrew years.
+       */
+      public setUseFinalFormLetters(useFinalFormLetters: boolean): void {
+      this.useFinalFormLetters = useFinalFormLetters;
+    }
+
     /**
      * Returns whether the class is set to use the thousands digit when formatting. When formatting a Hebrew Year,
      * traditionally the thousands digit is omitted and output for a year such as 5729 (1969 Gregorian) would be
@@ -720,8 +746,12 @@ export class HebrewDateFormatter {
         } else {
             const tens: number = Math.trunc(num / 10);
             if (num % 10 === 0) { // if evenly divisable by 10
-                if (singleDigitNumber === false) {
-                    sb = sb.concat(jTenEnds[tens]); // end letters so years like 5750 will end with an end nun
+                if (!singleDigitNumber) {
+                    if (this.isUseFinalFormLetters()) {
+                      sb = sb.concat(jTenEnds[tens]); // years like 5780 will end with a final form &#x05E3;
+                    } else {
+                      sb = sb.concat(jTens[tens]); // years like 5780 will end with a regular &#x05E4;
+                    }
                 } else {
                     sb = sb.concat(jTens[tens]); // standard letters so years like 5050 will end with a regular nun
                 }

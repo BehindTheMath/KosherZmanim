@@ -1,7 +1,7 @@
 import {Long_MIN_VALUE} from "./polyfills/Utils";
 import {GeoLocation} from "./util/GeoLocation";
 import {AstronomicalCalculator} from "./util/AstronomicalCalculator";
-import {SunTimesCalculator} from "./util/SunTimesCalculator";
+import {NOAACalculator} from "./util/NOAACalculator";
 
 import {Big} from "big.js";
 
@@ -385,15 +385,18 @@ export class AstronomicalCalendar {
 
     /**
      * A constructor that takes in <a href="http://en.wikipedia.org/wiki/Geolocation">geolocation</a> information as a
-     * parameter.
+     * parameter. The default {@link AstronomicalCalculator#getDefault() AstronomicalCalculator} used for solar
+     * calculations is the the {@link net.sourceforge.zmanim.util.NOAACalculator}.
      *
      * @param geoLocation
      *            The location information used for calculating astronomical sun times.
+     *
+     * @see #setAstronomicalCalculator(AstronomicalCalculator) for changing the calculator class.
      */
     constructor(geoLocation: GeoLocation = new GeoLocation()) {
         this.setMoment(MomentTimezone.tz(geoLocation.getTimeZone()));
         this.setGeoLocation(geoLocation); // duplicate call
-        this.setAstronomicalCalculator(new SunTimesCalculator());
+        this.setAstronomicalCalculator(new NOAACalculator());
     }
 
     /**

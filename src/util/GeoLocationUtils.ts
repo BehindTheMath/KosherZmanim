@@ -6,7 +6,7 @@ import {MathUtils} from "../polyfills/Utils";
  * Most of the code in this class is ported from <a href="http://www.movable-type.co.uk/">Chris Veness'</a>
  * <a href="http://www.fsf.org/licensing/licenses/lgpl.html">LGPL</a> Javascript Implementation
  *
- * @author &copy; Eliyahu Hershfeld 2009 - 2018
+ * @author &copy; Eliyahu Hershfeld 2009 - 2019
  */
 export class GeoLocationUtils {
     private static readonly DISTANCE: number = 0;

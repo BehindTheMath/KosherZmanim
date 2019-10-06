@@ -5,10 +5,11 @@ import {MathUtils} from "../polyfills/Utils";
 
 /**
  * An abstract class that all sun time calculating classes extend. This allows the algorithm used to be changed at
- * runtime, easily allowing comparison the results of using different algorithms. TODO: consider methods that would
- * allow atmospheric modeling. This can currently be adjusted by {@link #setRefraction(double) setting the refraction}.
+ * runtime, easily allowing comparison the results of using different algorithms.
+ * TODO: Consider methods that would allow atmospheric modeling. This can currently be adjusted by {@link
+ * #setRefraction(double) setting the refraction}.
  *
- * @author &copy; Eliyahu Hershfeld 2004 - 2018
+ * @author &copy; Eliyahu Hershfeld 2004 - 2019
  */
 export abstract class AstronomicalCalculator {
     /**
@@ -61,11 +62,12 @@ export abstract class AstronomicalCalculator {
     private static readonly GEOMETRIC_ZENITH: number = 90;
 
     /**
-     * getDefault method returns the default sun times calculation engine.
+     * Returns the default class for calculating sunrise and sunset. This is currently the {@link NOAACalculator},
+     * but this may change.
      *
      * @return AstronomicalCalculator the default class for calculating sunrise and sunset. In the current
-     *         implementation the default calculator returned is the {@link SunTimesCalculator}.
-     * @deprecated This depends on a circular dependency. Use <pre>new SunTimesCalculator()</pre> instead
+     *         implementation the default calculator returned is the {@link NOAACalculator}.
+     * @deprecated This depends on a circular dependency. Use <pre>new NOAACalculator()</pre> instead
      */
     public static getDefault(): void {
         throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency.");
@@ -214,9 +216,9 @@ export abstract class AstronomicalCalculator {
     }
 
     /**
-     * A method to allow overriding the default refraction of the calculator. TODO: At some point in the future, an
-     * AtmosphericModel or Refraction object that models the atmosphere of different locations might be used for
-     * increased accuracy.
+     * A method to allow overriding the default refraction of the calculator.
+     * @todo At some point in the future, an AtmosphericModel or Refraction object that models the atmosphere of different
+     * locations might be used for increased accuracy.
      *
      * @param refraction
      *            The refraction in arc minutes.

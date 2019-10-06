@@ -1,8 +1,7 @@
 /**
  * An Object representing a Daf in the Daf Yomi cycle.
  *
- * @author &copy; Eliyahu Hershfeld 2011 - 2018
- * @version 0.0.2
+ * @author &copy; Eliyahu Hershfeld 2011 - 2019
  */
 export class Daf {
     private masechtaNumber: number;

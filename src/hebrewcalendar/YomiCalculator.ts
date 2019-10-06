@@ -10,7 +10,7 @@ import Moment = MomentTimezone.Moment;
  * use the {@link YerushalmiYomiCalculator}. The library may cover Mishna Yomi etc. at some point in the future.
  *
  * @author &copy; Bob Newell (original C code)
- * @author &copy; Eliyahu Hershfeld 2011 - 2018
+ * @author &copy; Eliyahu Hershfeld 2011 - 2019
  * @version 0.0.1
  */
 export class YomiCalculator {
