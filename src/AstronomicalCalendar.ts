@@ -678,10 +678,10 @@ export class AstronomicalCalendar {
      *         {@link net.sourceforge.zmanim.util.ZmanimFormatter#toXML(AstronomicalCalendar) toXML} method.
      * @see net.sourceforge.zmanim.util.ZmanimFormatter#toXML(AstronomicalCalendar)
      * @see java.lang.Object#toString()
-     * @deprecated  This depends on a circular dependency. Use <pre>ZmanimFormatter.toXML(astronomicalCalendar)</pre> instead.
+     * @deprecated (This depends on a circular dependency).
      */
     public toString(): void {
-        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency.");
+        throw new Error("This method is not supported.");
     }
 
     /**
@@ -692,7 +692,8 @@ export class AstronomicalCalendar {
      * @deprecated  This depends on a circular dependency. Use <pre>ZmanimFormatter.toJSON(astronomicalCalendar)</pre> instead.
      */
     public toJSON(): void {
-        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency.");
+        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency. "
+        + "Use `ZmanimFormatter.toJSON(astronomicalCalendar)` instead.");
     }
 
     /**

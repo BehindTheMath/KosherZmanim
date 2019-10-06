@@ -70,7 +70,8 @@ export abstract class AstronomicalCalculator {
      * @deprecated This depends on a circular dependency. Use <pre>new NOAACalculator()</pre> instead
      */
     public static getDefault(): void {
-        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency.");
+        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency. "
+        + "Use `new NOAACalculator()` instead.");
     }
 
     /**

@@ -393,7 +393,7 @@ export class ZmanimFormatter {
      * @deprecated
      */
     public static toXML(): void {
-        throw new Error("This method is no longer supported");
+        throw new Error("This method is not supported.");
     }
 
     /**

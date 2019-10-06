@@ -6,13 +6,6 @@ import {JsonOutput, ZmanimFormatter} from "./util/ZmanimFormatter";
 import * as _MomentTimezone from "moment-timezone";
 import Moment = _MomentTimezone.Moment;
 
-/**
- * @deprecated
- */
-export function getZmanimXML(): string {
-  throw new Error("This method is no longer supported");
-}
-
 export function getZmanimJson(options: Options): JsonOutput {
   const moment: Moment = _MomentTimezone.tz(options.date, options.timeZoneId);
 

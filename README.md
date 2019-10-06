@@ -76,3 +76,12 @@ The zmanim are calculated based on the day of year, which is not dependent on ti
 # Breaking changes from KosherJava
 * `AstronomicalCalendar.getTemporalHour()` returns `null` instead of `Long.MIN_VALUE` if the calculations cannot be completed.
 * JS/TS does not have a parallel to Java's `Long.MIN_VALUE`, so `Long_MIN_VALUE` is set to `NaN`.
+* The following methods are not supported:  
+  * `AstronomicalCalendar.toString()`
+  * `AstronomicalCalendar.toJSON()`  
+  (Use `ZmanimFormatter.toJSON(astronomicalCalendar)` instead).
+  * `AstronomicalCalculator.getDefault()`  
+  (Use `new NOAACalculator()` instead).
+  * `Time.toString()`  
+  (Use `new ZmanimFormatter(TimeZone.getTimeZone("UTC")).format(time)` instead).
+  * `ZmanimFormatter.toXML()`

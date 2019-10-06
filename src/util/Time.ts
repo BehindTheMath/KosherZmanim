@@ -150,6 +150,7 @@ export class Time {
      * @deprecated This depends on a circular dependency. Use <pre>new ZmanimFormatter(TimeZone.getTimeZone("UTC")).format(time)</pre> instead.
      */
     public toString(): void {
-        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency.");
+        throw new Error("This method is deprecated, due to the fact that it depends on a circular dependency. "
+        + "Use `new ZmanimFormatter(TimeZone.getTimeZone(\"UTC\")).format(time)` instead");
     }
 }
