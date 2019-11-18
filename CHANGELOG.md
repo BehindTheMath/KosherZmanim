@@ -1,3 +1,9 @@
+# v0.5.0
+### Breaking Changes:
+* The spelling has changed from `Parshah` to `Parsha`.
+* `JewishCalendar.getParshahIndex()` has been renamed to `JewishCalendar.getParsha()`.
+* The signatures for `HebrewDateFormatter.getTransliteratedParshiosList()` and `HebrewDateFormatter.getTransliteratedParshiosList()` have changed.
+
 # v0.4.0
 ### Breaking Changes:
 * The default calculator is now NOAA (af66119d).

@@ -42,7 +42,7 @@ For UMD, a global `KosherZmanim` object is exposed.
 
 #### Library Usage:
 The KosherJava library has been ported to JS, following the original API as close as possible. 
-The classes are exposed as named exports. You can instatiate or extend those classes as necessary, the same way you would in Java.
+The classes are exposed as named exports. You can instantiate or extend those classes as necessary, the same way you would in Java.
 
 ```javascript
 const zmanimCalendar = new KosherZmanim.ZmanimCalendar();
