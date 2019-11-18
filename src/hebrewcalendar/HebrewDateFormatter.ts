@@ -1,6 +1,6 @@
 import {Daf} from "./Daf";
 import {JewishDate} from "./JewishDate";
-import {JewishCalendar} from "./JewishCalendar";
+import {JewishCalendar, Parsha} from "./JewishCalendar";
 
 /**
  * The HebrewDateFormatter class formats a {@link JewishDate}.
@@ -10,8 +10,10 @@ import {JewishCalendar} from "./JewishCalendar";
  * <ul>
  * <li>21 Shevat, 5729</li>
  * <li>&#x5DB;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5DB;&#x5D8;</li>
- * <li>&#x5D4;&#x5F3; &#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5DB;&#x5F4;&#x5D8;</li>
- * <li>&#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5DA;&#x5F3;</li>
+ * <li>&#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5D4;&#x5F3;&#x5EA;&#x5E9;&#x5DB;&#x5F4;&#x5D8;</li>
+ * <li>&#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5F4;&#x05E4; or
+ * &#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5F4;&#x05E3;</li>
+ * <li>&#x05DB;&#x05F3; &#x05E9;&#x05D1;&#x05D8; &#x05D5;&#x05F3; &#x05D0;&#x05DC;&#x05E4;&#x05D9;&#x05DD;</li>
  * </ul>
  *
  * @see net.sourceforge.zmanim.hebrewcalendar.JewishDate
@@ -26,6 +28,144 @@ export class HebrewDateFormatter {
     private longWeekFormat: boolean = true;
     private useFinalFormLetters: boolean = false;
     private weekFormat: "dddd" | "ddd" | null = null;
+
+    private transliteratedParshaMap: Record<Parsha, string> = {
+        [Parsha.NONE]: '',
+        [Parsha.BERESHIS]: 'Bereshis',
+        [Parsha.NOACH]: 'Noach',
+        [Parsha.LECH_LECHA]: 'Lech Lecha',
+        [Parsha.VAYERA]: 'Vayera',
+        [Parsha.CHAYEI_SARA]: 'Chayei Sara',
+        [Parsha.TOLDOS]: 'Toldos',
+        [Parsha.VAYETZEI]: 'Vayetzei',
+        [Parsha.VAYISHLACH]: 'Vayishlach',
+        [Parsha.VAYESHEV]: 'Vayeshev',
+        [Parsha.MIKETZ]: 'Miketz',
+        [Parsha.VAYIGASH]: 'Vayigash',
+        [Parsha.VAYECHI]: 'Vayechi',
+        [Parsha.SHEMOS]: 'Shemos',
+        [Parsha.VAERA]: 'Vaera',
+        [Parsha.BO]: 'Bo',
+        [Parsha.BESHALACH]: 'Beshalach',
+        [Parsha.YISRO]: 'Yisro',
+        [Parsha.MISHPATIM]: 'Mishpatim',
+        [Parsha.TERUMAH]: 'Terumah',
+        [Parsha.TETZAVEH]: 'Tetzaveh',
+        [Parsha.KI_SISA]: 'Ki Sisa',
+        [Parsha.VAYAKHEL]: 'Vayakhel',
+        [Parsha.PEKUDEI]: 'Pekudei',
+        [Parsha.VAYIKRA]: 'Vayikra',
+        [Parsha.TZAV]: 'Tzav',
+        [Parsha.SHMINI]: 'Shmini',
+        [Parsha.TAZRIA]: 'Tazria',
+        [Parsha.METZORA]: 'Metzora',
+        [Parsha.ACHREI_MOS]: 'Achrei Mos',
+        [Parsha.KEDOSHIM]: 'Kedoshim',
+        [Parsha.EMOR]: 'Emor',
+        [Parsha.BEHAR]: 'Behar',
+        [Parsha.BECHUKOSAI]: 'Bechukosai',
+        [Parsha.BAMIDBAR]: 'Bamidbar',
+        [Parsha.NASSO]: 'Nasso',
+        [Parsha.BEHAALOSCHA]: 'Beha\'aloscha',
+        [Parsha.SHLACH]: 'Sh\'lach',
+        [Parsha.KORACH]: 'Korach',
+        [Parsha.CHUKAS]: 'Chukas',
+        [Parsha.BALAK]: 'Balak',
+        [Parsha.PINCHAS]: 'Pinchas',
+        [Parsha.MATOS]: 'Matos',
+        [Parsha.MASEI]: 'Masei',
+        [Parsha.DEVARIM]: 'Devarim',
+        [Parsha.VAESCHANAN]: 'Vaeschanan',
+        [Parsha.EIKEV]: 'Eikev',
+        [Parsha.REEH]: 'Re\'eh',
+        [Parsha.SHOFTIM]: 'Shoftim',
+        [Parsha.KI_SEITZEI]: 'Ki Seitzei',
+        [Parsha.KI_SAVO]: 'Ki Savo',
+        [Parsha.NITZAVIM]: 'Nitzavim',
+        [Parsha.VAYEILECH]: 'Vayeilech',
+        [Parsha.HAAZINU]: 'Ha\'Azinu',
+        [Parsha.VZOS_HABERACHA]: 'Vezos Habracha',
+        [Parsha.VAYAKHEL_PEKUDEI]: 'Vayakhel Pekudei',
+        [Parsha.TAZRIA_METZORA]: 'Tazria Metzora',
+        [Parsha.ACHREI_MOS_KEDOSHIM]: 'Achrei Mos Kedoshim',
+        [Parsha.BEHAR_BECHUKOSAI]: 'Behar Bechukosai',
+        [Parsha.CHUKAS_BALAK]: 'Chukas Balak',
+        [Parsha.MATOS_MASEI]: 'Matos Masei',
+        [Parsha.NITZAVIM_VAYEILECH]: 'Nitzavim Vayeilech',
+        [Parsha.SHKALIM]: 'Shekalim',
+        [Parsha.ZACHOR]: 'Zachor',
+        [Parsha.PARA]: 'Parah',
+        [Parsha.HACHODESH]: 'Hachodesh',
+    };
+
+    private hebrewParshaMap: Record<Parsha, string> = {
+        [Parsha.NONE]: '',
+        [Parsha.BERESHIS]: '\u05D1\u05E8\u05D0\u05E9\u05D9\u05EA',
+        [Parsha.NOACH]: '\u05E0\u05D7',
+        [Parsha.LECH_LECHA]: '\u05DC\u05DA \u05DC\u05DA',
+        [Parsha.VAYERA]: '\u05D5\u05D9\u05E8\u05D0',
+        [Parsha.CHAYEI_SARA]: '\u05D7\u05D9\u05D9 \u05E9\u05E8\u05D4',
+        [Parsha.TOLDOS]: '\u05EA\u05D5\u05DC\u05D3\u05D5\u05EA',
+        [Parsha.VAYETZEI]: '\u05D5\u05D9\u05E6\u05D0',
+        [Parsha.VAYISHLACH]: '\u05D5\u05D9\u05E9\u05DC\u05D7',
+        [Parsha.VAYESHEV]: '\u05D5\u05D9\u05E9\u05D1',
+        [Parsha.MIKETZ]: '\u05DE\u05E7\u05E5',
+        [Parsha.VAYIGASH]: '\u05D5\u05D9\u05D2\u05E9',
+        [Parsha.VAYECHI]: '\u05D5\u05D9\u05D7\u05D9',
+        [Parsha.SHEMOS]: '\u05E9\u05DE\u05D5\u05EA',
+        [Parsha.VAERA]: '\u05D5\u05D0\u05E8\u05D0',
+        [Parsha.BO]: '\u05D1\u05D0',
+        [Parsha.BESHALACH]: '\u05D1\u05E9\u05DC\u05D7',
+        [Parsha.YISRO]: '\u05D9\u05EA\u05E8\u05D5',
+        [Parsha.MISHPATIM]: '\u05DE\u05E9\u05E4\u05D8\u05D9\u05DD',
+        [Parsha.TERUMAH]: '\u05EA\u05E8\u05D5\u05DE\u05D4',
+        [Parsha.TETZAVEH]: '\u05EA\u05E6\u05D5\u05D4',
+        [Parsha.KI_SISA]: '\u05DB\u05D9 \u05EA\u05E9\u05D0',
+        [Parsha.VAYAKHEL]: '\u05D5\u05D9\u05E7\u05D4\u05DC',
+        [Parsha.PEKUDEI]: '\u05E4\u05E7\u05D5\u05D3\u05D9',
+        [Parsha.VAYIKRA]: '\u05D5\u05D9\u05E7\u05E8\u05D0',
+        [Parsha.TZAV]: '\u05E6\u05D5',
+        [Parsha.SHMINI]: '\u05E9\u05DE\u05D9\u05E0\u05D9',
+        [Parsha.TAZRIA]: '\u05EA\u05D6\u05E8\u05D9\u05E2',
+        [Parsha.METZORA]: '\u05DE\u05E6\u05E8\u05E2',
+        [Parsha.ACHREI_MOS]: '\u05D0\u05D7\u05E8\u05D9 \u05DE\u05D5\u05EA',
+        [Parsha.KEDOSHIM]: '\u05E7\u05D3\u05D5\u05E9\u05D9\u05DD',
+        [Parsha.EMOR]: '\u05D0\u05DE\u05D5\u05E8',
+        [Parsha.BEHAR]: '\u05D1\u05D4\u05E8',
+        [Parsha.BECHUKOSAI]: '\u05D1\u05D7\u05E7\u05EA\u05D9',
+        [Parsha.BAMIDBAR]: '\u05D1\u05DE\u05D3\u05D1\u05E8',
+        [Parsha.NASSO]: '\u05E0\u05E9\u05D0',
+        [Parsha.BEHAALOSCHA]: '\u05D1\u05D4\u05E2\u05DC\u05EA\u05DA',
+        [Parsha.SHLACH]: '\u05E9\u05DC\u05D7 \u05DC\u05DA',
+        [Parsha.KORACH]: '\u05E7\u05E8\u05D7',
+        [Parsha.CHUKAS]: '\u05D7\u05D5\u05E7\u05EA',
+        [Parsha.BALAK]: '\u05D1\u05DC\u05E7',
+        [Parsha.PINCHAS]: '\u05E4\u05D9\u05E0\u05D7\u05E1',
+        [Parsha.MATOS]: '\u05DE\u05D8\u05D5\u05EA',
+        [Parsha.MASEI]: '\u05DE\u05E1\u05E2\u05D9',
+        [Parsha.DEVARIM]: '\u05D3\u05D1\u05E8\u05D9\u05DD',
+        [Parsha.VAESCHANAN]: '\u05D5\u05D0\u05EA\u05D7\u05E0\u05DF',
+        [Parsha.EIKEV]: '\u05E2\u05E7\u05D1',
+        [Parsha.REEH]: '\u05E8\u05D0\u05D4',
+        [Parsha.SHOFTIM]: '\u05E9\u05D5\u05E4\u05D8\u05D9\u05DD',
+        [Parsha.KI_SEITZEI]: '\u05DB\u05D9 \u05EA\u05E6\u05D0',
+        [Parsha.KI_SAVO]: '\u05DB\u05D9 \u05EA\u05D1\u05D5\u05D0',
+        [Parsha.NITZAVIM]: '\u05E0\u05D9\u05E6\u05D1\u05D9\u05DD',
+        [Parsha.VAYEILECH]: '\u05D5\u05D9\u05DC\u05DA',
+        [Parsha.HAAZINU]: '\u05D4\u05D0\u05D6\u05D9\u05E0\u05D5',
+        [Parsha.VZOS_HABERACHA]: '\u05D5\u05D6\u05D0\u05EA \u05D4\u05D1\u05E8\u05DB\u05D4 ',
+        [Parsha.VAYAKHEL_PEKUDEI]: '\u05D5\u05D9\u05E7\u05D4\u05DC \u05E4\u05E7\u05D5\u05D3\u05D9',
+        [Parsha.TAZRIA_METZORA]: '\u05EA\u05D6\u05E8\u05D9\u05E2 \u05DE\u05E6\u05E8\u05E2',
+        [Parsha.ACHREI_MOS_KEDOSHIM]: '\u05D0\u05D7\u05E8\u05D9 \u05DE\u05D5\u05EA \u05E7\u05D3\u05D5\u05E9\u05D9\u05DD',
+        [Parsha.BEHAR_BECHUKOSAI]: '\u05D1\u05D4\u05E8 \u05D1\u05D7\u05E7\u05EA\u05D9',
+        [Parsha.CHUKAS_BALAK]: '\u05D7\u05D5\u05E7\u05EA \u05D1\u05DC\u05E7',
+        [Parsha.MATOS_MASEI]: '\u05DE\u05D8\u05D5\u05EA \u05DE\u05E1\u05E2\u05D9',
+        [Parsha.NITZAVIM_VAYEILECH]: '\u05E0\u05D9\u05E6\u05D1\u05D9\u05DD \u05D5\u05D9\u05DC\u05DA',
+        [Parsha.SHKALIM]: '\u05E9\u05E7\u05DC\u05D9\u05DD',
+        [Parsha.ZACHOR]: '\u05D6\u05DB\u05D5\u05E8',
+        [Parsha.PARA]: '\u05E4\u05E8\u05D4',
+        [Parsha.HACHODESH]: '\u05D4\u05D7\u05D3\u05E9',
+    };
 
     /**
      * returns if the {@link #formatDayOfWeek(JewishDate)} will use the long format such as
@@ -171,6 +311,15 @@ export class HebrewDateFormatter {
         return index === -1 ? "" : this.hebrewFormat ? HebrewDateFormatter.hebrewHolidays[index] : this.transliteratedHolidays[index];
     }
 
+  /**
+   * Formats a day as Rosh Chodesh in the format of in the format of &#x05E8;&#x05D0;&#x05E9;
+   * &#x05D7;&#x05D5;&#x05D3;&#x05E9; &#x05E9;&#x05D1;&#x05D8; or Rosh Chodesh Shevat. If it
+   * is not Rosh Chodesh, an empty <code>String</code> will be returned.
+   * @param jewishCalendar the JewishCalendar
+   * @return The formatted <code>String</code> in the format of &#x05E8;&#x05D0;&#x05E9;
+   * &#x05D7;&#x05D5;&#x05D3;&#x05E9; &#x05E9;&#x05D1;&#x05D8; or Rosh Chodesh Shevat. If it
+   * is not Rosh Chodesh, an empty <code>String</code> will be returned.
+   */
     public formatRoshChodesh(jewishCalendar: JewishCalendar): string {
         if (!jewishCalendar.isRoshChodesh()) {
             return "";
@@ -281,7 +430,10 @@ export class HebrewDateFormatter {
     }
 
     /**
-     * Unicode list of Hebrew months.
+     * Unicode list of Hebrew months in the format of ["\u05E0\u05D9\u05E1\u05DF","\u05D0\u05D9\u05D9\u05E8",
+     * "\u05E1\u05D9\u05D5\u05DF","\u05EA\u05DE\u05D5\u05D6","\u05D0\u05D1","\u05D0\u05DC\u05D5\u05DC",
+     * "\u05EA\u05E9\u05E8\u05D9","\u05D7\u05E9\u05D5\u05DF","\u05DB\u05E1\u05DC\u05D5","\u05D8\u05D1\u05EA",
+     * "\u05E9\u05D1\u05D8","\u05D0\u05D3\u05E8","\u05D0\u05D3\u05E8 \u05D1","\u05D0\u05D3\u05E8 \u05D0"]
      *
      * @see #formatMonth(JewishDate)
      */
@@ -292,78 +444,9 @@ export class HebrewDateFormatter {
             "\u05D0\u05D3\u05E8 \u05D0" ];
 
     /**
-     * list of transliterated parshiyos using the default Ashkenazi pronunciation. The formatParsha method uses this
-     * for transliterated parsha display. This list can be overridden (for Sephardi English transliteration for example)
-     * by setting the {@link #setTransliteratedParshiosList(String[])}.
-     *
-     * @see #formatParsha(JewishCalendar)
-     */
-    private transliteratedParshios: string[] = [ "Bereshis", "Noach", "Lech Lecha", "Vayera", "Chayei Sara", "Toldos",
-            "Vayetzei", "Vayishlach", "Vayeshev", "Miketz", "Vayigash", "Vayechi", "Shemos", "Vaera", "Bo",
-            "Beshalach", "Yisro", "Mishpatim", "Terumah", "Tetzaveh", "Ki Sisa", "Vayakhel", "Pekudei", "Vayikra",
-            "Tzav", "Shmini", "Tazria", "Metzora", "Achrei Mos", "Kedoshim", "Emor", "Behar", "Bechukosai", "Bamidbar",
-            "Nasso", "Beha'aloscha", "Sh'lach", "Korach", "Chukas", "Balak", "Pinchas", "Matos", "Masei", "Devarim",
-            "Vaeschanan", "Eikev", "Re'eh", "Shoftim", "Ki Seitzei", "Ki Savo", "Nitzavim", "Vayeilech", "Ha'Azinu",
-            "Vayakhel Pekudei", "Tazria Metzora", "Achrei Mos Kedoshim", "Behar Bechukosai", "Chukas Balak",
-            "Matos Masei", "Nitzavim Vayeilech" ];
-
-    /**
-     * Retruns the list of transliterated parshiyos used by this formatter.
-     *
-     * @return the list of transliterated Parshios
-     */
-    public getTransliteratedParshiosList(): string[] {
-        return this.transliteratedParshios;
-    }
-
-    /**
-     * Setter method to allow overriding of the default list of parshiyos transliterated into into Latin chars. The
-     * default uses Ashkenazi American English transliteration.
-     *
-     * @param transliteratedParshios
-     *            the transliterated Parshios to set
-     * @see #getTransliteratedParshiosList()
-     */
-    public setTransliteratedParshiosList(transliteratedParshios: string[]): void {
-        this.transliteratedParshios = transliteratedParshios;
-    }
-
-    /**
-     * Unicode list of Hebrew parshiyos.
-     */
-    private hebrewParshiyos: string[] = [ "\u05D1\u05E8\u05D0\u05E9\u05D9\u05EA", "\u05E0\u05D7",
-            "\u05DC\u05DA \u05DC\u05DA", "\u05D5\u05D9\u05E8\u05D0", "\u05D7\u05D9\u05D9 \u05E9\u05E8\u05D4",
-            "\u05EA\u05D5\u05DC\u05D3\u05D5\u05EA", "\u05D5\u05D9\u05E6\u05D0", "\u05D5\u05D9\u05E9\u05DC\u05D7",
-            "\u05D5\u05D9\u05E9\u05D1", "\u05DE\u05E7\u05E5", "\u05D5\u05D9\u05D2\u05E9", "\u05D5\u05D9\u05D7\u05D9",
-
-            "\u05E9\u05DE\u05D5\u05EA", "\u05D5\u05D0\u05E8\u05D0", "\u05D1\u05D0", "\u05D1\u05E9\u05DC\u05D7",
-            "\u05D9\u05EA\u05E8\u05D5", "\u05DE\u05E9\u05E4\u05D8\u05D9\u05DD", "\u05EA\u05E8\u05D5\u05DE\u05D4",
-            "\u05EA\u05E6\u05D5\u05D4", "\u05DB\u05D9 \u05EA\u05E9\u05D0", "\u05D5\u05D9\u05E7\u05D4\u05DC",
-            "\u05E4\u05E7\u05D5\u05D3\u05D9",
-
-            "\u05D5\u05D9\u05E7\u05E8\u05D0", "\u05E6\u05D5", "\u05E9\u05DE\u05D9\u05E0\u05D9",
-            "\u05EA\u05D6\u05E8\u05D9\u05E2", "\u05DE\u05E6\u05E8\u05E2",
-            "\u05D0\u05D7\u05E8\u05D9 \u05DE\u05D5\u05EA", "\u05E7\u05D3\u05D5\u05E9\u05D9\u05DD",
-            "\u05D0\u05DE\u05D5\u05E8", "\u05D1\u05D4\u05E8", "\u05D1\u05D7\u05E7\u05EA\u05D9",
-
-            "\u05D1\u05DE\u05D3\u05D1\u05E8", "\u05E0\u05E9\u05D0", "\u05D1\u05D4\u05E2\u05DC\u05EA\u05DA",
-            "\u05E9\u05DC\u05D7 \u05DC\u05DA", "\u05E7\u05E8\u05D7", "\u05D7\u05D5\u05E7\u05EA", "\u05D1\u05DC\u05E7",
-            "\u05E4\u05D9\u05E0\u05D7\u05E1", "\u05DE\u05D8\u05D5\u05EA", "\u05DE\u05E1\u05E2\u05D9",
-
-            "\u05D3\u05D1\u05E8\u05D9\u05DD", "\u05D5\u05D0\u05EA\u05D7\u05E0\u05DF", "\u05E2\u05E7\u05D1",
-            "\u05E8\u05D0\u05D4", "\u05E9\u05D5\u05E4\u05D8\u05D9\u05DD", "\u05DB\u05D9 \u05EA\u05E6\u05D0",
-            "\u05DB\u05D9 \u05EA\u05D1\u05D5\u05D0", "\u05E0\u05D9\u05E6\u05D1\u05D9\u05DD",
-            "\u05D5\u05D9\u05DC\u05DA", "\u05D4\u05D0\u05D6\u05D9\u05E0\u05D5",
-
-            "\u05D5\u05D9\u05E7\u05D4\u05DC \u05E4\u05E7\u05D5\u05D3\u05D9",
-            "\u05EA\u05D6\u05E8\u05D9\u05E2 \u05DE\u05E6\u05E8\u05E2",
-            "\u05D0\u05D7\u05E8\u05D9 \u05DE\u05D5\u05EA \u05E7\u05D3\u05D5\u05E9\u05D9\u05DD",
-            "\u05D1\u05D4\u05E8 \u05D1\u05D7\u05E7\u05EA\u05D9", "\u05D7\u05D5\u05E7\u05EA \u05D1\u05DC\u05E7",
-            "\u05DE\u05D8\u05D5\u05EA \u05DE\u05E1\u05E2\u05D9",
-            "\u05E0\u05D9\u05E6\u05D1\u05D9\u05DD \u05D5\u05D9\u05DC\u05DA" ];
-
-    /**
-     * Unicode list of Hebrew days of week.
+     * Unicode list of Hebrew days of week in the format of ["&#x05E8;&#x05D0;&#x05E9;&#x05D5;&#x05DF;",
+     * "&#x05E9;&#x05E0;&#x05D9;","&#x05E9;&#x05DC;&#x05D9;&#x05E9;&#x05D9;","&#x05E8;&#x05D1;&#x05D9;&#x05E2;&#x05D9;",
+     * "&#x05D7;&#x05DE;&#x05D9;&#x05E9;&#x05D9;","&#x05E9;&#x05E9;&#x05D9;","&#x05E9;&#x05D1;&#x05EA;"]
      */
     private static readonly hebrewDaysOfWeek: string[] = [ "\u05E8\u05D0\u05E9\u05D5\u05DF", "\u05E9\u05E0\u05D9",
             "\u05E9\u05DC\u05D9\u05E9\u05D9", "\u05E8\u05D1\u05D9\u05E2\u05D9", "\u05D7\u05DE\u05D9\u05E9\u05D9",
@@ -404,46 +487,10 @@ export class HebrewDateFormatter {
     }
 
     /**
-     * If the formatter is set to format in Hebrew, returns a string of the current parsha(ios) in Hebrew for example
-     * &#x05D1;&#x05E8;&#x05D0;&#x05E9;&#x05D9;&#x05EA; or &#x05E0;&#x05D9;&#x05E6;&#x05D1;&#x05D9;&#x05DD;
-     * &#x05D5;&#x05D9;&#x05DC;&#x05DA; or an empty string if there are none. If not set to Hebrew, it returns a string
-     * of the parsha(ios) transliterated into Latin chars. The default uses Ashkenazi pronunciation in typical American
-     * English spelling, for example Bereshis or Nitzavim Vayeilech or an empty string if there are none.
-     *
-     * @param jewishCalendar the JewishCalendar Object
-     * @return today's parsha(ios) in Hebrew for example, if the formatter is set to format in Hebrew, returns a string
-     *         of the current parsha(ios) in Hebrew for example &#x05D1;&#x05E8;&#x05D0;&#x05E9;&#x05D9;&#x05EA; or
-     *         &#x05E0;&#x05D9;&#x05E6;&#x05D1;&#x05D9;&#x05DD; &#x05D5;&#x05D9;&#x05DC;&#x05DA; or an empty string if
-     *         there are none. If not set to Hebrew, it returns a string of the parsha(ios) transliterated into Latin
-     *         chars. The default uses Ashkenazi pronunciation in typical American English spelling, for example
-     *         Bereshis or Nitzavim Vayeilech or an empty string if there are none.
-     */
-/*
-    public formatParsha(jewishCalendar: JewishCalendar): string {
-        const index: number = jewishCalendar.getParshaIndex();
-        return index === -1 ? "" : this.hebrewFormat ? this.hebrewParshiyos[index] : this.transliteratedParshios[index];
-    }
-*/
-
-    /**
-     * Returns a string of the parsha(ios) transliterated into Latin chars. The default uses Ashkenazi pronunciation in
-     * typical American English spelling, for example Bereshis or Nitzavim Vayeilech or an empty string if there are
-     * none.
-     *
-     * @param jewishCalendar the JewishCalendar Object
-     * @return a string of the parsha(ios) transliterated into Latin chars. The default uses Ashkenazi pronunciation in
-     *         typical American English spelling, for example Bereshis or Nitzavim Vayeilech or an empty string if there
-     *         are none.
-     */
-    // private getTransliteratedParsha(JewishCalendar jewishCalendar): String {
-    // return getTransliteratedParsha(jewishCalendar.getParshaIndex());
-    // }
-
-    /**
      * Returns whether the class is set to use the Geresh &#x5F3; and Gershayim &#x5F4; in formatting Hebrew dates and
-     * numbers. When true and output would look like &#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8;
-     * &#x5EA;&#x5E9;&#x5DA;&#x5F3;. When set to false, this output would display as &#x5DB;&#x5D0; &#x5E9;&#x5D1;&#x5D8;
-     * &#x5EA;&#x5E9;&#x5DA;.
+     * numbers. When true and output would look like &#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5F4;&#x5DB;
+     * (or &#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5F4;&#x5DA;). When set to false, this output
+     * would display as &#x5DB;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5DB;.
      *
      * @return true if set to use the Geresh &#x5F3; and Gershayim &#x5F4; in formatting Hebrew dates and numbers.
      */
@@ -453,9 +500,11 @@ export class HebrewDateFormatter {
 
     /**
      * Sets whether to use the Geresh &#x5F3; and Gershayim &#x5F4; in formatting Hebrew dates and numbers. The default
-     * value is true and output would look like &#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8;
-     * &#x5EA;&#x5E9;&#x5DA;&#x5F3;. When set to false, this output would display as &#x5DB;&#x5D0; &#x5E9;&#x5D1;&#x5D8;
-     * &#x5EA;&#x5E9;&#x5DA;.
+     * value is true and output would look like &#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5F4;&#x5DB;
+     * (or &#x5DB;&#x5F4;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5F4;&#x5DA;). When set to false, this output would
+     * display as &#x5DB;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5DB; (or
+     * &#x5DB;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5DA;). Single digit days or month or years such as &#x05DB;&#x05F3;
+     * &#x05E9;&#x05D1;&#x05D8; &#x05D5;&#x05F3; &#x05D0;&#x05DC;&#x05E4;&#x05D9;&#x05DD; show the use of the Geresh.
      *
      * @param useGershGershayim
      *            set to false to omit the Geresh &#x5F3; and Gershayim &#x5F4; in formatting
@@ -466,7 +515,8 @@ export class HebrewDateFormatter {
 
       /**
        * Returns whether the class is set to use the &#x05DE;&#x05E0;&#x05E6;&#x05E4;&#x05F4;&#x05DA; letters when
-       * formatting years ending in 20, 40, 50, 80 and 90. Traditionally non-final form letters are used, so the year
+       * formatting years ending in 20, 40, 50, 80 and 90 to produce &#x05EA;&#x05E9;&#x05F4;&#x05E4; if false or
+       * or &#x05EA;&#x05E9;&#x05F4;&#x05E3; if true. Traditionally non-final form letters are used, so the year
        * 5780 would be formatted as &#x05EA;&#x05E9;&#x05F4;&#x05E4; if the default false is used here. If this returns
        * true, the format &#x05EA;&#x05E9;&#x05F4;&#x05E3; would be used.
        *
@@ -687,6 +737,9 @@ export class HebrewDateFormatter {
      * @param num
      *            the number to be formatted. It will trow an IllegalArgumentException if the number is &lt; 0 or &gt; 9999.
      * @return the Hebrew formatted number such as &#x5EA;&#x5E9;&#x5DB;&#x5F4;&#x5D8;
+     * @see #isUseFinalFormLetters()
+     * @see #isUseGershGershayim()
+     * @see #isHebrewFormat()
      *
      */
     public formatHebrewNumber(num: number): string {
@@ -771,5 +824,73 @@ export class HebrewDateFormatter {
             }
         }
         return sb;
+    }
+
+    /**
+     * Returns the list of transliterated parshiyos used by this formatter.
+     *
+     * @return the list of transliterated Parshios
+     */
+    public getTransliteratedParshiosList(): Record<Parsha, string> {
+        return this.transliteratedParshaMap;
+    }
+
+    /**
+     * Setter method to allow overriding of the default list of parshiyos transliterated into into Latin chars. The
+     * default uses Ashkenazi American English transliteration.
+     *
+     * @param transliteratedParshaMap
+     *            the transliterated Parshios as an EnumMap to set
+     * @see #getTransliteratedParshiosList()
+     */
+    public setTransliteratedParshiosList(transliteratedParshaMap: Record<Parsha, string>): void {
+        this.transliteratedParshaMap = transliteratedParshaMap;
+    }
+
+    /**
+     * Returns a String with the name of the current parsha(ios). If the formatter is set to format in Hebrew, returns
+     * a string of the current parsha(ios) in Hebrew for example &#x05D1;&#x05E8;&#x05D0;&#x05E9;&#x05D9;&#x05EA; or
+     * &#x05E0;&#x05D9;&#x05E6;&#x05D1;&#x05D9;&#x05DD; &#x05D5;&#x05D9;&#x05DC;&#x05DA; or an empty string if there
+     * are none. If not set to Hebrew, it returns a string of the parsha(ios) transliterated into Latin chars. The
+     * default uses Ashkenazi pronunciation in typical American English spelling, for example Bereshis or
+     * Nitzavim Vayeilech or an empty string if there are none.
+     *
+     * @param jewishCalendar the JewishCalendar Object
+     * @return today's parsha(ios) in Hebrew for example, if the formatter is set to format in Hebrew, returns a string
+     *         of the current parsha(ios) in Hebrew for example &#x05D1;&#x05E8;&#x05D0;&#x05E9;&#x05D9;&#x05EA; or
+     *         &#x05E0;&#x05D9;&#x05E6;&#x05D1;&#x05D9;&#x05DD; &#x05D5;&#x05D9;&#x05DC;&#x05DA; or an empty string if
+     *         there are none. If not set to Hebrew, it returns a string of the parsha(ios) transliterated into Latin
+     *         chars. The default uses Ashkenazi pronunciation in typical American English spelling, for example
+     *         Bereshis or Nitzavim Vayeilech or an empty string if there are none.
+     */
+    public formatParsha(jewishCalendar: JewishCalendar): string {
+        const parsha: Parsha = jewishCalendar.getParsha();
+        return this.hebrewFormat
+          ? this.hebrewParshaMap[parsha] || ''
+          : this.transliteratedParshaMap[parsha] || '';
+    }
+
+    /**
+     * Returns a String with the name of the current special parsha of Shekalim, Zachor, Parah or Hachodesh or an
+     * empty String for a non-special parsha. If the formatter is set to format in Hebrew, it returns a string of
+     * the current special parsha in Hebrew, for example &#x05E9;&#x05E7;&#x05DC;&#x05D9;&#x05DD;,
+     * &#x05D6;&#x05DB;&#x05D5;&#x05E8;, &#x05E4;&#x05E8;&#x05D4; or &#x05D4;&#x05D7;&#x05D3;&#x05E9;. An empty
+     * string if the date is not a special parsha. If not set to Hebrew, it returns a string of the special parsha
+     * transliterated into Latin chars. The default uses Ashkenazi pronunciation in typical American English spelling
+     * Shekalim, Zachor, Parah or Hachodesh.
+     *
+     * @param jewishCalendar the JewishCalendar Object
+     * @return today's special parsha. If the formatter is set to format in Hebrew, returns a string
+     *         of the current special parsha  in Hebrew for in the format of &#x05E9;&#x05E7;&#x05DC;&#x05D9;&#x05DD;,
+     *         &#x05D6;&#x05DB;&#x05D5;&#x05E8;, &#x05E4;&#x05E8;&#x05D4; or &#x05D4;&#x05D7;&#x05D3;&#x05E9; or an empty
+     *         string if there are none. If not set to Hebrew, it returns a string of the special parsha transliterated
+     *         into Latin chars. The default uses Ashkenazi pronunciation in typical American English spelling of Shekalim,
+     *         Zachor, Parah or Hachodesh. An empty string if there are none.
+     */
+    public formatSpecialParsha(jewishCalendar: JewishCalendar): string {
+        const specialParsha: Parsha = jewishCalendar.getSpecialShabbos();
+        return this.hebrewFormat
+          ? this.hebrewParshaMap[specialParsha] || ''
+          : this.transliteratedParshaMap[specialParsha] || '';
     }
 }
