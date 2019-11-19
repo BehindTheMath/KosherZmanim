@@ -6,7 +6,14 @@ import {YerushalmiYomiCalculator} from "./YerushalmiYomiCalculator";
 
 import * as MomentTimezone from "moment-timezone";
 import Moment = MomentTimezone.Moment;
+import { Calendar } from "../polyfills/Utils";
 
+const {MONDAY, TUESDAY, THURSDAY, FRIDAY, SATURDAY} = Calendar;
+
+/**
+ * Note that despite there being a Vezos Habracha value, this is for consistency, and this is not currently used
+ *
+ */
 export enum Parsha {
     NONE, BERESHIS, NOACH, LECH_LECHA, VAYERA, CHAYEI_SARA, TOLDOS, VAYETZEI,
     VAYISHLACH, VAYESHEV, MIKETZ, VAYIGASH, VAYECHI, SHEMOS, VAERA, BO,
@@ -220,94 +227,178 @@ export class JewishCalendar extends JewishDate {
     }
 
     /**
-     * Return the type of year for parsha calculations.
+     * <a href="https://en.wikipedia.org/wiki/Birkat_Hachama">Birkas Hachamah</a> is recited every 28 years based on
+     * Tekufas Shmulel (Julian years) that a year is 365.25 days.
+     * This is calculated as every 10,227 days (28 * 365.25).
+     * @return true for a day that Birkas Hachamah is recited.
+     */
+    public isBirkasHachamah(): boolean {
+        // elapsed days since molad ToHu
+        let elapsedDays: number = JewishCalendar.getJewishCalendarElapsedDays(this.getJewishYear());
+        // elapsed days to the current calendar date
+        elapsedDays = elapsedDays + this.getDaysSinceStartOfJewishYear();
+        if (elapsedDays % (28 * 365.25) == 172) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Return the type of year for parsha calculations. The algorithm follows the Luach Arba'ah Shearim in the Tur Ohr Hachaim
      * @return the type of year for parsha calculations.
      * @todo Use constants in this class.
      */
-    private getYearType(): number {
-        const yearWday: number = (JewishCalendar.getJewishCalendarElapsedDays(this.getJewishYear()) + 1) % 7;
+    private getParshaYearType(): number {
+        // plus one to the original Rosh Hashana of year 1 to get a week starting on Sunday
+        let roshHashanaDayOfWeek: number = (JewishCalendar.getJewishCalendarElapsedDays(this.getJewishYear()) + 1) % 7;
+        if (roshHashanaDayOfWeek === 0) {
+            // convert 0 to 7 for Shabbos for readability
+            roshHashanaDayOfWeek = SATURDAY;
+        }
+
         if (this.isJewishLeapYear()) {
-            switch (yearWday) {
-                case 2:
+            switch (roshHashanaDayOfWeek) {
+                case MONDAY:
+                    // BaCh
                     if (this.isKislevShort()) {
-                        if (this.getInIsrael()) { return 14;}
+                        if (this.getInIsrael()) {
+                            return 14;
+                        }
                         return 6;
                     }
+
+                    // BaSh
                     if (this.isCheshvanLong()) {
-                        if (this.getInIsrael()) { return 15;}
+                        if (this.getInIsrael()) {
+                            return 15;
+                        }
                         return 7;
                     }
                     break;
-                case 3:
-                    if (this.getInIsrael()) { return 15;}
+                // GaK
+                case TUESDAY:
+                    if (this.getInIsrael()) {
+                        return 15;
+                    }
                     return 7;
-                case 5:
-                    if (this.isKislevShort()) {return 8;}
-                    if (this.isCheshvanLong()) {return 9;}
-                    break;
-                case 0:
-                    if (this.isKislevShort()) {return 10;}
+                case THURSDAY:
+                    // HaCh
+                    if (this.isKislevShort()) {
+                        return 8;
+                    }
+
+                    // HaSh
                     if (this.isCheshvanLong()) {
-                        if (this.getInIsrael()) { return 16;}
+                        return 9;
+                    }
+
+                    break;
+                case SATURDAY:
+                    // ZaCh
+                    if (this.isKislevShort()) {
+                        return 10;
+                    }
+
+                    // ZaSh
+                    if (this.isCheshvanLong()) {
+                        if (this.getInIsrael()) {
+                            return 16;
+                        }
                         return 11;
                     }
+
                     break;
             }
         } else {
-            switch (yearWday) {
-                case 2:
-                    if (this.isKislevShort()) {return 0;}
+            // not a leap year
+            switch (roshHashanaDayOfWeek) {
+                case MONDAY:
+                    // BaCh
+                    if (this.isKislevShort()) {
+                        return 0;
+                    }
+
+                    // BaSh
                     if (this.isCheshvanLong()) {
-                        if (this.getInIsrael()) { return 12;}
+                        if (this.getInIsrael()) {
+                            return 12;
+                        }
                         return 1;
                     }
+
                     break;
-                case 3:
-                    if (this.getInIsrael()) { return 12;}
+                case TUESDAY:
+                    // GaK
+                    if (this.getInIsrael()) {
+                        return 12;
+                    }
                     return 1;
-                case 5:
-                    if (this.isCheshvanLong()) {return 3;}
+                case THURSDAY:
+                    // HaSh
+                    if (this.isCheshvanLong()) {
+                        return 3;
+                    }
+
+                    // HaK
                     if (!this.isKislevShort()) {
-                        if (this.getInIsrael()) { return 13;}
+                        if (this.getInIsrael()) {
+                            return 13;
+                        }
                         return 2;
                     }
+
                     break;
-                case 0:
-                    if (this.isKislevShort()) {return 4;}
-                    if (this.isCheshvanLong()) {return 5;}
+                case SATURDAY:
+                    // ZaCh
+                    if (this.isKislevShort()) {
+                        return 4;
+                    }
+
+                    // ZaSh
+                    if (this.isCheshvanLong()) {
+                        return 5;
+                    }
+
                     break;
             }
         }
+
+        // keep the compiler happy
         return -1;
     }
 
     /**
      * Returns a parsha enum with the weeks parsha if it is Shabbos.
-     * returns NONE if a weekday or if there is no parsha that week (for example Yomtov is on Shabbos)
+     * returns Parsha.NONE if a weekday or if there is no parsha that week (for example Yomtov is on Shabbos)
      * @return the current parsha
      */
     public getParsha(): Parsha {
-        const yearType: number = this.getYearType();
-        const yearWday: number = JewishCalendar.getJewishCalendarElapsedDays(this.getJewishYear()) % 7;
-        const day: number = yearWday + this.getDaysSinceStartOfJewishYear();
-        if (this.getDayOfWeek() !== 7) {
+        if (this.getDayOfWeek() !== SATURDAY) {
             return Parsha.NONE
         }
+
+        const yearType: number = this.getParshaYearType();
+        const roshHashanaDayOfWeek: number = JewishCalendar.getJewishCalendarElapsedDays(this.getJewishYear()) % 7;
+        const day: number = roshHashanaDayOfWeek + this.getDaysSinceStartOfJewishYear();
+
+        // negative year should be impossible, but lets cover all bases
         if (yearType >= 0) {
             return JewishCalendar.parshalist[yearType][day / 7];
         }
+
+        // keep the compiler happy
         return Parsha.NONE;
     }
 
     /**
-     * returns a parsha enum if the week is one of the four parshiyos if it is Shabbos.
-     * returns NONE if a weekday
-     * @return one of the four parshiyos on those shabbosim.
+     * Returns a parsha enum if the Shabbos is one of the four parshiyos of Parsha.SHKALIM, Parsha.ZACHOR, Parsha.PARA,
+     * Parsha.HACHODESH or Parsha.NONE for a regular Shabbos (or any weekday).
+     * @return one of the four parshiyos of Parsha.SHKALIM, Parsha.ZACHOR, Parsha.PARA, Parsha.HACHODESH or Parsha.NONE.
      */
     public getSpecialShabbos(): Parsha {
-        if (this.getDayOfWeek() === 7) {
-            if ((this.getJewishMonth() === 11 && !this.isJewishLeapYear()) ||
-              (this.getJewishMonth() === 12 && this.isJewishLeapYear())) {
+        if (this.getDayOfWeek() === SATURDAY) {
+            if ((this.getJewishMonth() === JewishCalendar.SHEVAT && !this.isJewishLeapYear()) ||
+              (this.getJewishMonth() === JewishCalendar.ADAR && this.isJewishLeapYear())) {
                 if (this.getJewishDayOfMonth() === 25
                   || this.getJewishDayOfMonth() === 27
                   || this.getJewishDayOfMonth() === 29) {
@@ -315,33 +406,26 @@ export class JewishCalendar extends JewishDate {
                 }
             }
 
-            if ((this.getJewishMonth() === 12 && !this.isJewishLeapYear()) || this.getJewishMonth() === 13) {
+            if ((this.getJewishMonth() === JewishCalendar.ADAR && !this.isJewishLeapYear()) ||
+              this.getJewishMonth() === JewishCalendar.ADAR_II) {
                 if (this.getJewishDayOfMonth() === 1) {
                     return Parsha.SHKALIM;
                 }
 
-                if (this.getJewishDayOfMonth() === 8
-                  || this.getJewishDayOfMonth() === 9
-                  || this.getJewishDayOfMonth() === 11
-                  || this.getJewishDayOfMonth() === 13) {
+                if ([8, 9, 11, 13].includes(this.getJewishDayOfMonth())) {
                     return Parsha.ZACHOR;
                 }
 
-                if (this.getJewishDayOfMonth() === 18
-                  || this.getJewishDayOfMonth() === 20
-                  || this.getJewishDayOfMonth() === 22
-                  || this.getJewishDayOfMonth() === 23) {
+                if ([18, 20, 22, 23].includes(this.getJewishDayOfMonth())) {
                     return Parsha.PARA;
                 }
 
-                if (this.getJewishDayOfMonth() === 25
-                  || this.getJewishDayOfMonth() === 27
-                  || this.getJewishDayOfMonth() === 29) {
+                if ([25, 27, 29].includes(this.getJewishDayOfMonth())) {
                     return Parsha.HACHODESH;
                 }
             }
 
-            if (this.getJewishMonth() === 1 && this.getJewishDayOfMonth() === 1) {
+            if (this.getJewishMonth() === JewishCalendar.NISSAN && this.getJewishDayOfMonth() === 1) {
                 return Parsha.HACHODESH;
             }
         }
@@ -548,7 +632,7 @@ export class JewishCalendar extends JewishDate {
      * @return if the day is a <em>Yom Tov</em> that is <em>assur bemlacha</em> or <em>Shabbos</em>
      */
     public isAssurBemelacha(): boolean {
-        return this.getDayOfWeek() === 7 || this.isYomTovAssurBemelacha();
+        return this.getDayOfWeek() === SATURDAY || this.isYomTovAssurBemelacha();
     }
 
     /**
@@ -569,7 +653,7 @@ export class JewishCalendar extends JewishDate {
      * @return will return if the next day is <em>Shabbos</em> or <em>Yom Tov</em>
      */
     public isTomorrowShabbosOrYomTov(): boolean {
-        return this.getDayOfWeek() === 6 || this.isErevYomTov() || this.isErevYomTovSheni();
+        return this.getDayOfWeek() === FRIDAY || this.isErevYomTov() || this.isErevYomTovSheni();
     }
 
     /**
@@ -708,7 +792,7 @@ export class JewishCalendar extends JewishDate {
      * @return true if it is Shabbos and sunday is Rosh Chodesh.
      */
     public isMacharChodesh(): boolean {
-        return (this.getDayOfWeek() === 7 && (this.getJewishDayOfMonth() === 30 || this.getJewishDayOfMonth() === 29));
+        return (this.getDayOfWeek() === SATURDAY && (this.getJewishDayOfMonth() === 30 || this.getJewishDayOfMonth() === 29));
     }
 
     /**
@@ -717,7 +801,7 @@ export class JewishCalendar extends JewishDate {
      * @return true if it is Shabbos Mevorchim.
      */
     public isShabbosMevorchim(): boolean {
-        return (this.getDayOfWeek() === 7 && this.getJewishDayOfMonth() >= 23 && this.getJewishDayOfMonth() <= 29);
+        return (this.getDayOfWeek() === SATURDAY && this.getJewishDayOfMonth() >= 23 && this.getJewishDayOfMonth() <= 29);
     }
 
     /**

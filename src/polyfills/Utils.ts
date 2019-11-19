@@ -73,6 +73,14 @@ export namespace Calendar {
     export const NOVEMBER: number = 10;
     export const DECEMBER: number = 11;
 
+    export const SUNDAY: number = 1;
+    export const MONDAY: number = 2;
+    export const TUESDAY: number = 3;
+    export const WEDNESDAY: number = 4;
+    export const THURSDAY: number = 5;
+    export const FRIDAY: number = 6;
+    export const SATURDAY: number = 7;
+
     export const DATE = 5;
     export const MONTH = 2;
     export const YEAR = 1;
