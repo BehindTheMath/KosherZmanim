@@ -29,6 +29,13 @@ export class HebrewDateFormatter {
     private useFinalFormLetters: boolean = false;
     private weekFormat: "dddd" | "ddd" | null = null;
 
+  /**
+   * list of transliterated parshiyos using the default Ashkenazi pronounciation. The formatParsha method uses this
+   * for transliterated parsha display. This list can be overridden (for Sephardi English transliteration for example)
+   * by setting the {@link #setTransliteratedParshiosList(EnumMap)}.
+   *
+   * @see #formatParsha(JewishCalendar)
+   */
     private transliteratedParshaMap: Record<Parsha, string> = {
         [Parsha.NONE]: '',
         [Parsha.BERESHIS]: 'Bereshis',
