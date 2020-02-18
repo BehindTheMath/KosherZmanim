@@ -1,17 +1,12 @@
-import * as MomentTimezone from "moment-timezone";
-import Moment = MomentTimezone.Moment;
-import {Timezone} from 'timezones.json';
-const timezones: Timezone[] = require('timezones.json');
+import {DateTime, Info} from "luxon";
 
 export namespace Utils {
     // https://stackoverflow.com/a/40577337/8037425
     export function getAllMethodNames(obj: object, excludeContructors: boolean = false): Array<string> {
-        // let methods: Array<string> = [];
         const methods: Set<string> = new Set();
 
         while ((obj = Reflect.getPrototypeOf(obj)) && Reflect.getPrototypeOf(obj)) {
             const keys: Array<string> = Reflect.ownKeys(obj) as Array<string>;
-            // methods = methods.concat(keys);
             keys.filter((key: string) => !excludeContructors || key !== "constructor")
                 .forEach((key: string) => methods.add(key));
         }
@@ -29,30 +24,57 @@ export namespace TimeZone {
      * affected by daylight saving time, it is called <I>raw
      * offset</I>.
      *
+     * Since JS doesn't have a native function for this, use the lesser offset of January and July.
+     *
      * @return the amount of raw offset time in milliseconds to add to UTC.
      */
-    // TODO: This will return the current DST status, as opposed to Java which returns non-DST
-    export function getRawOffset(momentOrTimeZoneId: Moment | string): number {
-        const moment: Moment = MomentTimezone.isMoment(momentOrTimeZoneId) ?
-            momentOrTimeZoneId : MomentTimezone.tz(momentOrTimeZoneId);
+    export function getRawOffset(timeZoneId: string): number {
+        const janDateTime = DateTime.fromObject({
+            month: 1,
+            day: 1,
+            zone: timeZoneId,
+        });
+        const julyDateTime = janDateTime.set({ month: 7 });
 
-        const dstOffsetMinutes = moment.isDST() ? 60 : 0;
-        const offsetMinutes: number = moment.utcOffset() - dstOffsetMinutes;
-        return offsetMinutes * 60 * 1000;
+        let rawOffsetMinutes;
+        if (janDateTime.offset === julyDateTime.offset) {
+            rawOffsetMinutes = janDateTime.offset;
+        } else {
+            const max = Math.max(janDateTime.offset, julyDateTime.offset);
+
+            rawOffsetMinutes = max < 0
+              ? 0 - max
+              : 0 - Math.min(janDateTime.offset, julyDateTime.offset);
+        }
+
+        return rawOffsetMinutes * 60 * 1000;
     }
 
-    export function getDisplayName(timeZoneId: string, short: boolean = false): string {
-        const timezone: Timezone = timezones.filter((timezone: Timezone) =>
-          timezone.hasOwnProperty("utc") && timezone.utc.includes(timeZoneId))[0];
-        return short ? timezone.abbr : timezone.value;
+    /**
+     * Returns a name in the specified style of this TimeZone suitable for presentation to the user in the default locale.
+     * @param {string} timeZoneId
+     * @param {DateTime} [date]
+     * @param {boolean} [short]
+     */
+    export function getDisplayName(timeZoneId: string, date: DateTime = DateTime.local(), short: boolean = false): string {
+        return Info.normalizeZone(timeZoneId).offsetName(date.toMillis(), { format: short ? 'short' : 'long' });
     }
 
 /*
     export function getDSTSavings(): number {}
 */
 
+    /**
+     * Returns the offset of this time zone from UTC at the specified date. If Daylight Saving Time is in effect at the
+     * specified date, the offset value is adjusted with the amount of daylight saving.
+     *
+     * This method returns a historically correct offset value if an underlying TimeZone implementation subclass
+     * supports historical Daylight Saving Time schedule and GMT offset changes.
+     * @param {string} timeZoneId
+     * @param {number} millisSinceEpoch
+     */
     export function getOffset(timeZoneId: string, millisSinceEpoch: number): number {
-        return MomentTimezone(millisSinceEpoch).tz(timeZoneId).utcOffset() * 60 * 1000;
+        return Info.normalizeZone(timeZoneId).offset(millisSinceEpoch) * 60 * 1000;
     }
 }
 
@@ -84,24 +106,6 @@ export namespace Calendar {
     export const DATE = 5;
     export const MONTH = 2;
     export const YEAR = 1;
-
-    /**
-     * Returns the offset from UTC in ms.
-     * Calendar.get(Calendar.ZONE_OFFSET)
-     * @param moment
-     */
-    export function getZoneOffset(moment: Moment): number {
-        return moment.utcOffset() * 1000;
-    }
-
-    /**
-     * Returns the offset for DST in ms.
-     * Calendar.get(Calendar.DST_OFFSET)
-     * @param moment
-     */
-    export function getDstOffset(moment: Moment): number {
-        return moment.isDST() ? 60 * 60 * 1000 : 0;
-    }
 }
 
 /**
@@ -189,16 +193,11 @@ export namespace DateUtils {
      * @param date1
      * @param date2
      */
-    // @ts-ignore
-    export function compareTo(date1: Date | null, date2: Date | null): number {
+    export function compareTo(date1: DateTime | null, date2: DateTime | null): number {
         if (date1 === null || date2 === null) throw new Error('NullPointerException');
 
-        const date1Millis = date1.getTime();
-        const date2Millis = date2.getTime();
-
-        if (date1Millis === date2Millis) return 0;
-        else if (date1Millis < date2Millis) return -1;
-        else if (date1Millis > date2Millis) return 1;
+        if (date1.equals(date2)) return 0;
+        return date1 < date2 ? -1 : 1;
     }
 }
 

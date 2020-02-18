@@ -1,9 +1,7 @@
 import {Calendar} from "../polyfills/Utils";
 import {Daf} from "./Daf";
 import {JewishCalendar} from "./JewishCalendar";
-
-import * as MomentTimezone from "moment-timezone";
-import Moment = MomentTimezone.Moment;
+import { DateTime } from "luxon";
 
 /**
  * This class calculates the Daf Yomi Bavli page (daf) for a given date. To calculate Daf Yomi Yerushalmi
@@ -15,17 +13,9 @@ import Moment = MomentTimezone.Moment;
  */
 export class YomiCalculator {
     // TODO: readonly for all?
-    private static dafYomiStartDate: Date = MomentTimezone({
-        year: 1923,
-        month: Calendar.SEPTEMBER,
-        date: 11
-    }).toDate();
+    private static dafYomiStartDate: DateTime = DateTime.fromObject({ year: 1923, month: Calendar.SEPTEMBER + 1, day: 11 });
     private static dafYomiJulianStartDay: number = YomiCalculator.getJulianDay(YomiCalculator.dafYomiStartDate);
-    private static shekalimChangeDate: Date = MomentTimezone({
-        year: 1975,
-        month: Calendar.JUNE,
-        date: 24
-    }).toDate();
+    private static shekalimChangeDate: DateTime = DateTime.fromObject({ year: 1975, month: Calendar.JUNE + 1, day: 24 });
     private static shekalimJulianChangeDay: number = YomiCalculator.getJulianDay(YomiCalculator.shekalimChangeDate);
 
     /**
@@ -60,17 +50,17 @@ export class YomiCalculator {
         const blattPerMasechta: number[] = [ 64, 157, 105, 121, 22, 88, 56, 40, 35, 31, 32, 29, 27, 122, 112, 91, 66, 49, 90, 82,
                 119, 119, 176, 113, 24, 49, 76, 14, 120, 110, 142, 61, 34, 34, 28, 22, 4, 9, 5, 73 ];
 
-        const moment: Moment = calendar.getMoment();
+        const date: DateTime = calendar.getDate();
 
         let dafYomi: Daf;
-        const julianDay: number = this.getJulianDay(moment.toDate());
+        const julianDay: number = this.getJulianDay(date);
         let cycleNo: number = 0;
         let dafNo: number = 0;
-        if (moment.isBefore(YomiCalculator.dafYomiStartDate)) {
+        if (date < YomiCalculator.dafYomiStartDate) {
             // TODO: should we return a null or throw an IllegalArgumentException?
             throw new Error(`IllegalArgumentException: ${calendar} is prior to organized Daf Yomi Bavli cycles that started on ${YomiCalculator.dafYomiStartDate}`);
         }
-        if (moment.isSameOrAfter(YomiCalculator.shekalimChangeDate)) {
+        if ((date > YomiCalculator.shekalimChangeDate) || date.equals(YomiCalculator.shekalimChangeDate)) {
             cycleNo = 8 + ((julianDay - YomiCalculator.shekalimJulianChangeDay) / 2711);
             dafNo = ((julianDay - YomiCalculator.shekalimJulianChangeDay) % 2711);
         } else {
@@ -117,10 +107,10 @@ export class YomiCalculator {
      *            The Java Date
      * @return the Julian day number corresponding to the date
      */
-    private static getJulianDay(date: Date): number {
-        let year: number = date.getFullYear();
-        let month: number = date.getMonth() + 1;
-        const day: number = date.getDate();
+    private static getJulianDay(date: DateTime): number {
+        let year: number = date.year;
+        let month: number = date.month;
+        const day: number = date.day;
         if (month <= 2) {
             year -= 1;
             month += 12;

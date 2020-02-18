@@ -1,6 +1,7 @@
 import {Daf} from "./Daf";
 import {JewishDate} from "./JewishDate";
 import {JewishCalendar, Parsha} from "./JewishCalendar";
+import { DateTimeFormatOptions } from "luxon";
 
 /**
  * The HebrewDateFormatter class formats a {@link JewishDate}.
@@ -27,7 +28,7 @@ export class HebrewDateFormatter {
     private useGershGershayim: boolean = true;
     private longWeekFormat: boolean = true;
     private useFinalFormLetters: boolean = false;
-    private weekFormat: "dddd" | "ddd" | null = null;
+    private weekFormat: DateTimeFormatOptions | null = null;
 
   /**
    * list of transliterated parshiyos using the default Ashkenazi pronounciation. The formatParsha method uses this
@@ -198,7 +199,7 @@ export class HebrewDateFormatter {
     public setLongWeekFormat(longWeekFormat: boolean): void {
         this.longWeekFormat = longWeekFormat;
 
-        this.weekFormat = longWeekFormat ? "dddd" : "ddd";
+        this.weekFormat = longWeekFormat ? { weekday: 'long' } : { weekday: 'short' };
     }
 
     private static readonly GERESH: string = "\u05F3";
@@ -488,7 +489,10 @@ export class HebrewDateFormatter {
                     return this.getTransliteratedShabbosDayOfWeek().substring(0, 3);
                 }
             } else {
-                return jewishDate.getMoment().format(this.weekFormat || undefined);
+              const dateTime = jewishDate.getDate();
+                return this.weekFormat
+                  ? dateTime.toLocaleString(this.weekFormat)
+                  : dateTime.toISO();
             }
         }
     }

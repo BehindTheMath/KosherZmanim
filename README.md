@@ -1,6 +1,7 @@
 ## This project is at an alpha stage.
 
 Things will break, and APIs will change. Do not use this in production yet.
+Additionally, not all methods have been tested for accuracy.
 
 # Introduction
 Kosher Zmanim is a TS/JS port of the [KosherJava](KosherJava/zmanim) library.
@@ -8,7 +9,7 @@ Kosher Zmanim is a TS/JS port of the [KosherJava](KosherJava/zmanim) library.
 # Installation
 **NPM:**
 ```
-npm install --save kosher-zmanim
+npm install kosher-zmanim
 ```
 
 **UMD (browser):**
@@ -41,7 +42,7 @@ const { ComplexZmanimCalendar, getZmanimJson } = require("kosher-zmanim");
 For UMD, a global `KosherZmanim` object is exposed.
 
 #### Library Usage:
-The KosherJava library has been ported to JS, following the original API as close as possible. 
+The KosherJava library has been ported to JS, following the original API as close as possible.
 The classes are exposed as named exports. You can instantiate or extend those classes as necessary, the same way you would in Java.
 
 ```javascript
@@ -71,17 +72,20 @@ The `options` object has the following structure:
 ```
 
 ## Note about how zmanim are calculated
-The zmanim are calculated based on the day of year, which is not dependent on timezone. This means that the zmanim will be calculated for the location selected, on the day of year passed, and then displayed at the equivalent time in the selected timezone.
+This library uses [Luxon](https://moment.github.io/luxon) as a date/time library, since
+Javascript's `Date` object does not support setting timezones other than the system timezone.
+All class methods that return a `DateTime` object will be in UTC.
 
 # Breaking changes from KosherJava
 * `AstronomicalCalendar.getTemporalHour()` returns `null` instead of `Long.MIN_VALUE` if the calculations cannot be completed.
 * JS/TS does not have a parallel to Java's `Long.MIN_VALUE`, so `Long_MIN_VALUE` is set to `NaN`.
-* The following methods are not supported:  
+* The following methods are not supported:
   * `AstronomicalCalendar.toString()`
-  * `AstronomicalCalendar.toJSON()`  
+  * `AstronomicalCalendar.toJSON()`
   (Use `ZmanimFormatter.toJSON(astronomicalCalendar)` instead).
-  * `AstronomicalCalculator.getDefault()`  
+  * `AstronomicalCalculator.getDefault()`
   (Use `new NOAACalculator()` instead).
-  * `Time.toString()`  
+  * `Time.toString()`
   (Use `new ZmanimFormatter(TimeZone.getTimeZone("UTC")).format(time)` instead).
   * `ZmanimFormatter.toXML()`
+* Some method signatures are different, due to the differences between Java and JS.

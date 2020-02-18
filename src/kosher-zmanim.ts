@@ -3,12 +3,9 @@ import {ZmanimCalendar} from "./ZmanimCalendar";
 import {ComplexZmanimCalendar} from "./ComplexZmanimCalendar";
 import {JsonOutput, ZmanimFormatter} from "./util/ZmanimFormatter";
 
-import * as _MomentTimezone from "moment-timezone";
-import Moment = _MomentTimezone.Moment;
+import * as _Luxon from "luxon";
 
 export function getZmanimJson(options: Options): JsonOutput {
-  const moment: Moment = _MomentTimezone.tz(options.date, options.timeZoneId);
-
   const geoLocation: GeoLocation = new GeoLocation(options.locationName, options.latitude, options.longitude,
     options.elevation || 0);
   geoLocation.setTimeZone(options.timeZoneId);
@@ -16,7 +13,7 @@ export function getZmanimJson(options: Options): JsonOutput {
   const zmanimCalendar: ZmanimCalendar = options.complexZmanim
     ? new ComplexZmanimCalendar(geoLocation)
     : new ZmanimCalendar(geoLocation);
-  zmanimCalendar.setMoment(moment);
+  zmanimCalendar.setDate(options.date);
   return ZmanimFormatter.toJSON(zmanimCalendar);
 }
 
@@ -52,4 +49,4 @@ export * from "./hebrewcalendar/YerushalmiYomiCalculator";
 export * from "./hebrewcalendar/HebrewDateFormatter";
 export * from "./util/ZmanimFormatter";
 
-export const MomentTimezone = _MomentTimezone;
+export const Luxon = _Luxon;

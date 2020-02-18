@@ -1,7 +1,6 @@
 import {GeoLocation} from "./GeoLocation";
-import * as MomentTimezone from "moment-timezone";
-import Moment = MomentTimezone.Moment;
 import {MathUtils} from "../polyfills/Utils";
+import { DateTime } from "luxon";
 
 /**
  * An abstract class that all sun time calculating classes extend. This allows the algorithm used to be changed at
@@ -109,7 +108,7 @@ export abstract class AstronomicalCalculator {
      *         {@link java.lang.Double#NaN} will be returned.
      * @see #getElevationAdjustment(double)
      */
-    public abstract getUTCSunrise(moment: Moment, geoLocation: GeoLocation, zenith: number,
+    public abstract getUTCSunrise(date: DateTime, geoLocation: GeoLocation, zenith: number,
                                   adjustForElevation: boolean): number;
 
     /**
@@ -133,7 +132,7 @@ export abstract class AstronomicalCalculator {
      *         {@link java.lang.Double#NaN} will be returned.
      * @see #getElevationAdjustment(double)
      */
-    public abstract getUTCSunset(moment: Moment, geoLocation: GeoLocation, zenith: number,
+    public abstract getUTCSunset(date: DateTime, geoLocation: GeoLocation, zenith: number,
                                  adjustForElevation: boolean): number;
 
     /**

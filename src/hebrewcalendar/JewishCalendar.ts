@@ -3,10 +3,8 @@ import {Daf} from "./Daf";
 import {JewishDate} from "./JewishDate";
 import {YomiCalculator} from "./YomiCalculator";
 import {YerushalmiYomiCalculator} from "./YerushalmiYomiCalculator";
-
-import * as MomentTimezone from "moment-timezone";
-import Moment = MomentTimezone.Moment;
 import { Calendar } from "../polyfills/Utils";
+import { DateTime } from "luxon";
 
 const {MONDAY, TUESDAY, THURSDAY, FRIDAY, SATURDAY} = Calendar;
 
@@ -199,11 +197,11 @@ export class JewishCalendar extends JewishDate {
      */
     constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number, inIsrael?: boolean)
     constructor(date: Date)
-    constructor(moment: Moment)
+    constructor(date: DateTime)
     constructor()
-    constructor(jewishYearOrMomentOrDate?: number | Moment | Date, jewishMonth?: number, jewishDayOfMonth?: number, inIsrael?: boolean) {
+    constructor(jewishYearOrDateTimeOrDate?: number | Date | DateTime, jewishMonth?: number, jewishDayOfMonth?: number, inIsrael?: boolean) {
         // @ts-ignore
-        super(jewishYearOrMomentOrDate, jewishMonth, jewishDayOfMonth);
+        super(jewishYearOrDateTimeOrDate, jewishMonth, jewishDayOfMonth);
         if (inIsrael) this.setInIsrael(inIsrael);
     }
 
@@ -844,7 +842,7 @@ export class JewishCalendar extends JewishDate {
      *
      * @return the Date representing the moment of the molad in Yerushalayim standard time (GMT + 2)
      */
-    public getMoladAsDate(): Date {
+    public getMoladAsDate(): DateTime {
         const molad: JewishDate = this.getMolad();
         const locationName: string = "Jerusalem, Israel";
 
@@ -859,18 +857,18 @@ export class JewishCalendar extends JewishDate {
         const moladSeconds: number = molad.getMoladChalakim() * 10 / 3;
         // subtract local time difference of 20.94 minutes (20 minutes and 56.496 seconds) to get to Standard time
         const milliseconds: number = Math.trunc(1000 * (moladSeconds - Math.trunc(moladSeconds)));
-        const moment: Moment = MomentTimezone.tz({
+
+        return DateTime.fromObject({
             year: molad.getGregorianYear(),
             month: molad.getGregorianMonth(),
             day: molad.getGregorianDayOfMonth(),
-            hours: molad.getMoladHours(),
-            minutes: molad.getMoladMinutes(),
-            seconds: Math.trunc(moladSeconds),
-            milliseconds
-        }, geo.getTimeZone());
-        moment.subtract({milliseconds: Math.trunc(geo.getLocalMeanTimeOffset())});
-
-        return moment.toDate();
+            hour: molad.getMoladHours(),
+            minute: molad.getMoladMinutes(),
+            second: Math.trunc(moladSeconds),
+            millisecond: milliseconds,
+        })
+          .setZone(geo.getTimeZone())
+          .minus({milliseconds: Math.trunc(geo.getLocalMeanTimeOffset())});
     }
 
     /**
@@ -883,12 +881,10 @@ export class JewishCalendar extends JewishDate {
      * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getTchilasZmanKidushLevana3Days()
      * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getTchilasZmanKidushLevana3Days(Date, Date)
      */
-    public getTchilasZmanKidushLevana3Days(): Date {
-        const molad: Date = this.getMoladAsDate();
+    public getTchilasZmanKidushLevana3Days(): DateTime {
+        const molad: DateTime = this.getMoladAsDate();
 
-        const moment: Moment = MomentTimezone(molad).add({hours: 72});
-
-        return moment.toDate();
+        return molad.plus({hours: 72});
     }
 
     /**
@@ -903,12 +899,10 @@ export class JewishCalendar extends JewishDate {
      * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getTchilasZmanKidushLevana7Days()
      * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getTchilasZmanKidushLevana7Days(Date, Date)
      */
-    public getTchilasZmanKidushLevana7Days(): Date {
-        const molad: Date = this.getMoladAsDate();
+    public getTchilasZmanKidushLevana7Days(): DateTime {
+        const molad: DateTime = this.getMoladAsDate();
 
-        const moment: Moment = MomentTimezone(molad).add({hours: 168});
-
-        return moment.toDate();
+        return molad.plus({hours: 168});
     }
 
     /**
@@ -924,18 +918,16 @@ export class JewishCalendar extends JewishDate {
      * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getSofZmanKidushLevanaBetweenMoldos()
      * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getSofZmanKidushLevanaBetweenMoldos(Date, Date)
      */
-    public getSofZmanKidushLevanaBetweenMoldos(): Date {
-        const molad: Date = this.getMoladAsDate();
+    public getSofZmanKidushLevanaBetweenMoldos(): DateTime {
+        const molad: DateTime = this.getMoladAsDate();
 
-        const moment: Moment = MomentTimezone(molad).add({
-            day: 14,
+        return molad.plus({
+            days: 14,
             hours: 18,
             minutes: 22,
             seconds: 1,
-            milliseconds: 666
+            milliseconds: 666,
         });
-
-        return moment.toDate();
     }
 
     /**
@@ -955,12 +947,10 @@ export class JewishCalendar extends JewishDate {
      * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getSofZmanKidushLevana15Days()
      * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getSofZmanKidushLevana15Days(Date, Date)
      */
-    public getSofZmanKidushLevana15Days(): Date {
-        const molad: Date = this.getMoladAsDate();
+    public getSofZmanKidushLevana15Days(): DateTime {
+        const molad: DateTime = this.getMoladAsDate();
 
-        const moment: Moment = MomentTimezone(molad).add({days: 15});
-
-        return moment.toDate();
+        return molad.plus({days: 15});
     }
 
     /**

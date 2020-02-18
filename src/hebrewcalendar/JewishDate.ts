@@ -1,7 +1,5 @@
 import {Calendar} from "../polyfills/Utils";
-
-import * as MomentTimezone from "moment-timezone";
-import Moment = MomentTimezone.Moment;
+import { DateTime } from "luxon";
 
 /**
  * The JewishDate is the base calendar class, that supports maintenance of a {@link java.util.GregorianCalendar}
@@ -923,19 +921,19 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
     constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number)
     constructor(molad: number)
     constructor(date: Date)
-    constructor(moment: Moment)
+    constructor(date: DateTime)
     constructor()
-    constructor(jewishYearOrMomentOrDateOrMolad?: number | Moment | Date, jewishMonth?: number, jewishDayOfMonth?: number) {
-        if (!jewishYearOrMomentOrDateOrMolad) {
+    constructor(jewishYearOrDateTimeOrDateOrMolad?: number | Date | DateTime, jewishMonth?: number, jewishDayOfMonth?: number) {
+        if (!jewishYearOrDateTimeOrDateOrMolad) {
             this.resetDate();
         } else if (jewishMonth) {
-            this.setJewishDate(jewishYearOrMomentOrDateOrMolad as number, jewishMonth, jewishDayOfMonth!);
-        } else if (MomentTimezone.isMoment(jewishYearOrMomentOrDateOrMolad)) {
-            this.setDate(jewishYearOrMomentOrDateOrMolad as Moment);
-        } else if (jewishYearOrMomentOrDateOrMolad instanceof Date) {
-            this.setDate(jewishYearOrMomentOrDateOrMolad as Date);
-        } else if (typeof jewishYearOrMomentOrDateOrMolad === "number") {
-            const molad = jewishYearOrMomentOrDateOrMolad as number;
+            this.setJewishDate(jewishYearOrDateTimeOrDateOrMolad as number, jewishMonth, jewishDayOfMonth!);
+        } else if (jewishYearOrDateTimeOrDateOrMolad instanceof Date) {
+            this.setDate(DateTime.fromJSDate(jewishYearOrDateTimeOrDateOrMolad as Date));
+        } else if (DateTime.isDateTime(jewishYearOrDateTimeOrDateOrMolad)) {
+            this.setDate(jewishYearOrDateTimeOrDateOrMolad as DateTime);
+        } else if (typeof jewishYearOrDateTimeOrDateOrMolad === "number") {
+            const molad = jewishYearOrDateTimeOrDateOrMolad as number;
             this.absDateToDate(JewishDate.moladToAbsDate(molad));
             // long chalakimSince = getChalakimSinceMoladTohu(year, JewishDate.TISHREI);// tishrei
             const conjunctionDay: number = Math.trunc(molad / JewishDate.CHALAKIM_PER_DAY);
@@ -1006,21 +1004,19 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
     /**
      * Sets the date based on a {@link java.util.Calendar Calendar} object. Modifies the Jewish date as well.
      *
-     * @param moment
+     * @param date
      *            the <code>Calendar</code> to set the calendar to
      * @throws IllegalArgumentException
      *             if the {@link Calendar#ERA} is {@link GregorianCalendar#BC}
      */
-    public setDate(momentOrDate: Date | Moment): void {
-        const date: Date = MomentTimezone.isDate(momentOrDate) ? momentOrDate : momentOrDate.toDate();
-
-        if (date.getFullYear() < 1) {
-            throw new Error(`IllegalArgumentException: Dates with a BC era are not supported. The year ${date.getFullYear()} is invalid.`);
+    public setDate(date: DateTime): void {
+        if (date.year < 1) {
+            throw new Error(`IllegalArgumentException: Dates with a BC era are not supported. The year ${date.year} is invalid.`);
         }
 
-        this.gregorianMonth = date.getMonth() + 1;
-        this.gregorianDayOfMonth = date.getDate();
-        this.gregorianYear = date.getFullYear();
+        this.gregorianMonth = date.month;
+        this.gregorianDayOfMonth = date.day;
+        this.gregorianYear = date.year;
         this.gregorianAbsDate = JewishDate.gregorianDateToAbsDate(this.gregorianYear, this.gregorianMonth, this.gregorianDayOfMonth); // init the date
         this.absDateToJewishDate();
 
@@ -1166,11 +1162,11 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
      *
      * @return The {@link java.util.Calendar}
      */
-    public getMoment(): Moment {
-        return MomentTimezone({
+    public getDate(): DateTime {
+        return DateTime.fromObject({
             year: this.gregorianYear,
-            month: this.gregorianMonth - 1,
-            day: this.gregorianDayOfMonth
+            month: this.gregorianMonth,
+            day: this.gregorianDayOfMonth,
         });
     }
 
@@ -1178,7 +1174,7 @@ export class JewishDate /*implements Comparable<JewishDate>, Cloneable*/ {
      * Resets this date to the current system date.
      */
     public resetDate(): void {
-        this.setDate(MomentTimezone());
+        this.setDate(DateTime.local());
     }
 
     /**

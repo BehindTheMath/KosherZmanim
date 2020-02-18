@@ -1,4 +1,5 @@
 import {TimeZone, MathUtils} from "../polyfills/Utils";
+import { DateTime } from "luxon";
 
 /**
  * A class that contains location information such as latitude and longitude required for astronomical calculations. The
@@ -83,7 +84,7 @@ export class GeoLocation {
      * @param elevation
      *            the elevation above sea level in Meters. Elevation is not used in most algorithms used for calculating
      *            sunrise and set.
-     * @param timeZone
+     * @param timeZoneId
      *            the <code>TimeZone</code> for the location.
      */
     constructor(name: string, latitude: number, longitude: number, elevation: number, timeZoneId?: string)
@@ -536,23 +537,10 @@ export class GeoLocation {
      * </pre>
      *
      * @return The XML formatted <code>String</code>.
+     * @deprecated
      */
-    public toXML(): string {
-        const sb: string = "<GeoLocation>\n"
-            .concat("\t<LocationName>").concat(this.getLocationName()).concat("</LocationName>\n")
-            .concat("\t<Latitude>").concat(this.getLatitude().toString()).concat("</Latitude>\n")
-            .concat("\t<Longitude>").concat(this.getLongitude().toString()).concat("</Longitude>\n")
-            .concat("\t<Elevation>").concat(this.getElevation().toString()).concat(" Meters").concat("</Elevation>\n")
-            .concat("\t<TimezoneName>").concat(this.getTimeZone()).concat("</TimezoneName>\n")
-            .concat("\t<TimeZoneDisplayName>").concat(TimeZone.getDisplayName(this.getTimeZone())).concat("</TimeZoneDisplayName>\n")
-            .concat("\t<TimezoneGMTOffset>").concat((TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString())
-            .concat("</TimezoneGMTOffset>\n")
-            /*
-                    sb.append("\t<TimezoneDSTOffset>").append((this.getTimeZone().getDSTSavings() / GeoLocation.HOUR_MILLIS).toString())
-                            .append("</TimezoneDSTOffset>\n");
-            */
-            .concat("</GeoLocation>");
-        return sb;
+    public toXML(): void {
+        throw new Error('This method is deprecated');
     }
 
     /**
@@ -580,7 +568,7 @@ export class GeoLocation {
             .concat("\nElevation:\t\t\t").concat(this.getElevation().toString()).concat(" Meters")
             .concat("\nTimezone ID:\t\t\t").concat(this.getTimeZone())
             .concat("\nTimezone Display Name:\t\t").concat(TimeZone.getDisplayName(this.getTimeZone()))
-            .concat(" (").concat(TimeZone.getDisplayName(this.getTimeZone(), true)).concat(")")
+            .concat(" (").concat(TimeZone.getDisplayName(this.getTimeZone(), DateTime.local(), true)).concat(")")
             .concat("\nTimezone GMT Offset:\t\t").concat((TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString());
 /*
             sb.append("\nTimezone DST Offset:\t\t").append((this.getTimeZone().getDSTSavings() / GeoLocation.HOUR_MILLIS).toString());

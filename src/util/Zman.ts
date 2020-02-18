@@ -1,4 +1,5 @@
 import {DateUtils, StringUtils} from "../polyfills/Utils";
+import { DateTime } from "luxon";
 
 /**
  * Wrapper class for an astronomical time, mostly used to sort collections of
@@ -9,15 +10,15 @@ import {DateUtils, StringUtils} from "../polyfills/Utils";
  */
 export class Zman {
     zmanLabel: string;
-    zman?: Date;
+    zman?: DateTime;
     duration?: number;
     zmanDescription?: Date;
 
-    constructor(date: Date, label: string)
+    constructor(date: DateTime, label: string)
     constructor(duration: number, label: string)
-    constructor(dateOrDuration: number | Date, label: string) {
+    constructor(dateOrDuration: number | DateTime, label: string) {
         this.zmanLabel = label;
-        if (dateOrDuration instanceof Date) {
+        if (DateTime.isDateTime(dateOrDuration)) {
             this.zman = dateOrDuration;
         } else if (typeof dateOrDuration === "number") {
             this.duration = dateOrDuration;
@@ -43,5 +44,5 @@ export class Zman {
     }
 }
 
-export type ZmanWithZmanDate = Zman & {zman: Date};
+export type ZmanWithZmanDate = Zman & {zman: DateTime};
 export type ZmanWithDuration = Zman & {duration: number};
