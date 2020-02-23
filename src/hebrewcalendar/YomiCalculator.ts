@@ -12,11 +12,15 @@ import { DateTime } from "luxon";
  * @version 0.0.1
  */
 export class YomiCalculator {
-    // TODO: readonly for all?
-    private static dafYomiStartDate: DateTime = DateTime.fromObject({ year: 1923, month: Calendar.SEPTEMBER + 1, day: 11 });
-    private static dafYomiJulianStartDay: number = YomiCalculator.getJulianDay(YomiCalculator.dafYomiStartDate);
-    private static shekalimChangeDate: DateTime = DateTime.fromObject({ year: 1975, month: Calendar.JUNE + 1, day: 24 });
-    private static shekalimJulianChangeDay: number = YomiCalculator.getJulianDay(YomiCalculator.shekalimChangeDate);
+    private static readonly dafYomiStartDate: DateTime = DateTime.fromObject({
+        year: 1923,
+        month: Calendar.SEPTEMBER + 1,
+        day: 11,
+    });
+
+    private static readonly dafYomiJulianStartDay: number = YomiCalculator.getJulianDay(YomiCalculator.dafYomiStartDate);
+    private static readonly shekalimChangeDate: DateTime = DateTime.fromObject({ year: 1975, month: Calendar.JUNE + 1, day: 24 });
+    private static readonly shekalimJulianChangeDay: number = YomiCalculator.getJulianDay(YomiCalculator.shekalimChangeDate);
 
     /**
      * Returns the <a href="http://en.wikipedia.org/wiki/Daf_yomi">Daf Yomi</a> <a

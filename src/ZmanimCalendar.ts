@@ -174,7 +174,8 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      * calculation that the time between dawn and sunrise (and sunset to nightfall) is 72 minutes, the time that is
      * takes to walk 4 <em>mil</em> at 18 minutes a mil (<em><a href="https://en.wikipedia.org/wiki/Maimonides"
      * >Rambam</a></em> and others). The sun's position at 72 minutes before {@link #getSunrise sunrise} in Jerusalem
-     * on the equinox is 16.1&deg; below. See the {@link #GEOMETRIC_ZENITH} constant.
+     * on the equinox (on March 16, about 4 days before the astronomical equinox, the day that a solar hour is 60
+     * minutes) is 16.1&deg; below. See the {@link #GEOMETRIC_ZENITH} constant.
      *
      * @see #ZENITH_16_POINT_1
      * @see ComplexZmanimCalendar#getAlos16Point1Degrees()
