@@ -85,6 +85,10 @@ All class methods that return a `DateTime` object will be in UTC.
   (Use `ZmanimFormatter.toJSON(astronomicalCalendar)` instead).
   * `AstronomicalCalculator.getDefault()`
   (Use `new NOAACalculator()` instead).
+  * `JewishCalendar.getDafYomiBavli()`
+  (Use `YomiCalculator.getDafYomiBavli(jewishCalendar)` instead).
+  * `JewishCalendar.getDafYomiYerushalmi()`
+  (Use `YerushalmiYomiCalculator.getDafYomiYerushalmi(jewishCalendar)` instead).
   * `Time.toString()`
   (Use `new ZmanimFormatter(TimeZone.getTimeZone("UTC")).format(time)` instead).
   * `ZmanimFormatter.toXML()`
