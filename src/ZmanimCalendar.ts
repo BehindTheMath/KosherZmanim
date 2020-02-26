@@ -203,7 +203,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      *         documentation.
      */
     public getAlos72(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunrise(), -72 * ZmanimCalendar.MINUTE_MILLIS);
+        return ZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), -72 * ZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -246,7 +246,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      */
     public getSofZmanShma(startOfDay: DateTime | null, endOfDay: DateTime | null): DateTime | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-        return this.getTimeOffset(startOfDay, shaahZmanis * 3);
+        return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 3);
     }
 
     /**
@@ -306,7 +306,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      *         {@link AstronomicalCalendar} documentation.
      */
     public getTzais72(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), 72 * ZmanimCalendar.MINUTE_MILLIS);
+        return ZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), 72 * ZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -325,7 +325,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      * @see #setCandleLightingOffset(double)
      */
     public getCandleLighting(): DateTime | null {
-        return this.getTimeOffset(this.getSeaLevelSunset(), -this.getCandleLightingOffset() * ZmanimCalendar.MINUTE_MILLIS);
+        return ZmanimCalendar.getTimeOffset(this.getSeaLevelSunset(), -this.getCandleLightingOffset() * ZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -352,7 +352,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
      */
     public getSofZmanTfila(startOfDay: DateTime | null, endOfDay: DateTime | null): DateTime | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-        return this.getTimeOffset(startOfDay, shaahZmanis * 4);
+        return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 4);
     }
 
     /**
@@ -421,7 +421,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     public getMinchaGedola(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
                            endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-        return this.getTimeOffset(startOfDay, shaahZmanis * 6.5);
+        return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 6.5);
     }
 
     /**
@@ -477,7 +477,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     public getMinchaKetana(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
                            endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-        return this.getTimeOffset(startOfDay, shaahZmanis * 9.5);
+        return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 9.5);
     }
 
     /**
@@ -529,7 +529,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     public getPlagHamincha(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
                            endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
         const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-        return this.getTimeOffset(startOfDay, shaahZmanis * 10.75);
+        return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 10.75);
     }
 
     /**

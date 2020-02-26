@@ -691,7 +691,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getTzaisGeonim9Point75Degrees()
      */
     public getAlos60(): DateTime | null {
-        return this.getTimeOffset(this.getSunrise(), -60 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getSunrise(), -60 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -715,7 +715,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -1.2);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -1.2);
     }
 
     /**
@@ -732,7 +732,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         documentation.
      */
     public getAlos96(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunrise(), -96 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), -96 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -755,7 +755,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -1.5);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -1.5);
     }
 
     /**
@@ -778,7 +778,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -1.6);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -1.6);
     }
 
     /**
@@ -793,7 +793,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         documentation.
      */
     public getAlos90(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunrise(), -90 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), -90 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -808,7 +808,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         documentation.
      */
     public getAlos120(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunrise(), -120 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), -120 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -831,7 +831,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -2);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), shaahZmanis * -2);
     }
 
     /**
@@ -1225,7 +1225,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSofZmanTfila2HoursBeforeChatzos()
      */
     public getSofZmanShma3HoursBeforeChatzos(): DateTime | null {
-        return this.getTimeOffset(this.getChatzos(), -180 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getChatzos(), -180 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -1311,7 +1311,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
             return null;
         }
         const diff: number = (chatzos.valueOf() - this.getElevationAdjustedSunrise()!.valueOf()) / 2;
-        return this.getTimeOffset(chatzos, -diff);
+        return ComplexZmanimCalendar.getTimeOffset(chatzos, -diff);
     }
 
     /**
@@ -1527,7 +1527,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSofZmanShma3HoursBeforeChatzos()
      */
     public getSofZmanTfila2HoursBeforeChatzos(): DateTime | null {
-        return this.getTimeOffset(this.getChatzos(), -120 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getChatzos(), -120 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -1549,7 +1549,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getMinchaGedolaGreaterThan30()
      */
     public getMinchaGedola30Minutes(): DateTime | null {
-        return this.getTimeOffset(this.getChatzos(), ComplexZmanimCalendar.MINUTE_MILLIS * 30);
+        return ComplexZmanimCalendar.getTimeOffset(this.getChatzos(), ComplexZmanimCalendar.MINUTE_MILLIS * 30);
     }
 
     /**
@@ -1909,7 +1909,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *
      */
     public getBainHasmashosRT58Point5Minutes(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), 58.5 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), 58.5 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -1924,7 +1924,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getTzaisGeonim7Point083Degrees()
      */
     public getBainHasmashosRT13Point5MinutesBefore7Point083Degrees(): DateTime | null {
-        return this.getTimeOffset(this.getSunsetOffsetByDegrees(ComplexZmanimCalendar.ZENITH_7_POINT_083), -13.5 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getSunsetOffsetByDegrees(ComplexZmanimCalendar.ZENITH_7_POINT_083), -13.5 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -1946,7 +1946,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
             return null;
         }
 
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), (sunrise.valueOf() - alos19Point8.valueOf()) * (5 / 18));
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), (sunrise.valueOf() - alos19Point8.valueOf()) * (5 / 18));
     }
 
     /**
@@ -2213,7 +2213,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos60()
      */
     public getTzais60(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), 60 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), 60 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2233,7 +2233,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #setAteretTorahSunsetOffset(double)
      */
     public getTzaisAteretTorah(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), this.getAteretTorahSunsetOffset() * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), this.getAteretTorahSunsetOffset() * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2425,7 +2425,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 1.2);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 1.2);
     }
 
     /**
@@ -2442,7 +2442,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 1.5);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 1.5);
     }
 
     /**
@@ -2459,7 +2459,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 1.6);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 1.6);
     }
 
     /**
@@ -2478,7 +2478,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos90()
      */
     public getTzais90(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), 90 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), 90 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2496,7 +2496,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos120()
      */
     public getTzais120(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), 120 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), 120 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2513,7 +2513,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         if (shaahZmanis === Long_MIN_VALUE) {
             return null;
         }
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 2);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), shaahZmanis * 2);
     }
 
     /**
@@ -2582,7 +2582,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos96()
      */
     public getTzais96(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunset(), 96 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), 96 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2600,7 +2600,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
     public getFixedLocalChatzos(): DateTime | null {
         const geoLocation: GeoLocation = this.getGeoLocation();
         const rawOffsetHours = TimeZone.getRawOffset(geoLocation.getTimeZone()) / ComplexZmanimCalendar.HOUR_MILLIS;
-        return this.getTimeOffset(this.getDateFromTime(12 - rawOffsetHours, true),
+        return ComplexZmanimCalendar.getTimeOffset(this.getDateFromTime(12 - rawOffsetHours, true),
             -geoLocation.getLocalMeanTimeOffset());
     }
 
@@ -2614,7 +2614,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSofZmanTfilaFixedLocal()
      */
     public getSofZmanShmaFixedLocal(): DateTime | null {
-        return this.getTimeOffset(this.getFixedLocalChatzos(), -180 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getFixedLocalChatzos(), -180 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -2626,7 +2626,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getSofZmanShmaFixedLocal()
      */
     public getSofZmanTfilaFixedLocal(): DateTime | null {
-        return this.getTimeOffset(this.getFixedLocalChatzos(), -120 * ComplexZmanimCalendar.MINUTE_MILLIS);
+        return ComplexZmanimCalendar.getTimeOffset(this.getFixedLocalChatzos(), -120 * ComplexZmanimCalendar.MINUTE_MILLIS);
     }
 
     /**
@@ -3050,7 +3050,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         {@link AstronomicalCalendar} documentation.
      */
     public getSofZmanBiurChametzGRA(): DateTime | null {
-        return this.getTimeOffset(this.getElevationAdjustedSunrise(), this.getShaahZmanisGra() * 5);
+        return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), this.getShaahZmanisGra() * 5);
     }
 
     /**
@@ -3069,7 +3069,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos72()
      */
     public getSofZmanBiurChametzMGA72Minutes(): DateTime | null {
-        return this.getTimeOffset(this.getAlos72(), this.getShaahZmanisMGA() * 5);
+        return ComplexZmanimCalendar.getTimeOffset(this.getAlos72(), this.getShaahZmanisMGA() * 5);
     }
 
     /**
@@ -3089,7 +3089,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      * @see #getAlos16Point1Degrees()
      */
     public getSofZmanBiurChametzMGA16Point1Degrees(): DateTime | null {
-        return this.getTimeOffset(this.getAlos16Point1Degrees(), this.getShaahZmanis16Point1Degrees() * 5);
+        return ComplexZmanimCalendar.getTimeOffset(this.getAlos16Point1Degrees(), this.getShaahZmanis16Point1Degrees() * 5);
     }
 
     /**
@@ -3107,7 +3107,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
         clonedCal.setDate(clonedCal.getDate().plus({days: 1}));
         const sunset: DateTime | null = this.getSeaLevelSunset();
         const sunrise: DateTime | null = clonedCal.getSeaLevelSunrise();
-        return this.getTimeOffset(sunset, this.getTemporalHour(sunset, sunrise) * 6);
+        return ComplexZmanimCalendar.getTimeOffset(sunset, this.getTemporalHour(sunset, sunrise) * 6);
     }
 
     /**
@@ -3296,7 +3296,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
      *         {@link AstronomicalCalendar} documentation.
      */
     public getSofZmanBiurChametzBaalHatanya(): DateTime | null {
-        return this.getTimeOffset(this.getSunriseBaalHatanya(), this.getShaahZmanisBaalHatanya() * 5);
+        return ComplexZmanimCalendar.getTimeOffset(this.getSunriseBaalHatanya(), this.getShaahZmanisBaalHatanya() * 5);
     }
 
     /**

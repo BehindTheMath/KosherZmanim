@@ -314,7 +314,7 @@ export class AstronomicalCalendar {
      *            the offset in milliseconds to add to the time.
      * @return the {@link java.util.Date} with the offset in milliseconds added to it
      */
-    public getTimeOffset(time: DateTime | null, offset: number): DateTime | null {
+    public static getTimeOffset(time: DateTime | null, offset: number): DateTime | null {
         if (time === null || offset === Long_MIN_VALUE || Number.isNaN(offset)) {
             return null;
         }
@@ -550,7 +550,7 @@ export class AstronomicalCalendar {
      */
     public getSunTransit(startOfDay: DateTime | null = this.getSeaLevelSunrise(), endOfDay: DateTime | null = this.getSeaLevelSunset()): DateTime | null {
         const temporalHour: number = this.getTemporalHour(startOfDay, endOfDay);
-        return this.getTimeOffset(startOfDay, temporalHour * 6);
+        return AstronomicalCalendar.getTimeOffset(startOfDay, temporalHour * 6);
     }
 
     /**
@@ -610,7 +610,7 @@ export class AstronomicalCalendar {
         if (Number.isNaN(minutes)) return null;
 
         let offsetByDegrees: DateTime | null = this.getSeaLevelSunrise();
-        const offsetByTime: DateTime | null = this.getTimeOffset(this.getSeaLevelSunrise(), -(minutes * AstronomicalCalendar.MINUTE_MILLIS));
+        const offsetByTime: DateTime | null = AstronomicalCalendar.getTimeOffset(this.getSeaLevelSunrise(), -(minutes * AstronomicalCalendar.MINUTE_MILLIS));
 
         let degrees: Big = new Big(0);
         const incrementor: Big = new Big("0.0001");
@@ -637,7 +637,7 @@ export class AstronomicalCalendar {
         if (Number.isNaN(minutes)) return null;
 
         let offsetByDegrees: DateTime | null = this.getSeaLevelSunset();
-        const offsetByTime: DateTime | null = this.getTimeOffset(this.getSeaLevelSunset(), minutes * AstronomicalCalendar.MINUTE_MILLIS);
+        const offsetByTime: DateTime | null = AstronomicalCalendar.getTimeOffset(this.getSeaLevelSunset(), minutes * AstronomicalCalendar.MINUTE_MILLIS);
 
         let degrees: Big = new Big(0);
         const incrementor: Big = new Big("0.001");

@@ -664,7 +664,7 @@ export class HebrewDateFormatter {
      * @param moladChalakim - the chalakim of the molad
      * @return the formatted molad. FIXME: define proper format in English and Hebrew.
      */
-    private formatMolad(moladChalakim: number): string {
+    private static formatMolad(moladChalakim: number): string {
         let adjustedChalakim: number = moladChalakim;
         const MINUTE_CHALAKIM: number = 18;
         const HOUR_CHALAKIM: number = 1080;
