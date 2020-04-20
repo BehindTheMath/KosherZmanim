@@ -16,7 +16,7 @@
     "build:cjs": "tsc -module commonjs --outDir ./dist/lib-cjs/ -p ./src/",
     "build:es6": "tsc -module es6 --outDir ./dist/lib-es6/ -p ./src/",
     "build:types": "tsc --declaration true --emitDeclarationOnly --outDir ./dist/types/ -p ./src/",
-    "lint": "eslint --ext .ts ./src/",
+    "lint": "eslint --ext .ts src tests",
     "test": "jest",
     "prepublishOnly": "npm run build"
   },

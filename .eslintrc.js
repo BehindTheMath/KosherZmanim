@@ -50,5 +50,8 @@ module.exports = {
     }],
     'no-underscore-dangle': 'off',
     'operator-assignment': 'off',
+    '@typescript-eslint/no-use-before-define': ['error', {
+      functions: false,
+    }],
   },
 };
