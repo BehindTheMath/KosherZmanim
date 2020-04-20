@@ -248,25 +248,25 @@ export class AstronomicalCalendar {
     return this.getSunsetOffsetByDegrees(AstronomicalCalendar.ASTRONOMICAL_ZENITH);
   }
 
-    /**
-     * A utility method that returns a date offset by the offset time passed in. Please note that the level of light
-     * during twilight is not affected by elevation, so if this is being used to calculate an offset before sunrise or
-     * after sunset with the intent of getting a rough "level of light" calculation, the sunrise or sunset time passed
-     * to this method should be sea level sunrise and sunset.
-     *
-     * @param time
-     *            the start time
-     * @param offset
-     *            the offset in milliseconds to add to the time.
-     * @return the {@link java.util.Date} with the offset in milliseconds added to it
-     */
-    public static getTimeOffset(time: DateTime | null, offset: number): DateTime | null {
-        if (time === null || offset === Long_MIN_VALUE || Number.isNaN(offset)) {
-            return null;
-        }
-
-        return time.plus( { milliseconds: offset });
+  /**
+   * A utility method that returns a date offset by the offset time passed in. Please note that the level of light
+   * during twilight is not affected by elevation, so if this is being used to calculate an offset before sunrise or
+   * after sunset with the intent of getting a rough "level of light" calculation, the sunrise or sunset time passed
+   * to this method should be sea level sunrise and sunset.
+   *
+   * @param time
+   *            the start time
+   * @param offset
+   *            the offset in milliseconds to add to the time.
+   * @return the {@link java.util.Date} with the offset in milliseconds added to it
+   */
+  public static getTimeOffset(time: DateTime | null, offset: number): DateTime | null {
+    if (time === null || offset === Long_MIN_VALUE || Number.isNaN(offset)) {
+      return null;
     }
+
+    return time.plus({ milliseconds: offset });
+  }
 
   /**
    * A utility method that returns the time of an offset by degrees below or above the horizon of
@@ -444,7 +444,7 @@ export class AstronomicalCalendar {
    * @see #getTemporalHour()
    */
   public getTemporalHour(startOfday: DateTime | null = this.getSeaLevelSunrise(),
-      endOfDay: DateTime | null = this.getSeaLevelSunset()): number {
+                         endOfDay: DateTime | null = this.getSeaLevelSunset()): number {
     if (startOfday === null || endOfDay === null) {
       return Long_MIN_VALUE;
     }
@@ -471,28 +471,28 @@ export class AstronomicalCalendar {
       }
   */
 
-    /**
-     * A method that returns sundial or solar noon. It occurs when the Sun is <a href
-     * ="http://en.wikipedia.org/wiki/Transit_%28astronomy%29">transiting</a> the <a
-     * href="http://en.wikipedia.org/wiki/Meridian_%28astronomy%29">celestial meridian</a>. In this class it is
-     * calculated as halfway between the sunrise and sunset passed to this method. This time can be slightly off the
-     * real transit time due to changes in declination (the lengthening or shortening day).
-     *
-     * @param startOfDay
-     *            the start of day for calculating the sun's transit. This can be sea level sunrise, visual sunrise (or
-     *            any arbitrary start of day) passed to this method.
-     * @param endOfDay
-     *            the end of day for calculating the sun's transit. This can be sea level sunset, visual sunset (or any
-     *            arbitrary end of day) passed to this method.
-     *
-     * @return the <code>Date</code> representing Sun's transit. If the calculation can't be computed such as in the
-     *         Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
-     *         not set, null will be returned. See detailed explanation on top of the page.
-     */
-    public getSunTransit(startOfDay: DateTime | null = this.getSeaLevelSunrise(), endOfDay: DateTime | null = this.getSeaLevelSunset()): DateTime | null {
-        const temporalHour: number = this.getTemporalHour(startOfDay, endOfDay);
-        return AstronomicalCalendar.getTimeOffset(startOfDay, temporalHour * 6);
-    }
+  /**
+   * A method that returns sundial or solar noon. It occurs when the Sun is <a href
+   * ="http://en.wikipedia.org/wiki/Transit_%28astronomy%29">transiting</a> the <a
+   * href="http://en.wikipedia.org/wiki/Meridian_%28astronomy%29">celestial meridian</a>. In this class it is
+   * calculated as halfway between the sunrise and sunset passed to this method. This time can be slightly off the
+   * real transit time due to changes in declination (the lengthening or shortening day).
+   *
+   * @param startOfDay
+   *            the start of day for calculating the sun's transit. This can be sea level sunrise, visual sunrise (or
+   *            any arbitrary start of day) passed to this method.
+   * @param endOfDay
+   *            the end of day for calculating the sun's transit. This can be sea level sunset, visual sunset (or any
+   *            arbitrary end of day) passed to this method.
+   *
+   * @return the <code>Date</code> representing Sun's transit. If the calculation can't be computed such as in the
+   *         Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
+   *         not set, null will be returned. See detailed explanation on top of the page.
+   */
+  public getSunTransit(startOfDay: DateTime | null = this.getSeaLevelSunrise(), endOfDay: DateTime | null = this.getSeaLevelSunset()): DateTime | null {
+    const temporalHour: number = this.getTemporalHour(startOfDay, endOfDay);
+    return AstronomicalCalendar.getTimeOffset(startOfDay, temporalHour * 6);
+  }
 
   /**
    * A method that returns a <code>Date</code> from the time passed in as a parameter.
@@ -550,8 +550,8 @@ export class AstronomicalCalendar {
   public getSunriseSolarDipFromOffset(minutes: number): number | null {
     if (Number.isNaN(minutes)) return null;
 
-        let offsetByDegrees: DateTime | null = this.getSeaLevelSunrise();
-        const offsetByTime: DateTime | null = AstronomicalCalendar.getTimeOffset(this.getSeaLevelSunrise(), -(minutes * AstronomicalCalendar.MINUTE_MILLIS));
+    let offsetByDegrees: DateTime | null = this.getSeaLevelSunrise();
+    const offsetByTime: DateTime | null = AstronomicalCalendar.getTimeOffset(this.getSeaLevelSunrise(), -(minutes * AstronomicalCalendar.MINUTE_MILLIS));
 
     let degrees: Big = new Big(0);
     const incrementor: Big = new Big('0.0001');
@@ -577,8 +577,8 @@ export class AstronomicalCalendar {
   public getSunsetSolarDipFromOffset(minutes: number): number | null {
     if (Number.isNaN(minutes)) return null;
 
-        let offsetByDegrees: DateTime | null = this.getSeaLevelSunset();
-        const offsetByTime: DateTime | null = AstronomicalCalendar.getTimeOffset(this.getSeaLevelSunset(), minutes * AstronomicalCalendar.MINUTE_MILLIS);
+    let offsetByDegrees: DateTime | null = this.getSeaLevelSunset();
+    const offsetByTime: DateTime | null = AstronomicalCalendar.getTimeOffset(this.getSeaLevelSunset(), minutes * AstronomicalCalendar.MINUTE_MILLIS);
 
     let degrees: Big = new Big(0);
     const incrementor: Big = new Big('0.001');

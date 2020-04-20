@@ -1,12 +1,12 @@
-import {DateUtils, MathUtils, StringUtils, TimeZone, Utils} from "../src/polyfills/Utils";
-import {DateTime} from "luxon";
+import { DateTime } from 'luxon';
+import { DateUtils, MathUtils, StringUtils, TimeZone, Utils } from '../src/polyfills/Utils';
 
-const janDateTime = DateTime.fromMillis(1483228800000, {zone: 'UTC'});
-const julyDateTime = DateTime.fromMillis(1498867200000, {zone: 'UTC'});
+const janDateTime = DateTime.fromMillis(1483228800000, { zone: 'UTC' });
+const julyDateTime = DateTime.fromMillis(1498867200000, { zone: 'UTC' });
 
 describe('test Utils', function () {
-  test("Tests Utils.getAllMethodNames()", function () {
-    class baseClass {
+  test('Tests Utils.getAllMethodNames()', function () {
+    class BaseClass {
       constructor() {
       }
 
@@ -20,7 +20,7 @@ describe('test Utils', function () {
       }
     }
 
-    class subClass extends baseClass {
+    class SubClass extends BaseClass {
       constructor() {
         super();
       }
@@ -35,31 +35,31 @@ describe('test Utils', function () {
       }
     }
 
-    const expectedMethods: Array<string> = ["constructor", "privateMethod", "protectedMethod", "publicMethod",
-      "subClassPrivateMethod", "subClassProtectedMethod", "subClassPublicMethod"];
-    expect(Utils.getAllMethodNames(new subClass())).toEqual(expectedMethods);
+    const expectedMethods: Array<string> = ['constructor', 'privateMethod', 'protectedMethod', 'publicMethod',
+      'subClassPrivateMethod', 'subClassProtectedMethod', 'subClassPublicMethod'];
+    expect(Utils.getAllMethodNames(new SubClass())).toEqual(expectedMethods);
 
-    const expectedMethodsWithoutConstructor: Array<string> = ["privateMethod", "protectedMethod", "publicMethod", "subClassPrivateMethod",
-      "subClassProtectedMethod", "subClassPublicMethod"];
-    expect(Utils.getAllMethodNames(new subClass(), true)).toEqual(expectedMethodsWithoutConstructor);
+    const expectedMethodsWithoutConstructor: Array<string> = ['privateMethod', 'protectedMethod', 'publicMethod', 'subClassPrivateMethod',
+      'subClassProtectedMethod', 'subClassPublicMethod'];
+    expect(Utils.getAllMethodNames(new SubClass(), true)).toEqual(expectedMethodsWithoutConstructor);
   });
 });
 
 describe('Test TimeZone', function () {
-  test("Gets the raw offset for Australia/Eucla", function () {
-    const result = TimeZone.getRawOffset("Australia/Eucla");
+  test('Gets the raw offset for Australia/Eucla', function () {
+    const result = TimeZone.getRawOffset('Australia/Eucla');
     const expected = 8.75 * 60 * 60 * 1000;
     expect(result).toEqual(expected);
   });
 
-  test("Gets the raw offset for Australia/Eucla on 2019/01/01 00:00:00Z", function () {
-    const result = TimeZone.getOffset("Australia/Eucla", julyDateTime.valueOf());
+  test('Gets the raw offset for Australia/Eucla on 2019/01/01 00:00:00Z', function () {
+    const result = TimeZone.getOffset('Australia/Eucla', julyDateTime.valueOf());
     const expected = 8.75 * 60 * 60 * 1000;
     expect(result).toEqual(expected);
   });
 
-  test("Gets the raw offset for Australia/Eucla on 2019/07/01 00:00:00Z", function () {
-    const result = TimeZone.getOffset("Australia/Eucla", julyDateTime.valueOf());
+  test('Gets the raw offset for Australia/Eucla on 2019/07/01 00:00:00Z', function () {
+    const result = TimeZone.getOffset('Australia/Eucla', julyDateTime.valueOf());
     const expected = 8.75 * 60 * 60 * 1000;
     expect(result).toEqual(expected);
   });
@@ -81,19 +81,19 @@ describe('Test MathUtils', function () {
 });
 
 describe('Test StringUtils', function () {
-  test("test StringUtils.compareTo()", function () {
-    expect(StringUtils.compareTo("test3.ts", "test3.ts")).toEqual(0);
+  test('test StringUtils.compareTo()', function () {
+    expect(StringUtils.compareTo('test3.ts', 'test3.ts')).toEqual(0);
 
-    expect(StringUtils.compareTo("test1234", "test1.ts")).toEqual(4);
+    expect(StringUtils.compareTo('test1234', 'test1.ts')).toEqual(4);
 
-    expect(StringUtils.compareTo("test1.ts", "test1234")).toEqual(-4);
+    expect(StringUtils.compareTo('test1.ts', 'test1234')).toEqual(-4);
 
-    expect(StringUtils.compareTo("test12", "test234")).toEqual(-1);
+    expect(StringUtils.compareTo('test12', 'test234')).toEqual(-1);
   });
 });
 
 describe('Test DateUtils', function () {
-  test("test DateUtils.compareTo()", function () {
+  test('test DateUtils.compareTo()', function () {
     expect(DateUtils.compareTo(janDateTime, janDateTime)).toEqual(0);
 
     expect(DateUtils.compareTo(janDateTime, julyDateTime)).toEqual(-1);

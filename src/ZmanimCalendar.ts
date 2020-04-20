@@ -202,9 +202,9 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         a null will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}
    *         documentation.
    */
-    public getAlos72(): DateTime | null {
-        return ZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), -72 * ZmanimCalendar.MINUTE_MILLIS);
-    }
+  public getAlos72(): DateTime | null {
+    return ZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), -72 * ZmanimCalendar.MINUTE_MILLIS);
+  }
 
   /**
    * This method returns <em>chatzos</em> (midday) following most opinions that <em>chatzos</em> is the midpoint
@@ -245,9 +245,9 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getSofZmanShma(startOfDay: DateTime | null, endOfDay: DateTime | null): DateTime | null {
-        const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-        return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 3);
-    }
+    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
+    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 3);
+  }
 
   /**
    * This method returns the latest <em>zman krias shema</em> (time to recite shema in the morning) that is 3 *
@@ -305,9 +305,9 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         and one where it does not set, a null will be returned See detailed explanation on top of the
    *         {@link AstronomicalCalendar} documentation.
    */
-    public getTzais72(): DateTime | null {
-        return ZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), 72 * ZmanimCalendar.MINUTE_MILLIS);
-    }
+  public getTzais72(): DateTime | null {
+    return ZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), 72 * ZmanimCalendar.MINUTE_MILLIS);
+  }
 
   /**
    * A method to return candle lighting time, calculated as {@link #getCandleLightingOffset()} minutes before
@@ -324,9 +324,9 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @see #getCandleLightingOffset()
    * @see #setCandleLightingOffset(double)
    */
-    public getCandleLighting(): DateTime | null {
-        return ZmanimCalendar.getTimeOffset(this.getSeaLevelSunset(), -this.getCandleLightingOffset() * ZmanimCalendar.MINUTE_MILLIS);
-    }
+  public getCandleLighting(): DateTime | null {
+    return ZmanimCalendar.getTimeOffset(this.getSeaLevelSunset(), -this.getCandleLightingOffset() * ZmanimCalendar.MINUTE_MILLIS);
+  }
 
   /**
    * A generic method for calculating the latest <em>zman tfilah</em> (time to recite the morning prayers)
@@ -351,9 +351,9 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getSofZmanTfila(startOfDay: DateTime | null, endOfDay: DateTime | null): DateTime | null {
-        const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-        return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 4);
-    }
+    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
+    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 4);
+  }
 
   /**
    * This method returns the latest <em>zman tfila</em> (time to recite shema in the morning) that is 4 *
@@ -419,10 +419,10 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getMinchaGedola(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
-      endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
-        const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-        return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 6.5);
-    }
+                         endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
+    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
+    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 6.5);
+  }
 
   /**
    * This method returns the latest <em>mincha gedola</em>,the earliest time one can pray <em>mincha</em> that is 6.5 *
@@ -476,10 +476,10 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getMinchaKetana(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
-      endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
-        const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-        return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 9.5);
-    }
+                         endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
+    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
+    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 9.5);
+  }
 
   /**
    * This method returns <em>mincha ketana</em>,the preferred earliest time to pray <em>mincha</em> in the
@@ -529,10 +529,10 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getPlagHamincha(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
-      endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
-        const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-        return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 10.75);
-    }
+                         endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
+    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
+    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 10.75);
+  }
 
   /**
    * This method returns <em>plag hamincha</em>, that is 10.75 * <em>{@link #getShaahZmanisGra() shaos zmaniyos}</em>
@@ -616,6 +616,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @param location
    *            the location
    */
+
   /*
   constructor(location?: GeoLocation) {
     super(location);
