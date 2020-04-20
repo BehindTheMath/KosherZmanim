@@ -1,3 +1,9 @@
+# v0.6.0
+### Breaking Changes:
+* Moment and Moment Timezone have been replaced with [Luxon](https://moment.github.io/luxon/index.html).  
+  Any methods that previously took `Moment` instances as arguments now take Luxon class instances.
+* `AstronomicalCalendar.getTimeOffset()` has been changed to a static method.
+
 # v0.5.0
 ### Breaking Changes:
 * The spelling has changed from `Parshah` to `Parsha`.
