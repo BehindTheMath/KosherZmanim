@@ -1,6 +1,6 @@
 ## This project is at an alpha stage.
 
-Things will break, and APIs will change. Do not use this in production yet.
+Things will break, and APIs might change. Be cautious using this in production.
 Additionally, not all methods have been tested for accuracy.
 
 # Introduction
@@ -16,6 +16,9 @@ npm install kosher-zmanim
 ```html
 <script src="https://unpkg.com/kosher-zmanim/dist/kosher-zmanim.min.js"></script>
 ```
+
+It is highly recommended that you pin the version (e.g. `https://unpkg.com/kosher-zmanim@0.6.0/dist/kosher-zmanim.min.js`),
+so updates don't break your app.
 
 # Usage and Documentation
 #### Importing
@@ -49,13 +52,14 @@ The classes are exposed as named exports. You can instantiate or extend those cl
 const zmanimCalendar = new KosherZmanim.ZmanimCalendar();
 ```
 
+See the [KosherJava API documentation](https://kosherjava.com/zmanim/docs/api/index.html?overview-summary.html) for more details.
+
 #### Simple usage
 Alternatively, there is a `getZmanimJson()` utility method.
 
 ```javascript
 const zmanim = KosherZmanim.getZmanimJson(options);
 ```
-(See [here](/examples/frontend-example/frontend-example.html) for an example).
 
 ##### `options` object
 The `options` object has the following structure:
