@@ -871,7 +871,7 @@ export class JewishCalendar extends JewishDate {
 
     // The molad calculation always expects output in standard time. Using "Asia/Jerusalem" timezone will incorrect
     // adjust for DST.
-    const yerushalayimStandardTZ: string = 'Etc/GMT-2';
+    const yerushalayimStandardTZ: string = 'Etc/GMT+2';
     const geo: GeoLocation = new GeoLocation(locationName, latitude, longitude, yerushalayimStandardTZ);
 
     const moladSeconds: number = (molad.getMoladChalakim() * 10) / 3;
