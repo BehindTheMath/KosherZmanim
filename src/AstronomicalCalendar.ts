@@ -331,8 +331,8 @@ export class AstronomicalCalendar {
    * @see #setAstronomicalCalculator(AstronomicalCalculator) for changing the calculator class.
    */
   constructor(geoLocation: GeoLocation = new GeoLocation()) {
-    this.setDate(DateTime.fromObject({ zone: geoLocation.getTimeZone() }));
-    this.setGeoLocation(geoLocation); // duplicate call
+    this.date = DateTime.local();
+    this.setGeoLocation(geoLocation);
     this.setAstronomicalCalculator(new NOAACalculator());
   }
 
@@ -533,7 +533,7 @@ export class AstronomicalCalendar {
       minute: minutes,
       second: seconds,
       millisecond: Math.trunc(calculatedTime * 1000),
-    });
+    }).setZone(this.geoLocation.getTimeZone());
   }
 
   /**
@@ -702,14 +702,16 @@ export class AstronomicalCalendar {
    *            The calendar to set.
    */
   public setDate(date: DateTime | Date | string | number): void {
+    const zone: string = this.geoLocation.getTimeZone();
+
     if (DateTime.isDateTime(date)) {
-      this.date = date;
+      this.date = date.setZone(zone);
     } else if (date instanceof Date) {
-      this.date = DateTime.fromJSDate(date);
+      this.date = DateTime.fromJSDate(date, { zone });
     } else if (typeof date === 'string') {
-      this.date = DateTime.fromISO(date);
+      this.date = DateTime.fromISO(date, { zone });
     } else if (typeof date === 'number') {
-      this.date = DateTime.fromMillis(date);
+      this.date = DateTime.fromMillis(date, { zone });
     }
   }
 
