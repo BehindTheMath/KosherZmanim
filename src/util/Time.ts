@@ -1,3 +1,5 @@
+import { UnsupportedError } from '../polyfills/errors';
+
 /**
  * A class that represents a numeric time. Times that represent a time of day are stored as {@link java.util.Date}s in
  * this API. The time class is used to represent numeric time such as the time in hours, minutes, seconds and
@@ -151,7 +153,7 @@ export class Time {
    */
   // eslint-disable-next-line class-methods-use-this
   public toString(): string {
-    throw new Error('This method is deprecated, due to the fact that it depends on a circular dependency. ' +
+    throw new UnsupportedError('This method is deprecated, due to the fact that it depends on a circular dependency. ' +
       'Use `new ZmanimFormatter(TimeZone.getTimeZone(\'UTC\')).format(time)` instead');
   }
 }

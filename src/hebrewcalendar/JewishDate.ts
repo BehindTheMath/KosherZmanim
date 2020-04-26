@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { Calendar, IntegerUtils } from '../polyfills/Utils';
+import { IllegalArgumentException } from '../polyfills/errors';
 
 /**
  * The JewishDate is the base calendar class, that supports maintenance of a {@link java.util.GregorianCalendar}
@@ -560,27 +561,27 @@ export class JewishDate {
    */
   private static validateJewishDate(year: number, month: number, dayOfMonth: number, hours: number, minutes: number, chalakim: number): void {
     if (month < JewishDate.NISSAN || month > JewishDate.getLastMonthOfJewishYear(year)) {
-      throw new Error(`IllegalArgumentException: The Jewish month has to be between 1 and 12 (or 13 on a leap year). ${month} is invalid for the year ${year}.`);
+      throw new IllegalArgumentException(`The Jewish month has to be between 1 and 12 (or 13 on a leap year). ${month} is invalid for the year ${year}.`);
     }
     if (dayOfMonth < 1 || dayOfMonth > 30) {
-      throw new Error(`IllegalArgumentException: The Jewish day of month can't be < 1 or > 30. ${dayOfMonth} is invalid.`);
+      throw new IllegalArgumentException(`The Jewish day of month can't be < 1 or > 30. ${dayOfMonth} is invalid.`);
     }
     // reject dates prior to 18 Teves, 3761 (1/1/1 AD). This restriction can be relaxed if the date coding is
     // changed/corrected
     if ((year < 3761) || (year === 3761 && (month >= JewishDate.TISHREI && month < JewishDate.TEVES)) ||
       (year === 3761 && month === JewishDate.TEVES && dayOfMonth < 18)) {
-      throw new Error(`IllegalArgumentException: A Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian) can't be set. ${year}, ${month}, ${dayOfMonth} is invalid.`);
+      throw new IllegalArgumentException(`A Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian) can't be set. ${year}, ${month}, ${dayOfMonth} is invalid.`);
     }
     if (hours < 0 || hours > 23) {
-      throw new Error(`IllegalArgumentException: Hours < 0 or > 23 can't be set. ${hours} is invalid.`);
+      throw new IllegalArgumentException(`Hours < 0 or > 23 can't be set. ${hours} is invalid.`);
     }
 
     if (minutes < 0 || minutes > 59) {
-      throw new Error(`IllegalArgumentException: Minutes < 0 or > 59 can't be set. ${minutes} is invalid.`);
+      throw new IllegalArgumentException(`Minutes < 0 or > 59 can't be set. ${minutes} is invalid.`);
     }
 
     if (chalakim < 0 || chalakim > 17) {
-      throw new Error(`IllegalArgumentException: Chalakim/parts < 0 or > 17 can't be set. ${chalakim} is invalid. For larger numbers such as 793 (TaShTzaG) break the chalakim into minutes (18 chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793 (TaShTzaG)`);
+      throw new IllegalArgumentException(`Chalakim/parts < 0 or > 17 can't be set. ${chalakim} is invalid. For larger numbers such as 793 (TaShTzaG) break the chalakim into minutes (18 chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793 (TaShTzaG)`);
     }
   }
 
@@ -618,7 +619,7 @@ export class JewishDate {
    */
   private static validateGregorianMonth(month: number): void {
     if (month > 11 || month < 0) {
-      throw new Error(`IllegalArgumentException: The Gregorian month has to be between 0 - 11. ${month} is invalid.`);
+      throw new IllegalArgumentException(`The Gregorian month has to be between 0 - 11. ${month} is invalid.`);
     }
   }
 
@@ -632,7 +633,7 @@ export class JewishDate {
    */
   private static validateGregorianDayOfMonth(dayOfMonth: number): void {
     if (dayOfMonth <= 0) {
-      throw new Error(`IllegalArgumentException: The day of month can't be less than 1. ${dayOfMonth} is invalid.`);
+      throw new IllegalArgumentException(`The day of month can't be less than 1. ${dayOfMonth} is invalid.`);
     }
   }
 
@@ -644,7 +645,7 @@ export class JewishDate {
    */
   private static validateGregorianYear(year: number): void {
     if (year < 1) {
-      throw new Error(`IllegalArgumentException: Years < 1 can't be calculated. ${year} is invalid.`);
+      throw new IllegalArgumentException(`Years < 1 can't be calculated. ${year} is invalid.`);
     }
   }
 
@@ -1014,7 +1015,7 @@ export class JewishDate {
    */
   public setDate(date: DateTime): void {
     if (date.year < 1) {
-      throw new Error(`IllegalArgumentException: Dates with a BC era are not supported. The year ${date.year} is invalid.`);
+      throw new IllegalArgumentException(`Dates with a BC era are not supported. The year ${date.year} is invalid.`);
     }
 
     this.gregorianMonth = date.month;
@@ -1229,10 +1230,10 @@ export class JewishDate {
    */
   public forward(field: number, amount: number): void {
     if (field !== Calendar.DATE && field !== Calendar.MONTH && field !== Calendar.YEAR) {
-      throw new Error('IllegalArgumentException: Unsupported field was passed to Forward. Only Calendar.DATE, Calendar.MONTH or Calendar.YEAR are supported.');
+      throw new IllegalArgumentException('Unsupported field was passed to Forward. Only Calendar.DATE, Calendar.MONTH or Calendar.YEAR are supported.');
     }
     if (amount < 1) {
-      throw new Error('IllegalArgumentException: JewishDate.forward() does not support amounts less than 1. See JewishDate.back()');
+      throw new IllegalArgumentException('JewishDate.forward() does not support amounts less than 1. See JewishDate.back()');
     }
     if (field === Calendar.DATE) {
       // Change Gregorian date
@@ -1298,7 +1299,7 @@ export class JewishDate {
    */
   private forwardJewishMonth(amount: number): void {
     if (amount < 1) {
-      throw new Error('IllegalArgumentException: the amount of months to forward has to be greater than zero.');
+      throw new IllegalArgumentException('the amount of months to forward has to be greater than zero.');
     }
     for (let i = 0; i < amount; i++) {
       if (this.getJewishMonth() === JewishDate.ELUL) {

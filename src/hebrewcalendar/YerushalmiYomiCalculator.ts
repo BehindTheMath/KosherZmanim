@@ -3,6 +3,7 @@ import { DateTime, Interval } from 'luxon';
 import { Calendar } from '../polyfills/Utils';
 import { Daf } from './Daf';
 import { JewishCalendar } from './JewishCalendar';
+import { IllegalArgumentException } from '../polyfills/errors';
 
 /**
  * This class calculates the <a href="https://en.wikipedia.org/wiki/Jerusalem_Talmud">Yerusalmi</a> <a href=
@@ -49,7 +50,7 @@ export class YerushalmiYomiCalculator {
 
     if (requested < YerushalmiYomiCalculator.DAF_YOMI_START_DAY) {
       // TODO: should we return a null or throw an ?
-      throw new Error(`IllegalArgumentException: ${requested} is prior to organized Daf Yomi Yerushlmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);
+      throw new IllegalArgumentException(`${requested} is prior to organized Daf Yomi Yerushlmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);
     }
 
     // Start to calculate current cycle. Initialize the start day

@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { Calendar } from '../polyfills/Utils';
 import { Daf } from './Daf';
 import { JewishCalendar } from './JewishCalendar';
+import { IllegalArgumentException } from '../polyfills/errors';
 
 /**
  * This class calculates the Daf Yomi Bavli page (daf) for a given date. To calculate Daf Yomi Yerushalmi
@@ -63,7 +64,7 @@ export class YomiCalculator {
     let dafNo: number = 0;
     if (date < YomiCalculator.dafYomiStartDate) {
       // TODO: should we return a null or throw an IllegalArgumentException?
-      throw new Error(`IllegalArgumentException: ${calendar} is prior to organized Daf Yomi Bavli cycles that started on ${YomiCalculator.dafYomiStartDate}`);
+      throw new IllegalArgumentException(`${calendar} is prior to organized Daf Yomi Bavli cycles that started on ${YomiCalculator.dafYomiStartDate}`);
     }
     if ((date > YomiCalculator.shekalimChangeDate) || date.equals(YomiCalculator.shekalimChangeDate)) {
       cycleNo = 8 + ((julianDay - YomiCalculator.shekalimJulianChangeDay) / 2711);

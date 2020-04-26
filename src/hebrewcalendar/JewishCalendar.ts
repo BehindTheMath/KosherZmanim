@@ -4,6 +4,7 @@ import { GeoLocation } from '../util/GeoLocation';
 import { Daf } from './Daf';
 import { JewishDate } from './JewishDate';
 import { Calendar } from '../polyfills/Utils';
+import { UnsupportedError } from '../polyfills/errors';
 
 const { MONDAY, TUESDAY, THURSDAY, FRIDAY, SATURDAY } = Calendar;
 
@@ -984,7 +985,7 @@ export class JewishCalendar extends JewishDate {
   // eslint-disable-next-line class-methods-use-this
   public getDafYomiBavli(): Daf {
     // return YomiCalculator.getDafYomiBavli(this);
-    throw new Error('This method is not supported, due to a circular dependency. Use `YomiCalculator.getDafYomiBavli(jewishCalendar)` instead');
+    throw new UnsupportedError('This method is not supported, due to a circular dependency. Use `YomiCalculator.getDafYomiBavli(jewishCalendar)` instead');
   }
 
   /**
@@ -998,7 +999,7 @@ export class JewishCalendar extends JewishDate {
   // eslint-disable-next-line class-methods-use-this
   public getDafYomiYerushalmi(): Daf {
     // return YerushalmiYomiCalculator.getDafYomiYerushalmi(this);
-    throw new Error('This method is not supported, due to a circular dependency. Use `YerushalmiYomiCalculator.getDafYomiYerushalmi(jewishCalendar)` instead');
+    throw new UnsupportedError('This method is not supported, due to a circular dependency. Use `YerushalmiYomiCalculator.getDafYomiYerushalmi(jewishCalendar)` instead');
   }
 
   /**

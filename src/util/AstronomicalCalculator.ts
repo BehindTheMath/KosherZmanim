@@ -2,6 +2,7 @@ import { DateTime } from 'luxon';
 
 import { GeoLocation } from './GeoLocation';
 import { MathUtils } from '../polyfills/Utils';
+import { UnsupportedError } from '../polyfills/errors';
 
 /**
  * An abstract class that all sun time calculating classes extend. This allows the algorithm used to be changed at
@@ -70,7 +71,7 @@ export abstract class AstronomicalCalculator {
    * @deprecated This depends on a circular dependency. Use <pre>new NOAACalculator()</pre> instead
    */
   public static getDefault(): void {
-    throw new Error('This method is deprecated, due to the fact that it depends on a circular dependency. ' +
+    throw new UnsupportedError('This method is deprecated, due to the fact that it depends on a circular dependency. ' +
       'Use `new NOAACalculator()` instead.');
   }
 

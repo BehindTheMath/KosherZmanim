@@ -7,6 +7,7 @@ import { AstronomicalCalendar } from '../AstronomicalCalendar';
 import { ZmanimCalendar } from '../ZmanimCalendar';
 import { ComplexZmanimCalendar } from '../ComplexZmanimCalendar';
 import { Zman, ZmanWithDuration, ZmanWithZmanDate } from './Zman';
+import { UnsupportedError } from '../polyfills/errors';
 
 const methodNamesToExclude: string[] = [
   'getAdjustedDate',
@@ -379,7 +380,7 @@ export class ZmanimFormatter {
    * @deprecated
    */
   public static toXML(): void {
-    throw new Error('This method is not supported.');
+    throw new UnsupportedError('This method is not supported.');
   }
 
   /**

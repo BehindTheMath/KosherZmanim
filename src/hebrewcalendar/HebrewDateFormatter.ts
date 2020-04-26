@@ -3,6 +3,7 @@ import { DateTimeFormatOptions } from 'luxon';
 import { Daf } from './Daf';
 import { JewishDate } from './JewishDate';
 import { JewishCalendar, Parsha } from './JewishCalendar';
+import { IllegalArgumentException } from '../polyfills/errors';
 
 /**
  * The HebrewDateFormatter class formats a {@link JewishDate}.
@@ -752,12 +753,12 @@ export class HebrewDateFormatter {
    *
    */
   public formatHebrewNumber(num: number): string {
-    if (num !== Math.trunc(num)) throw new Error('IllegalArgumentException: number must be an integer.');
+    if (num !== Math.trunc(num)) throw new IllegalArgumentException('number must be an integer.');
 
     if (num < 0) {
-      throw new Error('IllegalArgumentException: negative numbers can\'t be formatted');
+      throw new IllegalArgumentException('negative numbers can\'t be formatted');
     } else if (num > 9999) {
-      throw new Error('IllegalArgumentException: numbers > 9999 can\'t be formatted');
+      throw new IllegalArgumentException('numbers > 9999 can\'t be formatted');
     }
 
     const ALAFIM: string = '\u05D0\u05DC\u05E4\u05D9\u05DD';

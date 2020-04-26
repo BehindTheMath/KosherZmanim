@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { MathUtils, TimeZone } from '../polyfills/Utils';
+import { IllegalArgumentException, UnsupportedError } from '../polyfills/errors';
 
 /**
  * A class that contains location information such as latitude and longitude required for astronomical calculations. The
@@ -44,7 +45,7 @@ export class GeoLocation {
    */
   public setElevation(elevation: number): void {
     if (elevation < 0) {
-      throw new Error('IllegalArgumentException: Elevation cannot be negative');
+      throw new IllegalArgumentException('Elevation cannot be negative');
     }
     this.elevation = elevation;
   }
@@ -161,7 +162,7 @@ export class GeoLocation {
       const latitude: number = degreesOrLatitude;
 
       if (latitude > 90 || latitude < -90) {
-        throw new Error('IllegalArgumentException: Latitude must be between -90 and  90');
+        throw new IllegalArgumentException('Latitude must be between -90 and  90');
       }
 
       this.latitude = latitude;
@@ -170,12 +171,12 @@ export class GeoLocation {
 
       let tempLat: number = degrees + ((minutes + (seconds! / 60)) / 60);
       if (tempLat > 90 || tempLat < 0) { // FIXME An exception should be thrown if degrees, minutes or seconds are negative
-        throw new Error('IllegalArgumentException: Latitude must be between 0 and  90. Use direction of S instead of negative.');
+        throw new IllegalArgumentException('Latitude must be between 0 and  90. Use direction of S instead of negative.');
       }
       if (direction === 'S') {
         tempLat *= -1;
       } else if (!(direction === 'N')) {
-        throw new Error('IllegalArgumentException: Latitude direction must be N or S');
+        throw new IllegalArgumentException('Latitude direction must be N or S');
       }
       this.latitude = tempLat;
     }
@@ -230,7 +231,7 @@ export class GeoLocation {
       const longitude: number = degreesOrLongitude;
 
       if (longitude > 180 || longitude < -180) {
-        throw new Error('IllegalArgumentException: Longitude must be between -180 and  180');
+        throw new IllegalArgumentException('Longitude must be between -180 and  180');
       }
 
       this.longitude = longitude;
@@ -239,12 +240,12 @@ export class GeoLocation {
 
       let longTemp: number = degrees + ((minutes + (seconds! / 60)) / 60);
       if (longTemp > 180 || this.longitude < 0) { // FIXME An exception should be thrown if degrees, minutes or seconds are negative
-        throw new Error('IllegalArgumentException: Longitude must be between 0 and  180.  Use a direction of W instead of negative.');
+        throw new IllegalArgumentException('Longitude must be between 0 and  180.  Use a direction of W instead of negative.');
       }
       if (direction === 'W') {
         longTemp *= -1;
       } else if (!(direction === 'E')) {
-        throw new Error('IllegalArgumentException: Longitude direction must be E or W');
+        throw new IllegalArgumentException('Longitude direction must be E or W');
       }
       this.longitude = longTemp;
     }
@@ -546,7 +547,7 @@ export class GeoLocation {
    */
   // eslint-disable-next-line class-methods-use-this
   public toXML(): void {
-    throw new Error('This method is deprecated');
+    throw new UnsupportedError('This method is deprecated');
   }
 
   /**

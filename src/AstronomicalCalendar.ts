@@ -5,6 +5,7 @@ import { Long_MIN_VALUE } from './polyfills/Utils';
 import { GeoLocation } from './util/GeoLocation';
 import { AstronomicalCalculator } from './util/AstronomicalCalculator';
 import { NOAACalculator } from './util/NOAACalculator';
+import { UnsupportedError } from './polyfills/errors';
 
 /**
  * A Java calendar that calculates astronomical times such as {@link #getSunrise() sunrise} and {@link #getSunset()
@@ -611,7 +612,7 @@ export class AstronomicalCalendar {
    */
   // eslint-disable-next-line class-methods-use-this
   public toString(): void {
-    throw new Error('This method is deprecated, due to the fact that it depends on a circular dependency.');
+    throw new UnsupportedError('This method is unsupported, due to the fact that it depends on a circular dependency.');
   }
 
   /**
@@ -623,7 +624,7 @@ export class AstronomicalCalendar {
    */
   // eslint-disable-next-line class-methods-use-this
   public toJSON(): void {
-    throw new Error('This method is deprecated, due to the fact that it depends on a circular dependency. ' +
+    throw new UnsupportedError('This method is unsupported, due to the fact that it depends on a circular dependency. ' +
       'Use `ZmanimFormatter.toJSON(astronomicalCalendar)` instead.');
   }
 
