@@ -489,10 +489,8 @@ export class ZmanimFormatter {
 
     // Get al the methods in the calendar
     Utils.getAllMethodNames(astronomicalCalendar, true)
-      // Filter out methods with parameters
-      .filter(method => (astronomicalCalendar as any as Record<string, Function>)[method].length === 0)
-      // Filter out methods that don't start with "get", and excluded methods
-      .filter(method => method.startsWith('get') && !methodNamesToExclude.includes(method))
+      // Filter out methods that we don't want
+      .filter(method => includeMethod(method, astronomicalCalendar))
       // Call each method and get the return values
       .map(method => ({
         methodName: method,
@@ -540,6 +538,23 @@ export class ZmanimFormatter {
 
     return timesData;
   }
+}
+
+/**
+ * Determines if a method should be output by the {@link #toJSON(AstronomicalCalendar)}
+ *
+ * @param {string} method - the method in question
+ * @param {AstronomicalCalendar} astronomicalCalendar - The astronomical calendar, to be able to
+ * check the parameterlist
+ * @return if the method should be included in serialization
+ */
+function includeMethod(method: string, astronomicalCalendar: AstronomicalCalendar): boolean {
+  // Filter out methods with parameters
+  return (astronomicalCalendar as any as Record<string, Function>)[method].length === 0 &&
+    // Filter out methods that don't start with "get"
+    method.startsWith('get') &&
+    // Filter out excluded methods
+    !methodNamesToExclude.includes(method);
 }
 
 export interface JsonOutput {

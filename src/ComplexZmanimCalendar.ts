@@ -2818,9 +2818,9 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getTchilasZmanKidushLevana7Days(Date, Date)
    * @see JewishCalendar#getTchilasZmanKidushLevana3Days()
    */
-  public getTchilasZmanKidushLevana3Days(alos: DateTime | null = this.getAlos72(), tzais: DateTime | null = this.getTzais72()): DateTime | null {
+  public getTchilasZmanKidushLevana3Days(alos: DateTime | null = null, tzais: DateTime | null = null): DateTime | null {
     const jewishCalendar: JewishCalendar = new JewishCalendar();
-    jewishCalendar.setGregorianDate(this.getDate().year, this.getDate().month, this.getDate().day);
+    jewishCalendar.setGregorianDate(this.getDate().year, this.getDate().month - 1, this.getDate().day);
 
     // Do not calculate for impossible dates, but account for extreme cases. Tchilas zman kiddush Levana 3 days for
     // the extreme case of Rapa Iti in French Polynesia on Dec 2027 when kiddush Levana 3 days can be said on the evening
