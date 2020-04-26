@@ -529,10 +529,10 @@ export class ZmanimFormatter {
 
     const timesData: Record<string, string> = {};
     dateList.forEach((zman: ZmanWithZmanDate) => {
-      timesData[zman.zmanLabel] = formatter.formatDateTime(zman.zman);
+      timesData[zman.zmanLabel as string] = formatter.formatDateTime(zman.zman);
     });
     durationList.forEach((zman: ZmanWithDuration) => {
-      timesData[zman.zmanLabel] = formatter.format(Math.trunc(zman.duration));
+      timesData[zman.zmanLabel as string] = formatter.format(Math.trunc(zman.duration));
     });
     otherList.forEach((tagName: string) => {
       timesData[tagName] = 'N/A';

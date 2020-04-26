@@ -10,14 +10,14 @@ import { DateUtils, StringUtils, IntegerUtils } from '../polyfills/Utils';
  * @version 1.0
  */
 export class Zman {
-  zmanLabel: string;
+  zmanLabel: string | null;
   zman?: DateTime;
   duration?: number;
   zmanDescription?: Date;
 
-  constructor(date: DateTime, label: string)
-  constructor(duration: number, label: string)
-  constructor(dateOrDuration: number | DateTime, label: string) {
+  constructor(date: DateTime, label: string | null)
+  constructor(duration: number, label: string | null)
+  constructor(dateOrDuration: number | DateTime, label: string | null) {
     this.zmanLabel = label;
     if (DateTime.isDateTime(dateOrDuration)) {
       this.zman = dateOrDuration;
@@ -34,7 +34,7 @@ export class Zman {
   }
 
   static compareNameOrder(zman1: Zman, zman2: Zman): number {
-    return StringUtils.compareTo(zman1.zmanLabel, zman2.zmanLabel);
+    return StringUtils.compareTo(zman1.zmanLabel || '', zman2.zmanLabel || '');
   }
 
   static compareDurationOrder(zman1: Zman, zman2: Zman): number {
