@@ -552,7 +552,7 @@ export interface OutputMetadata {
   date: string;
   type: string;
   algorithm: string;
-  location: string;
+  location: string | null;
   latitude: string;
   longitude: string;
   elevation: string;

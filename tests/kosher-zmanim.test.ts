@@ -38,7 +38,6 @@ test('It returns the correct metadata for Basic Zmanim', function () {
 
 test('It returns the correct metadata for Complex Zmanim', function () {
   const date = new Date();
-  const locationName: string = 'Lakewood';
   const latitude: number = 40.0821;
   const longitude: number = -74.2097;
   const timeZoneId: string = 'America/New_York';
@@ -46,7 +45,6 @@ test('It returns the correct metadata for Complex Zmanim', function () {
   const options: KosherZmanim.Options = {
     date,
     timeZoneId,
-    locationName,
     latitude,
     longitude,
     elevation: 10,
@@ -59,7 +57,7 @@ test('It returns the correct metadata for Complex Zmanim', function () {
     date: DateTime.fromJSDate(date).toFormat('yyyy-MM-dd'),
     elevation: '10.0',
     latitude: latitude.toString(),
-    location: locationName,
+    location: null,
     longitude: longitude.toString(),
     timeZoneID: timeZoneId,
     timeZoneName: toBeOneOf(['Eastern Daylight Time', 'Eastern Standard Time']),

@@ -6,7 +6,7 @@ import { ComplexZmanimCalendar } from './ComplexZmanimCalendar';
 import { JsonOutput, ZmanimFormatter } from './util/ZmanimFormatter';
 
 export function getZmanimJson(options: Options): JsonOutput {
-  const geoLocation: GeoLocation = new GeoLocation(options.locationName, options.latitude, options.longitude,
+  const geoLocation: GeoLocation = new GeoLocation(options.locationName || null, options.latitude, options.longitude,
     options.elevation || 0, options.timeZoneId);
 
   const zmanimCalendar: ZmanimCalendar = options.complexZmanim
@@ -19,7 +19,7 @@ export function getZmanimJson(options: Options): JsonOutput {
 export interface Options {
   date: Date | string | number;
   timeZoneId: string;
-  locationName: string;
+  locationName?: string;
   latitude: number;
   longitude: number;
   elevation?: number;

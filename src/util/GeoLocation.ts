@@ -14,7 +14,7 @@ import { MathUtils, TimeZone } from '../polyfills/Utils';
 export class GeoLocation {
   private latitude!: number;
   private longitude!: number;
-  private locationName!: string;
+  private locationName: string | null = null;
   private timeZoneId!: string;
   private elevation!: number;
   private static readonly DISTANCE: number = 0;
@@ -89,10 +89,11 @@ export class GeoLocation {
    * @param timeZoneId
    *            the <code>TimeZone</code> for the location.
    */
-  constructor(name: string, latitude: number, longitude: number, elevation: number, timeZoneId?: string)
-  constructor(name: string, latitude: number, longitude: number, timeZoneId: string)
+  constructor(name: string | null, latitude: number, longitude: number, elevation: number, timeZoneId?: string)
+  constructor(name: string | null, latitude: number, longitude: number, timeZoneId: string)
   constructor()
-  constructor(name: string = 'Greenwich, England', latitude: number = 51.4772, longitude: number = 0, elevationOrTimeZoneId?: number | string, timeZoneId?: string) {
+  constructor(name: string | null = 'Greenwich, England', latitude: number = 51.4772,
+              longitude: number = 0, elevationOrTimeZoneId?: number | string, timeZoneId?: string) {
     let elevation: number = 0;
     if (timeZoneId) {
       elevation = elevationOrTimeZoneId as number;
@@ -259,7 +260,7 @@ export class GeoLocation {
   /**
    * @return Returns the location name.
    */
-  public getLocationName(): string {
+  public getLocationName(): string | null {
     return this.locationName;
   }
 
@@ -267,7 +268,7 @@ export class GeoLocation {
    * @param name
    *            The setter method for the display name.
    */
-  public setLocationName(name: string): void {
+  public setLocationName(name: string | null): void {
     this.locationName = name;
   }
 

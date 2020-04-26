@@ -69,7 +69,7 @@ The `options` object has the following structure:
 {
     date: Date | string | number;
     timeZoneId: string;
-    locationName: string;
+    locationName?: string;
     latitude: number;
     longitude: number;
     elevation?: number;
