@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { DateUtils, StringUtils, IntegerUtils } from '../polyfills/Utils';
+import { IntegerUtils, StringUtils } from '../polyfills/Utils';
 
 /**
  * Wrapper class for an astronomical time, mostly used to sort collections of
@@ -27,10 +27,10 @@ export class Zman {
   }
 
   static compareDateOrder(zman1: Zman, zman2: Zman): number {
-    if (!zman1.zman || !zman2.zman) {
-      throw new RangeError('zman cannot be falsy when comparing');
-    }
-    return DateUtils.compareTo(zman1.zman, zman2.zman);
+    const firstMillis = zman1.zman?.valueOf() || 0;
+    const secondMillis = zman2.zman?.valueOf() || 0;
+
+    return IntegerUtils.compare(firstMillis, secondMillis);
   }
 
   static compareNameOrder(zman1: Zman, zman2: Zman): number {
@@ -38,10 +38,7 @@ export class Zman {
   }
 
   static compareDurationOrder(zman1: Zman, zman2: Zman): number {
-    if (!zman1.duration || !zman2.duration) {
-      throw new RangeError('Duration cannot be falsy when comparing');
-    }
-    return IntegerUtils.compare(zman1.duration, zman2.duration);
+    return IntegerUtils.compare(zman1.duration || 0, zman2.duration || 0);
   }
 }
 

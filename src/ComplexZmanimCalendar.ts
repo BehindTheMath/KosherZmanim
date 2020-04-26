@@ -3346,7 +3346,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
       return null;
     }
 
-    return DateUtils.compareTo(this.getMinchaGedola30Minutes(), this.getMinchaGedolaBaalHatanya()) > 0
+    return DateUtils.compareTo(this.getMinchaGedola30Minutes()!, this.getMinchaGedolaBaalHatanya()!) > 0
       ? this.getMinchaGedola30Minutes()
       : this.getMinchaGedolaBaalHatanya();
   }
