@@ -6,4 +6,4 @@ declare global {
   }
 }
 
-export const undefined;
+export const undefined: undefined;

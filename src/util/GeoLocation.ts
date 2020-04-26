@@ -154,9 +154,9 @@ export class GeoLocation {
    * @param direction
    *            N for north and S for south. An IllegalArgumentException will be thrown if the value is not S or N.
    */
-  public setLatitude(degrees: number, minutes: number, seconds: number, direction: string): void;
+  public setLatitude(degrees: number, minutes: number, seconds: number, direction: 'N' | 'S'): void;
   public setLatitude(latitude: number): void;
-  public setLatitude(degreesOrLatitude: number, minutes?: number, seconds?: number, direction?: string): void {
+  public setLatitude(degreesOrLatitude: number, minutes?: number, seconds?: number, direction?: 'N' | 'S'): void {
     if (!minutes) {
       const latitude: number = degreesOrLatitude;
 
@@ -223,9 +223,9 @@ export class GeoLocation {
    *            An IllegalArgumentException will be thrown if
    *            the value is not E or W.
    */
-  public setLongitude(degrees: number, minutes: number, seconds: number, direction: string): void;
+  public setLongitude(degrees: number, minutes: number, seconds: number, direction: 'E' | 'W'): void;
   public setLongitude(longitude: number): void;
-  public setLongitude(degreesOrLongitude: number, minutes?: number, seconds?: number, direction?: string): void {
+  public setLongitude(degreesOrLongitude: number, minutes?: number, seconds?: number, direction?: 'E' | 'W'): void {
     if (!minutes) {
       const longitude: number = degreesOrLongitude;
 
