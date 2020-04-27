@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { DateUtils, MathUtils, StringUtils, TimeZone, Utils } from '../src/polyfills/Utils';
+import { MathUtils, StringUtils, TimeZone, Utils } from '../src/polyfills/Utils';
 
 const janDateTime = DateTime.fromMillis(1483228800000, { zone: 'UTC' });
 const julyDateTime = DateTime.fromMillis(1498867200000, { zone: 'UTC' });
@@ -53,7 +53,7 @@ describe('Test TimeZone', function () {
   });
 
   test('Gets the raw offset for Australia/Eucla on 2019/01/01 00:00:00Z', function () {
-    const result = TimeZone.getOffset('Australia/Eucla', julyDateTime.valueOf());
+    const result = TimeZone.getOffset('Australia/Eucla', janDateTime.valueOf());
     const expected = 8.75 * 60 * 60 * 1000;
     expect(result).toEqual(expected);
   });
@@ -89,15 +89,5 @@ describe('Test StringUtils', function () {
     expect(StringUtils.compareTo('test1.ts', 'test1234')).toEqual(-4);
 
     expect(StringUtils.compareTo('test12', 'test234')).toEqual(-1);
-  });
-});
-
-describe('Test DateUtils', function () {
-  test('test DateUtils.compareTo()', function () {
-    expect(DateUtils.compareTo(janDateTime, janDateTime)).toEqual(0);
-
-    expect(DateUtils.compareTo(janDateTime, julyDateTime)).toEqual(-1);
-
-    expect(DateUtils.compareTo(julyDateTime, janDateTime)).toEqual(1);
   });
 });

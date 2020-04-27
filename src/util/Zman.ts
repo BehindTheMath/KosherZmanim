@@ -13,7 +13,7 @@ export class Zman {
   zmanLabel: string | null;
   zman?: DateTime;
   duration?: number;
-  zmanDescription?: Date;
+  zmanDescription?: string;
 
   constructor(date: DateTime, label: string | null)
   constructor(duration: number, label: string | null)

@@ -561,8 +561,8 @@ export class GeoLocation {
     return this.latitude === geo.latitude &&
       this.longitude === geo.longitude &&
       this.elevation === geo.elevation &&
-      (this.locationName === null ? geo.locationName === null : this.locationName === geo.locationName) &&
-      (this.timeZoneId === null ? geo.timeZoneId === null : this.timeZoneId === geo.getTimeZone());
+      this.locationName === geo.locationName &&
+      this.timeZoneId === geo.getTimeZone();
   }
 
   /**

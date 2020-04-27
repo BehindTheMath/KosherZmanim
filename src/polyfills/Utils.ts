@@ -197,20 +197,6 @@ export namespace StringUtils {
   }
 }
 
-export namespace DateUtils {
-  /**
-   * Compares 2 Dates
-   * @param date1
-   * @param date2
-   */
-  export function compareTo(date1: DateTime, date2: DateTime | null): number {
-    if (date2 === null) throw new NullPointerException();
-
-    if (date1.equals(date2)) return 0;
-    return date1 < date2 ? -1 : 1;
-  }
-}
-
 export namespace IntegerUtils {
   /**
    * Compares 2 numbers

@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { Calendar, DateUtils, Long_MIN_VALUE, TimeZone } from './polyfills/Utils';
+import { Calendar, Long_MIN_VALUE, TimeZone } from './polyfills/Utils';
 import { GeoLocation } from './util/GeoLocation';
 import { ZmanimCalendar } from './ZmanimCalendar';
 import { JewishCalendar } from './hebrewcalendar/JewishCalendar';
@@ -1610,9 +1610,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
       return null;
     }
 
-    return DateUtils.compareTo(this.getMinchaGedola30Minutes()!, this.getMinchaGedola()!) > 0
-      ? this.getMinchaGedola30Minutes()
-      : this.getMinchaGedola();
+    return DateTime.max(this.getMinchaGedola30Minutes()!, this.getMinchaGedola()!);
   }
 
   /**
@@ -3346,9 +3344,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
       return null;
     }
 
-    return DateUtils.compareTo(this.getMinchaGedola30Minutes()!, this.getMinchaGedolaBaalHatanya()!) > 0
-      ? this.getMinchaGedola30Minutes()
-      : this.getMinchaGedolaBaalHatanya();
+    return DateTime.max(this.getMinchaGedola30Minutes()!, this.getMinchaGedolaBaalHatanya()!);
   }
 
   /**

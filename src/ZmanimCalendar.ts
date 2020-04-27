@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 
 import { AstronomicalCalendar } from './AstronomicalCalendar';
 import { JewishCalendar } from './hebrewcalendar/JewishCalendar';
-import { DateUtils } from './polyfills/Utils';
+import { NullPointerException } from './polyfills/errors';
 
 /**
  * The ZmanimCalendar is a specialized calendar that can calculate sunrise and sunset and Jewish <em>zmanim</em>
@@ -150,7 +150,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
   }
 
   /**
-   * A method that returns <em>tzais</em> (nightfall) when the sun is {@link ZENITH_8_POINT_5 8.5&deg;} below the
+   * A method that returns <em>tzais</em> (nightfall) when the sun is {@link #ZENITH_8_POINT_5 8.5&deg;} below the
    * {@link #GEOMETRIC_ZENITH geometric horizon} (90&deg;) after {@link #getSunset sunset}, a time that Rabbi Meir
    * Posen in his the <em><a href="http://www.worldcat.org/oclc/29283612">Ohr Meir</a></em> calculated that 3 small
    * stars are visible, which is later than the required 3 medium stars. See the {@link #ZENITH_8_POINT_5} constant.
@@ -660,7 +660,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * This is a utility method to determine if the current Date (date-time) passed in has a <em>melacha</em> (work) prohibition.
    * Since there are many opinions on the time of <em>tzais</em>, the <em>tzais</em> for the current day has to be passed to this
    * class. Sunset is the classes current day's {@link #getElevationAdjustedSunset() elevation adjusted sunset} that observes the
-   * {@link isUseElevation()} settings. The {@link JewishCalendar#getInIsrael()} will be set by the inIsrael parameter.
+   * {@link #isUseElevation()} settings. The {@link JewishCalendar#getInIsrael()} will be set by the inIsrael parameter.
    *
    * @param currentTime the current time
    * @param tzais the time of tzais
@@ -679,11 +679,13 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     jewishCalendar.setInIsrael(inIsrael);
 
     // erev shabbos, YT or YT sheni and after shkiah
-    if (jewishCalendar.hasCandleLighting() && DateUtils.compareTo(currentTime, this.getElevationAdjustedSunset()) >= 0) {
+    const sunset = this.getElevationAdjustedSunset();
+    if (!sunset) throw new NullPointerException();
+    if (jewishCalendar.hasCandleLighting() && currentTime >= sunset) {
       return true;
     }
 
     // is shabbos or YT and it is before tzais
-    return jewishCalendar.isAssurBemelacha() && DateUtils.compareTo(currentTime, tzais) <= 0;
+    return jewishCalendar.isAssurBemelacha() && currentTime >= tzais;
   }
 }

@@ -201,7 +201,9 @@ export class HebrewDateFormatter {
   public setLongWeekFormat(longWeekFormat: boolean): void {
     this.longWeekFormat = longWeekFormat;
 
-    this.weekFormat = longWeekFormat ? { weekday: 'long' } : { weekday: 'short' };
+    this.weekFormat = {
+      weekday: longWeekFormat ? 'long' : 'short',
+    };
   }
 
   private static readonly GERESH: string = '\u05F3';
