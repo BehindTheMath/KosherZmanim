@@ -113,7 +113,7 @@ export class JewishCalendar extends JewishDate {
   }
 
   /**
-   * Seth the calendar to return modern Israeli national holidays. By default this value is false. The holidays are:
+   * Sets the calendar to return modern Israeli national holidays. By default this value is false. The holidays are:
    * "Yom HaShoah", "Yom Hazikaron", "Yom Ha'atzmaut" and "Yom Yerushalayim"
    *
    * @param useModernHolidays
