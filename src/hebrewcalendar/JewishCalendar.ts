@@ -870,8 +870,9 @@ export class JewishCalendar extends JewishDate {
     const latitude: number = 31.778; // Har Habayis latitude
     const longitude: number = 35.2354; // Har Habayis longitude
 
-    // The molad calculation always expects output in standard time. Using "Asia/Jerusalem" timezone will incorrect
-    // adjust for DST.
+    // The raw molad Date (point in time) must be generated using standard time. Using "Asia/Jerusalem" timezone will result in the time
+    // being incorrectly off by an hour in the summer due to DST. Proper adjustment for the actual time in DST will be done by the date
+    // formatter class used to display the Date.
     const yerushalayimStandardTZ: string = 'Etc/GMT+2';
     const geo: GeoLocation = new GeoLocation(locationName, latitude, longitude, yerushalayimStandardTZ);
 
