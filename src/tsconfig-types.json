@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "declaration": false,
+    "declaration": true,
     "target": "es6",
     "sourceMap": true,
-    "outDir": "../dist/lib-cjs/",
+    "outDir": "../dist/types/",
     "lib": ["ESNext"],
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "strict": true
-  }
+    "strict": true,
+    "emitDeclarationOnly": true,
+  },
+  "exclude": [
+    "cli.ts"
+  ]
 }

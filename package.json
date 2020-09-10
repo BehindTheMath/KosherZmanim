@@ -12,13 +12,15 @@
   "module": "dist/lib-es6/kosher-zmanim.js",
   "scripts": {
     "clean": "rimraf ./dist/*",
-    "build": "npm run clean && npm run build:cjs && npm run build:es6 && npm run build:types && webpack",
-    "build:cjs": "tsc -module commonjs --outDir ./dist/lib-cjs/ -p ./src/",
-    "build:es6": "tsc -module es6 --outDir ./dist/lib-es6/ -p ./src/",
-    "build:types": "tsc --declaration true --emitDeclarationOnly --outDir ./dist/types/ -p ./src/",
+    "build": "npm run clean && npm run build:all && npm run webpack",
+    "build:all": "npm run build:cjs && npm run build:es6 && npm run build:types",
+    "build:cjs": "tsc -p ./src/",
+    "build:es6": "tsc -p ./src/tsconfig-es6.json",
+    "build:types": "tsc -p ./src/tsconfig-types.json",
     "lint": "eslint --ext .ts src tests",
     "test": "jest",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "webpack": "webpack"
   },
   "keywords": [
     "zmanim",
