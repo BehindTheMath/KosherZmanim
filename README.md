@@ -64,16 +64,16 @@ const zmanim = KosherZmanim.getZmanimJson(options);
 Check out the [demo](https://behindthemath.github.io/KosherZmanim/), and look at the [code](./docs/index.html) to see an example of how it's used.
 
 ##### `options` object
-The `options` object has the following structure:
+The `options` object has the following structure and defaults:
 ```
 {
-    date: Date | string | number;
-    timeZoneId: string;
-    locationName?: string;
-    latitude: number;
-    longitude: number;
-    elevation?: number;
-    complexZmanim?: boolean
+    date: Date | string | number = new Date(),
+    timeZoneId: string
+    locationName?: string,
+    latitude: number,
+    longitude: number,
+    elevation?: number = 0,
+    complexZmanim?: boolean = false,
 }
 ```
 

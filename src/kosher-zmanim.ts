@@ -12,17 +12,30 @@ export function getZmanimJson(options: Options): JsonOutput {
   const zmanimCalendar: ZmanimCalendar = options.complexZmanim
     ? new ComplexZmanimCalendar(geoLocation)
     : new ZmanimCalendar(geoLocation);
-  zmanimCalendar.setDate(options.date);
+  zmanimCalendar.setDate(options.date || new Date());
   return ZmanimFormatter.toJSON(zmanimCalendar);
 }
 
 export interface Options {
-  date: Date | string | number;
+  /**
+   * @default Current date and time
+   */
+  date?: Date | string | number;
+  /**
+   * IANA timezone ID
+   */
   timeZoneId: string;
   locationName?: string;
   latitude: number;
   longitude: number;
+  /**
+   * @default 0
+   */
   elevation?: number;
+  /**
+   * Whether to use `ComplexZmanimCalendar` instead of `ZmanimCalendar`
+   * @default false
+   */
   complexZmanim?: boolean;
 }
 
