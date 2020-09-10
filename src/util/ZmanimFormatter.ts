@@ -506,14 +506,14 @@ export class ZmanimFormatter {
           // dateList.add(new KosherZmanim.Zman(methodObj.value, tagName));
           const zman: ZmanWithZmanDate = {
             zman: methodObj.value as DateTime,
-            zmanLabel: tagName,
+            label: tagName,
           };
           dateList.push(zman);
         } else if (typeof methodObj.value === 'number') {
           // durationList.add(new KosherZmanim.Zman(methodObj.value, tagName));
           const zman: ZmanWithDuration = {
             duration: methodObj.value,
-            zmanLabel: tagName,
+            label: tagName,
           };
           durationList.push(zman);
         } else {
@@ -528,10 +528,10 @@ export class ZmanimFormatter {
 
     const timesData: Record<string, string> = {};
     dateList.forEach((zman: ZmanWithZmanDate) => {
-      timesData[zman.zmanLabel as string] = formatter.formatDateTime(zman.zman);
+      timesData[zman.label as string] = formatter.formatDateTime(zman.zman);
     });
     durationList.forEach((zman: ZmanWithDuration) => {
-      timesData[zman.zmanLabel as string] = formatter.format(Math.trunc(zman.duration));
+      timesData[zman.label as string] = formatter.format(Math.trunc(zman.duration));
     });
     otherList.forEach((tagName: string) => {
       timesData[tagName] = 'N/A';

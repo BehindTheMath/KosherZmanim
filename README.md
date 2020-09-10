@@ -99,3 +99,4 @@ All class methods that return a `DateTime` object will be in UTC.
   (Use `new ZmanimFormatter(TimeZone.getTimeZone("UTC")).format(time)` instead).
   * `ZmanimFormatter.toXML()`
 * Some method signatures are different, due to the differences between Java and JS.
+* The `Zman` class uses public members instead of getters and setters.
