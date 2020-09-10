@@ -624,8 +624,8 @@ export class AstronomicalCalendar {
    */
   // eslint-disable-next-line class-methods-use-this
   public toJSON(): void {
-    throw new UnsupportedError('This method is unsupported, due to the fact that it depends on a circular dependency. ' +
-      'Use `ZmanimFormatter.toJSON(astronomicalCalendar)` instead.');
+    throw new UnsupportedError('This method is unsupported, due to the fact that it depends on a circular dependency. '
+      + 'Use `ZmanimFormatter.toJSON(astronomicalCalendar)` instead.');
   }
 
   /**
@@ -639,8 +639,8 @@ export class AstronomicalCalendar {
       return false;
     }
     const aCal: AstronomicalCalendar = object as AstronomicalCalendar;
-    return this.getDate().equals(aCal.getDate()) && this.getGeoLocation().equals(aCal.getGeoLocation()) &&
-      this.getAstronomicalCalculator() === aCal.getAstronomicalCalculator();
+    return this.getDate().equals(aCal.getDate()) && this.getGeoLocation().equals(aCal.getGeoLocation())
+      && this.getAstronomicalCalculator() === aCal.getAstronomicalCalculator();
   }
 
   /**

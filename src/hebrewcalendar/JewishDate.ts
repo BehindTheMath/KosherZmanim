@@ -359,11 +359,11 @@ export class JewishDate {
     for (let m: number = month - 1; m > 0; m--) {
       absDate += JewishDate.getLastDayOfGregorianMonth(m, year); // days in prior months of the year
     }
-    return (absDate + // days this year
-      365 * (year - 1) + // days in previous years ignoring leap days
-      Math.trunc((year - 1) / 4) - // Julian leap days before this year
-      Math.trunc((year - 1) / 100) + // minus prior century years
-      Math.trunc((year - 1) / 400)); // plus prior years divisible by 400
+    return (absDate // days this year
+      + 365 * (year - 1) // days in previous years ignoring leap days
+      + Math.trunc((year - 1) / 4) // Julian leap days before this year
+      - Math.trunc((year - 1) / 100) // minus prior century years
+      + Math.trunc((year - 1) / 400)); // plus prior years divisible by 400
   }
 
   /**
@@ -464,19 +464,19 @@ export class JewishDate {
   private static addDechiyos(year: number, moladDay: number, moladParts: number): number {
     let roshHashanaDay: number = moladDay; // if no dechiyos
     // delay Rosh Hashana for the dechiyos of the Molad - new moon 1 - Molad Zaken, 2- GaTRaD 3- BeTuTaKFoT
-    if ((moladParts >= 19440) || // Dechiya of Molad Zaken - molad is >= midday (18 hours * 1080 chalakim)
-      (((moladDay % 7) === 2) && // start Dechiya of GaTRaD - Ga = is a Tuesday
-        (moladParts >= 9924) && // TRaD = 9 hours, 204 parts or later (9 * 1080 + 204)
-        !JewishDate.isJewishLeapYear(year)) || // of a non-leap year - end Dechiya of GaTRaD
-      (((moladDay % 7) === 1) && // start Dechiya of BeTuTaKFoT - Be = is on a Monday
-        (moladParts >= 16789) && // TRaD = 15 hours, 589 parts or later (15 * 1080 + 589)
-        (JewishDate.isJewishLeapYear(year - 1)))) { // in a year following a leap year - end Dechiya of BeTuTaKFoT
+    if ((moladParts >= 19440) // Dechiya of Molad Zaken - molad is >= midday (18 hours * 1080 chalakim)
+      || (((moladDay % 7) === 2) // start Dechiya of GaTRaD - Ga = is a Tuesday
+        && (moladParts >= 9924) // TRaD = 9 hours, 204 parts or later (9 * 1080 + 204)
+        && !JewishDate.isJewishLeapYear(year)) // of a non-leap year - end Dechiya of GaTRaD
+      || (((moladDay % 7) === 1) // start Dechiya of BeTuTaKFoT - Be = is on a Monday
+        && (moladParts >= 16789) // TRaD = 15 hours, 589 parts or later (15 * 1080 + 589)
+        && (JewishDate.isJewishLeapYear(year - 1)))) { // in a year following a leap year - end Dechiya of BeTuTaKFoT
       roshHashanaDay += 1; // Then postpone Rosh HaShanah one day
     }
     // start 4th Dechiya - Lo ADU Rosh - Rosh Hashana can't occur on A- sunday, D- Wednesday, U - Friday
-    if (((roshHashanaDay % 7) === 0) || // If Rosh HaShanah would occur on Sunday,
-      ((roshHashanaDay % 7) === 3) || // or Wednesday,
-      ((roshHashanaDay % 7) === 5)) { // or Friday - end 4th Dechiya - Lo ADU Rosh
+    if (((roshHashanaDay % 7) === 0) // If Rosh HaShanah would occur on Sunday,
+      || ((roshHashanaDay % 7) === 3) // or Wednesday,
+      || ((roshHashanaDay % 7) === 5)) { // or Friday - end 4th Dechiya - Lo ADU Rosh
       roshHashanaDay++; // Then postpone it one (more) day
     }
     return roshHashanaDay;
@@ -497,10 +497,10 @@ export class JewishDate {
     // Jewish lunar month = 29 days, 12 hours and 793 chalakim
     // chalakim since Molad Tohu BeHaRaD - 1 day, 5 hours and 204 chalakim
     const monthOfYear: number = JewishDate.getJewishMonthOfYear(year, month);
-    const monthsElapsed: number = (235 * Math.trunc((year - 1) / 19)) + // Months in complete 19 year lunar (Metonic) cycles so far
-      (12 * ((year - 1) % 19)) + // Regular months in this cycle
-      Math.trunc((7 * ((year - 1) % 19) + 1) / 19) + // Leap months this cycle
-      (monthOfYear - 1); // add elapsed months till the start of the molad of the month
+    const monthsElapsed: number = (235 * Math.trunc((year - 1) / 19)) // Months in complete 19 year lunar (Metonic) cycles so far
+      + (12 * ((year - 1) % 19)) // Regular months in this cycle
+      + Math.trunc((7 * ((year - 1) % 19) + 1) / 19) // Leap months this cycle
+      + (monthOfYear - 1); // add elapsed months till the start of the molad of the month
     // return chalakim prior to BeHaRaD + number of chalakim since
     return JewishDate.CHALAKIM_MOLAD_TOHU + (JewishDate.CHALAKIM_PER_MONTH * monthsElapsed);
   }
@@ -568,8 +568,8 @@ export class JewishDate {
     }
     // reject dates prior to 18 Teves, 3761 (1/1/1 AD). This restriction can be relaxed if the date coding is
     // changed/corrected
-    if ((year < 3761) || (year === 3761 && (month >= JewishDate.TISHREI && month < JewishDate.TEVES)) ||
-      (year === 3761 && month === JewishDate.TEVES && dayOfMonth < 18)) {
+    if ((year < 3761) || (year === 3761 && (month >= JewishDate.TISHREI && month < JewishDate.TEVES))
+      || (year === 3761 && month === JewishDate.TEVES && dayOfMonth < 18)) {
       throw new IllegalArgumentException(`A Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian) can't be set. ${year}, ${month}, ${dayOfMonth} is invalid.`);
     }
     if (hours < 0 || hours > 23) {
@@ -758,10 +758,10 @@ export class JewishDate {
       JewishDate.ELUL,
       JewishDate.ADAR_II,
     ];
-    if (shortMonths.includes(month) ||
-      ((month === JewishDate.CHESHVAN) && !(JewishDate.isCheshvanLong(year))) ||
-      ((month === JewishDate.KISLEV) && JewishDate.isKislevShort(year)) || (month === JewishDate.TEVES) ||
-      ((month === JewishDate.ADAR) && !(JewishDate.isJewishLeapYear(year)))) {
+    if (shortMonths.includes(month)
+      || ((month === JewishDate.CHESHVAN) && !(JewishDate.isCheshvanLong(year)))
+      || ((month === JewishDate.KISLEV) && JewishDate.isKislevShort(year)) || (month === JewishDate.TEVES)
+      || ((month === JewishDate.ADAR) && !(JewishDate.isJewishLeapYear(year)))) {
       return 29;
     }
     return 30;
@@ -1305,8 +1305,8 @@ export class JewishDate {
       if (this.getJewishMonth() === JewishDate.ELUL) {
         this.setJewishMonth(JewishDate.TISHREI);
         this.setJewishYear(this.getJewishYear() + 1);
-      } else if ((!this.isJewishLeapYear() && this.getJewishMonth() === JewishDate.ADAR) ||
-        (this.isJewishLeapYear() && this.getJewishMonth() === JewishDate.ADAR_II)) {
+      } else if ((!this.isJewishLeapYear() && this.getJewishMonth() === JewishDate.ADAR)
+        || (this.isJewishLeapYear() && this.getJewishMonth() === JewishDate.ADAR_II)) {
         this.setJewishMonth(JewishDate.NISSAN);
       } else {
         this.setJewishMonth(this.getJewishMonth() + 1);

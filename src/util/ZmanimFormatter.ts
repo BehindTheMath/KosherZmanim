@@ -551,11 +551,11 @@ export class ZmanimFormatter {
  */
 function includeMethod(method: string, astronomicalCalendar: AstronomicalCalendar): boolean {
   // Filter out methods with parameters
-  return (astronomicalCalendar as any as Record<string, Function>)[method].length === 0 &&
+  return (astronomicalCalendar as any as Record<string, Function>)[method].length === 0
     // Filter out methods that don't start with "get"
-    method.startsWith('get') &&
+    && method.startsWith('get')
     // Filter out excluded methods
-    !methodNamesToExclude.includes(method);
+    && !methodNamesToExclude.includes(method);
 }
 
 export interface JsonOutput {

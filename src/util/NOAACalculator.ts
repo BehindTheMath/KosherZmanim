@@ -177,8 +177,8 @@ export class NOAACalculator extends AstronomicalCalculator {
     const sin2m: number = Math.sin(mrad + mrad);
     const sin3m: number = Math.sin(mrad + mrad + mrad);
 
-    return sinm * (1.914602 - julianCenturies * (0.004817 + 0.000014 * julianCenturies)) + sin2m *
-      (0.019993 - 0.000101 * julianCenturies) + sin3m * 0.000289; // in degrees
+    return sinm * (1.914602 - julianCenturies * (0.004817 + 0.000014 * julianCenturies)) + sin2m
+      * (0.019993 - 0.000101 * julianCenturies) + sin3m * 0.000289; // in degrees
   }
 
   /**
@@ -232,8 +232,8 @@ export class NOAACalculator extends AstronomicalCalculator {
    * @return the mean obliquity in degrees
    */
   private static getMeanObliquityOfEcliptic(julianCenturies: number): number {
-    const seconds: number = 21.448 - julianCenturies *
-      (46.8150 + julianCenturies * (0.00059 - julianCenturies * (0.001813)));
+    const seconds: number = 21.448 - julianCenturies
+      * (46.8150 + julianCenturies * (0.00059 - julianCenturies * (0.001813)));
     return 23 + (26 + (seconds / 60)) / 60; // in degrees
   }
 
@@ -292,8 +292,8 @@ export class NOAACalculator extends AstronomicalCalculator {
     const sin4l0: number = Math.sin(4 * MathUtils.degreesToRadians(geomMeanLongSun));
     const sin2m: number = Math.sin(2 * MathUtils.degreesToRadians(geomMeanAnomalySun));
 
-    const equationOfTime: number = y * sin2l0 - 2 * eccentricityEarthOrbit * sinm + 4 * eccentricityEarthOrbit * y *
-      sinm * cos2l0 - 0.5 * y * y * sin4l0 - 1.25 * eccentricityEarthOrbit * eccentricityEarthOrbit * sin2m;
+    const equationOfTime: number = y * sin2l0 - 2 * eccentricityEarthOrbit * sinm + 4 * eccentricityEarthOrbit * y
+      * sinm * cos2l0 - 0.5 * y * y * sin4l0 - 1.25 * eccentricityEarthOrbit * eccentricityEarthOrbit * sin2m;
     return MathUtils.radiansToDegrees(equationOfTime) * 4; // in minutes of time
   }
 
@@ -313,8 +313,8 @@ export class NOAACalculator extends AstronomicalCalculator {
     const latRad: number = MathUtils.degreesToRadians(lat);
     const sdRad: number = MathUtils.degreesToRadians(solarDec);
 
-    return (Math.acos(Math.cos(MathUtils.degreesToRadians(zenith)) / (Math.cos(latRad) * Math.cos(sdRad)) -
-      Math.tan(latRad) * Math.tan(sdRad))); // in radians
+    return (Math.acos(Math.cos(MathUtils.degreesToRadians(zenith)) / (Math.cos(latRad) * Math.cos(sdRad))
+      - Math.tan(latRad) * Math.tan(sdRad))); // in radians
   }
 
   /**
@@ -334,8 +334,8 @@ export class NOAACalculator extends AstronomicalCalculator {
     const latRad: number = MathUtils.degreesToRadians(lat);
     const sdRad: number = MathUtils.degreesToRadians(solarDec);
 
-    const hourAngle: number = (Math.acos(Math.cos(MathUtils.degreesToRadians(zenith)) / (Math.cos(latRad) * Math.cos(sdRad)) -
-      Math.tan(latRad) * Math.tan(sdRad)));
+    const hourAngle: number = (Math.acos(Math.cos(MathUtils.degreesToRadians(zenith)) / (Math.cos(latRad) * Math.cos(sdRad))
+      - Math.tan(latRad) * Math.tan(sdRad)));
     return -hourAngle; // in radians
   }
 
@@ -366,8 +366,8 @@ export class NOAACalculator extends AstronomicalCalculator {
     const declination: number = NOAACalculator.getSunDeclination(julianCenturies);
     const decRad: number = MathUtils.degreesToRadians(declination);
     const latRad: number = MathUtils.degreesToRadians(lat);
-    return MathUtils.radiansToDegrees(Math.asin((Math.sin(latRad) * Math.sin(decRad)) +
-      (Math.cos(latRad) * Math.cos(decRad) * Math.cos(hourAngleRad))));
+    return MathUtils.radiansToDegrees(Math.asin((Math.sin(latRad) * Math.sin(decRad))
+      + (Math.cos(latRad) * Math.cos(decRad) * Math.cos(hourAngleRad))));
   }
 
   /**
@@ -398,8 +398,8 @@ export class NOAACalculator extends AstronomicalCalculator {
     const decRad: number = MathUtils.degreesToRadians(declination);
     const latRad: number = MathUtils.degreesToRadians(latitude);
 
-    return MathUtils.radiansToDegrees(Math.atan(Math.sin(hourAngleRad) /
-      ((Math.cos(hourAngleRad) * Math.sin(latRad)) - (Math.tan(decRad) * Math.cos(latRad))))) + 180;
+    return MathUtils.radiansToDegrees(Math.atan(Math.sin(hourAngleRad)
+      / ((Math.cos(hourAngleRad) * Math.sin(latRad)) - (Math.tan(decRad) * Math.cos(latRad))))) + 180;
   }
 
   /**

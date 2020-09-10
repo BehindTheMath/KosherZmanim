@@ -34,12 +34,6 @@ module.exports = {
       multiline: true,
       consistent: true,
     }],
-    'operator-linebreak': ['error', 'after', {
-      'overrides': {
-        '?': 'before',
-        ':': 'before',
-      },
-    }],
     'prefer-destructuring': ['error', {
       AssignmentExpression: {
         array: false,

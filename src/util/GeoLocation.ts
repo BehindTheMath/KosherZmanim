@@ -440,8 +440,8 @@ export class GeoLocation {
     while (Math.abs(lambda - lambdaP) > 1e-12 && --iterLimit > 0) {
       sinLambda = Math.sin(lambda);
       cosLambda = Math.cos(lambda);
-      sinSigma = Math.sqrt((cosU2 * sinLambda) * (cosU2 * sinLambda) +
-        (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) * (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
+      sinSigma = Math.sqrt((cosU2 * sinLambda) * (cosU2 * sinLambda)
+        + (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) * (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
       if (sinSigma === 0) return 0; // co-incident points
       cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
       sigma = Math.atan2(sinSigma, cosSigma);
@@ -451,18 +451,18 @@ export class GeoLocation {
       if (Number.isNaN(cos2SigmaM)) cos2SigmaM = 0; // equatorial line: cosSqAlpha=0 (§6)
       C = f / 16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
       lambdaP = lambda;
-      lambda = L + (1 - C) * f * sinAlpha *
-        (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
+      lambda = L + (1 - C) * f * sinAlpha
+        * (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
     }
     if (iterLimit === 0) return Number.NaN; // formula failed to converge
 
     const uSq: number = cosSqAlpha * (a * a - b * b) / (b * b);
     const A: number = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));
     const B: number = uSq / 1024 * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));
-    const deltaSigma: number = B * sinSigma *
-      (cos2SigmaM + B / 4 *
-        (cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM) - B / 6 * cos2SigmaM *
-          (-3 + 4 * sinSigma * sinSigma) * (-3 + 4 * cos2SigmaM * cos2SigmaM)));
+    const deltaSigma: number = B * sinSigma
+      * (cos2SigmaM + B / 4
+        * (cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM) - B / 6 * cos2SigmaM
+          * (-3 + 4 * sinSigma * sinSigma) * (-3 + 4 * cos2SigmaM * cos2SigmaM)));
     const distance: number = b * A * (sigma - deltaSigma);
 
     // initial bearing
@@ -490,8 +490,8 @@ export class GeoLocation {
    */
   public getRhumbLineBearing(location: GeoLocation): number {
     let dLon: number = MathUtils.degreesToRadians(location.getLongitude() - this.getLongitude());
-    const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(location.getLatitude()) / 2 + Math.PI / 4) /
-      Math.tan(MathUtils.degreesToRadians(this.getLatitude()) / 2 + Math.PI / 4));
+    const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(location.getLatitude()) / 2 + Math.PI / 4)
+      / Math.tan(MathUtils.degreesToRadians(this.getLatitude()) / 2 + Math.PI / 4));
     if (Math.abs(dLon) > Math.PI) dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
     return MathUtils.radiansToDegrees(Math.atan2(dLon, dPhi));
   }
@@ -508,8 +508,8 @@ export class GeoLocation {
     const earthRadius: number = 6378137; // earth's mean radius in km
     const dLat: number = MathUtils.degreesToRadians(location.getLatitude()) - MathUtils.degreesToRadians(this.getLatitude());
     let dLon: number = Math.abs(MathUtils.degreesToRadians(location.getLongitude()) - MathUtils.degreesToRadians(this.getLongitude()));
-    const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(location.getLatitude()) / 2 + Math.PI / 4) /
-      Math.tan(MathUtils.degreesToRadians(this.getLatitude()) / 2 + Math.PI / 4));
+    const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(location.getLatitude()) / 2 + Math.PI / 4)
+      / Math.tan(MathUtils.degreesToRadians(this.getLatitude()) / 2 + Math.PI / 4));
 
     let q: number = dLat / dPhi;
     if (!Number.isFinite(q)) {
@@ -558,11 +558,11 @@ export class GeoLocation {
     if (!(object instanceof GeoLocation)) return false;
 
     const geo: GeoLocation = object as GeoLocation;
-    return this.latitude === geo.latitude &&
-      this.longitude === geo.longitude &&
-      this.elevation === geo.elevation &&
-      this.locationName === geo.locationName &&
-      this.timeZoneId === geo.getTimeZone();
+    return this.latitude === geo.latitude
+      && this.longitude === geo.longitude
+      && this.elevation === geo.elevation
+      && this.locationName === geo.locationName
+      && this.timeZoneId === geo.getTimeZone();
   }
 
   /**

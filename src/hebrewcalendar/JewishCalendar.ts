@@ -405,14 +405,14 @@ export class JewishCalendar extends JewishDate {
    */
   public getSpecialShabbos(): Parsha {
     if (this.getDayOfWeek() === SATURDAY) {
-      if (((this.getJewishMonth() === JewishCalendar.SHEVAT && !this.isJewishLeapYear()) ||
-        (this.getJewishMonth() === JewishCalendar.ADAR && this.isJewishLeapYear())) &&
-        [25, 27, 29].includes(this.getJewishDayOfMonth())) {
+      if (((this.getJewishMonth() === JewishCalendar.SHEVAT && !this.isJewishLeapYear())
+        || (this.getJewishMonth() === JewishCalendar.ADAR && this.isJewishLeapYear()))
+        && [25, 27, 29].includes(this.getJewishDayOfMonth())) {
         return Parsha.SHKALIM;
       }
 
-      if ((this.getJewishMonth() === JewishCalendar.ADAR && !this.isJewishLeapYear()) ||
-        this.getJewishMonth() === JewishCalendar.ADAR_II) {
+      if ((this.getJewishMonth() === JewishCalendar.ADAR && !this.isJewishLeapYear())
+        || this.getJewishMonth() === JewishCalendar.ADAR_II) {
         if (this.getJewishDayOfMonth() === 1) {
           return Parsha.SHKALIM;
         }
@@ -459,23 +459,23 @@ export class JewishCalendar extends JewishDate {
           return JewishCalendar.CHOL_HAMOED_PESACH;
         }
 
-        if (this.isUseModernHolidays() &&
-          ((day === 26 && dayOfWeek === 5) || (day === 28 && dayOfWeek === 2) ||
-            (day === 27 && dayOfWeek !== 1 && dayOfWeek !== 6))) {
+        if (this.isUseModernHolidays()
+          && ((day === 26 && dayOfWeek === 5) || (day === 28 && dayOfWeek === 2)
+            || (day === 27 && dayOfWeek !== 1 && dayOfWeek !== 6))) {
           return JewishCalendar.YOM_HASHOAH;
         }
         break;
       case JewishCalendar.IYAR:
-        if (this.isUseModernHolidays() &&
-          ((day === 4 && dayOfWeek === 3) || ((day === 3 || day === 2) && dayOfWeek === 4) ||
-            (day === 5 && dayOfWeek === 2))) {
+        if (this.isUseModernHolidays()
+          && ((day === 4 && dayOfWeek === 3) || ((day === 3 || day === 2) && dayOfWeek === 4)
+            || (day === 5 && dayOfWeek === 2))) {
           return JewishCalendar.YOM_HAZIKARON;
         }
 
         // if 5 Iyar falls on Wed Yom Haatzmaut is that day. If it fal1s on Friday or Shabbos it is moved back to
         // Thursday. If it falls on Monday it is moved to Tuesday
-        if (this.isUseModernHolidays() && ((day === 5 && dayOfWeek === 4) ||
-          ((day === 4 || day === 3) && dayOfWeek === 5) || (day === 6 && dayOfWeek === 3))) {
+        if (this.isUseModernHolidays() && ((day === 5 && dayOfWeek === 4)
+          || ((day === 4 || day === 3) && dayOfWeek === 5) || (day === 6 && dayOfWeek === 3))) {
           return JewishCalendar.YOM_HAATZMAUT;
         }
 
@@ -612,9 +612,9 @@ export class JewishCalendar extends JewishDate {
    */
   public isYomTov(): boolean {
     const holidayIndex: number = this.getYomTovIndex();
-    if ((this.isErevYomTov() && (holidayIndex !== JewishCalendar.HOSHANA_RABBA &&
-        (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() !== 20))) ||
-      holidayIndex === JewishCalendar.CHANUKAH || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR)) {
+    if ((this.isErevYomTov() && (holidayIndex !== JewishCalendar.HOSHANA_RABBA
+      && (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() !== 20)))
+      || holidayIndex === JewishCalendar.CHANUKAH || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR)) {
       return false;
     }
     return this.getYomTovIndex() !== -1;
@@ -677,11 +677,11 @@ export class JewishCalendar extends JewishDate {
    * @return  if the day is the second day of <em>Yom Tov</em>.
    */
   public isErevYomTovSheni(): boolean {
-    return (this.getJewishMonth() === JewishCalendar.TISHREI && (this.getJewishDayOfMonth() === 1)) ||
-      (!this.getInIsrael() &&
-        ((this.getJewishMonth() === JewishCalendar.NISSAN && [15, 21].includes(this.getJewishDayOfMonth())) ||
-          (this.getJewishMonth() === JewishCalendar.TISHREI && [15, 22].includes(this.getJewishDayOfMonth())) ||
-          (this.getJewishMonth() === JewishCalendar.SIVAN && this.getJewishDayOfMonth() === 6)));
+    return (this.getJewishMonth() === JewishCalendar.TISHREI && (this.getJewishDayOfMonth() === 1))
+      || (!this.getInIsrael()
+        && ((this.getJewishMonth() === JewishCalendar.NISSAN && [15, 21].includes(this.getJewishDayOfMonth()))
+          || (this.getJewishMonth() === JewishCalendar.TISHREI && [15, 22].includes(this.getJewishDayOfMonth()))
+          || (this.getJewishMonth() === JewishCalendar.SIVAN && this.getJewishDayOfMonth() === 6)));
   }
 
   /**
@@ -747,8 +747,8 @@ export class JewishCalendar extends JewishDate {
       JewishCalendar.HOSHANA_RABBA,
     ];
     const holidayIndex: number = this.getYomTovIndex();
-    return erevYomTov.includes(holidayIndex) ||
-      (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() === 20);
+    return erevYomTov.includes(holidayIndex)
+      || (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() === 20);
   }
 
   /**
@@ -828,10 +828,10 @@ export class JewishCalendar extends JewishDate {
    * @return true if it is Shabbos Mevorchim.
    */
   public isShabbosMevorchim(): boolean {
-    return this.getDayOfWeek() === SATURDAY &&
-      this.getJewishDayOfMonth() >= 23 &&
-      this.getJewishDayOfMonth() <= 29 &&
-      this.getJewishMonth() !== JewishCalendar.ELUL;
+    return this.getDayOfWeek() === SATURDAY
+      && this.getJewishDayOfMonth() >= 23
+      && this.getJewishDayOfMonth() <= 29
+      && this.getJewishMonth() !== JewishCalendar.ELUL;
   }
 
   /**

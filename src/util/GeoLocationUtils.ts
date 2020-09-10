@@ -113,9 +113,9 @@ export class GeoLocationUtils {
     while (Math.abs(lambda - lambdaP) > 1e-12 && --iterLimit > 0) {
       sinLambda = Math.sin(lambda);
       cosLambda = Math.cos(lambda);
-      sinSigma = Math.sqrt((cosU2 * sinLambda) * (cosU2 * sinLambda) +
-        (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) *
-        (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
+      sinSigma = Math.sqrt((cosU2 * sinLambda) * (cosU2 * sinLambda)
+        + (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda)
+        * (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
       if (sinSigma === 0) return 0; // co-incident points
       cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
       sigma = Math.atan2(sinSigma, cosSigma);
@@ -132,17 +132,17 @@ export class GeoLocationUtils {
     const uSq: number = cosSqAlpha * (a * a - b * b) / (b * b);
     const A: number = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));
     const B: number = uSq / 1024 * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));
-    const deltaSigma: number = B * sinSigma * (cos2SigmaM + B / 4 *
-        (cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM) - B / 6 * cos2SigmaM *
-          (-3 + 4 * sinSigma * sinSigma) * (-3 + 4 * cos2SigmaM * cos2SigmaM)));
+    const deltaSigma: number = B * sinSigma * (cos2SigmaM + B / 4
+        * (cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM) - B / 6 * cos2SigmaM
+          * (-3 + 4 * sinSigma * sinSigma) * (-3 + 4 * cos2SigmaM * cos2SigmaM)));
     const distance: number = b * A * (sigma - deltaSigma);
 
     // initial bearing
-    const fwdAz: number = MathUtils.radiansToDegrees(Math.atan2(cosU2 * sinLambda, cosU1 *
-      sinU2 - sinU1 * cosU2 * cosLambda));
+    const fwdAz: number = MathUtils.radiansToDegrees(Math.atan2(cosU2 * sinLambda, cosU1
+      * sinU2 - sinU1 * cosU2 * cosLambda));
     // final bearing
-    const revAz: number = MathUtils.radiansToDegrees(Math.atan2(cosU1 * sinLambda, -sinU1 *
-      cosU2 + cosU1 * sinU2 * cosLambda));
+    const revAz: number = MathUtils.radiansToDegrees(Math.atan2(cosU1 * sinLambda, -sinU1
+      * cosU2 + cosU1 * sinU2 * cosLambda));
     if (formula === GeoLocationUtils.DISTANCE) {
       return distance;
     } else if (formula === GeoLocationUtils.INITIAL_BEARING) {
@@ -166,9 +166,9 @@ export class GeoLocationUtils {
    */
   public static getRhumbLineBearing(location: GeoLocation, destination: GeoLocation): number {
     let dLon: number = MathUtils.degreesToRadians(destination.getLongitude() - location.getLongitude());
-    const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(destination.getLatitude()) /
-      2 + Math.PI / 4) /
-      Math.tan(MathUtils.degreesToRadians(location.getLatitude()) / 2 + Math.PI / 4));
+    const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(destination.getLatitude())
+      / 2 + Math.PI / 4)
+      / Math.tan(MathUtils.degreesToRadians(location.getLatitude()) / 2 + Math.PI / 4));
     if (Math.abs(dLon) > Math.PI) dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
     return MathUtils.radiansToDegrees(Math.atan2(dLon, dPhi));
   }
@@ -186,12 +186,12 @@ export class GeoLocationUtils {
    */
   public static getRhumbLineDistance(location: GeoLocation, destination: GeoLocation): number {
     const earthRadius: number = 6378137; // earth's mean radius in km
-    const dLat: number = MathUtils.degreesToRadians(location.getLatitude()) -
-      MathUtils.degreesToRadians(destination.getLatitude());
-    let dLon: number = Math.abs(MathUtils.degreesToRadians(location.getLongitude()) -
-      MathUtils.degreesToRadians(destination.getLongitude()));
-    const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(location.getLatitude()) / 2 + Math.PI / 4) /
-      Math.tan(MathUtils.degreesToRadians(destination.getLatitude()) / 2 + Math.PI / 4));
+    const dLat: number = MathUtils.degreesToRadians(location.getLatitude())
+      - MathUtils.degreesToRadians(destination.getLatitude());
+    let dLon: number = Math.abs(MathUtils.degreesToRadians(location.getLongitude())
+      - MathUtils.degreesToRadians(destination.getLongitude()));
+    const dPhi: number = Math.log(Math.tan(MathUtils.degreesToRadians(location.getLatitude()) / 2 + Math.PI / 4)
+      / Math.tan(MathUtils.degreesToRadians(destination.getLatitude()) / 2 + Math.PI / 4));
 
     let q: number = dLat / dPhi;
     if (!Number.isFinite(q)) {

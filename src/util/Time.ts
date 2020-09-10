@@ -144,8 +144,8 @@ export class Time {
   }
 
   public getTime(): number {
-    return this.hours * Time.HOUR_MILLIS + this.minutes * Time.MINUTE_MILLIS + this.seconds * Time.SECOND_MILLIS +
-      this.milliseconds;
+    return this.hours * Time.HOUR_MILLIS + this.minutes * Time.MINUTE_MILLIS + this.seconds * Time.SECOND_MILLIS
+      + this.milliseconds;
   }
 
   /**
@@ -153,7 +153,7 @@ export class Time {
    */
   // eslint-disable-next-line class-methods-use-this
   public toString(): string {
-    throw new UnsupportedError('This method is deprecated, due to the fact that it depends on a circular dependency. ' +
-      'Use `new ZmanimFormatter(TimeZone.getTimeZone(\'UTC\')).format(time)` instead');
+    throw new UnsupportedError('This method is deprecated, due to the fact that it depends on a circular dependency. '
+      + 'Use `new ZmanimFormatter(TimeZone.getTimeZone(\'UTC\')).format(time)` instead');
   }
 }
