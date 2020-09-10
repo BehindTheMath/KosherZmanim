@@ -1,3 +1,7 @@
+# v0.7.0
+### Breaking Changes:
+* Some of the names and types of members of the `Zman` class have been changed.
+
 # v0.6.0
 ### Breaking Changes:
 * Moment and Moment Timezone have been replaced with [Luxon](https://moment.github.io/luxon/index.html).  
