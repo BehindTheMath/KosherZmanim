@@ -828,7 +828,10 @@ export class JewishCalendar extends JewishDate {
    * @return true if it is Shabbos Mevorchim.
    */
   public isShabbosMevorchim(): boolean {
-    return (this.getDayOfWeek() === SATURDAY && this.getJewishDayOfMonth() >= 23 && this.getJewishDayOfMonth() <= 29);
+    return this.getDayOfWeek() === SATURDAY &&
+      this.getJewishDayOfMonth() >= 23 &&
+      this.getJewishDayOfMonth() <= 29 &&
+      this.getJewishMonth() !== JewishCalendar.ELUL;
   }
 
   /**
