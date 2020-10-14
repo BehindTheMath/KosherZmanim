@@ -9,7 +9,7 @@ import { UnsupportedError } from '../polyfills/errors';
 const { MONDAY, TUESDAY, THURSDAY, FRIDAY, SATURDAY } = Calendar;
 
 /**
- * Note that despite there being a Vezos Habracha value, this is for consistency, and this is not currently used
+ * The {@link #VZOS_HABERACHA} enum exists for consistency, but is not currently used.
  *
  */
 export enum Parsha {
@@ -79,6 +79,8 @@ export class JewishCalendar extends JewishDate {
   public static readonly YOM_HAZIKARON: number = 30;
   public static readonly YOM_HAATZMAUT: number = 31;
   public static readonly YOM_YERUSHALAYIM: number = 32;
+  public static readonly LAG_BAOMER: number = 33;
+  public static readonly SHUSHAN_PURIM_KATAN: number = 34;
 
   private inIsrael: boolean = false;
   private useModernHolidays: boolean = false;
@@ -438,16 +440,20 @@ export class JewishCalendar extends JewishDate {
   }
 
   /**
-   * Returns an index of the Jewish holiday or fast day for the current day, or a null if there is no holiday for this
-   * day.
+   * Returns an index of the Jewish holiday or fast day for the current day, or a -1 if there is no holiday for this
+   * day. There are constants in this class representing each Yom Tov. Formatting of the Yomim tovim is done in the
+   * ZmanimFormatter#
    *
-   * @return A String containing the holiday name or an empty string if it is not a holiday.
+   * @todo consider using enums instead of the constant ints.
+   *
+   * @return the index of the holiday such as the constant {@link #LAG_BAOMER} or {@link #YOM_KIPPUR} or a -1 if it is not a holiday.
+   * @see com.kosherjava.zmanim.hebrewcalendar.HebreDateFormatter
    */
   public getYomTovIndex(): number {
     const day: number = this.getJewishDayOfMonth();
     const dayOfWeek: number = this.getDayOfWeek();
 
-    // check by month (starts from Nissan)
+    // check by month (starting from Nissan)
     // eslint-disable-next-line default-case
     switch (this.getJewishMonth()) {
       case JewishCalendar.NISSAN:
@@ -481,6 +487,10 @@ export class JewishCalendar extends JewishDate {
 
         if (day === 14) {
           return JewishCalendar.PESACH_SHENI;
+        }
+
+        if (day === 18) {
+          return JewishCalendar.LAG_BAOMER;
         }
 
         if (this.isUseModernHolidays() && day === 28) {
@@ -579,9 +589,15 @@ export class JewishCalendar extends JewishDate {
           } else if (day === 15) {
             return JewishCalendar.SHUSHAN_PURIM;
           }
-        } else if (day === 14) {
+        } else {
           // else if a leap year
-          return JewishCalendar.PURIM_KATAN;
+          if (day === 14) {
+            return JewishCalendar.PURIM_KATAN;
+          }
+
+          if (day === 15) {
+            return JewishCalendar.SHUSHAN_PURIM_KATAN;
+          }
         }
         break;
       case JewishCalendar.ADAR_II:
@@ -602,21 +618,29 @@ export class JewishCalendar extends JewishDate {
   }
 
   /**
-   * Returns true if the current day is Yom Tov. The method returns false for Chanukah, Erev Yom Tov (with the
-   * exception of Hoshana Rabba and Erev the second days of Pesach) and fast days.
+   * Returns true if the current day is Yom Tov. The method returns true even for holidays such as {@link #CHANUKAH} and minor
+   * ones such as {@link #TU_BEAV} and {@link #PESACH_SHENI}. Erev Yom Tov (with the exception of {@link #HOSHANA_RABBA},
+   * Erev the second days of Pesach) returns false, as do {@link #isTaanis() fast days} besides {@link #YOM_KIPPUR}. Use
+   * {@link #isAssurBemelacha()} to find the days that have a prohibition of work.
    *
    * @return true if the current day is a Yom Tov
+   *
+   * @see #getYomTovIndex()
    * @see #isErevYomTov()
    * @see #isErevYomTovSheni()
    * @see #isTaanis()
+   * @see #isAssurBemelacha()
+   * @see #isCholHamoed()
    */
   public isYomTov(): boolean {
     const holidayIndex: number = this.getYomTovIndex();
+
     if ((this.isErevYomTov() && (holidayIndex !== JewishCalendar.HOSHANA_RABBA
       && (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() !== 20)))
-      || holidayIndex === JewishCalendar.CHANUKAH || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR)) {
+      || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR)) {
       return false;
     }
+
     return this.getYomTovIndex() !== -1;
   }
 

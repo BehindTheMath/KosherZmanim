@@ -1239,14 +1239,14 @@ export class JewishDate {
       // Change Gregorian date
       for (let i = 0; i < amount; i++) {
         if (this.gregorianDayOfMonth === JewishDate.getLastDayOfGregorianMonth(this.gregorianMonth, this.gregorianYear)) {
+          this.gregorianDayOfMonth = 1;
+
           // if last day of year
           if (this.gregorianMonth === 12) {
             this.gregorianYear++;
-            this.gregorianMonth = 1;
           } else {
             this.gregorianMonth++;
           }
-          this.gregorianDayOfMonth = 1;
         } else {
           // if not last day of month
           this.gregorianDayOfMonth++;
