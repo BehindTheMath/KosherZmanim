@@ -742,6 +742,6 @@ export class AstronomicalCalendar {
 
   // eslint-disable-next-line class-methods-use-this
   public getClassName() {
-    return 'net.sourceforge.zmanim.AstronomicalCalendar';
+    return 'com.kosherjava.zmanim.AstronomicalCalendar';
   }
 }

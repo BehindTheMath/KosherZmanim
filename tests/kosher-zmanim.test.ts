@@ -30,7 +30,7 @@ test('It returns the correct metadata for Basic Zmanim', function () {
     timeZoneID: timeZoneId,
     timeZoneName: toBeOneOf(['Eastern Daylight Time', 'Eastern Standard Time']),
     timeZoneOffset: toBeOneOf(['-4.0', '-5.0']),
-    type: 'net.sourceforge.zmanim.ZmanimCalendar',
+    type: 'com.kosherjava.zmanim.ZmanimCalendar',
   };
 
   expect(zmanimJson.metadata).toMatchObject(expected);
@@ -62,7 +62,7 @@ test('It returns the correct metadata for Complex Zmanim', function () {
     timeZoneID: timeZoneId,
     timeZoneName: toBeOneOf(['Eastern Daylight Time', 'Eastern Standard Time']),
     timeZoneOffset: toBeOneOf(['-4.0', '-5.0']),
-    type: 'net.sourceforge.zmanim.ComplexZmanimCalendar',
+    type: 'com.kosherjava.zmanim.ComplexZmanimCalendar',
   };
 
   expect(zmanimJson.metadata).toMatchObject(expected);

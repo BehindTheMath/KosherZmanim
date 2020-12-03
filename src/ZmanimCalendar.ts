@@ -655,7 +655,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
 
   // eslint-disable-next-line class-methods-use-this
   public getClassName() {
-    return 'net.sourceforge.zmanim.ZmanimCalendar';
+    return 'com.kosherjava.zmanim.ZmanimCalendar';
   }
 
   /**

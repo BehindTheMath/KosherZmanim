@@ -3448,6 +3448,6 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
 
   // eslint-disable-next-line class-methods-use-this
   public getClassName() {
-    return 'net.sourceforge.zmanim.ComplexZmanimCalendar';
+    return 'com.kosherjava.zmanim.ComplexZmanimCalendar';
   }
 }
