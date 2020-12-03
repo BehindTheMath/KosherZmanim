@@ -3,29 +3,74 @@ import { UnsupportedError } from '../polyfills/errors';
 /**
  * A class that represents a numeric time. Times that represent a time of day are stored as {@link java.util.Date}s in
  * this API. The time class is used to represent numeric time such as the time in hours, minutes, seconds and
- * milliseconds of a {@link net.sourceforge.zmanim.AstronomicalCalendar#getTemporalHour() temporal hour}.
+ * milliseconds of a {@link AstronomicalCalendar#getTemporalHour() temporal hour}.
  *
  * @author &copy; Eliyahu Hershfeld 2004 - 2011
  * @version 0.9.0
  */
 
 export class Time {
+  /** milliseconds in a second. */
   private static readonly SECOND_MILLIS: number = 1000;
 
+  /** milliseconds in a minute. */
   private static readonly MINUTE_MILLIS: number = Time.SECOND_MILLIS * 60;
 
+  /** milliseconds in an hour. */
   private static readonly HOUR_MILLIS: number = Time.MINUTE_MILLIS * 60;
 
+  /**
+   * @see #getHours()
+   */
   private hours: number = 0;
 
+  /**
+   * @see #getMinutes()
+   */
   private minutes: number = 0;
 
+  /**
+   * @see #getSeconds()
+   */
   private seconds: number = 0;
 
+  /**
+   * @see #getMilliseconds()
+   */
   private milliseconds: number = 0;
 
+  /**
+   * @see #isNegative()
+   * @see #setIsNegative(boolean)
+   */
   private negative: boolean = false;
 
+  /**
+   * Constructor with parameters for the hours, minutes, seconds and millisecods.
+   *
+   * @param hours the hours to set
+   * @param minutes the minutes to set
+   * @param seconds the seconds to set
+   * @param milliseconds the milliseconds to set
+   */
+  constructor(hours: number, minutes: number, seconds: number, milliseconds: number)
+  /**
+   * A constructor that sets the time by milliseconds. The milliseconds are converted to hours, minutes, seconds
+   * and milliseconds. If the milliseconds are negative it will call {@link #setIsNegative(boolean)}.
+   * @param millis the milliseconds to set.
+   */
+  constructor(millis: number)
+  /**
+   * A constructor with 2 overloads:
+   * - A constructor that sets the time by milliseconds.
+   *   The milliseconds are converted to hours, minutes, seconds and milliseconds. If the
+   *   milliseconds are negative it will call {@link #setIsNegative(boolean)}.
+   * - A constructor with parameters for the hours, minutes, seconds and millisecods.
+   * @param hoursOrMillis
+   * @param minutes
+   * @param seconds
+   * @param milliseconds
+   */
   constructor(hoursOrMillis: number, minutes?: number, seconds: number = 0, milliseconds: number = 0) {
     if (minutes) {
       this.hours = hoursOrMillis;
@@ -75,10 +120,18 @@ export class Time {
       }
   */
 
+  /**
+   * Does the time represent a negative time 9such as using this to subtract time from another Time.
+   * @return if the time is negative.
+   */
   public isNegative(): boolean {
     return this.negative;
   }
 
+  /**
+   * Set this to represent a negative time.
+   * @param isNegative that the Time represents negative time
+   */
   public setIsNegative(isNegative: boolean): void {
     this.negative = isNegative;
   }
@@ -143,6 +196,10 @@ export class Time {
     this.milliseconds = milliseconds;
   }
 
+  /**
+   * Returns the time in milliseconds by converting hours, minutes and seconds into milliseconds.
+   * @return the time in milliseconds
+   */
   public getTime(): number {
     return this.hours * Time.HOUR_MILLIS + this.minutes * Time.MINUTE_MILLIS + this.seconds * Time.SECOND_MILLIS
       + this.milliseconds;

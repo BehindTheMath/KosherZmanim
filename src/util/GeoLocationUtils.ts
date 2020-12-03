@@ -9,8 +9,22 @@ import { MathUtils } from '../polyfills/Utils';
  * @author &copy; Eliyahu Hershfeld 2009 - 2019
  */
 export class GeoLocationUtils {
+  /**
+   * Constant for a distance type calculation.
+   * @see #getGeodesicDistance(GeoLocation, GeoLocation)
+   */
   private static readonly DISTANCE: number = 0;
+
+  /**
+   * Constant for a initial bearing type calculation.
+   * @see #getGeodesicInitialBearing(GeoLocation, GeoLocation)
+   */
   private static readonly INITIAL_BEARING: number = 1;
+
+  /**
+   * Constant for a final bearing type calculation.
+   * @see #getGeodesicFinalBearing(GeoLocation, GeoLocation)
+   */
   private static readonly FINAL_BEARING: number = 2;
 
   /**

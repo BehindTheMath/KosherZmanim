@@ -124,7 +124,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *
    * @return {@link #getSeaLevelSunrise()} if {@link #isUseElevation()} is false (the default), or elevation adjusted
    *          {@link AstronomicalCalendar#getSunrise()} if it is true.
-   * @see net.sourceforge.zmanim.AstronomicalCalendar#getSunrise()
+   * @see AstronomicalCalendar#getSunrise()
    */
   protected getElevationAdjustedSunrise(): DateTime | null {
     if (this.isUseElevation()) {
@@ -140,7 +140,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *
    * @return {@link #getSeaLevelSunset()} if {@link #isUseElevation()} is false (the default), or elevation adjusted
    *          {@link AstronomicalCalendar#getSunset()} if it is true.
-   * @see net.sourceforge.zmanim.AstronomicalCalendar#getSunset()
+   * @see AstronomicalCalendar#getSunset()
    */
   protected getElevationAdjustedSunset(): DateTime | null {
     if (this.isUseElevation()) {
@@ -237,7 +237,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *            the start of day for calculating <em>zman krias shema</em>. This can be sunrise or any alos passed to
    *            this method.
    * @param endOfDay
-   *            the start of day for calculating <em>zman krias shema</em>. This can be sunset or any tzais passed to
+   *            the end of day for calculating <em>zman krias shema</em>. This can be sunset or any tzais passed to
    *            this method.
    * @return the <code>Date</code> of the latest <em>zman shema</em> based on the start and end of day times passed to this
    *         method. If the calculation can't be computed such as in the Arctic Circle where there is at least one day
@@ -293,11 +293,13 @@ export class ZmanimCalendar extends AstronomicalCalendar {
   }
 
   /**
-   * This method returns the <em>tzais</em> (nightfall) based on the opinion of the <em><a href=
-   * "https://en.wikipedia.org/wiki/Maimonides">Rambam</a></em> and <em>Rabbeinu Tam</em> that <em>tzais</em> is
-   * calculated as 72 minutes, the time it takes to walk 4 <em>Mil</em> at 18 minutes a <em>Mil</em>. Based on
-   * the on the {@link #isUseElevation()} setting) a 72 minute offset from either {@link #getSunset() sunset} or
-   * {@link #getSeaLevelSunset() sea level sunset} is used.
+   * This method returns the <em>tzais</em> (nightfall) based on the opinion of <em>Rabbeinu Tam</em> that
+   * <em>tzais hakochavim</em> is calculated as 72 minutes, the time it takes to walk 4 <em>Mil</em> at 18 minutes
+   * a <em>Mil</em>. According to the <a href="https://en.wikipedia.org/wiki/Samuel_Loew">Machtzis Hashekel</a> in
+   * Orach Chaim 235:3, the <a href="https://en.wikipedia.org/wiki/Joseph_ben_Meir_Teomim">Pri Megadim</a> in Orach
+   * Chaim 261:2 (see the Biur Halacha) and others (see Hazmanim Bahalacha 17:3 and 17:5) the 72 minutes are standard
+   * clock minutes any time of the year in any location. Depending on the {@link #isUseElevation()} setting) a 72
+   * minute offset from  either {@link #getSunset() sunset} or {@link #getSeaLevelSunset() sea level sunset} is used.
    *
    * @see ComplexZmanimCalendar#getTzais16Point1Degrees()
    * @return the <code>Date</code> representing 72 minutes after sunset. If the calculation can't be
@@ -411,7 +413,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *            the start of day for calculating <em>Mincha gedola</em>. This can be sunrise or any alos passed to
    *            this method.
    * @param endOfDay
-   *            the start of day for calculating <em>Mincha gedola</em>. This can be sunrise or any alos passed to
+   *            the end of day for calculating <em>Mincha gedola</em>. This can be sunrise or any alos passed to
    *            this method.
    * @return the <code>Date</code> of the time of <em>Mincha gedola</em> based on the start and end of day times
    *         passed to this method. If the calculation can't be computed such as in the Arctic Circle where there is
@@ -468,7 +470,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *            the start of day for calculating <em>Mincha ketana</em>. This can be sunrise or any alos passed to
    *            this method.
    * @param endOfDay
-   *            the start of day for calculating <em>Mincha ketana</em>. This can be sunrise or any alos passed to
+   *            the end of day for calculating <em>Mincha ketana</em>. This can be sunrise or any alos passed to
    *            this method.
    * @return the <code>Date</code> of the time of <em>Mincha ketana</em> based on the start and end of day times
    *         passed to this method. If the calculation can't be computed such as in the Arctic Circle where there is
@@ -522,7 +524,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @param startOfDay
    *            the start of day for calculating plag. This can be sunrise or any alos passed to this method.
    * @param endOfDay
-   *            the start of day for calculating plag. This can be sunrise or any alos passed to this method.
+   *            the end of day for calculating plag. This can be sunrise or any alos passed to this method.
    * @return the <code>Date</code> of the time of <em>plag hamincha</em> based on the start and end of day times
    *         passed to this method. If the calculation can't be computed such as in the Arctic Circle where there is
    *         at least one day a year where the sun does not rise, and one where it does not set, a null will be

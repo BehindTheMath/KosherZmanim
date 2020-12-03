@@ -48,16 +48,19 @@ export class Zman {
    * The name / label of the <em>zman</em>.
    */
   label: string | null;
+
   /**
    * The {@link Date} of the <em>zman</em>
    */
   zman?: DateTime;
+
   /**
-   * The duration if the <em>zman</em> is  a {@link net.sourceforge.zmanim.AstronomicalCalendar#getTemporalHour() temporal hour} (or the various
-   * <em>shaah zmanis</em> base times such as {@link net.sourceforge.zmanim.ZmanimCalendar#getShaahZmanisGra()  <em>shaah Zmanis GRA</em>} or
-   * {@link net.sourceforge.zmanim.ComplexZmanimCalendar#getShaahZmanis16Point1Degrees() <em>shaah Zmanis 16.1&deg;</em>}).
+   * The duration if the <em>zman</em> is  a {@link AstronomicalCalendar#getTemporalHour() temporal hour} (or the various
+   * <em>shaah zmanis</em> base times such as {@link ZmanimCalendar#getShaahZmanisGra()  <em>shaah Zmanis GRA</em>} or
+   * {@link ComplexZmanimCalendar#getShaahZmanis16Point1Degrees() <em>shaah Zmanis 16.1&deg;</em>}).
    */
   duration?: number;
+
   /**
    * A longer description or explanation of a <em>zman</em>.
    */
@@ -72,10 +75,10 @@ export class Zman {
   constructor(date: DateTime, label: string | null)
   /**
    * The constructor setting a duration based <em>zman</em> such as
-   * {@link net.sourceforge.zmanim.AstronomicalCalendar#getTemporalHour() temporal hour} (or the various <em>shaah zmanis</em> times such as
-   * {@link net.sourceforge.zmanim.ZmanimCalendar#getShaahZmanisGra() <em>shaah zmanis GRA</em>} or
-   * {@link net.sourceforge.zmanim.ComplexZmanimCalendar#getShaahZmanis16Point1Degrees() <em>shaah Zmanis 16.1&deg;</em>}) and label.
-   * @param duration a duration based <em>zman</em> such as ({@link net.sourceforge.zmanim.AstronomicalCalendar#getTemporalHour()}
+   * {@link AstronomicalCalendar#getTemporalHour() temporal hour} (or the various <em>shaah zmanis</em> times such as
+   * {@link ZmanimCalendar#getShaahZmanisGra() <em>shaah zmanis GRA</em>} or
+   * {@link ComplexZmanimCalendar#getShaahZmanis16Point1Degrees() <em>shaah Zmanis 16.1&deg;</em>}) and label.
+   * @param duration a duration based <em>zman</em> such as ({@link AstronomicalCalendar#getTemporalHour()}
    * @param label the label of the  <em>zman</em> such as "<em>Shaah Zmanis GRA</em>".
    * @see #Zman(Date, String)
    */
@@ -115,9 +118,9 @@ export class Zman {
 
   /**
    * A {@link Comparator} that will compare and sort duration based <em>zmanim</em>  such as
-   * {@link net.sourceforge.zmanim.AstronomicalCalendar#getTemporalHour() temporal hour} (or the various <em>shaah zmanis</em> times
-   * such as <em>{@link net.sourceforge.zmanim.ZmanimCalendar#getShaahZmanisGra() shaah zmanis GRA}</em> or
-   * {@link net.sourceforge.zmanim.ComplexZmanimCalendar#getShaahZmanis16Point1Degrees() <em>shaah zmanis 16.1&deg;</em>}). Returns a negative
+   * {@link AstronomicalCalendar#getTemporalHour() temporal hour} (or the various <em>shaah zmanis</em> times
+   * such as <em>{@link ZmanimCalendar#getShaahZmanisGra() shaah zmanis GRA}</em> or
+   * {@link ComplexZmanimCalendar#getShaahZmanis16Point1Degrees() <em>shaah zmanis 16.1&deg;</em>}). Returns a negative
    * integer, zero, or a positive integer as the first argument is less than, equal to, or greater than the second.
    * Please note that this class will will sort cases where {@code Zman} is a null.
    */

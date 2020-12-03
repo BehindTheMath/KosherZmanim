@@ -92,8 +92,14 @@ export class AstronomicalCalendar {
    */
   private date!: DateTime;
 
+  /**
+   * the {@link GeoLocation} used for calculations.
+   */
   private geoLocation!: GeoLocation;
 
+  /**
+   * the internal {@link AstronomicalCalculator} used for calculating solar based times.
+   */
   private astronomicalCalculator!: AstronomicalCalculator;
 
   /**
@@ -324,7 +330,7 @@ export class AstronomicalCalendar {
   /**
    * A constructor that takes in <a href="http://en.wikipedia.org/wiki/Geolocation">geolocation</a> information as a
    * parameter. The default {@link AstronomicalCalculator#getDefault() AstronomicalCalculator} used for solar
-   * calculations is the the {@link net.sourceforge.zmanim.util.NOAACalculator}.
+   * calculations is the the {@link NOAACalculator}.
    *
    * @param geoLocation
    *            The location information used for calculating astronomical sun times.
@@ -605,8 +611,8 @@ export class AstronomicalCalendar {
 
   /**
    * @return an XML formatted representation of the class. It returns the default output of the
-   *         {@link net.sourceforge.zmanim.util.ZmanimFormatter#toXML(AstronomicalCalendar) toXML} method.
-   * @see net.sourceforge.zmanim.util.ZmanimFormatter#toXML(AstronomicalCalendar)
+   *         {@link ZmanimFormatter#toXML(AstronomicalCalendar) toXML} method.
+   * @see ZmanimFormatter#toXML(AstronomicalCalendar)
    * @see java.lang.Object#toString()
    * @deprecated (This depends on a circular dependency).
    */
@@ -617,8 +623,8 @@ export class AstronomicalCalendar {
 
   /**
    * @return a JSON formatted representation of the class. It returns the default output of the
-   *         {@link net.sourceforge.zmanim.util.ZmanimFormatter#toJSON(AstronomicalCalendar) toJSON} method.
-   * @see net.sourceforge.zmanim.util.ZmanimFormatter#toJSON(AstronomicalCalendar)
+   *         {@link ZmanimFormatter#toJSON(AstronomicalCalendar) toJSON} method.
+   * @see ZmanimFormatter#toJSON(AstronomicalCalendar)
    * @see java.lang.Object#toString()
    * @deprecated  This depends on a circular dependency. Use <pre>ZmanimFormatter.toJSON(astronomicalCalendar)</pre> instead.
    */
@@ -677,9 +683,9 @@ export class AstronomicalCalendar {
   /**
    * A method to set the {@link AstronomicalCalculator} used for astronomical calculations. The Zmanim package ships
    * with a number of different implementations of the <code>abstract</code> {@link AstronomicalCalculator} based on
-   * different algorithms, including {@link net.sourceforge.zmanim.util.SunTimesCalculator one implementation} based
+   * different algorithms, including {@link SunTimesCalculator one implementation} based
    * on the <a href = "http://aa.usno.navy.mil/">US Naval Observatory's</a> algorithm, and
-   * {@link net.sourceforge.zmanim.util.NOAACalculator another} based on <a href="http://noaa.gov">NOAA's</a>
+   * {@link NOAACalculator another} based on <a href="http://noaa.gov">NOAA's</a>
    * algorithm. This allows easy runtime switching and comparison of different algorithms.
    *
    * @param astronomicalCalculator
@@ -716,9 +722,9 @@ export class AstronomicalCalendar {
 
   /**
    * A method that creates a <a href="http://en.wikipedia.org/wiki/Object_copy#Deep_copy">deep copy</a> of the object.
-   * <b>Note:</b> If the {@link java.util.TimeZone} in the cloned {@link net.sourceforge.zmanim.util.GeoLocation} will
+   * <b>Note:</b> If the {@link java.util.TimeZone} in the cloned {@link GeoLocation} will
    * be changed from the original, it is critical that
-   * {@link net.sourceforge.zmanim.AstronomicalCalendar#getCalendar()}.
+   * {@link AstronomicalCalendar#getCalendar()}.
    * {@link java.util.Calendar#setTimeZone(TimeZone) setTimeZone(TimeZone)} be called in order for the
    * AstronomicalCalendar to output times in the expected offset after being cloned.
    *

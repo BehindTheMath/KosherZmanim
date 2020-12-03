@@ -29,7 +29,7 @@ export class NOAACalculator extends AstronomicalCalculator {
   private static readonly JULIAN_DAYS_PER_CENTURY: number = 36525;
 
   /**
-   * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getCalculatorName()
+   * @see AstronomicalCalculator#getCalculatorName()
    */
   // eslint-disable-next-line class-methods-use-this
   public getCalculatorName(): string {
@@ -37,7 +37,7 @@ export class NOAACalculator extends AstronomicalCalculator {
   }
 
   /**
-   * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
+   * @see AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
    */
   public getUTCSunrise(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
@@ -58,7 +58,7 @@ export class NOAACalculator extends AstronomicalCalculator {
   }
 
   /**
-   * @see net.sourceforge.zmanim.util.AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
+   * @see AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
    */
   public getUTCSunset(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;

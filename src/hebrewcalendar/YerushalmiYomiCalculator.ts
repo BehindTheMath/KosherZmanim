@@ -6,20 +6,26 @@ import { JewishCalendar } from './JewishCalendar';
 import { IllegalArgumentException } from '../polyfills/errors';
 
 /**
- * This class calculates the <a href="https://en.wikipedia.org/wiki/Jerusalem_Talmud">Yerusalmi</a> <a href=
+ * This class calculates the <a href="https://en.wikipedia.org/wiki/Jerusalem_Talmud">Talmud Yerusalmi</a> <a href=
  * "https://en.wikipedia.org/wiki/Daf_Yomi">Daf Yomi</a> page ({@link Daf}) for the a given date.
  *
  * @author &copy; elihaidv
  * @author &copy; Eliyahu Hershfeld 2017 - 2019
  */
 export class YerushalmiYomiCalculator {
+  /**
+   * The start date of the first Daf Yomi Yerushalmi cycle of February 2, 1980 / 18 Teves, 5740.
+   */
   private static readonly DAF_YOMI_START_DAY: DateTime = DateTime.fromObject({
     year: 1980,
     month: Calendar.FEBRUARY + 1,
     day: 2,
   });
 
+  /** The number of pages in the Talmud Yerushalmi. */
   private static readonly WHOLE_SHAS_DAFS: number = 1554;
+
+  /** The number of pages per <em>masechta</em> (tractate). */
   private static readonly BLATT_PER_MASECHTA: number[] = [68, 37, 34, 44, 31, 59, 26, 33, 28, 20, 13, 92, 65, 71, 22,
     22, 42, 26, 26, 33, 34, 22, 19, 85, 72, 47, 40, 47, 54, 48, 44, 37, 34, 44, 9, 57, 37, 19, 13];
 

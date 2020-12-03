@@ -28,8 +28,8 @@ import { IllegalArgumentException } from '../polyfills/errors';
  * the <a href="http://site.icu-project.org/" >ICU (International Components for Unicode)</a> project, formerly part of
  * IBM's DeveloperWorks.
  *
- * @see net.sourceforge.zmanim.hebrewcalendar.JewishCalendar
- * @see net.sourceforge.zmanim.hebrewcalendar.HebrewDateFormatter
+ * @see JewishCalendar
+ * @see HebrewDateFormatter
  * @see java.util.Date
  * @see java.util.Calendar
  * @author &copy; Avrom Finkelstien 2002
@@ -129,10 +129,19 @@ export class JewishDate {
    */
   private static readonly JEWISH_EPOCH: number = -1373429;
 
+  /** The number  of <em>chalakim</em> (18) in a minute. */
   private static readonly CHALAKIM_PER_MINUTE: number = 18;
+
+  /** The number  of <em>chalakim</em> (1080) in an hour. */
   private static readonly CHALAKIM_PER_HOUR: number = 1080;
+
+  /** The number of <em>chalakim</em> (25,920) in a 24 hour day. */
   private static readonly CHALAKIM_PER_DAY: number = 25920; // 24 * 1080
+
+  /** The number  of <em>chalakim</em> in an average Jewish month. A month has 29 days, 12 hours and 793
+   * <em>chalakim</em> (44 minutes and 3.3 seconds) for a total of 765,433 <em>chalakim</em> */
   private static readonly CHALAKIM_PER_MONTH: number = 765433; // (29 * 24 + 12) * 1080 + 793
+
   /**
    * Days from the beginning of Sunday till molad BaHaRaD. Calculated as 1 day, 5 hours and 204 chalakim = (24 + 5) *
    * 1080 + 204 = 31524
@@ -163,11 +172,22 @@ export class JewishDate {
    */
   public static readonly SHELAIMIM: number = 2;
 
+  /** the internal Jewish month. */
   private jewishMonth!: number;
+
+  /** the internal Jewish day. */
   private jewishDay!: number;
+
+  /** the internal Jewish year. */
   private jewishYear!: number;
+
+  /** the internal count of <em>molad</em> hours. */
   private moladHours!: number;
+
+  /** the internal count of <em>molad</em> minutes. */
   private moladMinutes!: number;
+
+  /** the internal count of <em>molad</em> <em>chalakim</em>. */
   private moladChalakim!: number;
 
   /**
@@ -286,6 +306,10 @@ export class JewishDate {
   /** 1 == Sunday, 2 == Monday, etc... */
   private dayOfWeek!: number;
 
+  /** Returns the absolute date (days since January 1, 0001 on the Gregorian calendar).
+   * @see #getAbsDate()
+   * @see #absDateToJewishDate()
+   */
   private gregorianAbsDate!: number;
 
   /**
@@ -777,7 +801,7 @@ export class JewishDate {
   }
 
   /**
-   * Computes the Jewish date from the absolute date. ND+ER
+   * Computes the Jewish date from the absolute date.
    */
   private absDateToJewishDate(): void {
     // Approximation from below
@@ -1370,6 +1394,7 @@ export class JewishDate {
   }
 
   /**
+   * Indicates whether some other object is "equal to" this one.
    * @see Object#equals(Object)
    */
   public equals(object: object): boolean {

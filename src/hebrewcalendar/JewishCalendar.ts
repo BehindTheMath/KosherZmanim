@@ -9,19 +9,43 @@ import { UnsupportedError } from '../polyfills/errors';
 const { MONDAY, TUESDAY, THURSDAY, FRIDAY, SATURDAY } = Calendar;
 
 /**
- * The {@link #VZOS_HABERACHA} enum exists for consistency, but is not currently used.
+ * List of <em>parshiyos</em>. {@link #NONE} indicates a week without a <em>parsha</em>, while the enum for the <em>parsha</em> of
+ * {@link #VZOS_HABERACHA} exists for consistency, but is not currently used.
  *
  */
 export enum Parsha {
-  NONE, BERESHIS, NOACH, LECH_LECHA, VAYERA, CHAYEI_SARA, TOLDOS, VAYETZEI,
+  /** NONE - A week without any <em>parsha</em> such as <em>Shabbos Chol Hamoed</em> */
+  NONE,
+  BERESHIS, NOACH, LECH_LECHA, VAYERA, CHAYEI_SARA, TOLDOS, VAYETZEI,
   VAYISHLACH, VAYESHEV, MIKETZ, VAYIGASH, VAYECHI, SHEMOS, VAERA, BO,
   BESHALACH, YISRO, MISHPATIM, TERUMAH, TETZAVEH, KI_SISA, VAYAKHEL,
   PEKUDEI, VAYIKRA, TZAV, SHMINI, TAZRIA, METZORA, ACHREI_MOS, KEDOSHIM,
   EMOR, BEHAR, BECHUKOSAI, BAMIDBAR, NASSO, BEHAALOSCHA, SHLACH, KORACH,
   CHUKAS, BALAK, PINCHAS, MATOS, MASEI, DEVARIM, VAESCHANAN, EIKEV,
   REEH, SHOFTIM, KI_SEITZEI, KI_SAVO, NITZAVIM, VAYEILECH, HAAZINU,
-  VZOS_HABERACHA, VAYAKHEL_PEKUDEI, TAZRIA_METZORA, ACHREI_MOS_KEDOSHIM, BEHAR_BECHUKOSAI,
-  CHUKAS_BALAK, MATOS_MASEI, NITZAVIM_VAYEILECH, SHKALIM, ZACHOR, PARA, HACHODESH,
+  VZOS_HABERACHA,
+  /** The double parsha of Vayakhel &amp; Peudei */
+  VAYAKHEL_PEKUDEI,
+  /** The double <em>parsha</em> of Tazria &amp; Metzora */
+  TAZRIA_METZORA,
+  /** The double <em>parsha</em> of Achrei Mos &amp; Kedoshim */
+  ACHREI_MOS_KEDOSHIM,
+  /** The double <em>parsha</em> of Behar &amp; Bechukosai */
+  BEHAR_BECHUKOSAI,
+  /** The double <em>parsha</em> of Chukas &amp; Balak */
+  CHUKAS_BALAK,
+  /** The double <em>parsha</em> of Matos &amp; Masei */
+  MATOS_MASEI,
+  /** The double <em>parsha</em> of Nitzavim &amp; Vayelech */
+  NITZAVIM_VAYEILECH,
+  /** The special <em>parsha</em> of Shekalim */
+  SHKALIM,
+  /** The special <em>parsha</em> of Zachor */
+  ZACHOR,
+  /** The special <em>parsha</em> of Para */
+  PARA,
+  /** The special <em>parsha</em> of Hachodesh */
+  HACHODESH,
 }
 
 /**
@@ -31,7 +55,7 @@ export enum Parsha {
  * from his C++ code. It was refactored to fit the KosherJava Zmanim API with simplification of the code, enhancements
  * and some bug fixing. The class allows setting whether the holiday and parsha scheme follows the Israel scheme or outside Israel
  * scheme. The default is the outside Israel scheme.
- * The parsha code was ported by Y Paritcher from his <a href="https://github.com/yparitcher/libzmanim">libzmanim</a> code.
+ * The parsha code was ported by Y. Paritcher from his <a href="https://github.com/yparitcher/libzmanim">libzmanim</a> code.
  *
  * TODO: Some do not belong in this class, but here is a partial list of what should still be implemented in some form:
  * <ol>
@@ -41,50 +65,145 @@ export enum Parsha {
  *
  * @see java.util.Date
  * @see java.util.Calendar
- * @author &copy; Y Paritcher 2019
+ * @author &copy; Y. Paritcher 2019
  * @author &copy; Avrom Finkelstien 2002
  * @author &copy; Eliyahu Hershfeld 2011 - 2019
  */
 export class JewishCalendar extends JewishDate {
+  /** The 14th day of Nisan, the day before of Pesach (Passover). */
   public static readonly EREV_PESACH: number = 0;
+
+  /** The holiday of Pesach (Passover) on the 15th (and 16th out of Israel) day of Nisan. */
   public static readonly PESACH: number = 1;
+
+  /** Chol Hamoed (interim days) of Pesach (Passover) */
   public static readonly CHOL_HAMOED_PESACH: number = 2;
+
+  /** Pesach Sheni, the 14th day of Iyar, a minor holiday. */
   public static readonly PESACH_SHENI: number = 3;
+
+  /** Erev Shavuos (the day before Shavuos), the 5th of Sivan */
   public static readonly EREV_SHAVUOS: number = 4;
+
+  /** Shavuos (Pentecost), the 6th of Sivan */
   public static readonly SHAVUOS: number = 5;
+
+  /** The fast of the 17th day of Tamuz */
   public static readonly SEVENTEEN_OF_TAMMUZ: number = 6;
+
+  /** The fast of the 9th of Av */
   public static readonly TISHA_BEAV: number = 7;
+
+  /** The 15th day of Av, a minor holiday */
   public static readonly TU_BEAV: number = 8;
+
+  /** Erev Rosh Hashana (the day before Rosh Hashana), the 29th of Elul */
   public static readonly EREV_ROSH_HASHANA: number = 9;
+
+  /** Rosh Hashana, the first of Tishrei. */
   public static readonly ROSH_HASHANA: number = 10;
+
+  /** The fast of Gedalyah, the 3rd of Tishrei. */
   public static readonly FAST_OF_GEDALYAH: number = 11;
+
+  /** The 9th day of Tishrei, the day before of Yom Kippur. */
   public static readonly EREV_YOM_KIPPUR: number = 12;
+
+  /** The holiday of Yom Kippur, the 10th day of Tishrei */
   public static readonly YOM_KIPPUR: number = 13;
+
+  /** The 14th day of Tishrei, the day before of Succos/Sukkos (Tabernacles). */
   public static readonly EREV_SUCCOS: number = 14;
+
+  /** The holiday of Succos/Sukkos (Tabernacles), the 15th (and 16th out of Israel) day of Tishrei */
   public static readonly SUCCOS: number = 15;
+
+  /** Chol Hamoed (interim days) of Succos/Sukkos (Tabernacles) */
   public static readonly CHOL_HAMOED_SUCCOS: number = 16;
+
+  /** Hoshana Rabba, the 7th day of Succos/Sukkos that occurs on the 21st of Tishrei. */
   public static readonly HOSHANA_RABBA: number = 17;
+
+  /** Shmini Atzeres, the 8th day of Succos/Sukkos is an independent holiday that occurs on the 22nd of Tishrei. */
   public static readonly SHEMINI_ATZERES: number = 18;
+
+  /** Simchas Torah, the 9th day of Succos/Sukkos, or the second day of Shmini Atzeres that is celebrated
+   * {@link #getInIsrael() out of Israel} on the 23rd of Tishrei.
+   */
   public static readonly SIMCHAS_TORAH: number = 19;
+
   // public static final int EREV_CHANUKAH = 20;// probably remove this
+
+  /** The holiday of Chanukah. 8 days starting on the 25th day Kislev. */
   public static readonly CHANUKAH: number = 21;
+
+  /** The fast of the 10th day of Teves. */
   public static readonly TENTH_OF_TEVES: number = 22;
+
+  /** Tu Bishvat on the 15th day of Shevat, a minor holiday. */
   public static readonly TU_BESHVAT: number = 23;
+
+  /** The fast of Esther, usually on the 13th day of Adar (or Adar II on leap years). It is earlier on some years. */
   public static readonly FAST_OF_ESTHER: number = 24;
+
+  /** The holiday of Purim on the 14th day of Adar (or Adar II on leap years). */
   public static readonly PURIM: number = 25;
+
+  /** The holiday of Shushan Purim on the 15th day of Adar (or Adar II on leap years). */
   public static readonly SHUSHAN_PURIM: number = 26;
+
+  /** The holiday of Purim Katan on the 14th day of Adar I on a leap year when Purim is on Adar II, a minor holiday. */
   public static readonly PURIM_KATAN: number = 27;
+
+  /**
+   * Rosh Chodesh, the new moon on the first day of the Jewish month, and the 30th day of the previous month in the
+   * case of a month with 30 days.
+   */
   public static readonly ROSH_CHODESH: number = 28;
+
+  /** Yom HaShoah, Holocaust Remembrance Day, usually held on the 27th of Nisan. If it falls on a Friday, it is moved
+   * to the 26th, and if it falls on a Sunday it is moved to the 28th. A {@link #isUseModernHolidays() modern holiday}.
+   */
   public static readonly YOM_HASHOAH: number = 29;
+
+  /**
+   * Yom HaZikaron, Israeli Memorial Day, held a day before Yom Ha'atzmaut.  A {@link #isUseModernHolidays() modern holiday}.
+   */
   public static readonly YOM_HAZIKARON: number = 30;
+
+  /** Yom Ha'atzmaut, Israel Independence Day, the 5th of Iyar, but if it occurs on a Friday or Saturday, the holiday is
+   * moved back to Thursday, the 3rd of 4th of Iyar, and if it falls on a Monday, it is moved forward to Tuesday the
+   * 6th of Iyar.  A {@link #isUseModernHolidays() modern holiday}. */
   public static readonly YOM_HAATZMAUT: number = 31;
+
+  /**
+   * Yom Yerushalayim or Jerusalem Day, on 28 Iyar. A {@link #isUseModernHolidays() modern holiday}.
+   */
   public static readonly YOM_YERUSHALAYIM: number = 32;
+
+  /** The 33rd day of the Omer, the 18th of Iyar, a minor holiday. */
   public static readonly LAG_BAOMER: number = 33;
+
+  /** The holiday of Purim Katan on the 15th day of Adar I on a leap year when Purim is on Adar II, a minor holiday. */
   public static readonly SHUSHAN_PURIM_KATAN: number = 34;
 
+  /**
+   * Is the calendar set to Israel, where some holidays have different rules.
+   * @see #getInIsrael()
+   * @see #setInIsrael(boolean)
+   */
   private inIsrael: boolean = false;
+
+  /**
+   * Is the calendar set to use modern Israeli holidays such as Yom Haatzmaut.
+   * @see #isUseModernHolidays()
+   * @see #setUseModernHolidays(boolean)
+   */
   private useModernHolidays: boolean = false;
 
+  /**
+   * An array of <em>parshiyos</em> in the 17 possible combinations.
+   */
   public static readonly parshalist: Parsha[][] = [
     [Parsha.NONE, Parsha.VAYEILECH, Parsha.HAAZINU, Parsha.NONE, Parsha.BERESHIS, Parsha.NOACH, Parsha.LECH_LECHA, Parsha.VAYERA, Parsha.CHAYEI_SARA, Parsha.TOLDOS, Parsha.VAYETZEI, Parsha.VAYISHLACH, Parsha.VAYESHEV, Parsha.MIKETZ, Parsha.VAYIGASH, Parsha.VAYECHI, Parsha.SHEMOS, Parsha.VAERA, Parsha.BO, Parsha.BESHALACH, Parsha.YISRO, Parsha.MISHPATIM, Parsha.TERUMAH, Parsha.TETZAVEH, Parsha.KI_SISA, Parsha.VAYAKHEL_PEKUDEI, Parsha.VAYIKRA, Parsha.TZAV, Parsha.NONE, Parsha.SHMINI, Parsha.TAZRIA_METZORA, Parsha.ACHREI_MOS_KEDOSHIM, Parsha.EMOR, Parsha.BEHAR_BECHUKOSAI, Parsha.BAMIDBAR, Parsha.NASSO, Parsha.BEHAALOSCHA, Parsha.SHLACH, Parsha.KORACH, Parsha.CHUKAS, Parsha.BALAK, Parsha.PINCHAS, Parsha.MATOS_MASEI, Parsha.DEVARIM, Parsha.VAESCHANAN, Parsha.EIKEV, Parsha.REEH, Parsha.SHOFTIM, Parsha.KI_SEITZEI, Parsha.KI_SAVO, Parsha.NITZAVIM_VAYEILECH],
     [Parsha.NONE, Parsha.VAYEILECH, Parsha.HAAZINU, Parsha.NONE, Parsha.BERESHIS, Parsha.NOACH, Parsha.LECH_LECHA, Parsha.VAYERA, Parsha.CHAYEI_SARA, Parsha.TOLDOS, Parsha.VAYETZEI, Parsha.VAYISHLACH, Parsha.VAYESHEV, Parsha.MIKETZ, Parsha.VAYIGASH, Parsha.VAYECHI, Parsha.SHEMOS, Parsha.VAERA, Parsha.BO, Parsha.BESHALACH, Parsha.YISRO, Parsha.MISHPATIM, Parsha.TERUMAH, Parsha.TETZAVEH, Parsha.KI_SISA, Parsha.VAYAKHEL_PEKUDEI, Parsha.VAYIKRA, Parsha.TZAV, Parsha.NONE, Parsha.SHMINI, Parsha.TAZRIA_METZORA, Parsha.ACHREI_MOS_KEDOSHIM, Parsha.EMOR, Parsha.BEHAR_BECHUKOSAI, Parsha.BAMIDBAR, Parsha.NONE, Parsha.NASSO, Parsha.BEHAALOSCHA, Parsha.SHLACH, Parsha.KORACH, Parsha.CHUKAS_BALAK, Parsha.PINCHAS, Parsha.MATOS_MASEI, Parsha.DEVARIM, Parsha.VAESCHANAN, Parsha.EIKEV, Parsha.REEH, Parsha.SHOFTIM, Parsha.KI_SEITZEI, Parsha.KI_SAVO, Parsha.NITZAVIM_VAYEILECH],
@@ -447,7 +566,7 @@ export class JewishCalendar extends JewishDate {
    * @todo consider using enums instead of the constant ints.
    *
    * @return the index of the holiday such as the constant {@link #LAG_BAOMER} or {@link #YOM_KIPPUR} or a -1 if it is not a holiday.
-   * @see com.kosherjava.zmanim.hebrewcalendar.HebreDateFormatter
+   * @see HebrewDateFormatter
    */
   public getYomTovIndex(): number {
     const day: number = this.getJewishDayOfMonth();
@@ -806,9 +925,10 @@ export class JewishCalendar extends JewishDate {
   }
 
   /**
-   * Returns the day of Chanukah or -1 if it is not Chanukah.
+   * Returns the day of <em>Chanukah</em> or -1 if it is not <em>Chanukah</em>.
    *
-   * @return the day of Chanukah or -1 if it is not Chanukah.
+   * @return the day of <em>Chanukah</em> or -1 if it is not <em>Chanukah</em>.
+   * @see #isChanukah()
    */
   public getDayOfChanukah(): number {
     const day: number = this.getJewishDayOfMonth();
@@ -823,6 +943,11 @@ export class JewishCalendar extends JewishDate {
     return -1;
   }
 
+  /**
+   * Returns true if the current day is one of the 8 days of <em>Chanukah</em>.
+   * @return if the current day is one of the 8 days of <em>Chanukah</em>.
+   * @see #getDayOfChanukah()
+   */
   public isChanukah(): boolean {
     return this.getYomTovIndex() === JewishCalendar.CHANUKAH;
   }
@@ -927,8 +1052,8 @@ export class JewishCalendar extends JewishDate {
    *
    * @return the Date representing the moment 3 days after the molad.
    *
-   * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getTchilasZmanKidushLevana3Days()
-   * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getTchilasZmanKidushLevana3Days(Date, Date)
+   * @see ComplexZmanimCalendar#getTchilasZmanKidushLevana3Days()
+   * @see ComplexZmanimCalendar#getTchilasZmanKidushLevana3Days(Date, Date)
    */
   public getTchilasZmanKidushLevana3Days(): DateTime {
     const molad: DateTime = this.getMoladAsDate();
@@ -945,8 +1070,8 @@ export class JewishCalendar extends JewishDate {
    *
    * @return the Date representing the moment 7 days after the molad.
    *
-   * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getTchilasZmanKidushLevana7Days()
-   * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getTchilasZmanKidushLevana7Days(Date, Date)
+   * @see ComplexZmanimCalendar#getTchilasZmanKidushLevana7Days()
+   * @see ComplexZmanimCalendar#getTchilasZmanKidushLevana7Days(Date, Date)
    */
   public getTchilasZmanKidushLevana7Days(): DateTime {
     const molad: DateTime = this.getMoladAsDate();
@@ -964,8 +1089,8 @@ export class JewishCalendar extends JewishDate {
    *
    * @return the Date representing the moment halfway between molad and molad.
    * @see #getSofZmanKidushLevana15Days()
-   * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getSofZmanKidushLevanaBetweenMoldos()
-   * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getSofZmanKidushLevanaBetweenMoldos(Date, Date)
+   * @see ComplexZmanimCalendar#getSofZmanKidushLevanaBetweenMoldos()
+   * @see ComplexZmanimCalendar#getSofZmanKidushLevanaBetweenMoldos(Date, Date)
    */
   public getSofZmanKidushLevanaBetweenMoldos(): DateTime {
     const molad: DateTime = this.getMoladAsDate();
@@ -993,8 +1118,8 @@ export class JewishCalendar extends JewishDate {
    *
    * @return the Date representing the moment 15 days after the molad.
    * @see #getSofZmanKidushLevanaBetweenMoldos()
-   * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getSofZmanKidushLevana15Days()
-   * @see net.sourceforge.zmanim.ComplexZmanimCalendar#getSofZmanKidushLevana15Days(Date, Date)
+   * @see ComplexZmanimCalendar#getSofZmanKidushLevana15Days()
+   * @see ComplexZmanimCalendar#getSofZmanKidushLevana15Days(Date, Date)
    */
   public getSofZmanKidushLevana15Days(): DateTime {
     const molad: DateTime = this.getMoladAsDate();
@@ -1031,6 +1156,7 @@ export class JewishCalendar extends JewishDate {
   }
 
   /**
+   * Indicates whether some other object is "equal to" this one.
    * @see Object#equals(Object)
    */
   public equals(jewishCalendar: JewishCalendar): boolean {

@@ -13,13 +13,54 @@ import { IllegalArgumentException, UnsupportedError } from '../polyfills/errors'
  * @version 1.1
  */
 export class GeoLocation {
+  /**
+   * @see #getLatitude()
+   * @see #setLatitude(double)
+   * @see #setLatitude(int, int, double, String)
+   */
   private latitude!: number;
+
+  /**
+   * @see #getLongitude()
+   * @see #setLongitude(double)
+   * @see #setLongitude(int, int, double, String)
+   */
   private longitude!: number;
+
+  /**
+   * @see #getLocationName()
+   * @see #setLocationName(String)
+   */
   private locationName: string | null = null;
+
+  /**
+   * @see #getTimeZone()
+   * @see #setTimeZone(TimeZone)
+   */
   private timeZoneId!: string;
+
+  /**
+   * @see #getElevation()
+   * @see #setElevation(double)
+   */
   private elevation!: number;
+
+  /**
+   * Constant for a distance type calculation.
+   * @see #getGeodesicDistance(GeoLocation)
+   */
   private static readonly DISTANCE: number = 0;
+
+  /**
+   * Constant for a initial bearing type calculation.
+   * @see #getGeodesicInitialBearing(GeoLocation)
+   */
   private static readonly INITIAL_BEARING: number = 1;
+
+  /**
+   * Constant for a final bearing type calculation.
+   * @see #getGeodesicFinalBearing(GeoLocation)
+   */
   private static readonly FINAL_BEARING: number = 2;
 
   /** constant for milliseconds in a minute (60,000) */
@@ -282,11 +323,11 @@ export class GeoLocation {
 
   /**
    * Method to set the TimeZone. If this is ever set after the GeoLocation is set in the
-   * {@link net.sourceforge.zmanim.AstronomicalCalendar}, it is critical that
-   * {@link net.sourceforge.zmanim.AstronomicalCalendar#getCalendar()}.
+   * {@link AstronomicalCalendar}, it is critical that
+   * {@link AstronomicalCalendar#getCalendar()}.
    * {@link java.util.Calendar#setTimeZone(TimeZone) setTimeZone(TimeZone)} be called in order for the
    * AstronomicalCalendar to output times in the expected offset. This situation will arise if the
-   * AstronomicalCalendar is ever {@link net.sourceforge.zmanim.AstronomicalCalendar#clone() cloned}.
+   * AstronomicalCalendar is ever {@link AstronomicalCalendar#clone() cloned}.
    *
    * @param timeZone
    *            The timeZone to set.
@@ -299,7 +340,7 @@ export class GeoLocation {
    * A method that will return the location's local mean time offset in milliseconds from local <a
    * href="http://en.wikipedia.org/wiki/Standard_time">standard time</a>. The globe is split into 360&deg;, with
    * 15&deg; per hour of the day. For a local that is at a longitude that is evenly divisible by 15 (longitude % 15 ==
-   * 0), at solar {@link net.sourceforge.zmanim.AstronomicalCalendar#getSunTransit() noon} (with adjustment for the <a
+   * 0), at solar {@link AstronomicalCalendar#getSunTransit() noon} (with adjustment for the <a
    * href="http://en.wikipedia.org/wiki/Equation_of_time">equation of time</a>) the sun should be directly overhead,
    * so a user who is 1&deg; west of this will have noon at 4 minutes after standard time noon, and conversely, a user
    * who is 1&deg; east of the 15&deg; longitude will have noon at 11:56 AM. Lakewood, N.J., whose longitude is
@@ -315,7 +356,6 @@ export class GeoLocation {
   public getLocalMeanTimeOffset(): number {
     return this.getLongitude() * 4 * GeoLocation.MINUTE_MILLIS - TimeZone.getRawOffset(this.getTimeZone());
   }
-
 
   /**
    * Adjust the date for <a href="https://en.wikipedia.org/wiki/180th_meridian">antimeridian</a> crossover. This is
@@ -584,7 +624,7 @@ export class GeoLocation {
    * An implementation of the {@link java.lang.Object#clone()} method that creates a <a
    * href="http://en.wikipedia.org/wiki/Object_copy#Deep_copy">deep copy</a> of the object.
    * <b>Note:</b> If the {@link java.util.TimeZone} in the clone will be changed from the original, it is critical
-   * that {@link net.sourceforge.zmanim.AstronomicalCalendar#getCalendar()}.
+   * that {@link AstronomicalCalendar#getCalendar()}.
    * {@link java.util.Calendar#setTimeZone(TimeZone) setTimeZone(TimeZone)} is called after cloning in order for the
    * AstronomicalCalendar to output times in the expected offset.
    *

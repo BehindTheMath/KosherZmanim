@@ -14,14 +14,27 @@ import { IllegalArgumentException } from '../polyfills/errors';
  * @version 0.0.1
  */
 export class YomiCalculator {
+  /**
+   * The start date of the first Daf Yomi Bavli cycle of September 11, 1923 / Rosh Hashana 5684.
+   */
   private static readonly dafYomiStartDate: DateTime = DateTime.fromObject({
     year: 1923,
     month: Calendar.SEPTEMBER + 1,
     day: 11,
   });
 
+  /** The start date of the first Daf Yomi Bavli cycle in the Julian calendar. Used internally for claculations. */
   private static readonly dafYomiJulianStartDay: number = YomiCalculator.getJulianDay(YomiCalculator.dafYomiStartDate);
+
+  /**
+   * The date that the pagination for the Daf Yomi <em>Maseches Shekalim</em> changed to use the commonly used Vilna
+   * Shas pagination from the no longer commonly available Zhitomir / Slavuta Shas used by Rabbi Meir Shapiro.
+   */
   private static readonly shekalimChangeDate: DateTime = DateTime.fromObject({ year: 1975, month: Calendar.JUNE + 1, day: 24 });
+
+  /** The Julian date that the cycle for Shekalim changed.
+   * @see #getDafYomiBavli(JewishCalendar) for details.
+   */
   private static readonly shekalimJulianChangeDay: number = YomiCalculator.getJulianDay(YomiCalculator.shekalimChangeDate);
 
   /**
