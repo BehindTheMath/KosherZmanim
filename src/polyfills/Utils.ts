@@ -1,6 +1,4 @@
-/* eslint-disable no-inner-declarations */
 import { DateTime, Info } from 'luxon';
-import { NullPointerException } from './errors';
 
 export namespace Utils {
   // https://stackoverflow.com/a/40577337/8037425

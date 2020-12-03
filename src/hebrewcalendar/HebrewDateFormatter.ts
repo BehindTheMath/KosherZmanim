@@ -780,8 +780,8 @@ export class HebrewDateFormatter {
       return `${this.formatHebrewNumber(omer)} ${this.hebrewOmerPrefix}עומר`;
     }
 
-    if (omer === 33) { // if lag b'omer
-      return 'Lag BaOmer';
+    if (omer === 33) { // if Lag B'Omer
+      return this.transliteratedHolidays[33];
     }
 
     return `Omer ${omer}`;
