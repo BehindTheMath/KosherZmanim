@@ -14,7 +14,10 @@ export class Daf {
    */
   private daf: number;
 
-  private static readonly masechtosBavliTransliterated: string[] = ['Berachos', 'Shabbos', 'Eruvin', 'Pesachim', 'Shekalim',
+  /**
+   * See {@link #getMasechtaTransliterated()} and {@link #setMasechtaTransliterated(String[])}.
+   */
+  private static masechtosBavliTransliterated: string[] = ['Berachos', 'Shabbos', 'Eruvin', 'Pesachim', 'Shekalim',
     'Yoma', 'Sukkah', 'Beitzah', 'Rosh Hashana', 'Taanis', 'Megillah', 'Moed Katan', 'Chagigah', 'Yevamos',
     'Kesubos', 'Nedarim', 'Nazir', 'Sotah', 'Gitin', 'Kiddushin', 'Bava Kamma', 'Bava Metzia', 'Bava Basra',
     'Sanhedrin', 'Makkos', 'Shevuos', 'Avodah Zarah', 'Horiyos', 'Zevachim', 'Menachos', 'Chullin', 'Bechoros',
@@ -41,7 +44,10 @@ export class Daf {
     '\u05E7\u05D9\u05E0\u05D9\u05DD', '\u05EA\u05DE\u05D9\u05D3', '\u05DE\u05D9\u05D3\u05D5\u05EA',
     '\u05E0\u05D3\u05D4'];
 
-  private static readonly masechtosYerushalmiTransliterated: string[] = ['Berachos', 'Pe\'ah', 'Demai', 'Kilayim', 'Shevi\'is',
+  /**
+   * See {@link #getYerushlmiMasechtaTransliterated()}.
+   */
+  private static masechtosYerushalmiTransliterated: string[] = ['Berachos', 'Pe\'ah', 'Demai', 'Kilayim', 'Shevi\'is',
     'Terumos', 'Ma\'asros', 'Ma\'aser Sheni', 'Chalah', 'Orlah', 'Bikurim', 'Shabbos', 'Eruvin', 'Pesachim',
     'Beitzah', 'Rosh Hashanah', 'Yoma', 'Sukah', 'Ta\'anis', 'Shekalim', 'Megilah', 'Chagigah', 'Moed Katan',
     'Yevamos', 'Kesuvos', 'Sotah', 'Nedarim', 'Nazir', 'Gitin', 'Kidushin', 'Bava Kama', 'Bava Metzia',
@@ -135,8 +141,34 @@ export class Daf {
   }
 
   /**
-   * Returns the masechta (tractate) of the Daf Yomi in Hebrew, It will return
-   * &#x05D1;&#x05E8;&#x05DB;&#x05D5;&#x05EA; for Berachos.
+   * Setter method to allow overriding of the default list of masechtos transliterated into into Latin chars. The default
+   * uses Ashkenazi American English transliteration.
+   *
+   * @param masechtosBavliTransliterated the list of transliterated Bavli masechtos to set.
+   * @see #getMasechtaTransliterated()
+   */
+  public static setMasechtaTransliterated(masechtosBavliTransliterated: string[]): void {
+    Daf.masechtosBavliTransliterated = masechtosBavliTransliterated;
+  }
+
+  /**
+   * Returns the masechta (tractate) of the Daf Yomi in Hebrew. The list is in the following format<br>
+   * <code>["&#x05D1;&#x05E8;&#x05DB;&#x05D5;&#x05EA;",
+   * "&#x05E9;&#x05D1;&#x05EA;", "&#x05E2;&#x05D9;&#x05E8;&#x05D5;&#x05D1;&#x05D9;&#x05DF;",
+   * "&#x05E4;&#x05E1;&#x05D7;&#x05D9;&#x05DD;", "&#x05E9;&#x05E7;&#x05DC;&#x05D9;&#x05DD;", "&#x05D9;&#x05D5;&#x05DE;&#x05D0;",
+   * "&#x05E1;&#x05D5;&#x05DB;&#x05D4;", "&#x05D1;&#x05D9;&#x05E6;&#x05D4;", "&#x05E8;&#x05D0;&#x05E9; &#x05D4;&#x05E9;&#x05E0;&#x05D4;",
+   * "&#x05EA;&#x05E2;&#x05E0;&#x05D9;&#x05EA;", "&#x05DE;&#x05D2;&#x05D9;&#x05DC;&#x05D4;", "&#x05DE;&#x05D5;&#x05E2;&#x05D3;
+   * &#x05E7;&#x05D8;&#x05DF;", "&#x05D7;&#x05D2;&#x05D9;&#x05D2;&#x05D4;", "&#x05D9;&#x05D1;&#x05DE;&#x05D5;&#x05EA;",
+   * "&#x05DB;&#x05EA;&#x05D5;&#x05D1;&#x05D5;&#x05EA;", "&#x05E0;&#x05D3;&#x05E8;&#x05D9;&#x05DD;","&#x05E0;&#x05D6;&#x05D9;&#x05E8;",
+   * "&#x05E1;&#x05D5;&#x05D8;&#x05D4;", "&#x05D2;&#x05D9;&#x05D8;&#x05D9;&#x05DF;", "&#x05E7;&#x05D9;&#x05D3;&#x05D5;&#x05E9;&#x05D9;&#x05DF;",
+   * "&#x05D1;&#x05D1;&#x05D0; &#x05E7;&#x05DE;&#x05D0;", "&#x05D1;&#x05D1;&#x05D0; &#x05DE;&#x05E6;&#x05D9;&#x05E2;&#x05D0;",
+   * "&#x05D1;&#x05D1;&#x05D0; &#x05D1;&#x05EA;&#x05E8;&#x05D0;", "&#x05E1;&#x05E0;&#x05D4;&#x05D3;&#x05E8;&#x05D9;&#x05DF;",
+   * "&#x05DE;&#x05DB;&#x05D5;&#x05EA;", "&#x05E9;&#x05D1;&#x05D5;&#x05E2;&#x05D5;&#x05EA;", "&#x05E2;&#x05D1;&#x05D5;&#x05D3;&#x05D4;
+   * &#x05D6;&#x05E8;&#x05D4;", "&#x05D4;&#x05D5;&#x05E8;&#x05D9;&#x05D5;&#x05EA;", "&#x05D6;&#x05D1;&#x05D7;&#x05D9;&#x05DD;",
+   * "&#x05DE;&#x05E0;&#x05D7;&#x05D5;&#x05EA;", "&#x05D7;&#x05D5;&#x05DC;&#x05D9;&#x05DF;", "&#x05D1;&#x05DB;&#x05D5;&#x05E8;&#x05D5;&#x05EA;",
+   * "&#x05E2;&#x05E8;&#x05DB;&#x05D9;&#x05DF;", "&#x05EA;&#x05DE;&#x05D5;&#x05E8;&#x05D4;", "&#x05DB;&#x05E8;&#x05D9;&#x05EA;&#x05D5;&#x05EA;",
+   * "&#x05DE;&#x05E2;&#x05D9;&#x05DC;&#x05D4;", "&#x05E7;&#x05D9;&#x05E0;&#x05D9;&#x05DD;", "&#x05EA;&#x05DE;&#x05D9;&#x05D3;",
+   * "&#x05DE;&#x05D9;&#x05D3;&#x05D5;&#x05EA;", "&#x05E0;&#x05D3;&#x05D4;"]</code>.
    *
    * @return the masechta (tractate) of the Daf Yomi in Hebrew, It will return
    *         &#x05D1;&#x05E8;&#x05DB;&#x05D5;&#x05EA; for Berachos.
@@ -156,6 +188,16 @@ export class Daf {
    */
   public getYerushlmiMasechtaTransliterated(): string {
     return Daf.masechtosYerushalmiTransliterated[this.masechtaNumber];
+  }
+
+  /**
+   * Setter method to allow overriding of the default list of Yerushalmi masechtos transliterated into into Latin chars.
+   * The default uses Ashkenazi American English transliteration.
+   *
+   * @param masechtosYerushalmiTransliterated the list of transliterated Yerushalmi masechtos to set.
+   */
+  public static setYerushlmiMasechtaTransliterated(masechtosYerushalmiTransliterated: string[]): void {
+    Daf.masechtosYerushalmiTransliterated = masechtosYerushalmiTransliterated;
   }
 
   /**
