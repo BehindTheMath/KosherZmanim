@@ -24,11 +24,21 @@ module.exports = {
     // TODO: Change to 100
     'max-len': ['off', 120],
     'no-plusplus': 'off',
-    '@typescript-eslint/camelcase': ['error', {
-      allow: [
-        'Long_MIN_VALUE',
-      ],
-    }],
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        'selector': 'variable',
+        'format': [
+          'camelCase',
+          'PascalCase',
+          'UPPER_CASE',
+        ],
+        filter: {
+          regex: '^Long_MIN_VALUE$',
+          match: false,
+        },
+      },
+    ],
     'arrow-parens': ['error', 'as-needed'],
     'object-curly-newline': ['error', {
       multiline: true,
@@ -37,7 +47,7 @@ module.exports = {
     'prefer-destructuring': ['error', {
       AssignmentExpression: {
         array: false,
-      }
+      },
     }],
     'no-else-return': ['error', {
       allowElseIf: true,
