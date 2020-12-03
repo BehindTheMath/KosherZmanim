@@ -245,8 +245,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getSofZmanShma(startOfDay: DateTime | null, endOfDay: DateTime | null): DateTime | null {
-    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 3);
+    return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 3);
   }
 
   /**
@@ -353,8 +352,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getSofZmanTfila(startOfDay: DateTime | null, endOfDay: DateTime | null): DateTime | null {
-    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 4);
+    return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 4);
   }
 
   /**
@@ -422,8 +420,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    */
   public getMinchaGedola(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
                          endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
-    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 6.5);
+    return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 6.5);
   }
 
   /**
@@ -479,8 +476,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    */
   public getMinchaKetana(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
                          endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
-    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 9.5);
+    return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 9.5);
   }
 
   /**
@@ -532,8 +528,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    */
   public getPlagHamincha(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
                          endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
-    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
-    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * 10.75);
+    return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 10.75);
   }
 
   /**
@@ -689,5 +684,34 @@ export class ZmanimCalendar extends AstronomicalCalendar {
 
     // is shabbos or YT and it is before tzais
     return jewishCalendar.isAssurBemelacha() && currentTime >= tzais;
+  }
+
+  /**
+   * A generic utility method for calculating any <em>shaah zmanis</em> (temporal hour) based <em>zman</em> with the
+   * day defined as the start and end of day (or night) and the number of <em>shaahos zmaniyos</em> passed to the
+   * method. This simplifies the code in other methods such as {@link #getPlagHamincha(Date, Date)} and cuts down on
+   * code replication. As an example, passing {@link #getSunrise() sunrise} and {@link #getSunset sunset} or {@link
+    * #getSeaLevelSunrise() sea level sunrise} and {@link #getSeaLevelSunset() sea level sunset} (depending on the
+   * {@link #isUseElevation()} elevation setting) and 10.75 hours to this method will return <em>plag mincha</em>
+   * according to the opinion of the <em><a href="https://en.wikipedia.org/wiki/Vilna_Gaon">GRA</a></em>.
+   *
+   * @param startOfDay
+   *            the start of day for calculating the <em>zman</em>. This can be sunrise or any <em>alos</em> passed
+   *            to this method.
+   * @param endOfDay
+   *            the end of day for calculating the <em>zman</em>. This can be sunrise or any <em>alos</em> passed to
+   *            this method.
+   * @param hours
+   *            the number of <em>shaahos zmaniyos</em> (temporal hours) to offset from the start of day
+   * @return the <code>Date</code> of the time of <em>zman</em> with the <em>shaahos zmaniyos</em> (temporal hours)
+   *         in the day offset from the start of day passed to this method. If the calculation can't be computed such
+   *         as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one
+   *         where it does not set, a null will be  returned. See detailed explanation on top of the {@link
+    *         AstronomicalCalendar} documentation.
+   */
+  public getShaahZmanisBasedZman(startOfDay: DateTime | null, endOfDay: DateTime | null,
+                                 hours: number): DateTime | null {
+    const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
+    return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * hours);
   }
 }
