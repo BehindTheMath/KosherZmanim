@@ -1,3 +1,12 @@
+# v0.8.0
+KosherZmanim should now be up to date with KosherJava v2.1.0.
+### Breaking Changes:
+* The class name strings have been changed to match the new package path of KosherJava (`com.kosherjava.zmanim.*`).
+* The `GeoLocationUtils` class has been marked as deprecated, and will be removed in a future version.
+### Features:
+* Add the Yereim's bain hashmashos.
+* Allow changing transliterated masechtos' names.
+
 # v0.7.0
 ### Breaking Changes:
 * Some of the names and types of members of the `Zman` class have been changed.
