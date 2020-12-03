@@ -562,12 +562,20 @@ export class AstronomicalCalendar {
 
     let degrees: Big = new Big(0);
     const incrementor: Big = new Big('0.0001');
+
     // If `minutes` is not `NaN` and `offsetByDegrees` is not null, `offsetByTime` should not be null
-    while (offsetByDegrees === null || offsetByDegrees.valueOf() > offsetByTime!.valueOf()) {
-      degrees = degrees.plus(incrementor);
-      offsetByDegrees = this.getSunriseOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + Number.parseFloat(degrees.valueOf()));
+    while (offsetByDegrees === null || ((minutes < 0 && offsetByDegrees < offsetByTime!)
+      || (minutes > 0 && offsetByDegrees > offsetByTime!))) {
+      if (minutes > 0) {
+        degrees = degrees.add(incrementor);
+      } else {
+        degrees = degrees.sub(incrementor);
+      }
+
+      offsetByDegrees = this.getSunriseOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + degrees.toNumber());
     }
-    return Number.parseFloat(degrees.valueOf());
+
+    return degrees.toNumber();
   }
 
   /**
@@ -589,13 +597,49 @@ export class AstronomicalCalendar {
 
     let degrees: Big = new Big(0);
     const incrementor: Big = new Big('0.001');
+
     // If `minutes` is not `NaN` and `offsetByDegrees` is not null, `offsetByTime` should not be null
-    while (offsetByDegrees === null || offsetByDegrees < offsetByTime!) {
-      degrees = degrees.plus(incrementor);
-      offsetByDegrees = this.getSunsetOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + Number.parseFloat(degrees.valueOf()));
+    while (offsetByDegrees == null || ((minutes > 0 && offsetByDegrees < offsetByTime!)
+      || (minutes < 0 && offsetByDegrees > offsetByTime!))) {
+      if (minutes > 0) {
+        degrees = degrees.add(incrementor);
+      } else {
+        degrees = degrees.sub(incrementor);
+      }
+
+      offsetByDegrees = this.getSunsetOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + degrees.toNumber());
     }
-    return Number.parseFloat(degrees.valueOf());
+
+    return degrees.toNumber();
   }
+
+  /**
+   * FIXME broken for czc.getRiseSetSolarDipFromOffset(-72, czc.getSunrise());
+   * and broken in other was as well
+   * @param minutes
+   * @param riseSet
+   * @return
+   */
+  /*
+    public getRiseSetSolarDipFromOffset(minutes: number, riseSet: DateTime): number {
+      let offsetByDegrees: DateTime | null = riseSet;
+      const offsetByTime: DateTime | null = AstronomicalCalendar.getTimeOffset(riseSet, minutes * AstronomicalCalendar.MINUTE_MILLIS);
+
+      let degrees: Big = new Big(0);
+      const incrementor: Big = new Big('0.001');
+
+      while (offsetByDegrees == null || ((minutes > 0 && offsetByDegrees < offsetByTime!)
+        || (minutes < 0 && offsetByDegrees > offsetByTime!))) {
+        if (minutes > 0) {
+          degrees = degrees.add(incrementor);
+        } else {
+          degrees = degrees.sub(incrementor);
+        }
+        offsetByDegrees = this.getSunsetOffsetByDegrees(AstronomicalCalendar.GEOMETRIC_ZENITH + degrees.toNumber());
+      }
+      return degrees.valueOf();
+    }
+  */
 
   /**
    * Adjusts the <code>Calendar</code> to deal with edge cases where the location crosses the antimeridian.
