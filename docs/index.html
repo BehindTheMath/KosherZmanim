@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <title>KosherZmanim demo</title>
-    <script src="https://unpkg.com/kosher-zmanim@0.6.0/dist/kosher-zmanim.min.js"></script>
+    <!--
+     This demo uses the unminified version, so that it's easier to step through using the debugger.
+     In production, you should use the minified build: `kosher-zmanim.min.js`
+      -->
+    <script src="https://unpkg.com/kosher-zmanim@0.8.0/dist/kosher-zmanim.js"></script>
   </head>
   <body>
     <h2>KosherZmanim demo</h2>
@@ -16,12 +20,12 @@
         <td><input id="date"/></td>
       </tr>
       <tr>
-        <td><label for="timeZoneId">Timezone ID</label></td>
-        <td><input id="timeZoneId" value="America/New_York"/></td>
+        <td><label for="time-zone-id">Timezone ID</label></td>
+        <td><input id="time-zone-id" value="America/New_York"/></td>
       </tr>
       <tr>
-        <td><label for="locationName">Location Name</label></td>
-        <td><input id="locationName" value="Lakewood"/></td>
+        <td><label for="location-name">Location Name</label></td>
+        <td><input id="location-name" value="Lakewood"/></td>
       </tr>
       <tr>
         <td><label for="latitude">Latitude</label></td>
@@ -49,23 +53,36 @@
 
     <script>
       (function() {
-        // Get the date
-        document.querySelector("input#date").value = new Date().toISOString();
+        const dateEl = document.querySelector('input#date');
+        const timeZoneIdEl = document.querySelector('input#time-zone-id');
+        const locationNameEl = document.querySelector('input#location-name');
+        const latitudeEl = document.querySelector('input#latitude');
+        const longitudeEl = document.querySelector('input#longitude');
+        const elevationEl = document.querySelector('input#elevation');
+        const complexEl = document.querySelector('input#complex');
+        const calculateButtonEl = document.querySelector('button#calculate');
+        const outputEl = document.querySelector('#output');
+
+          // Initialize the date field with the current date
+        dateEl.value = new Date().toISOString();
 
         // Add a listener for the Calculate button
-        document.querySelector("button#calculate").addEventListener("click", function() {
+        calculateButtonEl.addEventListener('click', () => {
           const options = {
-            date: document.querySelector("input#date").value,
-            timeZoneId: document.querySelector("input#timeZoneId").value,
-            locationName: document.querySelector("input#locationName").value,
-            latitude: Number.parseInt(document.querySelector("input#latitude").value),
-            longitude: Number.parseInt(document.querySelector("input#longitude").value),
-            elevation: Number.parseInt(document.querySelector("input#elevation").value),
-            complexZmanim: document.querySelector("input#complex").checked,
+            date: dateEl.value,
+            timeZoneId: timeZoneIdEl.value,
+            locationName: locationNameEl.value,
+            latitude: Number.parseFloat(latitudeEl.value),
+            longitude: Number.parseFloat(longitudeEl.value),
+            elevation: Number.parseFloat(elevationEl.value),
+            complexZmanim: complexEl.checked,
           };
 
+          // Calculate the zmanim to a JSON object
+          const json = KosherZmanim.getZmanimJson(options);
+
           // Output the results
-          document.querySelector("#output").innerText = JSON.stringify(KosherZmanim.getZmanimJson(options), null, 2);
+          outputEl.innerText = JSON.stringify(json, null, 2);
         });
       })();
     </script>
