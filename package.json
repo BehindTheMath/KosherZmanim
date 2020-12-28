@@ -13,10 +13,11 @@
   "scripts": {
     "clean": "rimraf ./dist/*",
     "build": "npm run clean && npm run build:all && npm run webpack",
-    "build:all": "npm run build:cjs && npm run build:es6 && npm run build:types",
+    "build:all": "npm run build:cjs && npm run build:es6 && npm run build:types && npm run build:worker",
     "build:cjs": "tsc -p ./src/",
     "build:es6": "tsc -p ./src/tsconfig-es6.json",
     "build:types": "tsc -p ./src/tsconfig-types.json",
+    "build:worker": "webpack --config worker.webpack.config.js",
     "lint": "eslint --ext .ts src tests",
     "test": "jest",
     "prepublishOnly": "npm run build",
