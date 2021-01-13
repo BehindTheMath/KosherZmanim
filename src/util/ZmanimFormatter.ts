@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
-import * as numeral from 'numeral';
+import * as numeral_ from 'numeral';
+const numeral = numeral_;
 
 import { TimeZone, Utils } from '../polyfills/Utils';
 import { Time } from './Time';
