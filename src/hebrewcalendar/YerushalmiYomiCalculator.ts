@@ -14,7 +14,7 @@ import { IllegalArgumentException } from '../polyfills/errors';
  */
 export class YerushalmiYomiCalculator {
   /**
-   * The start date of the first Daf Yomi Yerushalmi cycle of February 2, 1980 / 18 Teves, 5740.
+   * The start date of the first Daf Yomi Yerushalmi cycle of February 2, 1980 / 15 Shevat, 5740.
    */
   private static readonly DAF_YOMI_START_DAY: DateTime = DateTime.fromObject({
     year: 1980,
@@ -32,8 +32,8 @@ export class YerushalmiYomiCalculator {
   /**
    * Returns the <a href="https://en.wikipedia.org/wiki/Daf_Yomi">Daf Yomi</a>
    * <a href="https://en.wikipedia.org/wiki/Jerusalem_Talmud">Yerusalmi</a> page ({@link Daf}) for a given date.
-   * The first Daf Yomi cycle started on To Bishvat 5740 (February, 2, 1980) and calculations prior to this
-   * date will result in an IllegalArgumentException thrown.
+   * The first Daf Yomi cycle started on 15 Shevat (Tu Bishvat) 5740 (February, 2, 1980) and calculations
+   * prior to this date will result in an IllegalArgumentException thrown.
    *
    * @param jewishCalendar
    *            the calendar date for calculation
@@ -43,8 +43,8 @@ export class YerushalmiYomiCalculator {
    *             if the date is prior to the September 11, 1923 start date of the first Daf Yomi cycle
    */
   public static getDafYomiYerushalmi(jewishCalendar: JewishCalendar): Daf {
-    let nextCycle: DateTime = DateTime.local();
-    let prevCycle: DateTime = DateTime.local();
+    let nextCycle: DateTime = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
+    let prevCycle: DateTime = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
     const requested: DateTime = jewishCalendar.getDate();
     let masechta: number = 0;
     let dafYomi: Daf;
@@ -60,19 +60,20 @@ export class YerushalmiYomiCalculator {
     }
 
     // Start to calculate current cycle. Initialize the start day
-    nextCycle = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
+    // nextCycle = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
 
     // Go cycle by cycle, until we get the next cycle
     while (requested > nextCycle) {
       prevCycle = nextCycle;
 
-      // Adds the number of whole shas dafs. and the number of days that not have daf.
-      nextCycle = nextCycle.plus({ days: YerushalmiYomiCalculator.WHOLE_SHAS_DAFS })
-        .plus({ days: YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, nextCycle) });
+      // Adds the number of whole shas dafs, and then the number of days that not have daf.
+      nextCycle = nextCycle.plus({ days: YerushalmiYomiCalculator.WHOLE_SHAS_DAFS });
+      // This needs to be a separate step
+      nextCycle = nextCycle.plus({ days: YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, nextCycle) });
     }
 
     // Get the number of days from cycle start until request.
-    const dafNo: number = 0 - (prevCycle.diff(requested).days);
+    const dafNo: number = requested.diff(prevCycle, ['days']).days;
 
     // Get the number of special days to subtract
     const specialDays: number = YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, requested);

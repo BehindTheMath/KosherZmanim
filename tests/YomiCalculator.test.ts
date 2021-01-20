@@ -2,6 +2,7 @@ import { Daf } from '../src/hebrewcalendar/Daf';
 import { YomiCalculator } from '../src/hebrewcalendar/YomiCalculator';
 import { JewishDate } from '../src/hebrewcalendar/JewishDate';
 import { JewishCalendar } from '../src/hebrewcalendar/JewishCalendar';
+import { IllegalArgumentException } from '../src/polyfills/errors';
 
 test('Gets Bavli daf for 12 Kislev 5685 (Yoma 2)', () => {
   const jewishCalendar: JewishCalendar = new JewishCalendar(5685, JewishDate.KISLEV, 12);
@@ -31,5 +32,5 @@ test('Gets Bavli daf for 29 Elul 5683 (Error)', () => {
   const jewishCalendar: JewishCalendar = new JewishCalendar(5683, JewishDate.ELUL, 29);
   expect(() => {
     YomiCalculator.getDafYomiBavli(jewishCalendar);
-  }).toThrowError(/^IllegalArgumentException/);
+  }).toThrowError(IllegalArgumentException);
 });
