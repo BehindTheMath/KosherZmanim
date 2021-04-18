@@ -9,7 +9,7 @@ import { ComplexZmanimCalendar } from '../ComplexZmanimCalendar';
 import { Zman, ZmanWithDuration, ZmanWithZmanDate } from './Zman';
 import { UnsupportedError } from '../polyfills/errors';
 
-const methodNamesToExclude: string[] = [
+const methodBlacklist: string[] = [
   'getAdjustedDate',
   'getDate',
   'getElevationAdjustedSunrise',
@@ -18,6 +18,19 @@ const methodNamesToExclude: string[] = [
   'getMidnightTonight',
   'getSunriseBaalHatanya',
   'getSunsetBaalHatanya',
+];
+
+const methodWhitelist: string[] = [
+  // These methods have parameters, but have default values.
+  'getMinchaGedola',
+  'getMinchaKetana',
+  'getPlagHamincha',
+  'getSofZmanKidushLevana15Days',
+  'getSofZmanKidushLevanaBetweenMoldos',
+  'getSunTransit',
+  'getTchilasZmanKidushLevana3Days',
+  'getTchilasZmanKidushLevana7Days',
+  'getTemporalHour',
 ];
 
 /**
@@ -586,12 +599,14 @@ export class ZmanimFormatter {
  * @return if the method should be included in serialization
  */
 function includeMethod(method: string, astronomicalCalendar: AstronomicalCalendar): boolean {
-  // Filter out methods with parameters
-  return (astronomicalCalendar as any as Record<string, Function>)[method].length === 0
-    // Filter out methods that don't start with "get"
-    && method.startsWith('get')
-    // Filter out excluded methods
-    && !methodNamesToExclude.includes(method);
+  if (methodWhitelist.includes(method)) return true;
+
+  // Filter out excluded methods
+  return !methodBlacklist.includes(method)
+    // Filter out methods with parameters since we don't know what value(s) to pass
+    && (astronomicalCalendar as any as Record<string, Function>)[method].length === 0
+    // Filter out methods that don't start with 'get'
+    && method.startsWith('get');
 }
 
 export interface JsonOutput {
