@@ -2812,7 +2812,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
     const lastMidnight: DateTime = this.getMidnightLastNight();
     const midnightTonight: DateTime = this.getMidnightTonight();
 
-    if (!(moladBasedTime < lastMidnight) || (moladBasedTime > midnightTonight)) {
+    if (!((moladBasedTime < lastMidnight) || (moladBasedTime > midnightTonight))) {
       if (alos !== null || tzais !== null) {
         return techila && !(moladBasedTime < tzais! || moladBasedTime > alos!)
           ? tzais
