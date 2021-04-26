@@ -1,5 +1,6 @@
+// eslint-disable-next-line max-classes-per-file
 import { DateTime } from 'luxon';
-import { MathUtils, StringUtils, TimeZone, Utils } from '../src/polyfills/Utils';
+import { MathUtils, StringUtils, TimeZone, Utils, padZeros } from '../src/polyfills/Utils';
 
 const janDateTime = DateTime.fromMillis(1483228800000, { zone: 'UTC' });
 const julyDateTime = DateTime.fromMillis(1498867200000, { zone: 'UTC' });
@@ -89,5 +90,15 @@ describe('Test StringUtils', function () {
     expect(StringUtils.compareTo('test1.ts', 'test1234')).toEqual(-4);
 
     expect(StringUtils.compareTo('test12', 'test234')).toEqual(-1);
+  });
+});
+
+describe('Test `padZeros()`', function () {
+  test('test padding `1.234` to 3 places', function () {
+    expect(padZeros(1.234, 3)).toEqual('001');
+  });
+
+  test('test padding `1234.56` to 3 places', function () {
+    expect(padZeros(1234.56, 3)).toEqual('1234');
   });
 });

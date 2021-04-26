@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon';
-import * as numeral from 'numeral';
 
-import { TimeZone, Utils } from '../polyfills/Utils';
+import { TimeZone, Utils, padZeros } from '../polyfills/Utils';
 import { Time } from './Time';
 import { AstronomicalCalendar } from '../AstronomicalCalendar';
 import { ZmanimCalendar } from '../ZmanimCalendar';
@@ -61,17 +60,17 @@ export class ZmanimFormatter {
   /**
    * the formatter for minutes as seconds.
    */
-  private static readonly minuteSecondNF: string = '00';
+  private static readonly minuteSecondNF: number = 2;
 
   /**
    * the formatter for hours.
    */
-  private hourNF!: string;
+  private hourNF!: number;
 
   /**
    * the formatter for minutes as milliseconds.
    */
-  private static readonly milliNF: string = '000';
+  private static readonly milliNF: number = 3;
 
   /**
    * @see #setDateFormat(SimpleDateFormat)
@@ -176,7 +175,7 @@ export class ZmanimFormatter {
     this.setTimeZone(timeZoneId!);
 
     if (this.prependZeroHours) {
-      this.hourNF = '00';
+      this.hourNF = 2;
     }
 
     this.setTimeFormat(format);
@@ -282,13 +281,16 @@ export class ZmanimFormatter {
     if (this.timeFormat === ZmanimFormatter.XSD_DURATION_FORMAT) {
       return ZmanimFormatter.formatXSDDurationTime(time);
     }
-    let sb: string = (numeral(time.getHours()).format(this.hourNF)).concat(':')
-      .concat(numeral(time.getMinutes()).format(ZmanimFormatter.minuteSecondNF).toString());
+    let sb: string = padZeros(time.getHours(), this.hourNF)
+      .concat(':')
+      .concat(padZeros(time.getMinutes(), ZmanimFormatter.minuteSecondNF));
     if (this.useSeconds) {
-      sb = sb.concat(':').concat(numeral(time.getSeconds()).format(ZmanimFormatter.minuteSecondNF).toString());
+      sb = sb.concat(':')
+        .concat(padZeros(time.getSeconds(), ZmanimFormatter.minuteSecondNF));
     }
     if (this.useMillis) {
-      sb = sb.concat('.').concat(numeral(time.getMilliseconds()).format(ZmanimFormatter.milliNF).toString());
+      sb = sb.concat('.')
+        .concat(padZeros(time.getMilliseconds(), ZmanimFormatter.milliNF));
     }
     return sb;
   }
@@ -377,7 +379,7 @@ export class ZmanimFormatter {
       if (time.getMinutes() !== 0) duration = duration.concat(`${time.getMinutes()}M`);
 
       if (time.getSeconds() !== 0 || time.getMilliseconds() !== 0) {
-        duration = duration.concat(`${time.getSeconds()}.${numeral(time.getMilliseconds()).format(ZmanimFormatter.milliNF)}`);
+        duration = duration.concat(`${time.getSeconds()}.${padZeros(time.getMilliseconds(), ZmanimFormatter.milliNF)}`);
         duration = duration.concat('S');
       }
 
@@ -391,7 +393,8 @@ export class ZmanimFormatter {
   }
 
   public static formatDecimal(num: number): string {
-    return num - Math.trunc(num) > 0 ? num.toString() : numeral(num).format('0.0');
+    const hasDecimal = num - Math.trunc(num) > 0;
+    return hasDecimal ? num.toString() : num.toFixed(1);
   }
 
   /**

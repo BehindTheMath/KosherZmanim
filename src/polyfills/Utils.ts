@@ -210,3 +210,14 @@ export namespace IntegerUtils {
 
 // export const Long_MIN_VALUE = 0;
 export const Long_MIN_VALUE = NaN;
+
+/**
+ * @param {number} num
+ * @param {number} places - The number of places to pad with zeros
+ * @returns {string} - The formatted integer
+ */
+export function padZeros(num: number, places: number): string {
+  const int = Math.trunc(num);
+  if (int >= Math.pow(10, places)) return int.toString();
+  return '0'.repeat(places).concat(int.toString()).slice(-places);
+}
