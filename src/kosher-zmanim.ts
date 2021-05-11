@@ -12,7 +12,7 @@ export function getZmanimJson(options: Options): JsonOutput {
   const zmanimCalendar: ZmanimCalendar = options.complexZmanim
     ? new ComplexZmanimCalendar(geoLocation)
     : new ZmanimCalendar(geoLocation);
-  zmanimCalendar.setDate(options.date || new Date());
+  zmanimCalendar.setDate(options.date || _Luxon.DateTime.local());
   return ZmanimFormatter.toJSON(zmanimCalendar);
 }
 
@@ -20,7 +20,7 @@ export interface Options {
   /**
    * @default Current date and time
    */
-  date?: Date | string | number;
+  date?: Date | string | number | _Luxon.DateTime;
   /**
    * IANA timezone ID
    */
