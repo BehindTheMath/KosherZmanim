@@ -672,7 +672,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
   public isAssurBemlacha(currentTime: DateTime, tzais: DateTime, inIsrael: boolean): boolean {
     const jewishCalendar: JewishCalendar = new JewishCalendar();
     const date = this.getDate();
-    jewishCalendar.setGregorianDate(date.year, date.month, date.day);
+    jewishCalendar.setGregorianDate(date.year, date.month - 1, date.day);
     jewishCalendar.setInIsrael(inIsrael);
 
     // erev shabbos, YT or YT sheni and after shkiah
@@ -683,7 +683,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     }
 
     // is shabbos or YT and it is before tzais
-    return jewishCalendar.isAssurBemelacha() && currentTime >= tzais;
+    return jewishCalendar.isAssurBemelacha() && currentTime <= tzais;
   }
 
   /**
