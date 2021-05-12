@@ -3,11 +3,12 @@ import { DateTime, Info } from 'luxon';
 export namespace Utils {
   // https://stackoverflow.com/a/40577337/8037425
   export function getAllMethodNames(obj: object, excludeContructors: boolean = false): Array<string> {
+    let _obj: object | null = obj;
     const methods: Set<string> = new Set();
 
     // eslint-disable-next-line no-cond-assign
-    while ((obj = Reflect.getPrototypeOf(obj)) && Reflect.getPrototypeOf(obj)) {
-      const keys: Array<string> = Reflect.ownKeys(obj) as Array<string>;
+    while ((_obj = Reflect.getPrototypeOf(_obj)) && Reflect.getPrototypeOf(_obj)) {
+      const keys: Array<string> = Reflect.ownKeys(_obj) as Array<string>;
       keys.filter((key: string) => !excludeContructors || key !== 'constructor')
         .forEach((key: string) => methods.add(key));
     }
