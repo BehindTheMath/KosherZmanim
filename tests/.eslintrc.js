@@ -6,6 +6,7 @@ module.exports = {
     project: path.resolve(__dirname, './tsconfig.json'),
   },
   rules: {
-    'prefer-arrow-callback': 'warn',
+    'prefer-arrow-callback': 'off',
+    'func-names': 'off',
   },
 };

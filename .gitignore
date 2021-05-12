@@ -9,7 +9,6 @@ tsc
 KosherJava.jar
 lib-es6/
 work/
-jest.config.json
 /src/**/*.js
 /src/**/*.js.map
 webpack

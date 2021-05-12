@@ -1,68 +1,93 @@
 // eslint-disable-next-line max-classes-per-file
+import { describe, it } from 'mocha';
+import { assert } from 'chai';
+
 import { DateTime } from 'luxon';
+
 import { MathUtils, StringUtils, TimeZone, Utils, padZeros } from '../src/polyfills/Utils';
 
 const janDateTime = DateTime.fromMillis(1483228800000, { zone: 'UTC' });
 const julyDateTime = DateTime.fromMillis(1498867200000, { zone: 'UTC' });
 
-describe('test Utils', function () {
-  test('Tests Utils.getAllMethodNames()', function () {
+describe('Test Utils', function () {
+  it('Tests Utils.getAllMethodNames()', function () {
     class BaseClass {
+      // eslint-disable-next-line @typescript-eslint/no-useless-constructor,@typescript-eslint/no-empty-function
       constructor() {
       }
 
+      // eslint-disable-next-line class-methods-use-this
       private privateMethod() {
       }
 
+      // eslint-disable-next-line class-methods-use-this
       protected protectedMethod() {
       }
 
+      // eslint-disable-next-line class-methods-use-this
       public publicMethod() {
       }
     }
 
     class SubClass extends BaseClass {
+      // eslint-disable-next-line @typescript-eslint/no-useless-constructor,@typescript-eslint/no-empty-function
       constructor() {
         super();
       }
 
+      // eslint-disable-next-line class-methods-use-this
       private subClassPrivateMethod() {
       }
 
+      // eslint-disable-next-line class-methods-use-this
       protected subClassProtectedMethod() {
       }
 
+      // eslint-disable-next-line class-methods-use-this
       public subClassPublicMethod() {
       }
     }
 
-    const expectedMethods: Array<string> = ['constructor', 'privateMethod', 'protectedMethod', 'publicMethod',
-      'subClassPrivateMethod', 'subClassProtectedMethod', 'subClassPublicMethod'];
-    expect(Utils.getAllMethodNames(new SubClass())).toEqual(expectedMethods);
+    const expectedMethods: Array<string> = [
+      'constructor',
+      'privateMethod',
+      'protectedMethod',
+      'publicMethod',
+      'subClassPrivateMethod',
+      'subClassProtectedMethod',
+      'subClassPublicMethod',
+    ];
+    assert.deepStrictEqual(Utils.getAllMethodNames(new SubClass()), expectedMethods);
 
-    const expectedMethodsWithoutConstructor: Array<string> = ['privateMethod', 'protectedMethod', 'publicMethod', 'subClassPrivateMethod',
-      'subClassProtectedMethod', 'subClassPublicMethod'];
-    expect(Utils.getAllMethodNames(new SubClass(), true)).toEqual(expectedMethodsWithoutConstructor);
+    const expectedMethodsWithoutConstructor: Array<string> = [
+      'privateMethod',
+      'protectedMethod',
+      'publicMethod',
+      'subClassPrivateMethod',
+      'subClassProtectedMethod',
+      'subClassPublicMethod',
+    ];
+    assert.deepStrictEqual(Utils.getAllMethodNames(new SubClass(), true), expectedMethodsWithoutConstructor);
   });
 });
 
 describe('Test TimeZone', function () {
-  test('Gets the raw offset for Australia/Eucla', function () {
+  it('Gets the raw offset for Australia/Eucla', function () {
     const result = TimeZone.getRawOffset('Australia/Eucla');
     const expected = 8.75 * 60 * 60 * 1000;
-    expect(result).toEqual(expected);
+    assert.strictEqual(result, expected);
   });
 
-  test('Gets the raw offset for Australia/Eucla on 2019/01/01 00:00:00Z', function () {
+  it('Gets the raw offset for Australia/Eucla on 2019/01/01 00:00:00Z', function () {
     const result = TimeZone.getOffset('Australia/Eucla', janDateTime.valueOf());
     const expected = 8.75 * 60 * 60 * 1000;
-    expect(result).toEqual(expected);
+    assert.strictEqual(result, expected);
   });
 
-  test('Gets the raw offset for Australia/Eucla on 2019/07/01 00:00:00Z', function () {
+  it('Gets the raw offset for Australia/Eucla on 2019/07/01 00:00:00Z', function () {
     const result = TimeZone.getOffset('Australia/Eucla', julyDateTime.valueOf());
     const expected = 8.75 * 60 * 60 * 1000;
-    expect(result).toEqual(expected);
+    assert.strictEqual(result, expected);
   });
 });
 
@@ -70,35 +95,35 @@ describe('Test TimeZone', function () {
 // TODO: Zman
 
 describe('Test MathUtils', function () {
-  test('MathUtils.degreesToRadians()', function () {
+  it('MathUtils.degreesToRadians()', function () {
     const result = MathUtils.degreesToRadians(90);
-    expect(result).toEqual(Math.PI / 2);
+    assert.strictEqual(result, Math.PI / 2);
   });
 
-  test('MathUtils.radiansToDegrees()', function () {
+  it('MathUtils.radiansToDegrees()', function () {
     const result = MathUtils.radiansToDegrees(Math.PI / 2);
-    expect(result).toEqual(90);
+    assert.strictEqual(result, 90);
   });
 });
 
 describe('Test StringUtils', function () {
-  test('test StringUtils.compareTo()', function () {
-    expect(StringUtils.compareTo('test3.ts', 'test3.ts')).toEqual(0);
+  it('test StringUtils.compareTo()', function () {
+    assert.strictEqual(StringUtils.compareTo('test3.ts', 'test3.ts'), 0);
 
-    expect(StringUtils.compareTo('test1234', 'test1.ts')).toEqual(4);
+    assert.strictEqual(StringUtils.compareTo('test1234', 'test1.ts'), 4);
 
-    expect(StringUtils.compareTo('test1.ts', 'test1234')).toEqual(-4);
+    assert.strictEqual(StringUtils.compareTo('test1.ts', 'test1234'), -4);
 
-    expect(StringUtils.compareTo('test12', 'test234')).toEqual(-1);
+    assert.strictEqual(StringUtils.compareTo('test12', 'test234'), -1);
   });
 });
 
 describe('Test `padZeros()`', function () {
-  test('test padding `1.234` to 3 places', function () {
-    expect(padZeros(1.234, 3)).toEqual('001');
+  it('test padding `1.234` to 3 places', function () {
+    assert.strictEqual(padZeros(1.234, 3), '001');
   });
 
-  test('test padding `1234.56` to 3 places', function () {
-    expect(padZeros(1234.56, 3)).toEqual('1234');
+  it('test padding `1234.56` to 3 places', function () {
+    assert.strictEqual(padZeros(1234.56, 3), '1234');
   });
 });
