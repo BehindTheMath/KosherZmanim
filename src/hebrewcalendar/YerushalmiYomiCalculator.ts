@@ -40,7 +40,7 @@ export class YerushalmiYomiCalculator {
    * @return the {@link Daf}.
    *
    * @throws IllegalArgumentException
-   *             if the date is prior to the September 11, 1923 start date of the first Daf Yomi cycle
+   *             if the date is prior to the February 2, 1980, the start date of the first Daf Yomi Yerushalmi cycle
    */
   public static getDafYomiYerushalmi(jewishCalendar: JewishCalendar): Daf {
     let nextCycle: DateTime = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
@@ -55,7 +55,6 @@ export class YerushalmiYomiCalculator {
     }
 
     if (requested < YerushalmiYomiCalculator.DAF_YOMI_START_DAY) {
-      // TODO: should we return a null or throw an ?
       throw new IllegalArgumentException(`${requested} is prior to organized Daf Yomi Yerushlmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);
     }
 
