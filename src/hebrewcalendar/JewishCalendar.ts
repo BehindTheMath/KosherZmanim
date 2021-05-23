@@ -925,6 +925,20 @@ export class JewishCalendar extends JewishDate {
   }
 
   /**
+   * Return true if the day is Taanis Bechoros (on erev Pesach). It will return true for the 14th of Nissan if it is not
+   * on Shabbos, or if the 12th of Nissan occurs on a Thursday
+   *
+   * @return true if today is the fast of Bechoros
+   */
+  public isTaanisBechoros(): boolean {
+    const day: number = this.getJewishDayOfMonth();
+    const dayOfWeek: number = this.getDayOfWeek();
+    // on 14 Nisan unless that is Shabbos where the fast is moved back to Thursday
+    return this.getJewishMonth() === JewishCalendar.NISSAN && ((day === 14 && dayOfWeek !== Calendar.SATURDAY)
+        || (day === 12 && dayOfWeek === Calendar.THURSDAY));
+  }
+
+  /**
    * Returns the day of <em>Chanukah</em> or -1 if it is not <em>Chanukah</em>.
    *
    * @return the day of <em>Chanukah</em> or -1 if it is not <em>Chanukah</em>.
