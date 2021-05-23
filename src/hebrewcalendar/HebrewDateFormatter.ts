@@ -8,10 +8,10 @@ import { IllegalArgumentException } from '../polyfills/errors';
 /**
  * The HebrewDateFormatter class formats a {@link JewishDate}.
  *
- * The class formats Jewish dates, numbers, Daf Yomi (Bavli and Yerushalmi), the Omer, Parshas Hashavua (including special parshiyos
- * such as Shekalim, Zachor, Parah, Hachodesh), Yomim Tovim and the Molad (experimental) in Hebrew or Latin chars, and has various
- * settings. Sample full date output includes
- * (using various options):
+ * The class formats Jewish dates, numbers, Daf Yomi</em> (<em>Bavli and Yerushalmi), the Omer</em>,
+ * <em>Parshas Hashavua</em>, (including special <em>parshiyos</em> of <em>Shekalim</em>, <em>Zachor</em>, <em>Parah</em>,
+ * and <em>Hachodesh</em>), Yomim Tovim and the Molad (experimental) in Hebrew or Latin chars, and has various settings.
+ * Sample full date output includes (using various options):
  * <ul>
  * <li>21 Shevat, 5729</li>
  * <li>&#x5DB;&#x5D0; &#x5E9;&#x5D1;&#x5D8; &#x5EA;&#x5E9;&#x5DB;&#x5D8;</li>
@@ -59,15 +59,15 @@ export class HebrewDateFormatter {
   private weekFormat: DateTimeFormatOptions | null = null;
 
   /**
-   * List of transliterated parshiyos using the default Ashkenazi pronounciation.&nbsp; The formatParsha method uses this
-   * for transliterated parsha formatting.&nbsp; This list can be overridden (for Sephardi English transliteration for
+   * List of transliterated parshiyos using the default <em>Ashkenazi</em> pronounciation.&nbsp; The formatParsha method uses this
+   * for transliterated <em>parsha</em> formatting.&nbsp; This list can be overridden (for <em>Sephardi</em> English transliteration for
    * example) by setting the {@link #setTransliteratedParshiosList(EnumMap)}.&nbsp; The list includes double and special
-   * parshiyos is set as "Bereshis, Noach, Lech Lecha, Vayera, Chayei Sara, Toldos, Vayetzei, Vayishlach, Vayeshev, Miketz,
+   * <em>parshiyos</em> is set as "<em>Bereshis, Noach, Lech Lecha, Vayera, Chayei Sara, Toldos, Vayetzei, Vayishlach, Vayeshev, Miketz,
    * Vayigash, Vayechi, Shemos, Vaera, Bo, Beshalach, Yisro, Mishpatim, Terumah, Tetzaveh, Ki Sisa, Vayakhel, Pekudei,
    * Vayikra, Tzav, Shmini, Tazria, Metzora, Achrei Mos, Kedoshim, Emor, Behar, Bechukosai, Bamidbar, Nasso, Beha'aloscha,
    * Sh'lach, Korach, Chukas, Balak, Pinchas, Matos, Masei, Devarim, Vaeschanan, Eikev, Re'eh, Shoftim, Ki Seitzei, Ki Savo,
    * Nitzavim, Vayeilech, Ha'Azinu, Vezos Habracha, Vayakhel Pekudei, Tazria Metzora, Achrei Mos Kedoshim, Behar Bechukosai,
-   * Chukas Balak, Matos Masei, Nitzavim Vayeilech, Shekalim, Zachor, Parah, Hachodesh".
+   * Chukas Balak, Matos Masei, Nitzavim Vayeilech, Shekalim, Zachor, Parah, Hachodesh</em>".
    *
    * @see #formatParsha(JewishCalendar)
    */
@@ -141,8 +141,8 @@ export class HebrewDateFormatter {
   };
 
   /**
-   * Unicode {@link Record} of Hebrew parshiyos.&nbsp; the The list includes double and special parshiyos and contains
-   *  <code>"&#x05D1;&#x05E8;&#x05D0;&#x05E9;&#x05D9;&#x05EA;, &#x05E0;&#x05D7;, &#x05DC;&#x05DA; &#x05DC;&#x05DA;,
+   * Unicode {@link Record} of Hebrew <em>parshiyos</em>.&nbsp; The list includes double and special <em>parshiyos</em> and
+   * contains <code>"&#x05D1;&#x05E8;&#x05D0;&#x05E9;&#x05D9;&#x05EA;, &#x05E0;&#x05D7;, &#x05DC;&#x05DA; &#x05DC;&#x05DA;,
    *  &#x05D5;&#x05D9;&#x05E8;&#x05D0;, &#x05D7;&#x05D9;&#x05D9; &#x05E9;&#x05E8;&#x05D4;,
    *  &#x05EA;&#x05D5;&#x05DC;&#x05D3;&#x05D5;&#x05EA;, &#x05D5;&#x05D9;&#x05E6;&#x05D0;, &#x05D5;&#x05D9;&#x05E9;&#x05DC;&#x05D7;,
    *  &#x05D5;&#x05D9;&#x05E9;&#x05D1;, &#x05DE;&#x05E7;&#x05E5;, &#x05D5;&#x05D9;&#x05D2;&#x05E9;, &#x05D5;&#x05D9;&#x05D7;&#x05D9;,
@@ -158,13 +158,13 @@ export class HebrewDateFormatter {
    *  &#x05E4;&#x05D9;&#x05E0;&#x05D7;&#x05E1;, &#x05DE;&#x05D8;&#x05D5;&#x05EA;, &#x05DE;&#x05E1;&#x05E2;&#x05D9;,
    *  &#x05D3;&#x05D1;&#x05E8;&#x05D9;&#x05DD;, &#x05D5;&#x05D0;&#x05EA;&#x05D7;&#x05E0;&#x05DF;, &#x05E2;&#x05E7;&#x05D1;,
    *  &#x05E8;&#x05D0;&#x05D4;, &#x05E9;&#x05D5;&#x05E4;&#x05D8;&#x05D9;&#x05DD;, &#x05DB;&#x05D9; &#x05EA;&#x05E6;&#x05D0;,
-   *  &#x05DB;&#x05D9; &#x05EA;&#x05D1;&#x05D5;&#x05D0;, &#x05E0;&#x05D9;&#x05E6;&#x05D1;&#x05D9;&#x05DD;, &#x05D5;&#x05D9;&#x05DC;&#x05DA;,
+   *  &#x05DB;&#x05D9; &#x05EA;&#x05D1;&#x05D5;&#x05D0;, &#5D9;&#x05E6;&#x05D1;&#x05D9;&#x05DD;, &#x05D5;&#x05D9;&#x05DC;&#x05DA;,
    *  &#x05D4;&#x05D0;&#x05D6;&#x05D9;&#x05E0;&#x05D5;, &#x05D5;&#x05D6;&#x05D0;&#x05EA; &#x05D4;&#x05D1;&#x05E8;&#x05DB;&#x05D4;,
    *  &#x05D5;&#x05D9;&#x05E7;&#x05D4;&#x05DC; &#x05E4;&#x05E7;&#x05D5;&#x05D3;&#x05D9;, &#x05EA;&#x05D6;&#x05E8;&#x05D9;&#x05E2;
    *  &#x05DE;&#x05E6;&#x05E8;&#x05E2;, &#x05D0;&#x05D7;&#x05E8;&#x05D9; &#x05DE;&#x05D5;&#x05EA;
    *  &#x05E7;&#x05D3;&#x05D5;&#x05E9;&#x05D9;&#x05DD;, &#x05D1;&#x05D4;&#x05E8; &#x05D1;&#x05D7;&#x05E7;&#x05EA;&#x05D9;,
    *  &#x05D7;&#x05D5;&#x05E7;&#x05EA; &#x05D1;&#x05DC;&#x05E7;, &#x05DE;&#x05D8;&#x05D5;&#x05EA; &#x05DE;&#x05E1;&#x05E2;&#x05D9;,
-   *  &#x05E0;&#x05D9;&#x05E6;&#x05D1;&#x05D9;&#x05DD; &#x05D5;&#x05D9;&#x05DC;&#x05DA;, &#x05E9;&#x05E7;&#x05DC;&#x05D9;&#x05DD;,
+   *  &#x05E0;&#x05E6;&#x05D1;&#x05D9;&#x05DD; &#x05D5;&#x05D9;&#x05DC;&#x05DA;, &#x05E9;&#x05E7;&#x05DC;&#x05D9;&#x05DD;,
    *  &#x05D6;&#x05DB;&#x05D5;&#x05E8;, &#x05E4;&#x05E8;&#x05D4;, &#x05D4;&#x05D7;&#x05D3;&#x05E9;"</code>
    */
   private readonly hebrewParshaMap: Record<Parsha, string> = {
@@ -219,7 +219,7 @@ export class HebrewDateFormatter {
     [Parsha.SHOFTIM]: '\u05E9\u05D5\u05E4\u05D8\u05D9\u05DD',
     [Parsha.KI_SEITZEI]: '\u05DB\u05D9 \u05EA\u05E6\u05D0',
     [Parsha.KI_SAVO]: '\u05DB\u05D9 \u05EA\u05D1\u05D5\u05D0',
-    [Parsha.NITZAVIM]: '\u05E0\u05D9\u05E6\u05D1\u05D9\u05DD',
+    [Parsha.NITZAVIM]: '\u05E0\u05E6\u05D1\u05D9\u05DD',
     [Parsha.VAYEILECH]: '\u05D5\u05D9\u05DC\u05DA',
     [Parsha.HAAZINU]: '\u05D4\u05D0\u05D6\u05D9\u05E0\u05D5',
     [Parsha.VZOS_HABERACHA]: '\u05D5\u05D6\u05D0\u05EA \u05D4\u05D1\u05E8\u05DB\u05D4 ',
@@ -229,7 +229,7 @@ export class HebrewDateFormatter {
     [Parsha.BEHAR_BECHUKOSAI]: '\u05D1\u05D4\u05E8 \u05D1\u05D7\u05E7\u05EA\u05D9',
     [Parsha.CHUKAS_BALAK]: '\u05D7\u05D5\u05E7\u05EA \u05D1\u05DC\u05E7',
     [Parsha.MATOS_MASEI]: '\u05DE\u05D8\u05D5\u05EA \u05DE\u05E1\u05E2\u05D9',
-    [Parsha.NITZAVIM_VAYEILECH]: '\u05E0\u05D9\u05E6\u05D1\u05D9\u05DD \u05D5\u05D9\u05DC\u05DA',
+    [Parsha.NITZAVIM_VAYEILECH]: '\u05E0\u05E6\u05D1\u05D9\u05DD \u05D5\u05D9\u05DC\u05DA',
     [Parsha.SHKALIM]: '\u05E9\u05E7\u05DC\u05D9\u05DD',
     [Parsha.ZACHOR]: '\u05D6\u05DB\u05D5\u05E8',
     [Parsha.PARA]: '\u05E4\u05E8\u05D4',
@@ -1004,7 +1004,7 @@ export class HebrewDateFormatter {
   /**
    * Returns a String with the name of the current parsha(ios). If the formatter is set to format in Hebrew, returns
    * a string of the current parsha(ios) in Hebrew for example &#x05D1;&#x05E8;&#x05D0;&#x05E9;&#x05D9;&#x05EA; or
-   * &#x05E0;&#x05D9;&#x05E6;&#x05D1;&#x05D9;&#x05DD; &#x05D5;&#x05D9;&#x05DC;&#x05DA; or an empty string if there
+   * &#x05E0;&#x05E6;&#x05D1;&#x05D9;&#x05DD; &#x05D5;&#x05D9;&#x05DC;&#x05DA; or an empty string if there
    * are none. If not set to Hebrew, it returns a string of the parsha(ios) transliterated into Latin chars. The
    * default uses Ashkenazi pronunciation in typical American English spelling, for example Bereshis or
    * Nitzavim Vayeilech or an empty string if there are none.
@@ -1012,7 +1012,7 @@ export class HebrewDateFormatter {
    * @param jewishCalendar the JewishCalendar Object
    * @return today's parsha(ios) in Hebrew for example, if the formatter is set to format in Hebrew, returns a string
    *         of the current parsha(ios) in Hebrew for example &#x05D1;&#x05E8;&#x05D0;&#x05E9;&#x05D9;&#x05EA; or
-   *         &#x05E0;&#x05D9;&#x05E6;&#x05D1;&#x05D9;&#x05DD; &#x05D5;&#x05D9;&#x05DC;&#x05DA; or an empty string if
+   *         &#x05E0;&#x05E6;&#x05D1;&#x05D9;&#x05DD; &#x05D5;&#x05D9;&#x05DC;&#x05DA; or an empty string if
    *         there are none. If not set to Hebrew, it returns a string of the parsha(ios) transliterated into Latin
    *         chars. The default uses Ashkenazi pronunciation in typical American English spelling, for example
    *         Bereshis or Nitzavim Vayeilech or an empty string if there are none.
