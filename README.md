@@ -44,6 +44,20 @@ const { ComplexZmanimCalendar, getZmanimJson } = require("kosher-zmanim");
 
 For UMD, a global `KosherZmanim` object is exposed.
 
+**Web Worker**
+
+In your worker, assuming the following project structure
+```
+- node_modules/
+-- kosher-zmanim/
+- worker.js
+```
+Worker code:
+```javascript
+importScripts('node_modules/kosher-zmanim/lib-worker/kosher-zmanim.min.js')
+const { ComplexZmanimCalendar, getZmanimJson } = KosherZmanim
+```
+
 #### Library Usage:
 The KosherJava library has been ported to JS, following the original API as close as possible.
 The classes are exposed as named exports. You can instantiate or extend those classes as necessary, the same way you would in Java.
