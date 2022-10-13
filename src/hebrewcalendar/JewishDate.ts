@@ -123,6 +123,20 @@ export class JewishDate {
    */
   public static readonly ADAR_II: number = 13;
 
+  static readonly sunday = 1;
+
+  static readonly monday = 2;
+
+  static readonly tuesday = 3;
+
+  static readonly wednesday = 4;
+
+  static readonly thursday = 5;
+
+  static readonly friday = 6;
+
+  static readonly saturday = 7;
+
   /**
    * the Jewish epoch using the RD (Rata Die/Fixed Date or Reingold Dershowitz) day used in Calendrical Calculations.
    * Day 1 is January 1, 0001 Gregorian
