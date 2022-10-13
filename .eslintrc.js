@@ -11,6 +11,7 @@ module.exports = {
     project: './src/tsconfig.json',
   },
   rules: {
+    'linebreak-style': 'off',
     '@typescript-eslint/indent': ['error', 2, {
       FunctionExpression: {
         parameters: 2,
