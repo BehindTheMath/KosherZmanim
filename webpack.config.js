@@ -1,7 +1,12 @@
-const path = require("path");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+import { resolve as _resolve } from "path";
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
-module.exports = {
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export default {
   mode: "production",
   devtool: 'source-map',
   context: __dirname,
@@ -50,6 +55,6 @@ module.exports = {
         },
       },
     })],
-  },
+  }
 };
 

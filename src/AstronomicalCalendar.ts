@@ -338,7 +338,7 @@ export class AstronomicalCalendar {
    * @see #setAstronomicalCalculator(AstronomicalCalculator) for changing the calculator class.
    */
   constructor(geoLocation: GeoLocation = new GeoLocation()) {
-    this.setDate(DateTime.fromObject({ zone: geoLocation.getTimeZone() }));
+    this.setDate(DateTime.fromObject({}, { zone: geoLocation.getTimeZone() }));
     this.setGeoLocation(geoLocation); // duplicate call
     this.setAstronomicalCalculator(new NOAACalculator());
   }

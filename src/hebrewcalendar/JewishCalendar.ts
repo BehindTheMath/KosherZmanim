@@ -1054,8 +1054,7 @@ export class JewishCalendar extends JewishDate {
       minute: molad.getMoladMinutes(),
       second: Math.trunc(moladSeconds),
       millisecond: milliseconds,
-      zone: geo.getTimeZone(),
-    })
+    }, { zone: geo.getTimeZone() })
       .minus({ milliseconds: Math.trunc(geo.getLocalMeanTimeOffset()) });
   }
 

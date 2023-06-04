@@ -626,7 +626,7 @@ export class HebrewDateFormatter {
     const dateTime = jewishDate.getDate();
     return this.weekFormat
       ? dateTime.toLocaleString(this.weekFormat)
-      : dateTime.toISO();
+      : dateTime.toISO()!;
   }
 
   /**

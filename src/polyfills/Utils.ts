@@ -1,8 +1,8 @@
 import { DateTime, Info } from 'luxon';
 
-export namespace Utils {
+export const Utils = {
   // https://stackoverflow.com/a/40577337/8037425
-  export function getAllMethodNames(obj: object, excludeContructors: boolean = false): Array<string> {
+  getAllMethodNames: (obj: object, excludeContructors: boolean = false): string[] => {
     let _obj: object | null = obj;
     const methods: Set<string> = new Set();
 
@@ -19,7 +19,7 @@ export namespace Utils {
   }
 }
 
-export namespace TimeZone {
+export const TimeZone = {
   /**
    * Returns the amount of time in milliseconds to add to UTC to get
    * standard time in this time zone. Because this value is not
@@ -30,12 +30,11 @@ export namespace TimeZone {
    *
    * @return the amount of raw offset time in milliseconds to add to UTC.
    */
-  export function getRawOffset(timeZoneId: string): number {
+  getRawOffset: (timeZoneId: string): number => {
     const janDateTime = DateTime.fromObject({
       month: 1,
-      day: 1,
-      zone: timeZoneId,
-    });
+      day: 1
+    }, { zone: timeZoneId });
     const julyDateTime = janDateTime.set({ month: 7 });
 
     let rawOffsetMinutes;
@@ -50,7 +49,7 @@ export namespace TimeZone {
     }
 
     return rawOffsetMinutes * 60 * 1000;
-  }
+  },
 
   /**
    * Returns a name in the specified style of this TimeZone suitable for presentation to the user in the default locale.
@@ -58,9 +57,9 @@ export namespace TimeZone {
    * @param {DateTime} [date]
    * @param {boolean} [short]
    */
-  export function getDisplayName(timeZoneId: string, date: DateTime = DateTime.local(), short: boolean = false): string {
-    return Info.normalizeZone(timeZoneId).offsetName(date.toMillis(), { format: short ? 'short' : 'long' });
-  }
+  getDisplayName: (timeZoneId: string, date: DateTime = DateTime.local(), short: boolean = false): string =>
+    Info.normalizeZone(timeZoneId).offsetName(date.toMillis(), { format: short ? 'short' : 'long' })!
+  ,
 
   /**
    * Returns the amount of time to be added to local standard time to get local wall clock time.
@@ -69,9 +68,9 @@ export namespace TimeZone {
    * @param {string} timeZoneId
    * @return {number}
    */
-  export function getDSTSavings(timeZoneId: string): number {
-    return Info.hasDST(timeZoneId) ? 3600000 : 0;
-  }
+  getDSTSavings: (timeZoneId: string): number =>
+    Info.hasDST(timeZoneId) ? 3600000 : 0
+  ,
 
   /**
    * Returns the offset of this time zone from UTC at the specified date. If Daylight Saving Time is in effect at the
@@ -82,7 +81,7 @@ export namespace TimeZone {
    * @param {string} timeZoneId
    * @param {number} millisSinceEpoch
    */
-  export function getOffset(timeZoneId: string, millisSinceEpoch: number): number {
+  getOffset: (timeZoneId: string, millisSinceEpoch: number): number => {
     return Info.normalizeZone(timeZoneId).offset(millisSinceEpoch) * 60 * 1000;
   }
 }
@@ -90,58 +89,58 @@ export namespace TimeZone {
 /**
  * java.util.Calendar
  */
-export namespace Calendar {
-  export const JANUARY: number = 0;
-  export const FEBRUARY: number = 1;
-  export const MARCH: number = 2;
-  export const APRIL: number = 3;
-  export const MAY: number = 4;
-  export const JUNE: number = 5;
-  export const JULY: number = 6;
-  export const AUGUST: number = 7;
-  export const SEPTEMBER: number = 8;
-  export const OCTOBER: number = 9;
-  export const NOVEMBER: number = 10;
-  export const DECEMBER: number = 11;
+export const Calendar = {
+  JANUARY: 0,
+  FEBRUARY: 1,
+  MARCH: 2,
+  APRIL: 3,
+  MAY: 4,
+  JUNE: 5,
+  JULY: 6,
+  AUGUST: 7,
+  SEPTEMBER: 8,
+  OCTOBER: 9,
+  NOVEMBER: 10,
+  DECEMBER: 11,
 
-  export const SUNDAY: number = 1;
-  export const MONDAY: number = 2;
-  export const TUESDAY: number = 3;
-  export const WEDNESDAY: number = 4;
-  export const THURSDAY: number = 5;
-  export const FRIDAY: number = 6;
-  export const SATURDAY: number = 7;
+  SUNDAY: 1,
+  MONDAY: 2,
+  TUESDAY: 3,
+  WEDNESDAY: 4,
+  THURSDAY: 5,
+  FRIDAY: 6,
+  SATURDAY: 7,
 
-  export const DATE = 5;
-  export const MONTH = 2;
-  export const YEAR = 1;
+  DATE: 5,
+  MONTH: 2,
+  YEAR: 1,
 }
 
 /**
  * java.lang.Math
  */
-export namespace MathUtils {
+export const MathUtils = {
   /**
    * java.lang.Math.toRadians
    * @param degrees
    */
-  export function degreesToRadians(degrees: number): number {
-    return degrees * Math.PI / 180;
-  }
+  degreesToRadians: (degrees: number): number =>
+    degrees * Math.PI / 180
+  ,
 
   /**
    * java.lang.Math.toDegrees
    * @param radians
    */
-  export function radiansToDegrees(radians: number): number {
-    return radians * 180 / Math.PI;
-  }
+  radiansToDegrees: (radians: number): number =>
+    radians * 180 / Math.PI
+  
 }
 
 /**
  * java.lang.String
  */
-export namespace StringUtils {
+export const StringUtils = {
   /**
    * Compares two strings lexicographically.
    * The comparison is based on the Unicode value of each character in
@@ -184,7 +183,7 @@ export namespace StringUtils {
    *          value greater than {@code 0} if this string is
    *          lexicographically greater than the string argument.
    */
-  export function compareTo(string1: string, string2: string): number {
+  compareTo: (string1: string, string2: string): number => {
     let k: number = 0;
     while (k < Math.min(string1.length, string2.length)) {
       if (string1.substr(k, 1) !== string2.substr(k, 1)) {
@@ -196,13 +195,13 @@ export namespace StringUtils {
   }
 }
 
-export namespace IntegerUtils {
+export const IntegerUtils = {
   /**
    * Compares 2 numbers
    * @param x
    * @param y
    */
-  export function compare(x: number, y: number): number {
+  compare: (x: number, y: number): number => {
     if (x === y) return 0;
     return x > y ? 1 : -1;
   }
