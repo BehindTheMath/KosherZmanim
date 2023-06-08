@@ -8,7 +8,7 @@ export default [
     plugins: [esbuild(), resolve()],
     output: [
       {
-        file: `lib/bundle.js`,
+        file: `dist/bundle.js`,
         format: 'esm',
         sourcemap: true,
       },
@@ -18,7 +18,7 @@ export default [
     input: `src/kosher-zmanim.ts`,
     plugins: [dts(), resolve()],
     output: {
-      file: `lib/bundle.d.ts`,
+      file: `dist/bundle.d.ts`,
       format: 'es',
     },
   }

@@ -8,7 +8,7 @@ import { ComplexZmanimCalendar } from '../ComplexZmanimCalendar';
 import { Zman, ZmanWithDuration, ZmanWithZmanDate } from './Zman';
 import { UnsupportedError } from '../polyfills/errors';
 
-const methodBlacklist: string[] = [
+const methodBlacklist = <const>[
   'getAdjustedDate',
   'getDate',
   'getElevationAdjustedSunrise',
@@ -19,7 +19,7 @@ const methodBlacklist: string[] = [
   'getSunsetBaalHatanya',
 ];
 
-const methodWhitelist: string[] = [
+const methodWhitelist = <const>[
   // These methods have parameters, but have default values.
   'getMinchaGedola',
   'getMinchaKetana',
@@ -372,7 +372,7 @@ export class ZmanimFormatter {
 
     let duration: string;
     if (time.getHours() !== 0 || time.getMinutes() !== 0 || time.getSeconds() !== 0 || time.getMilliseconds() !== 0) {
-      duration = ('P').concat('T');
+      duration = 'P'.concat('T');
 
       if (time.getHours() !== 0) duration = duration.concat(`${time.getHours()}H`);
 
@@ -386,7 +386,7 @@ export class ZmanimFormatter {
       if (duration.length === 1) duration.concat('T0S'); // zero seconds
 
       if (time.isNegative()) {
-        duration = duration.substr(0, 0).concat('-').concat(duration.substr(0, duration.length));
+        duration = '-' + duration
       }
     }
     return duration!.toString();
@@ -498,14 +498,14 @@ export class ZmanimFormatter {
     return json;
   }
 
-  // @ts-ignore
-  private static getOutputKey(astronomicalCalendar: AstronomicalCalendar): string {
+  private static getOutputKey(astronomicalCalendar: AstronomicalCalendar) {
     switch (true) {
       case astronomicalCalendar instanceof ComplexZmanimCalendar:
         return 'Zmanim';
       case astronomicalCalendar instanceof ZmanimCalendar:
         return 'BasicZmanim';
       case astronomicalCalendar instanceof AstronomicalCalendar:
+      default:
         return 'AstronomicalTimes';
     }
   }
@@ -521,14 +521,14 @@ export class ZmanimFormatter {
       latitude: astronomicalCalendar.getGeoLocation().getLatitude().toString(),
       longitude: astronomicalCalendar.getGeoLocation().getLongitude().toString(),
       elevation: ZmanimFormatter.formatDecimal(astronomicalCalendar.getGeoLocation().getElevation()),
-      timeZoneName: TimeZone.getDisplayName(astronomicalCalendar.getGeoLocation().getTimeZone(), astronomicalCalendar.getDate()),
+      timeZoneName: TimeZone.getDisplayName(astronomicalCalendar.getGeoLocation().getTimeZone(), astronomicalCalendar.getDate())!,
       timeZoneID: astronomicalCalendar.getGeoLocation().getTimeZone(),
       timeZoneOffset: ZmanimFormatter.formatDecimal(TimeZone.getOffset(astronomicalCalendar.getGeoLocation().getTimeZone(),
         astronomicalCalendar.getDate().valueOf()) / ZmanimFormatter.HOUR_MILLIS),
     };
   }
 
-  private static getZmanimOutput(astronomicalCalendar: AstronomicalCalendar): Record<string, string> {
+  private static getZmanimOutput(astronomicalCalendar: AstronomicalCalendar) {
     const formatter: ZmanimFormatter = new ZmanimFormatter(ZmanimFormatter.XSD_DURATION_FORMAT, ZmanimFormatter.XSD_DATE_FORMAT,
       astronomicalCalendar.getGeoLocation().getTimeZone());
 
@@ -540,14 +540,14 @@ export class ZmanimFormatter {
     let durationList: ZmanWithDuration[] = [];
     const otherList: string[] = [];
 
-    // Get al the methods in the calendar
+    // Get all the methods in the calendar
     Utils.getAllMethodNames(astronomicalCalendar, true)
       // Filter out methods that we don't want
       .filter(method => includeMethod(method, astronomicalCalendar))
       // Call each method and get the return values
       .map(method => ({
         methodName: method,
-        value: (astronomicalCalendar as any as Record<string, Function>)[method].call(astronomicalCalendar),
+        value: astronomicalCalendar[method as keyof AstronomicalCalendar],
       }))
       // Filter for return values of type Date or number
       .filter(methodObj => DateTime.isDateTime(methodObj.value) || typeof methodObj.value === 'number' || methodObj.value === null)
@@ -578,16 +578,12 @@ export class ZmanimFormatter {
     durationList = durationList.filter((zman: ZmanWithDuration) => zman.duration > 1000)
       .sort(Zman.compareDurationOrder);
 
-    const timesData: Record<string, string> = {};
-    dateList.forEach((zman: ZmanWithZmanDate) => {
-      timesData[zman.label as string] = formatter.formatDateTime(zman.zman);
-    });
-    durationList.forEach((zman: ZmanWithDuration) => {
-      timesData[zman.label as string] = formatter.format(Math.trunc(zman.duration));
-    });
-    otherList.forEach((tagName: string) => {
-      timesData[tagName] = 'N/A';
-    });
+    const timesData = Object.assign(
+      {},
+      Object.fromEntries(dateList.map(zman => [zman.label, formatter.formatDateTime(zman.zman)])),
+      Object.fromEntries(durationList.map(zman => [zman.label, formatter.format(Math.trunc(zman.duration))])),
+      Object.fromEntries(otherList.map(tagName => [tagName, 'N/A']))
+    );
 
     return timesData;
   }
@@ -602,10 +598,10 @@ export class ZmanimFormatter {
  * @return if the method should be included in serialization
  */
 function includeMethod(method: string, astronomicalCalendar: AstronomicalCalendar): boolean {
-  if (methodWhitelist.includes(method)) return true;
+  if (method in methodWhitelist) return true;
 
   // Filter out excluded methods
-  return !methodBlacklist.includes(method)
+  return !(method in methodBlacklist)
     // Filter out methods with parameters since we don't know what value(s) to pass
     && (astronomicalCalendar as any as Record<string, Function>)[method].length === 0
     // Filter out methods that don't start with 'get'
