@@ -9,9 +9,12 @@ import { UnsupportedError } from '../polyfills/errors';
 const { MONDAY, TUESDAY, THURSDAY, FRIDAY, SATURDAY } = Calendar;
 
 /**
- * List of <em>parshiyos</em>. {@link #NONE} indicates a week without a <em>parsha</em>, while the enum for the <em>parsha</em> of
- * {@link #VZOS_HABERACHA} exists for consistency, but is not currently used.
- *
+ * List of <em>parshiyos</em> or special <em>Shabasos</em>. {@link #NONE} indicates a week without a <em>parsha</em>, while the enum for
+ * the <em>parsha</em> of {@link #VZOS_HABERACHA} exists for consistency, but is not currently used. The special <em>Shabasos</em> of
+ * Shekalim, Zachor, Para, Hachodesh, as well as Shabbos Shuva, Shira, Hagadol, Chazon and Nachamu are also represented in this collection
+ * of <em>parshiyos</em>.
+ * @see #getSpecialShabbos()
+ * @see #getParshah()
  */
 export enum Parsha {
   /** NONE - A week without any <em>parsha</em> such as <em>Shabbos Chol Hamoed</em> */
@@ -46,6 +49,11 @@ export enum Parsha {
   PARA,
   /** The special <em>parsha</em> of Hachodesh */
   HACHODESH,
+  SHUVA,
+  SHIRA,
+  HAGADOL,
+  CHAZON,
+  NACHAMU,
 }
 
 /**
@@ -187,12 +195,36 @@ export class JewishCalendar extends JewishDate {
   /** The holiday of Purim Katan on the 15th day of Adar I on a leap year when Purim is on Adar II, a minor holiday. */
   public static readonly SHUSHAN_PURIM_KATAN: number = 34;
 
+  /** The day following the last day of Pesach, Shavuos and Sukkos.*/
+  public static readonly ISRU_CHAG = 35;
+
+  /**
+	 * The day before <em>Rosh Chodesh</em> (moved to Thursday if <em>Rosh Chodesh</em> is on a Friday or <em>Shabbos</em>) in most months.
+	 * This constant is not actively in use.
+	 * @see #isYomKippurKatan()
+	 */
+  public static readonly YOM_KIPPUR_KATAN = 36;
+
+  /**
+	 * The Monday, Thursday and Monday after the first <em>Shabbos</em> after <em>Rosh Chodesh Cheshvan</em> and <em>Iyar</em>) are BeHab
+	 * days. This constant is not actively in use.
+	 * @see #isBeHaB()
+	 */
+  public static readonly BEHAB = 37;
+
   /**
    * Is the calendar set to Israel, where some holidays have different rules.
    * @see #getInIsrael()
    * @see #setInIsrael(boolean)
    */
   private inIsrael: boolean = false;
+
+  /**
+	 * Is the calendar set to have Purim <em>demukafim</em>, where Purim is celebrated on Shushan Purim.
+	 * @see #getIsMukafChoma()
+	 * @see #setIsMukafChoma(boolean)
+	 */
+  private isMukafChoma: boolean = false;
 
   /**
    * Is the calendar set to use modern Israeli holidays such as Yom Haatzmaut.
@@ -226,20 +258,26 @@ export class JewishCalendar extends JewishDate {
 
   /**
    * Is this calendar set to return modern Israeli national holidays. By default this value is false. The holidays
-   * are: "Yom HaShoah", "Yom Hazikaron", "Yom Ha'atzmaut" and "Yom Yerushalayim"
-   *
+	 * are {@link #YOM_HASHOAH <em>Yom HaShoah</em>}, {@link #YOM_HAZIKARON <em>Yom Hazikaron</em>}, {@link
+   * #YOM_HAATZMAUT <em>Yom Ha'atzmaut</em>} and {@link #YOM_YERUSHALAYIM <em>Yom Yerushalayim</em>}.
+   * 
    * @return the useModernHolidays true if set to return modern Israeli national holidays
+   * 
+   * @see #setUseModernHolidays(boolean)
    */
   public isUseModernHolidays(): boolean {
     return this.useModernHolidays;
   }
 
   /**
-   * Seth the calendar to return modern Israeli national holidays. By default this value is false. The holidays are:
-   * "Yom HaShoah", "Yom Hazikaron", "Yom Ha'atzmaut" and "Yom Yerushalayim"
-   *
+   * Sets the calendar to return modern Israeli national holidays. By default this value is false. The holidays are:
+	 * {@link #YOM_HASHOAH <em>Yom HaShoah</em>}, {@link #YOM_HAZIKARON <em>Yom Hazikaron</em>}, {@link
+   * #YOM_HAATZMAUT <em>Yom Ha'atzmaut</em>} and {@link #YOM_YERUSHALAYIM <em>Yom Yerushalayim</em>}.
+   * 
    * @param useModernHolidays
    *            the useModernHolidays to set
+   * 
+   * @see #isUseModernHolidays()
    */
   public setUseModernHolidays(useModernHolidays: boolean): void {
     this.useModernHolidays = useModernHolidays;
@@ -317,10 +355,10 @@ export class JewishCalendar extends JewishDate {
    * @param inIsrael
    *            whether in Israel. This affects Yom Tov calculations
    */
-  constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number, inIsrael?: boolean)
-  constructor(date: Date)
-  constructor(date: DateTime)
-  constructor()
+  constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number, inIsrael?: boolean);
+  constructor(date: Date);
+  constructor(date: DateTime);
+  constructor();
   constructor(jewishYearOrDateTimeOrDate?: number | Date | DateTime, jewishMonth?: number, jewishDayOfMonth?: number, inIsrael?: boolean) {
     // @ts-ignore
     super(jewishYearOrDateTimeOrDate, jewishMonth, jewishDayOfMonth);
@@ -332,6 +370,8 @@ export class JewishCalendar extends JewishDate {
    *
    * @param inIsrael
    *            set to true for calculations for Israel
+   * 
+	 * @see #getInIsrael()
    */
   public setInIsrael(inIsrael: boolean): void {
     this.inIsrael = inIsrael;
@@ -340,18 +380,43 @@ export class JewishCalendar extends JewishDate {
   /**
    * Gets whether Israel holiday scheme is used or not. The default (if not set) is false.
    *
-   * @return if the if the calendar is set to Israel
+   * @return if the calendar is set to Israel
+	 * 
+	 * @see #setInIsrael(boolean)
    */
   public getInIsrael(): boolean {
     return this.inIsrael;
   }
 
   /**
+	 * Returns if the city is set as a city surrounded by a wall from the time of Yehoshua, and Shushan Purim
+	 * should be celebrated as opposed to regular Purim.
+	 * @return if the city is set as a city surrounded by a wall from the time of Yehoshua, and Shushan Purim
+	 *         should be celebrated as opposed to regular Purim.
+	 * @see #setIsMukafChoma(boolean)
+	 */
+  public getIsMukafChoma():boolean {
+    return this.isMukafChoma;
+  }
+
+  /**
+	 * Sets if the location is surrounded by a wall from the time of Yehoshua, and Shushan Purim should be
+	 * celebrated as opposed to regular Purim. This should be set for Yerushalayim, Shushan and other cities.
+	 * @param isMukafChoma is the city surrounded by a wall from the time of Yehoshua.
+	 * 
+	 * @see #getIsMukafChoma()
+	 */
+  public setIsMukafChoma(isMukafChoma:boolean):void {
+    this.isMukafChoma = isMukafChoma;
+  }
+
+  /**
    * <a href="https://en.wikipedia.org/wiki/Birkat_Hachama">Birkas Hachamah</a> is recited every 28 years based on
-   * Tekufas Shmulel (Julian years) that a year is 365.25 days. The <a href="https://en.wikipedia.org/wiki/Maimonides">Rambam</a>
-   * in <a href="http://hebrewbooks.org/pdfpager.aspx?req=14278&amp;st=&amp;pgnum=323">Hilchos Kiddush Hachodesh 9:3</a> states that
-   * tekufas Nisan of year 1 was 7 days + 9 hours before molad Nisan. This is calculated as every 10,227 days (28 * 365.25).
-   * @return true for a day that Birkas Hachamah is recited.
+   * <em>Tekufas Shmuel</em> (Julian years) that a year is 365.25 days. The <a href="https://en.wikipedia.org/wiki/Maimonides"
+	 * >Rambam</a> in <a href="http://hebrewbooks.org/pdfpager.aspx?req=14278&amp;st=&amp;pgnum=323">Hilchos Kiddush Hachodesh 9:3</a>
+	 * states that <em>tekufas Nissan</em> of year 1 was 7 days + 9 hours before <em>molad Nissan</em>. This is calculated as every
+	 * 10,227 days (28 * 365.25).  
+	 * @return true for a day that <em>Birkas Hachamah</em> is recited.
    */
   public isBirkasHachamah(): boolean {
     // elapsed days since molad ToHu
@@ -359,20 +424,20 @@ export class JewishCalendar extends JewishDate {
     // elapsed days to the current calendar date
     elapsedDays += this.getDaysSinceStartOfJewishYear();
 
-    /* Molad Nisan year 1 was 177 days after molad tohu of Tishrei. We multiply 29.5 day months * 6 months from Tishrei
-     * to Nisan = 177. Subtract 7 days since tekufas Nisan was 7 days and 9 hours before the molad as stated in the Rambam
-     * and we are now at 170 days. Because getJewishCalendarElapsedDays and getDaysSinceStartOfJewishYear use the value for
-     * Rosh Hashana as 1, we have to add 1 day days for a total of 171. To this add a day since the tekufah is on a Tuesday
-     * night and we push off the bracha to Wednesday AM resulting in the 172 used in the calculation.
-     */
+    /* Molad Nissan year 1 was 177 days after molad tohu of Tishrei. We multiply 29.5 days * 6 months from Tishrei
+		 * to Nissan = 177. Subtract 7 days since tekufas Nissan was 7 days and 9 hours before the molad as stated in the Rambam
+		 * and we are now at 170 days. Because getJewishCalendarElapsedDays and getDaysSinceStartOfJewishYear use the value for
+		 * Rosh Hashana as 1, we have to add 1 day for a total of 171. To this add a day since the tekufah is on a Tuesday
+		 * night and we push off the bracha to Wednesday AM resulting in the 172 used in the calculation.
+		 */
     // 28 years of 365.25 days + the offset from molad tohu mentioned above
     return elapsedDays % (28 * 365.25) === 172;
   }
 
   /**
-   * Return the type of year for parsha calculations. The algorithm follows the
-   * <a href="http://hebrewbooks.org/pdfpager.aspx?req=14268&amp;st=&amp;pgnum=222">Luach Arba'ah Shearim</a> in the Tur Ohr Hachaim.
-   * @return the type of year for parsha calculations.
+   * Return the type of year for <em>parsha</em> calculations. The algorithm follows the
+	 * <a href="http://hebrewbooks.org/pdfpager.aspx?req=14268&amp;st=&amp;pgnum=222">Luach Arba'ah Shearim</a> in the Tur Ohr Hachaim.
+	 * @return the type of year for <em>parsha</em> calculations.
    * @todo Use constants in this class.
    */
   private getParshaYearType(): number {
@@ -384,7 +449,6 @@ export class JewishCalendar extends JewishDate {
     }
 
     if (this.isJewishLeapYear()) {
-      // eslint-disable-next-line default-case
       switch (roshHashanaDayOfWeek) {
         case MONDAY:
           // BaCh
@@ -439,7 +503,6 @@ export class JewishCalendar extends JewishDate {
       }
     } else {
       // not a leap year
-      // eslint-disable-next-line default-case
       switch (roshHashanaDayOfWeek) {
         case MONDAY:
           // BaCh
@@ -573,7 +636,6 @@ export class JewishCalendar extends JewishDate {
     const dayOfWeek: number = this.getDayOfWeek();
 
     // check by month (starting from Nissan)
-    // eslint-disable-next-line default-case
     switch (this.getJewishMonth()) {
       case JewishCalendar.NISSAN:
         if (day === 14) {
@@ -1076,8 +1138,8 @@ export class JewishCalendar extends JewishDate {
 
   /**
    * Returns the earliest time of Kiddush Levana calculated as 7 days after the molad as mentioned by the <a
-   * href="http://en.wikipedia.org/wiki/Yosef_Karo">Mechaber</a>. See the <a
-   * href="http://en.wikipedia.org/wiki/Yoel_Sirkis">Bach's</a> opinion on this time. This method returns the time
+   * href="https://en.wikipedia.org/wiki/Yosef_Karo">Mechaber</a>. See the <a
+   * href="https://en.wikipedia.org/wiki/Yoel_Sirkis">Bach's</a> opinion on this time. This method returns the time
    * even if it is during the day when <em>Kiddush Levana</em> can't be said. Callers of this method should consider
    * displaying the next <em>tzais</em> if the zman is between <em>alos</em> and <em>tzais</em>.
    *
@@ -1094,7 +1156,7 @@ export class JewishCalendar extends JewishDate {
 
   /**
    * Returns the latest time of Kiddush Levana according to the <a
-   * href="http://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> opinion that it is calculated as
+   * href="https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> opinion that it is calculated as
    * halfway between molad and molad. This adds half the 29 days, 12 hours and 793 chalakim time between molad and
    * molad (14 days, 18 hours, 22 minutes and 666 milliseconds) to the month's molad. This method returns the time
    * even if it is during the day when <em>Kiddush Levana</em> can't be said. Callers of this method should consider
@@ -1120,8 +1182,8 @@ export class JewishCalendar extends JewishDate {
   /**
    * Returns the latest time of Kiddush Levana calculated as 15 days after the molad. This is the opinion brought down
    * in the Shulchan Aruch (Orach Chaim 426). It should be noted that some opinions hold that the
-   * <a href="http://en.wikipedia.org/wiki/Moses_Isserles">Rema</a> who brings down the opinion of the <a
-   * href="http://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> of calculating
+   * <a href="https://en.wikipedia.org/wiki/Moses_Isserles">Rema</a> who brings down the opinion of the <a
+   * href="https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> of calculating
    * {@link #getSofZmanKidushLevanaBetweenMoldos() half way between molad and mold} is of the opinion that Mechaber
    * agrees to his opinion. Also see the Aruch Hashulchan. For additional details on the subject, See Rabbi Dovid
    * Heber's very detailed writeup in Siman Daled (chapter 4) of <a

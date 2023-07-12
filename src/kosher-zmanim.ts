@@ -12,6 +12,7 @@ export function getZmanimJson(options: Options): JsonOutput {
   const zmanimCalendar: ZmanimCalendar = options.complexZmanim
     ? new ComplexZmanimCalendar(geoLocation)
     : new ZmanimCalendar(geoLocation);
+
   zmanimCalendar.setDate(options.date || _Luxon.DateTime.local());
   return ZmanimFormatter.toJSON(zmanimCalendar);
 }

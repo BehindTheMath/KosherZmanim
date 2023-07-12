@@ -11,8 +11,8 @@ import { IllegalArgumentException } from '../polyfills/errors';
  * note that the calendar does not currently support dates prior to 1/1/1 Gregorian. Also keep in mind that the
  * Gregorian calendar started on October 15, 1582, so any calculations prior to that are suspect (at least from
  * a Gregorian perspective). While 1/1/1 Gregorian and forward are technically supported, any calculations prior to <a
- * href="http://en.wikipedia.org/wiki/Hillel_II">Hillel II's (Hakatan's</a>) calendar (4119 in the Jewish Calendar / 359
- * CE Julian as recorded by <a href="http://en.wikipedia.org/wiki/Hai_Gaon">Rav Hai Gaon</a>) would be just an
+ * href="https://en.wikipedia.org/wiki/Hillel_II">Hillel II's (Hakatan's</a>) calendar (4119 in the Jewish Calendar / 359
+ * CE Julian as recorded by <a href="https://en.wikipedia.org/wiki/Hai_Gaon">Rav Hai Gaon</a>) would be just an
  * approximation.
  *
  * This open source Java code was written by <a href="http://www.facebook.com/avromf">Avrom Finkelstien</a> from his C++
@@ -945,11 +945,11 @@ export class JewishDate {
     return elapsedDays;
   }
 
-  constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number)
-  constructor(molad: number)
-  constructor(date: Date)
-  constructor(date: DateTime)
-  constructor()
+  constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number);
+  constructor(molad: number);
+  constructor(date: Date);
+  constructor(date: DateTime);
+  constructor();
   constructor(jewishYearOrDateTimeOrDateOrMolad?: number | Date | DateTime, jewishMonth?: number, jewishDayOfMonth?: number) {
     if (!jewishYearOrDateTimeOrDateOrMolad) {
       this.resetDate();
@@ -1561,7 +1561,7 @@ export class JewishDate {
   }
 
   /**
-   * A method that creates a <a href="http://en.wikipedia.org/wiki/Object_copy#Deep_copy">deep copy</a> of the object.
+   * A method that creates a <a href="https://en.wikipedia.org/wiki/Object_copy#Deep_copy">deep copy</a> of the object.
    *
    * @see Object#clone()
    */

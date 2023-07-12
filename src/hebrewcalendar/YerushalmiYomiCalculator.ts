@@ -33,29 +33,30 @@ export class YerushalmiYomiCalculator {
    * Returns the <a href="https://en.wikipedia.org/wiki/Daf_Yomi">Daf Yomi</a>
    * <a href="https://en.wikipedia.org/wiki/Jerusalem_Talmud">Yerusalmi</a> page ({@link Daf}) for a given date.
    * The first Daf Yomi cycle started on 15 Shevat (Tu Bishvat) 5740 (February, 2, 1980) and calculations
-   * prior to this date will result in an IllegalArgumentException thrown.
+   * prior to this date will result in an IllegalArgumentException thrown. A null will be returned on Tisha B'Av or
+   * Yom Kippur.
    *
    * @param jewishCalendar
    *            the calendar date for calculation
-   * @return the {@link Daf}.
+   * @return the {@link Daf} or null if the date is on Tisha B'Av or Yom Kippur.
    *
    * @throws IllegalArgumentException
    *             if the date is prior to the February 2, 1980, the start date of the first Daf Yomi Yerushalmi cycle
    */
-  public static getDafYomiYerushalmi(jewishCalendar: JewishCalendar): Daf {
+  public static getDafYomiYerushalmi(jewishCalendar: JewishCalendar) {
     let nextCycle: DateTime = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
     let prevCycle: DateTime = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
     const requested: DateTime = jewishCalendar.getDate();
     let masechta: number = 0;
     let dafYomi: Daf;
 
-    // There is no Daf Yomi on Yom Kippur and Tisha B'Av.
+    // There is no Daf Yomi on Yom Kippur or Tisha B'Av.
     if (jewishCalendar.getYomTovIndex() === JewishCalendar.YOM_KIPPUR || jewishCalendar.getYomTovIndex() === JewishCalendar.TISHA_BEAV) {
-      return new Daf(39, 0);
+      return null;
     }
 
     if (requested < YerushalmiYomiCalculator.DAF_YOMI_START_DAY) {
-      throw new IllegalArgumentException(`${requested} is prior to organized Daf Yomi Yerushlmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);
+      throw new IllegalArgumentException(`${requested} is prior to organized Daf Yomi Yerushalmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);
     }
 
     // Start to calculate current cycle. Initialize the start day

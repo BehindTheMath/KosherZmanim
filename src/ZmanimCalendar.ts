@@ -439,8 +439,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
   *         at least one day a year where the sun does not rise, and one where it does not set, a null will be
   *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
   */
-  public getMinchaGedola(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
-                         endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
+  public getMinchaGedola(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(), endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
     return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 6.5);
   }
 
@@ -470,9 +469,9 @@ export class ZmanimCalendar extends AstronomicalCalendar {
 	 * @see ComplexZmanimCalendar#getSamuchLeMinchaKetana16Point1Degrees()
 	 * @see ComplexZmanimCalendar#getSamuchLeMinchaKetana72Minutes()
 	 */
-	public getSamuchLeMinchaKetana(startOfDay: DateTime, endOfDay: DateTime): DateTime | null {
-		return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 9);
-	}
+  public getSamuchLeMinchaKetana(startOfDay: DateTime, endOfDay: DateTime): DateTime | null {
+    return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 9);
+  }
 
   /**
    * A generic method for calculating <em>mincha ketana</em>, (the preferred time to recite the mincha prayers in
@@ -497,8 +496,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         at least one day a year where the sun does not rise, and one where it does not set, a null will be
    *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
-  public getMinchaKetana(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
-                         endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
+  public getMinchaKetana(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(), endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
     return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 9.5);
   }
 
@@ -522,8 +520,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         at least one day a year where the sun does not rise, and one where it does not set, a null will be
    *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
-  public getPlagHamincha(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(),
-                         endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
+  public getPlagHamincha(startOfDay: DateTime | null = this.getElevationAdjustedSunrise(), endOfDay: DateTime | null = this.getElevationAdjustedSunset()): DateTime | null {
     return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 10.75);
   }
 
@@ -705,8 +702,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         where it does not set, a null will be  returned. See detailed explanation on top of the {@link
     *         AstronomicalCalendar} documentation.
    */
-  public getShaahZmanisBasedZman(startOfDay: DateTime | null, endOfDay: DateTime | null,
-                                 hours: number): DateTime | null {
+  public getShaahZmanisBasedZman(startOfDay: DateTime | null, endOfDay: DateTime | null, hours: number): DateTime | null {
     const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
     return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * hours);
   }

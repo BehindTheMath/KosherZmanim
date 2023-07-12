@@ -72,7 +72,7 @@ export class Zman {
    * @param label the label of the  <em>zman</em> such as "<em>Sof Zman Krias Shema GRA</em>".
    * @see #Zman(long, String)
    */
-  constructor(date: DateTime, label: string | null)
+  constructor(date: DateTime, label: string | null);
   /**
    * The constructor setting a duration based <em>zman</em> such as
    * {@link AstronomicalCalendar#getTemporalHour() temporal hour} (or the various <em>shaah zmanis</em> times such as
@@ -82,7 +82,7 @@ export class Zman {
    * @param label the label of the  <em>zman</em> such as "<em>Shaah Zmanis GRA</em>".
    * @see #Zman(Date, String)
    */
-  constructor(duration: number, label: string | null)
+  constructor(duration: number, label: string | null);
   constructor(dateOrDuration: number | DateTime, label: string | null) {
     this.label = label;
     if (DateTime.isDateTime(dateOrDuration)) {

@@ -247,4 +247,26 @@ export class SunTimesCalculator extends AstronomicalCalculator {
     }
     return processedTime;
   }
+
+  /**
+	 * Return the <a href="https://en.wikipedia.org/wiki/Universal_Coordinated_Time">Universal Coordinated Time</a> (UTC)
+	 * of <a href="https://en.wikipedia.org/wiki/Noon#Solar_noon">solar noon</a> for the given day at the given location
+	 * on earth. This implementation returns solar noon as the time halfway between sunrise and sunset.
+	 * Other calculators may return true solar noon. See <a href=
+	 * "https://kosherjava.com/2020/07/02/definition-of-chatzos/">The Definition of Chatzos</a> for details on solar
+	 * noon calculations.
+	 * @see com.kosherjava.zmanim.util.AstronomicalCalculator#getUTCNoon(Calendar, GeoLocation)
+	 * @see NOAACalculator
+	 * 
+	 * @param calendar
+	 *            The Calendar representing the date to calculate solar noon for
+	 * @param geoLocation
+	 *            The location information used for astronomical calculating sun times.
+	 * @return the time in minutes from zero UTC
+	 */
+  public getUTCNoon(calendar: DateTime, geoLocation: GeoLocation) {
+    const sunrise = this.getUTCSunrise(calendar, geoLocation, 90, true);
+    const sunset = this.getUTCSunset(calendar, geoLocation, 90, true);
+    return (sunrise + ((sunset - sunrise) / 2));
+  }
 }

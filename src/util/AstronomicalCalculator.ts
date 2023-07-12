@@ -137,6 +137,21 @@ export abstract class AstronomicalCalculator {
   public abstract getUTCSunset(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number;
 
   /**
+	 * Return <a href="https://en.wikipedia.org/wiki/Noon#Solar_noon">solar noon</a> (UTC) for the given day at the
+	 * given location on earth. The the {@link com.kosherjava.zmanim.util.NOAACalculator} implementation calculates
+	 * true solar noon, while the {@link com.kosherjava.zmanim.util.SunTimesCalculator} approximates it, calculating
+	 * the time as halfway between sunrise and sunset.
+	 * 
+	 * @param calendar
+	 *            Used to calculate day of year.
+	 * @param geoLocation
+	 *            The location information used for astronomical calculating sun times.         
+	 * 
+	 * @return the time in minutes from zero UTC
+	 */
+  public abstract getUTCNoon(calendar: DateTime, geoLocation: GeoLocation): number;
+
+  /**
    * Method to return the adjustment to the zenith required to account for the elevation. Since a person at a higher
    * elevation can see farther below the horizon, the calculation for sunrise / sunset is calculated below the horizon
    * used at sea level. This is only used for sunrise and sunset and not times before or after it such as
@@ -237,8 +252,8 @@ export abstract class AstronomicalCalculator {
   /**
    * Method to get the sun's radius. The default value is 16 arc minutes. The sun's radius as it appears from earth is
    * almost universally given as 16 arc minutes but in fact it differs by the time of the year. At the <a
-   * href="http://en.wikipedia.org/wiki/Perihelion">perihelion</a> it has an apparent radius of 16.293, while at the
-   * <a href="http://en.wikipedia.org/wiki/Aphelion">aphelion</a> it has an apparent radius of 15.755. There is little
+   * href="https://en.wikipedia.org/wiki/Perihelion">perihelion</a> it has an apparent radius of 16.293, while at the
+   * <a href="https://en.wikipedia.org/wiki/Aphelion">aphelion</a> it has an apparent radius of 15.755. There is little
    * affect for most location, but at high and low latitudes the difference becomes more apparent. My Calculations for
    * the difference at the location of the <a href="http://www.rog.nmm.ac.uk">Royal Observatory, Greenwich </a> show
    * only a 4.494 second difference between the perihelion and aphelion radii, but moving into the arctic circle the
