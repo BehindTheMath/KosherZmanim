@@ -1,10 +1,10 @@
 import { DateTime } from 'luxon';
 
-import { GeoLocation } from '../util/GeoLocation';
-import { Daf } from './Daf';
-import { JewishDate } from './JewishDate';
-import { Calendar } from '../polyfills/Utils';
-import { UnsupportedError } from '../polyfills/errors';
+import { GeoLocation } from '../util/GeoLocation.ts';
+import { Daf } from './Daf.ts';
+import { JewishDate } from './JewishDate.ts';
+import { Calendar } from '../polyfills/Utils.ts';
+import { UnsupportedError } from '../polyfills/errors.ts';
 
 const { MONDAY, TUESDAY, THURSDAY, FRIDAY, SATURDAY } = Calendar;
 

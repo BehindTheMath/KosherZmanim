@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
-import { MathUtils, TimeZone } from '../polyfills/Utils';
-import { IllegalArgumentException, UnsupportedError } from '../polyfills/errors';
+import { MathUtils, TimeZone } from '../polyfills/Utils.ts';
+import { IllegalArgumentException, UnsupportedError } from '../polyfills/errors.ts';
 
 /**
  * A class that contains location information such as latitude and longitude required for astronomical calculations. The

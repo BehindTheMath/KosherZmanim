@@ -1,9 +1,9 @@
 import * as _Luxon from 'luxon';
 
-import { GeoLocation } from './util/GeoLocation';
-import { ZmanimCalendar } from './ZmanimCalendar';
-import { ComplexZmanimCalendar } from './ComplexZmanimCalendar';
-import { JsonOutput, ZmanimFormatter } from './util/ZmanimFormatter';
+import { GeoLocation } from './util/GeoLocation.ts';
+import { ZmanimCalendar } from './ZmanimCalendar.ts';
+import { ComplexZmanimCalendar } from './ComplexZmanimCalendar.ts';
+import { JsonOutput, ZmanimFormatter } from './util/ZmanimFormatter.ts';
 
 export function getZmanimJson(options: Options): JsonOutput {
   const geoLocation: GeoLocation = new GeoLocation(options.locationName || null, options.latitude, options.longitude,

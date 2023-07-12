@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon';
 
-import { Calendar } from '../polyfills/Utils';
-import { Daf } from './Daf';
-import { JewishCalendar } from './JewishCalendar';
-import { IllegalArgumentException } from '../polyfills/errors';
+import { Calendar } from '../polyfills/Utils.ts';
+import { Daf } from './Daf.ts';
+import { JewishCalendar } from './JewishCalendar.ts';
+import { IllegalArgumentException } from '../polyfills/errors.ts';
 
 /**
  * This class calculates the Daf Yomi Bavli page (daf) for a given date. To calculate Daf Yomi Yerushalmi

@@ -1,4 +1,4 @@
-import { UnsupportedError } from '../polyfills/errors';
+import { UnsupportedError } from '../polyfills/errors.ts';
 
 /**
  * A class that represents a numeric time. Times that represent a time of day are stored as {@link java.util.Date}s in
@@ -53,13 +53,13 @@ export class Time {
    * @param seconds the seconds to set
    * @param milliseconds the milliseconds to set
    */
-  constructor(hours: number, minutes: number, seconds: number, milliseconds: number)
+  constructor(hours: number, minutes: number, seconds: number, milliseconds: number);
   /**
    * A constructor that sets the time by milliseconds. The milliseconds are converted to hours, minutes, seconds
    * and milliseconds. If the milliseconds are negative it will call {@link #setIsNegative(boolean)}.
    * @param millis the milliseconds to set.
    */
-  constructor(millis: number)
+  constructor(millis: number);
   /**
    * A constructor with 2 overloads:
    * - A constructor that sets the time by milliseconds.

@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon';
 
-import { Calendar, Long_MIN_VALUE, TimeZone } from './polyfills/Utils';
-import { GeoLocation } from './util/GeoLocation';
-import { ZmanimCalendar } from './ZmanimCalendar';
-import { JewishCalendar } from './hebrewcalendar/JewishCalendar';
+import { Calendar, Long_MIN_VALUE, TimeZone } from './polyfills/Utils.ts';
+import { GeoLocation } from './util/GeoLocation.ts';
+import { ZmanimCalendar } from './ZmanimCalendar.ts';
+import { JewishCalendar } from './hebrewcalendar/JewishCalendar.ts';
 
 /**
  * <p>This class extends ZmanimCalendar and provides many more <em>zmanim</em> than available in the ZmanimCalendar. The basis

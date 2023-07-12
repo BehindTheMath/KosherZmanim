@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 
-import { AstronomicalCalendar } from './AstronomicalCalendar';
-import { JewishCalendar } from './hebrewcalendar/JewishCalendar';
-import { NullPointerException } from './polyfills/errors';
+import { AstronomicalCalendar } from './AstronomicalCalendar.ts';
+import { JewishCalendar } from './hebrewcalendar/JewishCalendar.ts';
+import { NullPointerException } from './polyfills/errors.ts';
 
 /**
  * The ZmanimCalendar is a specialized calendar that can calculate sunrise, sunset and Jewish <em>zmanim</em>

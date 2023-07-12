@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 
-import { GeoLocation } from './GeoLocation';
-import { MathUtils } from '../polyfills/Utils';
-import { UnsupportedError } from '../polyfills/errors';
+import { GeoLocation } from './GeoLocation.ts';
+import { MathUtils } from '../polyfills/Utils.ts';
+import { UnsupportedError } from '../polyfills/errors.ts';
 
 /**
  * An abstract class that all sun time calculating classes extend. This allows the algorithm used to be changed at

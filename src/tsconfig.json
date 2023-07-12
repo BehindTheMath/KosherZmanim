@@ -8,6 +8,7 @@
     "lib": ["ESNext"],
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
     "strict": true
   }
 }

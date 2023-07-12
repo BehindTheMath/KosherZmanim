@@ -1,5 +1,5 @@
-import { GeoLocation } from './GeoLocation';
-import { MathUtils } from '../polyfills/Utils';
+import { GeoLocation } from './GeoLocation.ts';
+import { MathUtils } from '../polyfills/Utils.ts';
 
 /**
  * A class for various location calculations

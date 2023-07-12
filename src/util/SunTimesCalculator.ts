@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 
-import { GeoLocation } from './GeoLocation';
-import { AstronomicalCalculator } from './AstronomicalCalculator';
-import { MathUtils } from '../polyfills/Utils';
+import { GeoLocation } from './GeoLocation.ts';
+import { AstronomicalCalculator } from './AstronomicalCalculator.ts';
+import { MathUtils } from '../polyfills/Utils.ts';
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times. This calculator uses the Java algorithm

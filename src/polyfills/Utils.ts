@@ -2,7 +2,7 @@ import { DateTime, Info } from 'luxon';
 
 export namespace Utils {
   // https://stackoverflow.com/a/40577337/8037425
-  export function getAllMethodNames(obj: object, excludeContructors: boolean = false): Array<string> {
+  export function getAllMethodNames(obj: Record<string, unknown>, excludeContructors: boolean = false): string[] {
     let _obj: object | null = obj;
     const methods: Set<string> = new Set();
 
@@ -33,7 +33,7 @@ export namespace TimeZone {
   export function getRawOffset(timeZoneId: string): number {
     const janDateTime = DateTime.fromObject({
       month: 1,
-      day: 1
+      day: 1,
     }, { zone: timeZoneId });
     const julyDateTime = janDateTime.set({ month: 7 });
 

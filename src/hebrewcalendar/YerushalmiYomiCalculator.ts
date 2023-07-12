@@ -1,9 +1,9 @@
 import { DateTime, Interval } from 'luxon';
 
-import { Calendar } from '../polyfills/Utils';
-import { Daf } from './Daf';
-import { JewishCalendar } from './JewishCalendar';
-import { IllegalArgumentException } from '../polyfills/errors';
+import { Calendar } from '../polyfills/Utils.ts';
+import { Daf } from './Daf.ts';
+import { JewishCalendar } from './JewishCalendar.ts';
+import { IllegalArgumentException } from '../polyfills/errors.ts';
 
 /**
  * This class calculates the <a href="https://en.wikipedia.org/wiki/Jerusalem_Talmud">Talmud Yerusalmi</a> <a href=

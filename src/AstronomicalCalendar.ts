@@ -1,11 +1,11 @@
 import { Big } from 'big.js';
 import { DateTime } from 'luxon';
 
-import { Long_MIN_VALUE } from './polyfills/Utils';
-import { GeoLocation } from './util/GeoLocation';
-import { AstronomicalCalculator } from './util/AstronomicalCalculator';
-import { NOAACalculator } from './util/NOAACalculator';
-import { IllegalArgumentException, UnsupportedError } from './polyfills/errors';
+import { Long_MIN_VALUE } from './polyfills/Utils.ts';
+import { GeoLocation } from './util/GeoLocation.ts';
+import { AstronomicalCalculator } from './util/AstronomicalCalculator.ts';
+import { NOAACalculator } from './util/NOAACalculator.ts';
+import { IllegalArgumentException, UnsupportedError } from './polyfills/errors.ts';
 
 /**
  * A Java calendar that calculates astronomical times such as {@link #getSunrise() sunrise} and {@link #getSunset()

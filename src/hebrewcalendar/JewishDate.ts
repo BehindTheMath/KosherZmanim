@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
-import { Calendar, IntegerUtils } from '../polyfills/Utils';
-import { IllegalArgumentException } from '../polyfills/errors';
+import { Calendar, IntegerUtils } from '../polyfills/Utils.ts';
+import { IllegalArgumentException } from '../polyfills/errors.ts';
 
 /**
  * The JewishDate is the base calendar class, that supports maintenance of a {@link java.util.GregorianCalendar}

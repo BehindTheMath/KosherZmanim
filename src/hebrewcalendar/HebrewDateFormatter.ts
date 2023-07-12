@@ -1,9 +1,9 @@
 import { DateTimeFormatOptions } from 'luxon';
 
-import { Daf } from './Daf';
-import { JewishDate } from './JewishDate';
-import { JewishCalendar, Parsha } from './JewishCalendar';
-import { IllegalArgumentException } from '../polyfills/errors';
+import { Daf } from './Daf.ts';
+import { JewishDate } from './JewishDate.ts';
+import { JewishCalendar, Parsha } from './JewishCalendar.ts';
+import { IllegalArgumentException } from '../polyfills/errors.ts';
 
 /**
  * The HebrewDateFormatter class formats a {@link JewishDate}.
