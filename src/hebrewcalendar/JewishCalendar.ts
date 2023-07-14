@@ -899,28 +899,122 @@ export class JewishCalendar extends JewishDate {
   }
 
   /**
-   * Returns true if the current day is <em>Chol Hamoed</em> of <em>Pesach</em> or <em>Succos</em>.
-   *
-   * @return true if the current day is <em>Chol Hamoed</em> of <em>Pesach</em> or <em>Succos</em>
-   * @see #isYomTov()
-   * @see #CHOL_HAMOED_PESACH
-   * @see #CHOL_HAMOED_SUCCOS
-   */
-  public isCholHamoed(): boolean {
-    return this.isCholHamoedPesach() || this.isCholHamoedSuccos();
+	 * Returns true if the current day is <em>Pesach</em> (either  the <em>Yom Tov</em> of <em>Pesach</em> or<em>Chol Hamoed Pesach</em>).
+	 * 
+	 * @return true if the current day is <em>Pesach</em> (either  the <em>Yom Tov</em> of <em>Pesach</em> or<em>Chol Hamoed Pesach</em>).
+	 * @see #isYomTov()
+	 * @see #isCholHamoedPesach()
+	 * @see #PESACH
+	 * @see #CHOL_HAMOED_PESACH
+	 */
+  public isPesach():boolean {
+    const holidayIndex:number = this.getYomTovIndex();
+    return holidayIndex == JewishCalendar.PESACH || holidayIndex == JewishCalendar.CHOL_HAMOED_PESACH;
   }
-
+	
   /**
    * Returns true if the current day is <em>Chol Hamoed</em> of <em>Pesach</em>.
    *
    * @return true if the current day is <em>Chol Hamoed</em> of <em>Pesach</em>
    * @see #isYomTov()
+   * @see #isPessach()
    * @see #CHOL_HAMOED_PESACH
    */
   public isCholHamoedPesach(): boolean {
     const holidayIndex: number = this.getYomTovIndex();
     return holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH;
   }
+	
+  /**
+	 * Returns true if the current day is <em>Shavuos</em>.
+	 *
+	 * @return true if the current day is <em>Shavuos</em>.
+	 * @see #isYomTov()
+	 * @see #SHAVUOS
+	 */
+  public isShavuos():boolean {
+    const holidayIndex:number = this.getYomTovIndex();
+    return holidayIndex == JewishCalendar.SHAVUOS;
+  }
+	
+  /**
+	 * Returns true if the current day is <em>Rosh Hashana</em>.
+	 *
+	 * @return true if the current day is <em>Rosh Hashana</em>.
+	 * @see #isYomTov()
+	 * @see #ROSH_HASHANA
+	 */
+  public isRoshHashana():boolean {
+    const holidayIndex:number = this.getYomTovIndex();
+    return holidayIndex == JewishCalendar.ROSH_HASHANA;
+  }
+	
+  /**
+	 * Returns true if the current day is <em>Yom Kippur</em>.
+	 *
+	 * @return true if the current day is <em>Yom Kippur</em>.
+	 * @see #isYomTov()
+	 * @see #YOM_KIPPUR
+	 */
+  public isYomKippur():boolean {
+    const holidayIndex:number = this.getYomTovIndex();
+    return holidayIndex == JewishCalendar.YOM_KIPPUR;
+  }
+	
+  /**
+	 * Returns true if the current day is <em>Succos</em> (either  the <em>Yom Tov</em> of <em>Succos</em> or<em>Chol Hamoed Succos</em>).
+	 * It will return false for {@link #isShminiAtzeres() Shmini Atzeres} and {@link #isSimchasTorah() Simchas Torah}.
+	 * 
+	 * @return true if the current day is <em>Succos</em> (either  the <em>Yom Tov</em> of <em>Succos</em> or<em>Chol Hamoed Succos</em>.
+	 * @see #isYomTov()
+	 * @see #isCholHamoedSuccos()
+	 * @see #isHoshanaRabba()
+	 * @see #SUCCOS
+	 * @see #CHOL_HAMOED_SUCCOS
+	 * @see #HOSHANA_RABBA
+	 */
+  public isSuccos():boolean {
+    const holidayIndex:number = this.getYomTovIndex();
+    return holidayIndex == JewishCalendar.SUCCOS || holidayIndex == JewishCalendar.CHOL_HAMOED_SUCCOS || holidayIndex == JewishCalendar.HOSHANA_RABBA;
+  }
+	
+  /**
+	 * Returns true if the current day is <em>Hoshana Rabba</em>.
+	 *
+	 * @return true true if the current day is <em>Hoshana Rabba</em>.
+	 * @see #isYomTov()
+	 * @see #HOSHANA_RABBA
+	 */
+  public isHoshanaRabba():boolean {
+    const holidayIndex: number = this.getYomTovIndex();
+    return holidayIndex == JewishCalendar.HOSHANA_RABBA;
+  }
+	
+  /**
+	 * Returns true if the current day is <em>Shmini Atzeres</em>.
+	 *
+	 * @return true if the current day is <em>Shmini Atzeres</em>.
+	 * @see #isYomTov()
+	 * @see #SHEMINI_ATZERES
+	 */
+  public isShminiAtzeres():boolean {
+    const holidayIndex:number = this.getYomTovIndex();
+    return holidayIndex == JewishCalendar.SHEMINI_ATZERES;
+  }
+	
+  /**
+	 * Returns true if the current day is <em>Simchas Torah</em>. This will always return false if {@link #getInIsrael() in Israel}
+	 *
+	 * @return true if the current day is <em>Shmini Atzeres</em>.
+	 * @see #isYomTov()
+	 * @see #SIMCHAS_TORAH
+	 */
+  public isSimchasTorah():boolean {
+    const holidayIndex:number = this.getYomTovIndex();
+    //if in Israel, Holiday index of SIMCHAS_TORAH will not be returned by getYomTovIndex()
+    return holidayIndex == JewishCalendar.SIMCHAS_TORAH;
+  }
+
 
   /**
    * Returns true if the current day is <em>Chol Hamoed</em> of <em>Succos</em>.
@@ -932,6 +1026,18 @@ export class JewishCalendar extends JewishDate {
   public isCholHamoedSuccos(): boolean {
     const holidayIndex: number = this.getYomTovIndex();
     return holidayIndex === JewishCalendar.CHOL_HAMOED_SUCCOS;
+  }
+
+  /**
+   * Returns true if the current day is <em>Chol Hamoed</em> of <em>Pesach</em> or <em>Succos</em>.
+   *
+   * @return true if the current day is <em>Chol Hamoed</em> of <em>Pesach</em> or <em>Succos</em>
+   * @see #isYomTov()
+   * @see #CHOL_HAMOED_PESACH
+   * @see #CHOL_HAMOED_SUCCOS
+   */
+  public isCholHamoed(): boolean {
+    return this.isCholHamoedPesach() || this.isCholHamoedSuccos();
   }
 
   /**
@@ -1026,6 +1132,22 @@ export class JewishCalendar extends JewishDate {
    */
   public isChanukah(): boolean {
     return this.getYomTovIndex() === JewishCalendar.CHANUKAH;
+  }
+
+  	/**
+	 * Returns if the day is Purim (<a href="https://en.wikipedia.org/wiki/Purim#Shushan_Purim">Shushan Purim</a>
+	 * in a mukaf choma and regular Purim in a non-mukaf choma). 
+	 * @return if the day is Purim (Shushan Purim in a mukaf choma and regular Purin in a non-mukaf choma)
+	 * 
+	 * @see #getIsMukafChoma()
+	 * @see #setIsMukafChoma(boolean)
+	 */
+  public isPurim():boolean {
+    if (this.isMukafChoma) {
+      return this.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM;
+    }
+
+    return this.getYomTovIndex() == JewishCalendar.PURIM;
   }
 
   /**
@@ -1228,6 +1350,46 @@ export class JewishCalendar extends JewishDate {
   public getDafYomiYerushalmi(): Daf {
     // return YerushalmiYomiCalculator.getDafYomiYerushalmi(this);
     throw new UnsupportedError('This method is not supported, due to a circular dependency. Use `YerushalmiYomiCalculator.getDafYomiYerushalmi(jewishCalendar)` instead');
+  }
+
+  /**
+	 * Returns the elapsed days since <em>Tekufas Tishrei</em>. This uses <em>Tekufas Shmuel</em> (identical to the <a href=
+	 * "https://en.wikipedia.org/wiki/Julian_year_(astronomy)">Julian Year</a> with a solar year length of 365.25 days).
+	 * The notation used below is D = days, H = hours and C = chalakim. <em><a href="https://en.wikipedia.org/wiki/Molad"
+	 * >Molad</a> BaHaRad</em> was 2D,5H,204C or 5H,204C from the start of <em>Rosh Hashana</em> year 1. For <em>molad
+	 * Nissan</em> add 177D, 4H and 438C (6 * 29D, 12H and 793C), or 177D,9H,642C after <em>Rosh Hashana</em> year 1.
+	 * <em>Tekufas Nissan</em> was 7D, 9H and 642C before <em>molad Nissan</em> according to the Rambam, or 170D, 0H and
+	 * 0C after <em>Rosh Hashana</em> year 1. <em>Tekufas Tishrei</em> was 182D and 3H (365.25 / 2) before <em>tekufas
+	 * Nissan</em>, or 12D and 15H before <em>Rosh Hashana</em> of year 1. Outside of Israel we start reciting <em>Tal
+	 * Umatar</em> in <em>Birkas Hashanim</em> from 60 days after <em>tekufas Tishrei</em>. The 60 days include the day of
+	 * the <em>tekufah</em> and the day we start reciting <em>Tal Umatar</em>. 60 days from the tekufah == 47D and 9H
+	 * from <em>Rosh Hashana</em> year 1.
+	 * 
+	 * @return the number of elapsed days since <em>tekufas Tishrei</em>.
+	 * 
+	 * @see #isVeseinTalUmatarStartDate()
+	 * @see #isVeseinTalUmatarStartingTonight()
+	 * @see #isVeseinTalUmatarRecited()
+	 */
+  public getTekufasTishreiElapsedDays():number {
+    // Days since Rosh Hashana year 1. Add 1/2 day as the first tekufas tishrei was 9 hours into the day. This allows all
+    // 4 years of the secular leap year cycle to share 47 days. Truncate 47D and 9H to 47D for simplicity.
+    const days:number = JewishCalendar.getJewishCalendarElapsedDays(this.getJewishYear()) + (this.getDaysSinceStartOfJewishYear() - 1) + 0.5;
+    // days of completed solar years
+    const solar:number = (this.getJewishYear() - 1) * 365.25;
+    return Math.floor(days - solar);
+  }
+
+  /**
+	 * Returns true if the current day is <em>Isru Chag</em>. The method returns true for the day following <em>Pesach</em>
+	 * <em>Shavuos</em> and <em>Succos</em>. It utilizes {@see #getInIsrael()} to return the proper date.
+	 * 
+	 * @return true if the current day is <em>Isru Chag</em>. The method returns true for the day following <em>Pesach</em>
+	 * <em>Shavuos</em> and <em>Succos</em>. It utilizes {@see #getInIsrael()} to return the proper date.
+	 */
+  public isIsruChag():boolean {
+    const holidayIndex:number = this.getYomTovIndex();
+    return holidayIndex == JewishCalendar.ISRU_CHAG;
   }
 
   /**
