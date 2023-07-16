@@ -588,36 +588,57 @@ export class JewishCalendar extends JewishDate {
    * @return one of the four parshiyos of Parsha.SHKALIM, Parsha.ZACHOR, Parsha.PARA, Parsha.HACHODESH or Parsha.NONE.
    */
   public getSpecialShabbos(): Parsha {
-    if (this.getDayOfWeek() === SATURDAY) {
-      if (((this.getJewishMonth() === JewishCalendar.SHEVAT && !this.isJewishLeapYear())
-        || (this.getJewishMonth() === JewishCalendar.ADAR && this.isJewishLeapYear()))
-        && [25, 27, 29].includes(this.getJewishDayOfMonth())) {
+    if (this.getDayOfWeek() !== SATURDAY)
+      return Parsha.NONE;
+
+    if (((this.getJewishMonth() === JewishCalendar.SHEVAT && !this.isJewishLeapYear())
+      || (this.getJewishMonth() === JewishCalendar.ADAR && this.isJewishLeapYear()))
+      && [25, 27, 29].includes(this.getJewishDayOfMonth())) {
+      return Parsha.SHKALIM;
+    }
+
+    if ((this.getJewishMonth() === JewishCalendar.ADAR && !this.isJewishLeapYear())
+      || this.getJewishMonth() === JewishCalendar.ADAR_II) {
+      if (this.getJewishDayOfMonth() === 1) {
         return Parsha.SHKALIM;
       }
 
-      if ((this.getJewishMonth() === JewishCalendar.ADAR && !this.isJewishLeapYear())
-        || this.getJewishMonth() === JewishCalendar.ADAR_II) {
-        if (this.getJewishDayOfMonth() === 1) {
-          return Parsha.SHKALIM;
-        }
-
-        if ([8, 9, 11, 13].includes(this.getJewishDayOfMonth())) {
-          return Parsha.ZACHOR;
-        }
-
-        if ([18, 20, 22, 23].includes(this.getJewishDayOfMonth())) {
-          return Parsha.PARA;
-        }
-
-        if ([25, 27, 29].includes(this.getJewishDayOfMonth())) {
-          return Parsha.HACHODESH;
-        }
+      if ([8, 9, 11, 13].includes(this.getJewishDayOfMonth())) {
+        return Parsha.ZACHOR;
       }
 
-      if (this.getJewishMonth() === JewishCalendar.NISSAN && this.getJewishDayOfMonth() === 1) {
+      if ([18, 20, 22, 23].includes(this.getJewishDayOfMonth())) {
+        return Parsha.PARA;
+      }
+
+      if ([25, 27, 29].includes(this.getJewishDayOfMonth())) {
         return Parsha.HACHODESH;
       }
     }
+
+    if (this.getJewishMonth() === JewishCalendar.NISSAN) {
+      if (this.getJewishDayOfMonth() == 1)
+        return Parsha.HACHODESH;
+
+      if (this.getJewishDayOfMonth() >= 8 && this.getJewishDayOfMonth() <= 14)
+        return Parsha.HAGADOL;
+    }
+
+    if (this.getJewishMonth() == JewishCalendar.AV) {
+      if (this.getJewishDayOfMonth() >= 4 && this.getJewishDayOfMonth() <= 9) {
+        return Parsha.CHAZON;
+      }
+      if (this.getJewishDayOfMonth() >= 10 && this.getJewishDayOfMonth() <= 16) {
+        return Parsha.NACHAMU;
+      }
+    }
+
+    if (this.getJewishMonth() == JewishCalendar.TISHREI && this.getJewishDayOfMonth() >= 3 && this.getJewishDayOfMonth() <= 8)
+      return Parsha.SHUVA;
+
+    if (this.getParsha() == Parsha.BESHALACH)
+      return Parsha.SHIRA;
+
     return Parsha.NONE;
   }
 
