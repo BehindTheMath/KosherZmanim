@@ -1040,7 +1040,7 @@ export class HebrewDateFormatter {
    *         Bereshis or Nitzavim Vayeilech or an empty string if there are none.
    */
   public formatParsha(jewishCalendar: JewishCalendar): string {
-    const parsha: Parsha = jewishCalendar.getParsha();
+    const parsha: Parsha = jewishCalendar.getParshah();
     return this.hebrewFormat
       ? this.hebrewParshaMap[parsha] || ''
       : this.transliteratedParshaMap[parsha] || '';

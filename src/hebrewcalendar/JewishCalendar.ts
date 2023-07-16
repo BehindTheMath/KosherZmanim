@@ -564,7 +564,7 @@ export class JewishCalendar extends JewishDate {
    * returns Parsha.NONE if a weekday or if there is no parsha that week (for example Yomtov is on Shabbos)
    * @return the current parsha
    */
-  public getParsha(): Parsha {
+  public getParshah(): Parsha {
     if (this.getDayOfWeek() !== SATURDAY) {
       return Parsha.NONE;
     }
@@ -636,7 +636,7 @@ export class JewishCalendar extends JewishDate {
     if (this.getJewishMonth() == JewishCalendar.TISHREI && this.getJewishDayOfMonth() >= 3 && this.getJewishDayOfMonth() <= 8)
       return Parsha.SHUVA;
 
-    if (this.getParsha() == Parsha.BESHALACH)
+    if (this.getParshah() == Parsha.BESHALACH)
       return Parsha.SHIRA;
 
     return Parsha.NONE;
