@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { AstronomicalCalendar } from './AstronomicalCalendar.ts';
 import { JewishCalendar } from './hebrewcalendar/JewishCalendar.ts';
 import { NullPointerException } from './polyfills/errors.ts';
+import { Long_MIN_VALUE } from './polyfills/Utils.ts';
 
 /**
  * The ZmanimCalendar is a specialized calendar that can calculate sunrise, sunset and Jewish <em>zmanim</em>
@@ -706,4 +707,44 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
     return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * hours);
   }
+
+  /**
+	 * A utility method that returns the percentage of a <em>shaah zmanis</em> after sunset (or before sunrise) for a given degree
+	 * offset. For the <a href="https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">equilux</a> where there
+	 * is a 720-minute day, passing 16.1&deg; for the location of Jerusalem will return about 1.2. This will work for any location
+	 * or date, but will typically only be of interest at the equinox/equilux to calculate the percentage of a <em>shaah zmanis</em>
+	 * for those who want to use the <a href="https://en.wikipedia.org/wiki/Abraham_Cohen_Pimentel">Minchas Cohen</a> in Ma'amar 2:4
+	 * and the <a href="https://en.wikipedia.org/wiki/Hezekiah_da_Silva">Pri Chadash</a> who calculate <em>tzais</em> as a percentage
+	 * of the day after sunset. While the Minchas Cohen only applies this to 72 minutes or a 1/10 of the day around the world (based
+	 * on the equinox / equilux in Israel, this method allows calculations for any degrees level for any location.
+	 * 
+	 * @param degrees
+	 *            the number of degrees below the horizon after sunset.
+	 * @param sunset
+	 *            if <code>true</code> the calculation should be degrees after sunset, or if <code>false</code>, degrees before sunrise.
+	 * @return the <code>double</code> percentage of a <em>sha'ah zmanis</em> for a given set of degrees below the astronomical horizon
+	 *         for the current calendar.  If the calculation can't be computed a {@link Double#MIN_VALUE} will be returned. See detailed
+	 *         explanation on top of the page.
+	 */
+	public getPercentOfShaahZmanisFromDegrees(degrees:number, sunset: boolean):number|null {
+		const seaLevelSunrise: DateTime | null = this.getSeaLevelSunrise();
+		const seaLevelSunset: DateTime | null = this.getSeaLevelSunset();
+		let twilight: DateTime | null = null;
+		if(sunset) {
+			twilight = this.getSunsetOffsetByDegrees(ZmanimCalendar.GEOMETRIC_ZENITH + degrees);
+		} else {
+			twilight = this.getSunriseOffsetByDegrees(ZmanimCalendar.GEOMETRIC_ZENITH + degrees);
+		}
+		if(seaLevelSunrise == null || seaLevelSunset == null || twilight == null) {
+			return Long_MIN_VALUE;
+		}
+		const shaahZmanis = (seaLevelSunset.toMillis() - seaLevelSunrise.toMillis()) / 12.0;
+		let riseSetToTwilight;
+		if(sunset) {
+			riseSetToTwilight = twilight.toMillis() - seaLevelSunset.toMillis();
+		} else {
+			riseSetToTwilight = seaLevelSunrise.toMillis() - twilight.toMillis();
+		}
+		return riseSetToTwilight / shaahZmanis;
+	}
 }
