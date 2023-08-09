@@ -730,17 +730,17 @@ export class ZmanimCalendar extends AstronomicalCalendar {
 		const seaLevelSunrise: DateTime | null = this.getSeaLevelSunrise();
 		const seaLevelSunset: DateTime | null = this.getSeaLevelSunset();
 		let twilight: DateTime | null = null;
-		if(sunset) {
+		if (sunset) {
 			twilight = this.getSunsetOffsetByDegrees(ZmanimCalendar.GEOMETRIC_ZENITH + degrees);
 		} else {
 			twilight = this.getSunriseOffsetByDegrees(ZmanimCalendar.GEOMETRIC_ZENITH + degrees);
 		}
-		if(seaLevelSunrise == null || seaLevelSunset == null || twilight == null) {
+		if (seaLevelSunrise == null || seaLevelSunset == null || twilight == null) {
 			return Long_MIN_VALUE;
 		}
 		const shaahZmanis = (seaLevelSunset.toMillis() - seaLevelSunrise.toMillis()) / 12.0;
 		let riseSetToTwilight;
-		if(sunset) {
+		if (sunset) {
 			riseSetToTwilight = twilight.toMillis() - seaLevelSunset.toMillis();
 		} else {
 			riseSetToTwilight = seaLevelSunrise.toMillis() - twilight.toMillis();

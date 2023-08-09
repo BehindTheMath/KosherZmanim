@@ -2928,7 +2928,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         or sunset based. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   private getZmanisBasedOffset(hours: 0): null;
-  private getZmanisBasedOffset(hours: Exclude<number, 0>): DateTime | null;
+  private getZmanisBasedOffset(hours: Exclude<number, 0>): DateTime;
   private getZmanisBasedOffset(hours: number): DateTime | null {
     const shaahZmanis: number = this.getShaahZmanisGra();
     if (shaahZmanis === Long_MIN_VALUE || hours === 0) {
@@ -3576,23 +3576,6 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    */
   public getSofZmanBiurChametzMGA16Point1Degrees(): DateTime | null {
     return ComplexZmanimCalendar.getTimeOffset(this.getAlos16Point1Degrees(), this.getShaahZmanis16Point1Degrees() * 5);
-  }
-
-  /**
-   * A method that returns "solar" midnight, or the time when the sun is at its <a
-   * href="https://en.wikipedia.org/wiki/Nadir">nadir</a>.
-   * <b>Note:</b> this method is experimental and might be removed.
-   * 
-   * @return the <code>Date</code> of Solar Midnight (chatzos layla). If the calculation can't be computed such as in
-   *         the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
-   *         does not set, a null will be returned. See detailed explanation on top of the
-   *         {@link AstronomicalCalendar} documentation.
-   */
-  public getSolarMidnight(): DateTime | null {
-    // const clonedCal = this.clone();
-    const clonedCal = new ComplexZmanimCalendar(this.getGeoLocation());
-    clonedCal.setDate(this.getDate().plus({ days: 1 }));
-    return ComplexZmanimCalendar.getTimeOffset(this.getChatzos(), (clonedCal.getChatzos()!.toMillis() - this.getChatzos()!.toMillis()) / 2);
   }
 
   /**

@@ -1,8 +1,9 @@
+import { Temporal } from '@js-temporal/polyfill';
 import { DateTime, Info } from 'luxon';
 
 export namespace Utils {
   // https://stackoverflow.com/a/40577337/8037425
-  export function getAllMethodNames(obj: Record<string, unknown>, excludeContructors: boolean = false): string[] {
+  export function getAllMethodNames(obj: object, excludeContructors: boolean = false): string[] {
     let _obj: object | null = obj;
     const methods: Set<string> = new Set();
 
@@ -31,24 +32,17 @@ export namespace TimeZone {
    * @return the amount of raw offset time in milliseconds to add to UTC.
    */
   export function getRawOffset(timeZoneId: string): number {
-    const janDateTime = DateTime.fromObject({
-      month: 1,
-      day: 1,
-    }, { zone: timeZoneId });
-    const julyDateTime = janDateTime.set({ month: 7 });
+    const timeZone = Temporal.TimeZone.from(timeZoneId);
+    const msCount = [
+      { month: 7, day: 1, year: new Date().getFullYear() },
+      { month: 1, day: 1, year: new Date().getFullYear() }
+    ]
+    .map(monthDay => Temporal.PlainDate.from(monthDay))
+    .map(plainMonthDay => timeZone.getInstantFor!(plainMonthDay))
+    .map(instant => timeZone.getOffsetNanosecondsFor(instant))
+    .map(nanoSeconds => nanoSeconds / 1e6)
 
-    let rawOffsetMinutes;
-    if (janDateTime.offset === julyDateTime.offset) {
-      rawOffsetMinutes = janDateTime.offset;
-    } else {
-      const max = Math.max(janDateTime.offset, julyDateTime.offset);
-
-      rawOffsetMinutes = max < 0
-        ? 0 - max
-        : 0 - Math.min(janDateTime.offset, julyDateTime.offset);
-    }
-
-    return rawOffsetMinutes * 60 * 1000;
+    return Math.min(...msCount);
   }
 
   /**

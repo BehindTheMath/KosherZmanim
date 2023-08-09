@@ -123,7 +123,7 @@ export abstract class AstronomicalCalculator {
    *            The location information used for astronomical calculating sun times.
    * @param zenith
    *            the azimuth below the vertical zenith of 90&deg;. For sunset typically the {@link #adjustZenith
-     *            zenith} used for the calculation uses geometric zenith of 90&deg; and {@link #adjustZenith adjusts}
+   *            zenith} used for the calculation uses geometric zenith of 90&deg; and {@link #adjustZenith adjusts}
    *            this slightly to account for solar refraction and the sun's radius. Another example would be
    *            {@link AstronomicalCalendar#getEndNauticalTwilight()} that passes
    *            {@link AstronomicalCalendar#NAUTICAL_ZENITH} to this method.

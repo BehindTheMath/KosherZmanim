@@ -18,7 +18,7 @@ export default [
     input: `src/kosher-zmanim.ts`,
     plugins: [dts(), resolve()],
     output: {
-      file: `dist/kosher-zmanim.d.ts`,
+      file: `dist/kosher-zmanim.esm.d.ts`,
       format: 'es',
     },
   }

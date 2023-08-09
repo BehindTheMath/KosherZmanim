@@ -450,6 +450,22 @@ export class AstronomicalCalendar {
     return (endOfDay.valueOf() - startOfday.valueOf()) / 12;
   }
 
+    /**
+   * A method that returns "solar" midnight, or the time when the sun is at its <a
+   * href="https://en.wikipedia.org/wiki/Nadir">nadir</a>.
+   * <b>Note:</b> this method is experimental and might be removed.
+   * 
+   * @return the <code>Date</code> of Solar Midnight (chatzos layla). If the calculation can't be computed such as in
+   *         the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
+   *         does not set, a null will be returned. See detailed explanation on top of the
+   *         {@link AstronomicalCalendar} documentation.
+   */
+    public getSolarMidnight(): DateTime | null {
+      const clonedCal = this.clone();
+      clonedCal.setDate(this.getDate().plus({ days: 1 }));
+      return AstronomicalCalendar.getTimeOffset(this.getSunTransit(), (clonedCal.getSunTransit()!.toMillis() - this.getSunTransit()!.toMillis()) / 2);
+    }
+
   /**
    * A method that returns sundial or solar noon. It occurs when the Sun is <a href
    * ="https://en.wikipedia.org/wiki/Transit_%28astronomy%29">transiting</a> the <a

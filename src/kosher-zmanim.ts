@@ -1,4 +1,5 @@
 import * as _Luxon from 'luxon';
+import * as _Big from 'big.js'
 
 import { GeoLocation } from './util/GeoLocation.ts';
 import { ZmanimCalendar } from './ZmanimCalendar.ts';
@@ -63,3 +64,4 @@ export * from './hebrewcalendar/HebrewDateFormatter.ts';
 export * from './util/ZmanimFormatter.ts';
 
 export const Luxon = _Luxon;
+export const BigNumber = _Big

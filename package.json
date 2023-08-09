@@ -35,6 +35,7 @@
     "dist/*"
   ],
   "dependencies": {
+    "@js-temporal/polyfill": "^0.4.4",
     "big.js": "^6.2.1",
     "luxon": "^3.3.0"
   },

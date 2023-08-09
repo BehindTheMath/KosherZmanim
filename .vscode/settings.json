@@ -1,4 +1,6 @@
 {
     "eslint.format.enable": true,
-    "mochaExplorer.cwd": "/tests"
+    "mochaExplorer.cwd": "/tests",
+    "deno.enable": false,
+    "deno.unstable": false
 }
