@@ -1178,7 +1178,11 @@ export class JewishCalendar extends JewishDate {
    * Indicates whether some other object is "equal to" this one.
    * @see Object#equals(Object)
    */
-  public equals(jewishCalendar: JewishCalendar): boolean {
+  public equals(object: object): boolean {
+    if (this === object as JewishCalendar) return true;
+    if (!(object instanceof JewishCalendar)) return false;
+
+    const jewishCalendar: JewishCalendar = object as JewishCalendar;
     return this.getAbsDate() === jewishCalendar.getAbsDate() && this.getInIsrael() === jewishCalendar.getInIsrael();
   }
 }
