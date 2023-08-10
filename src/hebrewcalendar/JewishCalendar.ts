@@ -1111,9 +1111,11 @@ export class JewishCalendar extends JewishDate {
   public getSofZmanKidushLevanaBetweenMoldos(): DateTime {
     const molad: DateTime = this.getMoladAsDate();
 
+    // add half the time between molad and molad (half of 29 days, 12 hours and 793 chalakim (44 minutes, 3.3
+    // seconds), or 14 days, 18 hours, 22 minutes and 666 milliseconds). Add it as hours, not days, to avoid
+    // DST/ST crossover issues.
     return molad.plus({
-      days: 14,
-      hours: 18,
+      hours: (24 * 14) + 18,
       minutes: 22,
       seconds: 1,
       milliseconds: 666,
@@ -1140,7 +1142,8 @@ export class JewishCalendar extends JewishDate {
   public getSofZmanKidushLevana15Days(): DateTime {
     const molad: DateTime = this.getMoladAsDate();
 
-    return molad.plus({ days: 15 });
+    // 15 days after the molad. Add it as hours, not days, to avoid DST/ST crossover issues.
+    return molad.plus({ hours: 24 * 15 });
   }
 
   /**
