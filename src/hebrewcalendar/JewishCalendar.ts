@@ -585,22 +585,22 @@ export class JewishCalendar extends JewishDate {
         }
 
         if (this.isUseModernHolidays()
-          && ((day === 26 && dayOfWeek === 5) || (day === 28 && dayOfWeek === 2)
-            || (day === 27 && dayOfWeek !== 1 && dayOfWeek !== 6))) {
+          && ((day === 26 && dayOfWeek === Calendar.THURSDAY) || (day === 28 && dayOfWeek === Calendar.MONDAY)
+            || (day === 27 && dayOfWeek !== Calendar.SUNDAY && dayOfWeek !== Calendar.FRIDAY))) {
           return JewishCalendar.YOM_HASHOAH;
         }
         break;
       case JewishCalendar.IYAR:
         if (this.isUseModernHolidays()
-          && ((day === 4 && dayOfWeek === 3) || ((day === 3 || day === 2) && dayOfWeek === 4)
-            || (day === 5 && dayOfWeek === 2))) {
+          && ((day === 4 && dayOfWeek === Calendar.TUESDAY) || ((day === 3 || day === 2) && dayOfWeek === Calendar.WEDNESDAY)
+            || (day === 5 && dayOfWeek === Calendar.MONDAY))) {
           return JewishCalendar.YOM_HAZIKARON;
         }
 
         // if 5 Iyar falls on Wed Yom Haatzmaut is that day. If it fal1s on Friday or Shabbos it is moved back to
         // Thursday. If it falls on Monday it is moved to Tuesday
-        if (this.isUseModernHolidays() && ((day === 5 && dayOfWeek === 4)
-          || ((day === 4 || day === 3) && dayOfWeek === 5) || (day === 6 && dayOfWeek === 3))) {
+        if (this.isUseModernHolidays() && ((day === 5 && dayOfWeek === Calendar.WEDNESDAY)
+          || ((day === 4 || day === 3) && dayOfWeek === Calendar.THURSDAY) || (day === 6 && dayOfWeek === Calendar.TUESDAY))) {
           return JewishCalendar.YOM_HAATZMAUT;
         }
 
@@ -625,13 +625,13 @@ export class JewishCalendar extends JewishDate {
         break;
       case JewishCalendar.TAMMUZ:
         // push off the fast day if it falls on Shabbos
-        if ((day === 17 && dayOfWeek !== 7) || (day === 18 && dayOfWeek === 1)) {
+        if ((day === 17 && dayOfWeek !== Calendar.SATURDAY) || (day === 18 && dayOfWeek === Calendar.SUNDAY)) {
           return JewishCalendar.SEVENTEEN_OF_TAMMUZ;
         }
         break;
       case JewishCalendar.AV:
         // if Tisha B'av falls on Shabbos, push off until Sunday
-        if ((dayOfWeek === 1 && day === 10) || (dayOfWeek !== 7 && day === 9)) {
+        if ((dayOfWeek === Calendar.SUNDAY && day === 10) || (dayOfWeek !== Calendar.SATURDAY && day === 9)) {
           return JewishCalendar.TISHA_BEAV;
         } else if (day === 15) {
           return JewishCalendar.TU_BEAV;
@@ -645,7 +645,7 @@ export class JewishCalendar extends JewishDate {
       case JewishCalendar.TISHREI:
         if (day === 1 || day === 2) {
           return JewishCalendar.ROSH_HASHANA;
-        } else if ((day === 3 && dayOfWeek !== 7) || (day === 4 && dayOfWeek === 1)) {
+        } else if ((day === 3 && dayOfWeek !== Calendar.SATURDAY) || (day === 4 && dayOfWeek === Calendar.SUNDAY)) {
           // push off Tzom Gedalia if it falls on Shabbos
           return JewishCalendar.FAST_OF_GEDALYAH;
         } else if (day === 9) {
@@ -699,7 +699,8 @@ export class JewishCalendar extends JewishDate {
       case JewishCalendar.ADAR:
         if (!this.isJewishLeapYear()) {
           // if 13th Adar falls on Friday or Shabbos, push back to Thursday
-          if (((day === 11 || day === 12) && dayOfWeek === 5) || (day === 13 && !(dayOfWeek === 6 || dayOfWeek === 7))) {
+          if (((day === 11 || day === 12) && dayOfWeek === Calendar.THURSDAY)
+              || (day === 13 && !(dayOfWeek === Calendar.FRIDAY || dayOfWeek === Calendar.SATURDAY))) {
             return JewishCalendar.FAST_OF_ESTHER;
           }
 
@@ -721,7 +722,8 @@ export class JewishCalendar extends JewishDate {
         break;
       case JewishCalendar.ADAR_II:
         // if 13th Adar falls on Friday or Shabbos, push back to Thursday
-        if (((day === 11 || day === 12) && dayOfWeek === 5) || (day === 13 && !(dayOfWeek === 6 || dayOfWeek === 7))) {
+        if (((day === 11 || day === 12) && dayOfWeek === Calendar.THURSDAY)
+            || (day === 13 && !(dayOfWeek === Calendar.FRIDAY || dayOfWeek === Calendar.SATURDAY))) {
           return JewishCalendar.FAST_OF_ESTHER;
         }
 

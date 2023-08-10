@@ -1385,7 +1385,7 @@ export class JewishDate {
       this.jewishDay--;
     }
 
-    if (this.dayOfWeek === 1) { // if first day of week, loop back to Saturday
+    if (this.dayOfWeek === Calendar.SUNDAY) { // if first day of week, loop back to Saturday
       this.dayOfWeek = 7;
     } else {
       this.dayOfWeek--;
