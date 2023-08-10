@@ -162,7 +162,6 @@ export abstract class AstronomicalCalculator {
    * @return the adjusted zenith
    */
   public getElevationAdjustment(elevation: number): number {
-    // double elevationAdjustment = 0.0347 * Math.sqrt(elevation);
     const elevationAdjustment: number = MathUtils.radiansToDegrees(Math.acos(this.earthRadius / (this.earthRadius + (elevation / 1000))));
     return elevationAdjustment;
   }
