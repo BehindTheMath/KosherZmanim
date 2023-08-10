@@ -3819,6 +3819,63 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
     return ZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), 50 * ZmanimCalendar.MINUTE_MILLIS);
   }
 
+  /**
+   * A method for calculating <em>samuch lemincha ketana</em>, / near <em>mincha ketana</em> time that is half an hour before
+   * {@link #getMinchaKetana()} or is 9 * {@link #getShaahZmanisGra() <em>shaos zmaniyos</em>} (solar hours) after {@link
+   * #getSunrise() sunrise} or {@link #getSeaLevelSunrise() sea level sunrise} (depending on the {@link #isUseElevation()}
+   * setting), calculated according to the <a href="https://en.wikipedia.org/wiki/Vilna_Gaon">GRA</a> using a day starting at
+   * sunrise and ending at sunset. This is the time that eating or other activity can't begin prior to praying <em>mincha</em>.
+   * The calculation used is 9 * {@link #getShaahZmanis16Point1Degrees()} after {@link #getAlos16Point1Degrees() <em>alos</em>
+	 * 16.1&deg;}. See the <a href="https://hebrewbooks.org/pdfpager.aspx?req=60387&st=&pgnum=294">Mechaber and Mishna Berurah
+   * 232</a> for details.
+   *
+   * @see #getShaahZmanisGra()
+   * @see #getSamuchLeMinchaKetana16Point1Degrees()
+   * @return the <code>Date</code> of the time of <em>samuch lemincha ketana</em>. If the calculation can't be computed such
+   *         as northern and southern locations even south of the Arctic Circle and north of the Antarctic Circle
+   *         where the sun may not reach low enough below the horizon for this calculation, a null will be returned.
+   *         See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
+   */
+  public getSamuchLeMinchaKetanaGRA(): DateTime | null {
+    return this.getSamuchLeMinchaKetana(this.getElevationAdjustedSunrise(), this.getElevationAdjustedSunset());
+  }
+
+  /**
+   * A method for calculating <em>samuch lemincha ketana</em>, / near <em>mincha ketana</em> time that is half an hour before
+   * {@link #getMinchaGedola16Point1Degrees()}  or 9 * <em>shaos zmaniyos</em> (temporal hours) after the start of the day,
+   * calculated using a day starting and ending 16.1&deg; below the horizon. This is the time that eating or other activity
+   * can't begin prior to praying <em>mincha</em>. The calculation used is 9 * {@link #getShaahZmanis16Point1Degrees()} after
+   * {@link #getAlos16Point1Degrees() <em>alos</em> 16.1&deg;}. See the <a href=
+   * "https://hebrewbooks.org/pdfpager.aspx?req=60387&st=&pgnum=294">Mechaber and Mishna Berurah 232</a>.
+   *
+   * @see #getShaahZmanis16Point1Degrees()
+   * @return the <code>Date</code> of the time of <em>samuch lemincha ketana</em>. If the calculation can't be computed such
+   *         as northern and southern locations even south of the Arctic Circle and north of the Antarctic Circle
+   *         where the sun may not reach low enough below the horizon for this calculation, a null will be returned.
+   *         See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
+   */
+  public getSamuchLeMinchaKetana16Point1Degrees(): DateTime | null {
+    return this.getSamuchLeMinchaKetana(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees());
+  }
+
+  /**
+   * A method for calculating <em>samuch lemincha ketana</em>, / near <em>mincha ketana</em> time that is half an hour before
+   * {@link #getMinchaKetana72Minutes()}  or 9 * <em>shaos zmaniyos</em> (temporal hours) after the start of the day,
+   * calculated using a day starting 72 minutes before sunrise and ending 72 minutes after sunset. This is the time that eating
+   * or other activity can't begin prior to praying <em>mincha</em>. The calculation used is 9 * {@link
+   * #getShaahZmanis16Point1Degrees()} after {@link #getAlos16Point1Degrees() <em>alos</em> 16.1&deg;}. See the <a href=
+   * "https://hebrewbooks.org/pdfpager.aspx?req=60387&st=&pgnum=294">Mechaber and Mishna Berurah 232</a>.
+   *
+   * @see #getShaahZmanis16Point1Degrees()
+   * @return the <code>Date</code> of the time of <em>samuch lemincha ketana</em>. If the calculation can't be computed such
+   *         as northern and southern locations even south of the Arctic Circle and north of the Antarctic Circle
+   *         where the sun may not reach low enough below the horizon for this calculation, a null will be returned.
+   *         See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
+   */
+  public getSamuchLeMinchaKetana72Minutes(): DateTime | null {
+    return this.getSamuchLeMinchaKetana(this.getAlos72(), this.getTzais72());
+  }
+
   // eslint-disable-next-line class-methods-use-this
   public getClassName() {
     return 'com.kosherjava.zmanim.ComplexZmanimCalendar';

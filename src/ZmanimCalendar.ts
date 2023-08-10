@@ -452,6 +452,36 @@ export class ZmanimCalendar extends AstronomicalCalendar {
   */
 
   /**
+   * A generic method for calculating <em>samuch lemincha ketana</em>, / near <em>mincha ketana</em> time that is half
+   * an hour before {@link #getMinchaKetana(Date, Date)}  or 9 * <em>shaos zmaniyos</em> (temporal hours) after the
+   * start of the day, calculated using the start and end of the day passed to this method.
+   * The time from the start of day to the end of day are divided into 12 <em>shaos zmaniyos</em> (temporal hours), and
+   * <em>samuch lemincha ketana</em> is calculated as 9 of those <em>shaos zmaniyos</em> after the beginning of the day.
+   * For example, passing {@link #getSunrise() sunrise} and {@link #getSunset sunset} or {@link #getSeaLevelSunrise() sea
+	 * level sunrise} and {@link #getSeaLevelSunset() sea level sunset} (depending on the {@link #isUseElevation()} elevation
+   * setting) to this method will return <em>samuch lemincha ketana</em> according to the opinion of the
+   * <a href="https://en.wikipedia.org/wiki/Vilna_Gaon">GRA</a>.
+   *
+   * @param startOfDay
+   *            the start of day for calculating <em>samuch lemincha ketana</em>. This can be sunrise or any <em>alos</em>
+   *            passed to to this method.
+   * @param endOfDay
+   *            the end of day for calculating <em>samuch lemincha ketana</em>. This can be sunset or any <em>tzais</em>
+   *            passed to this method.
+   * @return the <code>Date</code> of the time of <em>Mincha ketana</em> based on the start and end of day times
+   *         passed to this method. If the calculation can't be computed such as in the Arctic Circle where there is
+   *         at least one day a year where the sun does not rise, and one where it does not set, a null will be
+   *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
+   *
+   * @see ComplexZmanimCalendar#getSamuchLeMinchaKetanaGRA()
+   * @see ComplexZmanimCalendar#getSamuchLeMinchaKetana16Point1Degrees()
+   * @see ComplexZmanimCalendar#getSamuchLeMinchaKetana72Minutes()
+   */
+  public getSamuchLeMinchaKetana(startOfDay: DateTime | null, endOfDay: DateTime | null): DateTime | null {
+    return this.getShaahZmanisBasedZman(startOfDay, endOfDay, 9);
+  }
+
+  /**
    * A generic method for calculating <em>mincha ketana</em>, (the preferred time to recite the mincha prayers in
    * the opinion of the <em><a href="https://en.wikipedia.org/wiki/Maimonides">Rambam</a></em> and others) that is
    * 9.5 * <em>shaos zmaniyos</em> (temporal hours) after the start of the day, calculated using the start and end
