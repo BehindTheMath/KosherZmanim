@@ -700,6 +700,9 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * {@link #getAlos120Zmanis() dawn}. Since the <em>zman</em> based on an extremely early <em>alos</em> and a very
    * late <em>tzais</em>, it should only be used <em>lechumra</em>.
    *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
    *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
@@ -722,6 +725,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * calculated as 10.75 hours after {@link #getAlos120() dawn 120 minutes}. The formula used is 10.75 {@link
    * #getShaahZmanis120Minutes()} after {@link #getAlos120()}. Since the <em>zman</em> based on an extremely early
    * <em>alos</em> and a very late <em>tzais</em>, it should only be used <em>lechumra</em>.
+   *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
    *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
@@ -871,6 +878,11 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * this time is extremely early, it should only be used <em>lechumra</em>, such as not eating after this time on a fast
    * day, and not as the start time for <em>mitzvos</em> that can only be performed during the day.
    *
+   * @deprecated This method should be used <em>lechumra</em> only (such as stopping to eat at this time on a fast day),
+   *         since it returns a very early time, and if used <em>lekula</em> can result in doing <em>mitzvos hayom</em>
+   *         too early according to most opinions. There is no current plan to remove this method from the API, and this
+   *         deprecation is intended to alert developers of the danger of using it.
+   *
    * @return the <code>Date</code> representing the time. If the calculation can't be computed such as in the Arctic
    *         Circle where there is at least one day a year where the sun does not rise, and one where it does not set,
    *         a null will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}
@@ -895,6 +907,11 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * as not eating after this time on a fast day, and not as the start time for <em>mitzvos</em> that can only be
    * performed during the day.
    *
+   * @deprecated This method should be used <em>lechumra</em> only (such as stopping to eat at this time on a fast day),
+   *         since it returns a very early time, and if used <em>lekula</em> can result in doing <em>mitzvos hayom</em>
+   *         too early according to most opinions. There is no current plan to remove this method from the API, and this
+   *         deprecation is intended to alert developers of the danger of using it.
+   *
    * @return the <code>Date</code> representing the time. If the calculation can't be computed such as in the Arctic
    *         Circle where there is at least one day a year where the sun does not rise, and one where it does not set,
    *         a null will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}
@@ -910,11 +927,16 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * This method should be used <em>lechumra</em> only and returns <em>alos</em> (dawn) calculated when the sun is {@link
    * #ZENITH_26_DEGREES 26&deg;} below the eastern geometric horizon before sunrise. This calculation is based on the same
    * calculation of {@link #getAlos120() 120 minutes} but uses a degree based calculation instead of 120 exact minutes. This
-   * calculation is based on the position of the sun 120 minutes before sunrise in Jerusalem during the equilux (on March
-   * 16, about 4 days before the astronomical equinox), the day that a solar hour is 60 minutes which calculates to 26&deg;
-   * below {@link #GEOMETRIC_ZENITH geometric zenith}. Since this time is extremely early, it should only be used
-   * <em>lechumra</em> only, such as not eating after this time on a fast day, and not as the start time for <em>mitzvos</em>
-   * that can only be performed during the day.
+   * calculation is based on the position of the sun 120 minutes before sunrise in Jerusalem <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>, which
+   * calculates to 26&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}. Since this time is extremely early, it should
+   * only be used <em>lechumra</em> only, such as not eating after this time on a fast day, and not as the start time for
+   * <em>mitzvos</em> that can only be performed during the day.
+   *
+   * @deprecated This method should be used <em>lechumra</em> only (such as stopping to eat at this time on a fast day),
+   *         since it returns a very early time, and if used <em>lekula</em> can result in doing <em>mitzvos hayom</em>
+   *         too early according to most opinions. There is no current plan to remove this  method from the API, and this
+   *         deprecation is intended to alert developers of the danger of using it.
    *
    * @return the <code>Date</code> representing <em>alos</em>. If the calculation can't be computed such as northern
    *         and southern locations even south of the Arctic Circle and north of the Antarctic Circle where the sun
@@ -966,9 +988,9 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * Method to return <em>alos</em> (dawn) calculated when the sun is {@link #ZENITH_19_POINT_8 19.8&deg;} below the
    * eastern geometric horizon before sunrise. This calculation is based on the same calculation of
    * {@link #getAlos90() 90 minutes} but uses a degree based calculation instead of 90 exact minutes. This calculation
-   * is based on the position of the sun 90 minutes before sunrise in Jerusalem during the equilux (on March 16,
-   * about 4 days before the astronomical equinox), the day that a solar hour is 60 minutes which calculates to
-   * 19.8&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}.
+   * is based on the position of the sun 90 minutes before sunrise in Jerusalem <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>, which
+   * calculates to 19.8&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}.
    *
    * @return the <code>Date</code> representing <em>alos</em>. If the calculation can't be computed such as northern
    *         and southern locations even south of the Arctic Circle and north of the Antarctic Circle where the sun
@@ -985,9 +1007,9 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * Method to return <em>alos</em> (dawn) calculated when the sun is {@link #ZENITH_16_POINT_1 16.1&deg;} below the
    * eastern geometric horizon before sunrise. This calculation is based on the same calculation of
    * {@link #getAlos72() 72 minutes} but uses a degree based calculation instead of 72 exact minutes. This calculation
-   * is based on the position of the sun 72 minutes before sunrise in Jerusalem during the equilux (on March 16,
-   * about 4 days before the astronomical equinox), the day that a solar hour is 60 minutes which calculates to
-   * 16.1&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}.
+   * is based on the position of the sun 72 minutes before sunrise in Jerusalem <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>, which
+   * calculates to 16.1&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}.
    *
    * @return the <code>Date</code> representing <em>alos</em>. If the calculation can't be computed such as northern
    *         and southern locations even south of the Arctic Circle and north of the Antarctic Circle where the sun
@@ -1004,9 +1026,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * This method returns <em>misheyakir</em> based on the position of the sun when it is {@link #ZENITH_11_DEGREES
    * 11.5&deg;} below {@link #GEOMETRIC_ZENITH geometric zenith} (90&deg;). This calculation is used for calculating
    * <em>misheyakir</em> according to some opinions. This calculation is based on the position of the sun 52 minutes
-   * before {@link #getSunrise sunrise} in Jerusalem during the equilux (on March 16, about 4 days before the
-   * astronomical equinox), the day that a solar hour is 60 minutes which calculates to 11.5&deg; below
-   * {@link #GEOMETRIC_ZENITH geometric zenith}.
+   * before {@link #getSunrise sunrise} in Jerusalem <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>,
+   * which calculates to 11.5&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}.
+   * @todo recalculate.
    *
    * @return the <code>Date</code> of <em>misheyakir</em>. If the calculation can't be computed such as northern and
    *         southern locations even south of the Arctic Circle and north of the Antarctic Circle where the sun may
@@ -1022,9 +1045,9 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * This method returns <em>misheyakir</em> based on the position of the sun when it is {@link #ZENITH_11_DEGREES
    * 11&deg;} below {@link #GEOMETRIC_ZENITH geometric zenith} (90&deg;). This calculation is used for calculating
    * <em>misheyakir</em> according to some opinions. This calculation is based on the position of the sun 48 minutes
-   * before {@link #getSunrise sunrise} in Jerusalem during the equilux (on March 16, about 4 days before the
-   * astronomical equinox), the day that a solar hour is 60 minutes which calculates to 11&deg; below
-   * {@link #GEOMETRIC_ZENITH geometric zenith}.
+   * before {@link #getSunrise sunrise} in Jerusalem d<a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>,
+   * which calculates to 11&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}.
    *
    * @return If the calculation can't be computed such as northern and southern locations even south of the Arctic
    *         Circle and north of the Antarctic Circle where the sun may not reach low enough below the horizon for
@@ -1040,9 +1063,9 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * This method returns <em>misheyakir</em> based on the position of the sun when it is {@link #ZENITH_10_POINT_2
    * 10.2&deg;} below {@link #GEOMETRIC_ZENITH geometric zenith} (90&deg;). This calculation is used for calculating
    * <em>misheyakir</em> according to some opinions. This calculation is based on the position of the sun 45 minutes
-   * before {@link #getSunrise sunrise} in Jerusalem during the equinox (on March 16, about 4 days before the
-   * astronomical equinox), the day that a solar hour is 60 minutes which calculates to 10.2&deg; below
-   * {@link #GEOMETRIC_ZENITH geometric zenith}.
+   * before {@link #getSunrise sunrise} in Jerusalem <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox</a> which calculates
+   * to 10.2&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}.
    *
    * @return the <code>Date</code> of <em>misheyakir</em>. If the calculation can't be computed such as
    *         northern and southern locations even south of the Arctic Circle and north of the Antarctic Circle where
@@ -1057,8 +1080,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   /**
    * This method returns <em>misheyakir</em> based on the position of the sun when it is {@link #ZENITH_7_POINT_65
    * 7.65&deg;} below {@link #GEOMETRIC_ZENITH geometric zenith} (90&deg;). The degrees are based on a 35/36 minute
-   * <em>zman</em> during the equilux (on March 16, about 4 days before the astronomical equinox), the day that a solar
-   * hour is 60 minutes when the <em>neshef</em> (twilight) is the shortest. This time is based on <a href=
+   * <em>zman</em> <a href="https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the
+   * equinox / equilux</a>, when the <em>neshef</em> (twilight) is the shortest. This time is based on <a href=
    * "https://en.wikipedia.org/wiki/Moshe_Feinstein">Rabbi Moshe Feinstein</a> who writes in <a href=
    * "https://hebrewbooks.org/pdfpager.aspx?req=14677&pgnum=7">Ohr Hachaim Vol. 4, Ch. 6</a>)
    * that <em>misheyakir</em> in New York is 35-40 minutes before sunset, something that is a drop less than 8&deg;.
@@ -1409,9 +1432,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         the sun does not rise, and one where it does not set, a null will be returned. See detailed explanation
    *         on top of the {@link AstronomicalCalendar} documentation.
    * @see #getFixedLocalChatzos()
+   *
    * @deprecated As per a conversation Rabbi Yisroel Twerski had with Rabbi Harfenes, this <em>zman</em> published in
-   *         the Yisrael Vehazmanim was based on a misunderstanding and should not be used. This deprecated will be
-   *         removed pending confirmation from Rabbi Harfenes.
+   *         the Yisrael Vehazmanim was based on a misunderstanding and should not be used. This deprecated method
+   *         will be removed pending confirmation from Rabbi Harfenes.
    */
   public getSofZmanShmaKolEliyahu(): DateTime | null {
     const chatzos: DateTime | null = this.getFixedLocalChatzos();
@@ -1791,6 +1815,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * {@link #getAlos72()}. Since <em>plag</em> by this calculation can occur after sunset, it should only be used
    * <em>lechumra</em>.
    *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
+   *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
    *         does not set, a null will be returned. See detailed explanation on top of the
@@ -1808,6 +1836,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * as 10.75 hours after {@link #getAlos90() dawn}. The formula used is 10.75 {@link #getShaahZmanis90Minutes()} after
    * {@link #getAlos90()}. Since <em>plag</em> by this calculation can occur after sunset, it should only be used
    * <em>lechumra</em>.
+   *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
    *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
@@ -1827,6 +1859,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * {@link #getAlos96()}. Since <em>plag</em> by this calculation can occur after sunset, it should only be used
    * <em>lechumra</em>.
    *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
+   *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
    *         does not set, a null will be returned. See detailed explanation on top of the
@@ -1843,6 +1879,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * #getShaahZmanis96MinutesZmanis()} after {@link #getAlos96Zmanis() dawn}. Since <em>plag</em> by this calculation can
    * occur after sunset, it should only be used <em>lechumra</em>.
    *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
+   *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
    *         does not set, a null will be returned. See detailed explanation on top of the
@@ -1858,6 +1898,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * #getShaahZmanis90MinutesZmanis()} after {@link #getAlos90Zmanis() dawn}. Since <em>plag</em> by this calculation can
    * occur after sunset, it should only be used <em>lechumra</em>.
    *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc.There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
+   *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
    *         does not set, a null will be returned. See detailed explanation on top of the
@@ -1872,6 +1916,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * 10.75 hours after {@link #getAlos72Zmanis()}. The formula used is 10.75 * {@link #getShaahZmanis72MinutesZmanis()} after
    * {@link #getAlos72Zmanis() dawn}. Since <em>plag</em> by this calculation can occur after sunset, it should only be used
    * <em>lechumra</em>.
+   *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
    *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
@@ -1889,6 +1937,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * after {@link #getAlos16Point1Degrees() dawn}. The formula used is 10.75 * {@link #getShaahZmanis16Point1Degrees()}
    * after {@link #getAlos16Point1Degrees()}. Since <em>plag</em> by this calculation can occur after sunset, it
    * should only be used <em>lechumra</em>.
+   *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
    *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         northern and southern locations even south of the Arctic Circle and north of the Antarctic Circle where
@@ -1909,6 +1961,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * #getShaahZmanis19Point8Degrees()} after {@link #getAlos19Point8Degrees()}. Since <em>plag</em> by this
    * calculation can occur after sunset, it should only be used <em>lechumra</em>.
    *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
+   *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         northern and southern locations even south of the Arctic Circle and north of the Antarctic Circle where
    *         the sun may not reach low enough below the horizon for this calculation, a null will be returned. See
@@ -1927,6 +1983,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * #getAlos26Degrees() dawn}. The formula used is 10.75 * {@link #getShaahZmanis26Degrees()} after {@link
    * #getAlos26Degrees()}. Since the <em>zman</em> based on an extremely early <em>alos</em> and a very late
    * <em>tzais</em>, it should only be used <em>lechumra</em>.
+   *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
    *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         northern and southern locations even south of the Arctic Circle and north of the Antarctic Circle where
@@ -1948,6 +2008,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * #getAlos18Degrees()}. Since <em>plag</em> by this calculation can occur after sunset, it should only be used
    * <em>lechumra</em>.
    *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
+   *
    * @return the <code>Date</code> of the time of <em>plag hamincha</em>. If the calculation can't be computed such as
    *         northern and southern locations even south of the Arctic Circle and north of the Antarctic Circle where
    *         the sun may not reach low enough below the horizon for this calculation, a null will be returned. See
@@ -1968,6 +2032,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * dawn} of 16.1 degrees before sunrise to {@link #getSeaLevelSunset() sea level sunset}. This returns the time of 10.75 *
    * the calculated <em>shaah zmanis</em> after {@link #getAlos16Point1Degrees() dawn}. Since <em>plag</em> by this
    * calculation can occur after sunset, it should only be used <em>lechumra</em>.
+   *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
    *
    * @return the <code>Date</code> of the <em>plag</em>. If the calculation can't be computed such as northern and southern
    *         locations even south of the Arctic Circle and north of the Antarctic Circle where the sun may not reach
@@ -2008,14 +2076,15 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * {@link #ZENITH_13_POINT_24 13.24&deg;} below the western {@link #GEOMETRIC_ZENITH geometric horizon} (90&deg;)
    * after sunset. This calculation is based on the same calculation of {@link #getBainHasmashosRT58Point5Minutes()
    * <em>bain hashmashos</em> Rabbeinu Tam 58.5 minutes} but uses a degree based calculation instead of 58.5 exact
-   * minutes. This calculation is based on the position of the sun 58.5 minutes after sunset in Jerusalem during the
-   * equilux (on March 16, about 4 days before the astronomical equinox), the day that a solar hour is 60 minutes
+   * minutes. This calculation is based on the position of the sun 58.5 minutes after sunset in Jerusalem <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>,
    * which calculates to 13.24&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}.
-   * NOTE: As per Yisrael Vehazmanim Vol. III page 1028 No 50, a dip of slightly less than 13&deg; should be used.
+   * NOTE: As per Yisrael Vehazmanim Vol. III page 1028, No. 50, a dip of slightly less than 13&deg; should be used.
    * Calculations show that the proper dip to be 13.2456&deg; (truncated to 13.24 that provides about 1.5 second
    * earlier (<em>lechumra</em>) time) below the horizon at that time. This makes a difference of 1 minute and 10
    * seconds in Jerusalem during the Equinox, and 1 minute 29 seconds during the solstice as compared to the proper
    * 13.24&deg; versus 13&deg;. For NY during the solstice, the difference is 1 minute 56 seconds.
+   * @todo recalculate the above based on equilux/equinox calculations.
    *
    * @return the <code>Date</code> of the sun being 13.24&deg; below {@link #GEOMETRIC_ZENITH geometric zenith}
    *         (90&deg;). If the calculation can't be computed such as northern and southern locations even south of the
@@ -2101,12 +2170,13 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   /**
    * This method returns the beginning of <em>bain hashmashos</em> (twilight) according to the <a href=
    * "https://en.wikipedia.org/wiki/Eliezer_ben_Samuel">Yereim (Rabbi Eliezer of Metz)</a> calculated as the sun's
-   * position 3.05&deg; above the horizon during the equilux (on March 16, about 4 days before the astronomical
-   * equinox), the day that a solar hour is 60 minutes in Yerushalayim, its position 18 minutes or 3/4 of an 24
-   * minute <em>Mil</em> before sunset. According to the Yereim, <em>bain hashmashos</em> starts 3/4 of a <em>Mil</em>
-   * before sunset and <em>tzais</em> or nightfall starts at sunset. Note that <em>lechumra</em> (of about 14 seconds)
-   * a refraction value of 0.5166&deg; as opposed to the traditional 0.566&deg; is used. This is more inline with the
-   * actual regraction in <em>Eretz Yisrael</em> and is brought down by <a href=
+   * position 3.05&deg; above the horizon <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>,
+   * its position 18 minutes or 3/4 of an 24 minute <em>mil</em> before sunset. According to the Yereim, <em>bain
+   * hashmashos</em> starts 3/4 of a <em>Mil</em> before sunset and <em>tzais</em> or nightfall starts at sunset.
+   * Note that <em>lechumra</em> (of about 14 seconds) a refraction value of 0.5166&deg; as opposed to the traditional
+   * 0.566&deg; is used. This is more inline with the actual refraction in <em>Eretz Yisrael</em> and is brought down
+   * by <a href=
    * "http://beinenu.com/rabbis/%D7%94%D7%A8%D7%91-%D7%99%D7%93%D7%99%D7%93%D7%99%D7%94-%D7%9E%D7%A0%D7%AA">Rabbi
    * Yedidya Manet</a> in his <a href="https://www.nli.org.il/en/books/NNL_ALEPH002542826/NLI">Zmanei Halacha
    * Lema’aseh</a> (p. 11). That is the first source that I am aware of that calculates degree-based Yereim
@@ -2115,6 +2185,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * in the upcoming 8th edition of the zmanim Kehilchasam. For more details, see the article <a href=
    * "https://kosherjava.com/2020/12/07/the-yereims-bein-hashmashos/">The Yereim’s <em>Bein Hashmashos</em></a>.
    *
+   * @todo recalculate based on equinox/equilux
    * @return the <code>Date</code> of the sun's position 3.05&deg; minutes before sunset. If the calculation can't
    *         be computed such as in the Arctic Circle where there is at least one day a year where the sun does not
    *         rise, and one where it does not set, a null will be returned. See detailed explanation on top of the
@@ -2149,11 +2220,12 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   /**
    * This method returns the beginning of <em>bain hashmashos</em> (twilight) according to the <a href=
    * "https://en.wikipedia.org/wiki/Eliezer_ben_Samuel">Yereim (Rabbi Eliezer of Metz)</a> calculated as the sun's
-   * position 2.8&deg; above the horizon during the equilux (on March 16, about 4 days before the astronomical
-   * equinox), the day that a solar hour is 60 minutes in Yerushalayim, its position 16.875 minutes or 3/4 of an 18
-   * minute <em>Mil</em> before sunset. According to the Yereim, <em>bain hashmashos</em> starts 3/4 of a <em>Mil</em>
-   * before sunset and <em>tzais</em> or nightfall starts at sunset. Details, including how the degrees were calculated can
-   * be seen in the documentation of {@link #getBainHasmashosYereim3Point05Degrees()}.
+   * position 2.8&deg; above the horizon <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>,
+   * its position 16.875 minutes or 3/4 of an 18 minute <em>Mil</em> before sunset. According to the Yereim, <em>bain
+   * hashmashos</em> starts 3/4 of a <em>Mil</em> before sunset and <em>tzais</em> or nightfall starts at sunset.
+   * Details, including how the degrees were calculated can be seen in the documentation of
+   * {@link #getBainHasmashosYereim3Point05Degrees()}.
    *
    * @return the <code>Date</code> of the sun's position 2.8&deg; minutes before sunset. If the calculation can't
    *         be computed such as in the Arctic Circle where there is at least one day a year where the sun does not
@@ -2189,11 +2261,12 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   /**
    * This method returns the beginning of <em>bain hashmashos</em> according to the <a href=
    * "https://en.wikipedia.org/wiki/Eliezer_ben_Samuel">Yereim (Rabbi Eliezer of Metz)</a> calculated as the sun's
-   * position 2.1&deg; above the horizon during the equilux (on March 16, about 4 days before the astronomical
-   * equinox), the day that a solar hour is 60 minutes in Yerushalayim, its position 13.5 minutes or 3/4 of an 18
-   * minute <em>Mil</em> before sunset. According to the Yereim, <em>bain hashmashos</em> starts 3/4 of a <em>Mil</em> before
-   * sunset and <em>tzais</em> or nightfall starts at sunset. Details, including how the degrees were calculated can be seen
-   * in the documentation of {@link #getBainHasmashosYereim3Point05Degrees()}.
+   * position 2.1&deg; above the horizon <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a> in
+   * Yerushalayim, its position 13.5 minutes or 3/4 of an 18 minute <em>Mil</em> before sunset. According to the Yereim,
+   * <em>bain hashmashos</em> starts 3/4 of a <em>mil</em> before sunset and <em>tzais</em> or nightfall starts at sunset.
+   * Details, including how the degrees were calculated can be seen in the documentation of
+   * {@link #getBainHasmashosYereim3Point05Degrees()}.
    *
    * @return the <code>Date</code> of the sun's position 2.1&deg; minutes before sunset. If the calculation can't
    *         be computed such as in the Arctic Circle where there is at least one day a year where the sun does not
@@ -2350,7 +2423,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * This method returns the <em>tzais</em> (nightfall) based on the opinion of the <em>Geonim</em> as calculated by
    * <a href="https://en.wikipedia.org/wiki/Yechiel_Michel_Tucazinsky">Rabbi Yechiel Michel Tucazinsky</a>. It is
    * based on of the position of the sun no later than {@link #getTzaisGeonim6Point45Degrees() 31 minutes} after sunset
-   * in Jerusalem the height of the summer solstice and is 28 minutes after <em>shkiah</em> at the equilux. This
+   * in Jerusalem the height of the summer solstice and is 28 minutes after <em>shkiah</em> <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>. This
    * computes to 6.45&deg; below the western horizon.
    * @todo Additional documentation details needed.
    *
@@ -2367,7 +2441,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
 
   /**
    * This method returns the <em>tzais</em> (nightfall) based on the opinion of the <em>Geonim</em> calculated when the
-   * sun's position {@link #ZENITH_7_POINT_083 7.083&deg; (or 7&deg; 5\u2032} below the western horizon. This is often
+   * sun's position {@link #ZENITH_7_POINT_083 7.083&deg; (or 7&deg; 5\u2032}) below the western horizon. This is often
    * referred to as 7&deg;5' or 7&deg; and 5 minutes. This calculation is based on the observation of 3 medium sized
    * stars by Dr. Baruch (Berthold) Cohn in his <em>luach</em> <a href=
    * "https://sammlungen.ub.uni-frankfurt.de/freimann/content/titleinfo/983088">Tabellen enthaltend die Zeitangaben für
@@ -2378,9 +2452,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * "https://hebrewbooks.org/pdfpager.aspx?req=1053&st=&pgnum=37">Orach Chaim 30</a> agreed to this <em>zman</em> (page 36),
    * as did the Sh"Ut Bnei Tziyon and the Tenuvas Sadeh. It is very close to the time of the <a href=
    * "https://hebrewbooks.org/22044">Mekor Chesed</a> of the Sefer chasidim. It is close to the position of the sun 30 minutes
-   * after sunset in Jerusalem on the equilux / equinox, but not Exactly. The actual position of the sun 30 minutes after
-   * sunset in Jerusalem at the equilux is 7.205&deg; and 7.199&deg; at the equinox. See Hazmanim Bahalacha vol 2, pages
-   * 520-521 for more details.
+   * after sunset in Jerusalem <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>, but not
+   * Exactly. The actual position of the sun 30 minutes after sunset in Jerusalem at the equilux is 7.205&deg; and 7.199&deg;
+   * at the equinox. See Hazmanim Bahalacha vol 2, pages 520-521 for more details.
    *
    * @return the <code>Date</code> representing the time when the sun is 7.083&deg; below sea level. If the
    *         calculation can't be computed such as northern and southern locations even south of the Arctic Circle and
@@ -2452,13 +2527,15 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
 
   /**
    * This method returns the <em>tzais</em> (nightfall) based on the opinion of the <em>Geonim</em> calculated as 60
-   * minutes after sunset during the equilux (on March 16, about 4 days before the astronomical equinox), the day that
-   * a solar hour is 60 minutes in New York. The sun's position at this time computes to
+   * minutes after sunset <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a>, the
+   * day that a solar hour is 60 minutes in New York. The sun's position at this time computes to
    * {@link #ZENITH_9_POINT_75 9.75&deg;} below the western horizon. This is the opinion of <a href=
    * "https://en.wikipedia.org/wiki/Yosef_Eliyahu_Henkin">Rabbi Eliyahu Henkin</a>.  This also follows the opinion of
    * <a href="https://en.wikipedia.org/wiki/Shmuel_Kamenetsky">Rabbi Shmuel Kamenetsky</a>. Rabbi Yaakov Shakow presented
    * these degree based times to Rabbi Shmuel Kamenetsky who agreed to them.
    *
+   * @todo recalculate based on equinox / equilux.
    * @return the <code>Date</code> representing the time when the sun is 9.75&deg; below sea level. If the calculation
    *         can't be computed such as northern and southern locations even south of the Arctic Circle and north of
    *         the Antarctic Circle where the sun may not reach low enough below the horizon for this calculation, a
@@ -2512,9 +2589,9 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   }
 
   /**
-   * Returns the offset in minutes after sunset used to calculate sunset for the Ateret Torah <em>zmanim</em>. The
-   * default value is 40 minutes. This affects most <em>zmanim</em>, since almost all zmanim use subset as part of
-   * their calculation.
+   * Returns the offset in minutes after sunset used to calculate <em>tzais</em> based on the calculations of
+   * <em>Chacham</em> Yosef Harari-Raful of Yeshivat Ateret Torah calculations. The default value is 40 minutes.
+   * This affects most <em>zmanim</em>, since almost all zmanim use subset as part of their calculation.
    *
    * @return the number of minutes after sunset for <em>Tzait</em>.
    * @see #setAteretTorahSunsetOffset(double)
@@ -2687,7 +2764,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
 
   /**
    * Method to return <em>tzais</em> (dusk) calculated as 72 minutes zmaniyos, or 1/10th of the day after
-   * {@link #getSeaLevelSunset() sea level sunset}.This is the way that the <a href=
+   * {@link #getSeaLevelSunset() sea level sunset}. This is the way that the <a href=
    * "https://en.wikipedia.org/wiki/Abraham_Cohen_Pimentel">Minchas Cohen</a> in Ma'amar 2:4 calculates Rebbeinu Tam's
    * time of <em>tzeis</em>. It should be noted that this calculation results in the shortest time from sunset to
    * <em>tzais</em> being during the winter solstice, the longest at the summer solstice and 72 clock minutes at the
@@ -2778,7 +2855,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
 
   /**
    * This method should be used <em>lechumra</em> only and returns <em>tzais</em> (nightfall) based on the calculations
-   * of <a href="https://en.wikipedia.org/wiki/Avraham_Chaim_Naeh">Rac Chaim Naeh</a> that the time to walk the
+   * of <a href="https://en.wikipedia.org/wiki/Avraham_Chaim_Naeh">Rav Chaim Naeh</a> that the time to walk the
    * distance of a <em>Mil</em> according to the <a href="https://en.wikipedia.org/wiki/Maimonides">Rambam</a>'s opinion
    * is 2/5 of an hour (24 minutes) for a total of 120 minutes based on the opinion of <em>Ula</em> who calculated
    * <em>tzais</em> as 5 <em>Mil</em> after sea level <em>shkiah</em> (sunset). A similar calculation {@link
@@ -2786,9 +2863,13 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * is extremely late and at a point that is long past the 18&deg; point where the darkest point is
    * reached, it should only be used <em>lechumra</em>, such as delaying the start of nighttime <em>mitzvos</em>.
    *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
+   *
    * @return the <code>Date</code> representing the time. If the calculation can't be computed such as in the Arctic
    *         Circle where there is at least one day a year where the sun does not rise, and one where it does not set,
-   *         a null will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}
+   *         a null will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}.
    *         documentation.
    * @see #getTzais26Degrees()
    * @see #getAlos120()
@@ -2802,6 +2883,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * <em>zmaniyos</em> after {@link #getSeaLevelSunset() sea level sunset}. Since the <em>zman</em>
    * is extremely late and at a point that is long past the 18&deg; point where the darkest point is
    * reached, it should only be used <em>lechumra</em>, such as delaying the start of nighttime <em>mitzvos</em>.
+   *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
    *
    * @return the <code>Date</code> representing the time. If the calculation can't be computed such as in the Arctic
    *         Circle where there is at least one day a year where the sun does not rise, and one where it does not set,
@@ -2818,13 +2903,15 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   /**
    * This calculates the time of <em>tzais</em> at the point when the sun is 16.1&deg; below the horizon. This is
    * the sun's dip below the horizon 72 minutes after sunset according Rabbeinu Tam's calculation of <em>tzais</em>
-   * at the equilux (March 16, 4 days before the equinox) in Jerusalem. This is the opinion of Rabbi Meir Posen in
-   * the  <a href="https://www.worldcat.org/oclc/956316270">Ohr Meir</a> and others. See Yisrael Vehazmanim vol I,
-   * 34:1:4. Rabbi Yedidya Manet in his <a href="https://www.nli.org.il/en/books/NNL_ALEPH002542826/NLI">Zmanei
-   * Halacha Lema'aseh</a> (4th edition part 2, pages and 22 and 24) and Rabbi Yonah Metzbuch (in a letter published
-   * by Rabbi Manet) are of the opinion that the astronomical equinox should be used. The difference adds up to about
-   * 9 seconds, too trivial to make much of a difference. For information on how this is calculated see the comments
-   * on {@link #getAlos16Point1Degrees()}.
+   * <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a> in
+   * Jerusalem. The question of equinox VS equilux is complex, with Rabbi Meir Posen in the <a href=
+   * "https://www.worldcat.org/oclc/956316270">Ohr Meir</a> of the opinion that the equilux should be used. See
+   * Yisrael Vehazmanim vol I, 34:1:4. Rabbi Yedidya Manet in his <a href=
+   * "https://www.nli.org.il/en/books/NNL_ALEPH002542826/NLI">Zmanei Halacha Lema'aseh</a> (4th edition part 2, pages
+   * and 22 and 24) and Rabbi Yonah Metzbuch (in a letter published by Rabbi Manet) are of the opinion that the
+   * astronomical equinox should be used. The difference adds up to about 9 seconds, too trivial to make much of a
+   * difference. For information on how this is calculated see the comments on {@link #getAlos16Point1Degrees()}.
    *
    * @return the <code>Date</code> representing the time. If the calculation can't be computed such as northern and
    *         southern locations even south of the Arctic Circle and north of the Antarctic Circle where the sun may
@@ -2843,6 +2930,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * Since the <em>zman</em> is extremely late and at a point when it is long past the 18&deg; point where the
    * darkest point is reached, it should only be used <em>lechumra</em> such as delaying the start of nighttime
    * <em>mitzvos</em>.
+   *
+   * @deprecated This method should be used <em>lechumra</em> only since it returns a very late time, and if used
+   *         <em>lekula</em> can result in <em>chillul Shabbos</em> etc. There is no current plan to remove this
+   *         method from the API, and this deprecation is intended to alert developers of the danger of using it.
    *
    * @return the <code>Date</code> representing the time. If the calculation can't be computed such as northern and
    *         southern locations even south of the Arctic Circle and north of the Antarctic Circle where the sun may
@@ -2945,7 +3036,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         this issue in vol. 1, it was not corrected in the calculations in vol. 3 and other parts of the <em>sefer</em>.
    *         A competent rabbinical authority should be consulted before using this <em>zman</em>. Instead, the use of {@link
    *         #getSofZmanShma3HoursBeforeChatzos()} should be used to calculate <em>sof zman Tfila</em> using 3 fixed
-   *         clock hours.
+   *         clock hours. This will likely be removed in a future version.
    */
   public getSofZmanShmaFixedLocal(): DateTime | null {
     return ComplexZmanimCalendar.getTimeOffset(this.getFixedLocalChatzos(), -180 * ComplexZmanimCalendar.MINUTE_MILLIS);
@@ -2970,8 +3061,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         "https://hebrewbooks.org/pdfpager.aspx?req=9765&st=&pgnum=85">page 57</a>. While the Yisrael Vehazmanim mentions
    *         this issue in vol. 1, it was not corrected in the calculations in vol. 3 and other parts of the <em>sefer</em>.
    *         A competent rabbinical authority should be consulted before using this <em>zman</em>. Instead, the use of {@link
-   *         #getSofZmanTfila2HoursBeforeChatzos()} should be used to calculate <em>sof zman Tfila</em> using 2 fixed
-   *         clock hours.
+   *         #getSofZmanTfila2HoursBeforeChatzos()} should be used to calculate <em>sof zman Tfila</em> using using 2 fixed
+   *         clock hours. This will likely be removed in a future version.
    */
   public getSofZmanTfilaFixedLocal(): DateTime | null {
     return ComplexZmanimCalendar.getTimeOffset(this.getFixedLocalChatzos(), -120 * ComplexZmanimCalendar.MINUTE_MILLIS);
