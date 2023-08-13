@@ -88,6 +88,9 @@ export class GeoLocation {
     if (elevation < 0) {
       throw new IllegalArgumentException('Elevation cannot be negative');
     }
+    if (Number.isNaN(elevation) || !Number.isFinite(elevation)) {
+      throw new IllegalArgumentException('Elevation must not be NaN or infinite');
+    }
     this.elevation = elevation;
   }
 
