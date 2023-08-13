@@ -190,6 +190,13 @@ export class JewishCalendar extends JewishDate {
   public static readonly ISRU_CHAG: number = 35;
 
   /**
+   * The day before <em>Rosh Chodesh</em> (moved to Thursday if <em>Rosh Chodesh</em> is on a Friday or <em>Shabbos</em>) in most months.
+   * This constant is not actively in use.
+   * @see #isYomKippurKatan()
+   */
+  public static readonly YOM_KIPPUR_KATAN: number = 36;
+
+  /**
    * Is the calendar set to Israel, where some holidays have different rules.
    * @see #getInIsrael()
    * @see #setInIsrael(boolean)
@@ -933,6 +940,30 @@ export class JewishCalendar extends JewishDate {
   public isErevRoshChodesh(): boolean {
     // Erev Rosh Hashana is not Erev Rosh Chodesh.
     return (this.getJewishDayOfMonth() === 29 && this.getJewishMonth() !== JewishCalendar.ELUL);
+  }
+
+  /**
+   * Returns true if the current day is <em>Yom Kippur Katan</em>. Returns false for <em>Erev Rosh Hashana</em>,
+   * <em>Erev Rosh Chodesh Cheshvan</em>, <em>Teves</em> and <em>Iyyar</em>. If <em>Erev Rosh Chodesh</em> occurs
+   * on a Friday or <em>Shabbos</em>, <em>Yom Kippur Katan</em> is moved back to Thursday.
+   *
+   * @return true if the current day is <em>Erev Rosh Chodesh</em>. Returns false for <em>Erev Rosh Hashana</em>.
+   * @see #isRoshChodesh()
+   */
+  public isYomKippurKatan(): boolean {
+    const dayOfWeek: number = this.getDayOfWeek();
+    const month: number = this.getJewishMonth();
+    const day: number = this.getJewishDayOfMonth();
+
+    if (month === JewishDate.ELUL || month === JewishDate.TISHREI || month === JewishDate.KISLEV || month === JewishDate.NISSAN) {
+      return false;
+    }
+
+    if (day === 29 && dayOfWeek !== Calendar.FRIDAY && dayOfWeek !== Calendar.SATURDAY) {
+      return true;
+    }
+
+    return (day === 27 || day === 28) && dayOfWeek === Calendar.THURSDAY;
   }
 
   /**
