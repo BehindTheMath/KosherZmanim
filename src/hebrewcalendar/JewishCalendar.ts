@@ -59,7 +59,6 @@ export enum Parsha {
  *
  * TODO: Some do not belong in this class, but here is a partial list of what should still be implemented in some form:
  * <ol>
- * <li>Add Isru Chag</li>
  * <li>Mishna yomis etc</li>
  * </ol>
  *
@@ -186,6 +185,9 @@ export class JewishCalendar extends JewishDate {
 
   /** The holiday of Purim Katan on the 15th day of Adar I on a leap year when Purim is on Adar II, a minor holiday. */
   public static readonly SHUSHAN_PURIM_KATAN: number = 34;
+
+  /** The day following the last day of Pesach, Shavuos and Sukkos. */
+  public static readonly ISRU_CHAG: number = 35;
 
   /**
    * Is the calendar set to Israel, where some holidays have different rules.
@@ -593,6 +595,8 @@ export class JewishCalendar extends JewishDate {
           return JewishCalendar.PESACH;
         } else if ((day >= 17 && day <= 20) || (day === 16 && this.inIsrael)) {
           return JewishCalendar.CHOL_HAMOED_PESACH;
+        } else if ((day === 22 && this.inIsrael) || (day === 23 && !this.inIsrael)) {
+          return JewishCalendar.ISRU_CHAG;
         }
 
         if (this.isUseModernHolidays()
@@ -632,6 +636,8 @@ export class JewishCalendar extends JewishDate {
           return JewishCalendar.EREV_SHAVUOS;
         } else if (day === 6 || (day === 7 && !this.inIsrael)) {
           return JewishCalendar.SHAVUOS;
+        } else if ((day === 7 && this.inIsrael) || (day === 8 && !this.inIsrael)) {
+          return JewishCalendar.ISRU_CHAG;
         }
         break;
       case JewishCalendar.TAMMUZ:
@@ -686,6 +692,11 @@ export class JewishCalendar extends JewishDate {
         if (day === 23 && !this.inIsrael) {
           return JewishCalendar.SIMCHAS_TORAH;
         }
+
+        if ((day === 23 && this.inIsrael) || (day === 24 && !this.inIsrael)) {
+          return JewishCalendar.ISRU_CHAG;
+        }
+
         break;
       case JewishCalendar.KISLEV: // no yomtov in CHESHVAN
         // if (day == 24) {
@@ -769,7 +780,7 @@ export class JewishCalendar extends JewishDate {
 
     if ((this.isErevYomTov() && (holidayIndex !== JewishCalendar.HOSHANA_RABBA
       && (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() !== 20)))
-      || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR)) {
+      || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR) || holidayIndex === JewishCalendar.ISRU_CHAG) {
       return false;
     }
 
@@ -1193,6 +1204,18 @@ export class JewishCalendar extends JewishDate {
   public getDafYomiYerushalmi(): Daf {
     // return YerushalmiYomiCalculator.getDafYomiYerushalmi(this);
     throw new UnsupportedError('This method is not supported, due to a circular dependency. Use `YerushalmiYomiCalculator.getDafYomiYerushalmi(jewishCalendar)` instead');
+  }
+
+  /**
+   * Returns true if the current day is <em>Isru Chag</em>. The method returns true for the day following <em>Pesach</em>
+   * <em>Shavuos</em> and <em>Succos</em>. It utilizes {@see #getInIsrael()} to return the proper date.
+   *
+   * @return true if the current day is <em>Isru Chag</em>. The method returns true for the day following <em>Pesach</em>
+   * <em>Shavuos</em> and <em>Succos</em>. It utilizes {@see #getInIsrael()} to return the proper date.
+   */
+  public isIsruChag(): boolean {
+    const holidayIndex: number = this.getYomTovIndex();
+    return holidayIndex === JewishCalendar.ISRU_CHAG;
   }
 
   /**
