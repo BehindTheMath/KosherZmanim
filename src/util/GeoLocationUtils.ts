@@ -30,8 +30,8 @@ export class GeoLocationUtils {
   private static readonly FINAL_BEARING: number = 2;
 
   /**
-   * Calculate the <a href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> initial bearing between this Object and
-   * a second Object passed to this method using <a href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus
+   * Calculate the <a href="https://en.wikipedia.org/wiki/Great_circle">geodesic</a> initial bearing between this Object and
+   * a second Object passed to this method using <a href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus
    * Vincenty's</a> inverse formula See T Vincenty, "<a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and
    * Inverse Solutions of Geodesics on the Ellipsoid with application of nested equations</a>", Survey Review, vol XXII
    * no 176, 1975.
@@ -47,8 +47,8 @@ export class GeoLocationUtils {
   }
 
   /**
-   * Calculate the <a href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> final bearing between this Object
-   * and a second Object passed to this method using <a href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a>
+   * Calculate the <a href="https://en.wikipedia.org/wiki/Great_circle">geodesic</a> final bearing between this Object
+   * and a second Object passed to this method using <a href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a>
    * inverse formula See T Vincenty, "<a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics
    * on the Ellipsoid with application of nested equations</a>", Survey Review, vol XXII no 176, 1975.
    *
@@ -63,9 +63,9 @@ export class GeoLocationUtils {
   }
 
   /**
-   * Calculate <a href="http://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> in Meters
+   * Calculate <a href="https://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> in Meters
    * between this Object and a second Object passed to this method using <a
-   * href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty,
+   * href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty,
    * "<a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the
    * Ellipsoid with application of nested equations</a>", Survey Review, vol XXII no 176, 1975. This uses the
    * WGS-84 geodetic model.
@@ -80,9 +80,9 @@ export class GeoLocationUtils {
   }
 
   /**
-   * Calculates the initial <a href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> bearing, final bearing or
-   * <a href="http://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> using <a href=
-   * "http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
+   * Calculates the initial <a href="https://en.wikipedia.org/wiki/Great_circle">geodesic</a> bearing, final bearing or
+   * <a href="https://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> using <a href=
+   * "https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
    * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
    * with application of nested equations</a>", Survey Review, vol XXII no 176, 1975.
    *
@@ -171,7 +171,7 @@ export class GeoLocationUtils {
   }
 
   /**
-   * Returns the <a href="http://en.wikipedia.org/wiki/Rhumb_line">rhumb line</a>
+   * Returns the <a href="https://en.wikipedia.org/wiki/Rhumb_line">rhumb line</a>
    * bearing from the current location to the GeoLocation passed in.
    *
    * @param location
@@ -190,7 +190,7 @@ export class GeoLocationUtils {
   }
 
   /**
-   * Returns the <a href="http://en.wikipedia.org/wiki/Rhumb_line">rhumb line</a> distance from the current
+   * Returns the <a href="https://en.wikipedia.org/wiki/Rhumb_line">rhumb line</a> distance from the current
    * location to the GeoLocation passed in. Ported from <a href="http://www.movable-type.co.uk/">Chris Veness'</a>
    * Javascript Implementation.
    *

@@ -815,7 +815,7 @@ export class HebrewDateFormatter {
   /**
    * Returns the kviah in the traditional 3 letter Hebrew format where the first letter represents the day of week of
    * Rosh Hashana, the second letter represents the lengths of Cheshvan and Kislev ({@link JewishDate#SHELAIMIM
-     * Shelaimim} , {@link JewishDate#KESIDRAN Kesidran} or {@link JewishDate#CHASERIM Chaserim}) and the 3rd letter
+   * Shelaimim} , {@link JewishDate#KESIDRAN Kesidran} or {@link JewishDate#CHASERIM Chaserim}) and the 3rd letter
    * represents the day of week of Pesach. For example 5729 (1969) would return &#x5D1;&#x5E9;&#x5D4; (Rosh Hashana on
    * Monday, Shelaimim, and Pesach on Thursday), while 5771 (2011) would return &#x5D4;&#x5E9;&#x5D2; (Rosh Hashana on
    * Thursday, Shelaimim, and Pesach on Tuesday).
@@ -877,10 +877,10 @@ export class HebrewDateFormatter {
    * Returns a Hebrew formatted string of a number. The method can calculate from 0 - 9999.
    * <ul>
    * <li>Single digit numbers such as 3, 30 and 100 will be returned with a &#x5F3; (<a
-   * href="http://en.wikipedia.org/wiki/Geresh">Geresh</a>) appended as at the end. For example &#x5D2;&#x5F3;,
+   * href="https://en.wikipedia.org/wiki/Geresh">Geresh</a>) appended as at the end. For example &#x5D2;&#x5F3;,
    * &#x5DC;&#x5F3; and &#x5E7;&#x5F3;</li>
    * <li>multi digit numbers such as 21 and 769 will be returned with a &#x5F4; (<a
-   * href="http://en.wikipedia.org/wiki/Gershayim">Gershayim</a>) between the second to last and last letters. For
+   * href="https://en.wikipedia.org/wiki/Gershayim">Gershayim</a>) between the second to last and last letters. For
    * example &#x5DB;&#x5F4;&#x5D0;, &#x5EA;&#x5E9;&#x5DB;&#x5F4;&#x5D8;</li>
    * <li>15 and 16 will be returned as &#x5D8;&#x5F4;&#x5D5; and &#x5D8;&#x5F4;&#x5D6;</li>
    * <li>Single digit numbers (years assumed) such as 6000 (%1000=0) will be returned as &#x5D5;&#x5F3;

@@ -11,11 +11,11 @@ import { IllegalArgumentException } from '../polyfills/errors';
  * note that the calendar does not currently support dates prior to 1/1/1 Gregorian. Also keep in mind that the
  * Gregorian calendar started on October 15, 1582, so any calculations prior to that are suspect (at least from
  * a Gregorian perspective). While 1/1/1 Gregorian and forward are technically supported, any calculations prior to <a
- * href="http://en.wikipedia.org/wiki/Hillel_II">Hillel II's (Hakatan's</a>) calendar (4119 in the Jewish Calendar / 359
- * CE Julian as recorded by <a href="http://en.wikipedia.org/wiki/Hai_Gaon">Rav Hai Gaon</a>) would be just an
+ * href="https://en.wikipedia.org/wiki/Hillel_II">Hillel II's (Hakatan's</a>) calendar (4119 in the Jewish Calendar / 359
+ * CE Julian as recorded by <a href="https://en.wikipedia.org/wiki/Hai_Gaon">Rav Hai Gaon</a>) would be just an
  * approximation.
  *
- * This open source Java code was written by <a href="http://www.facebook.com/avromf">Avrom Finkelstien</a> from his C++
+ * This open source Java code was written by <a href="https://www.facebook.com/avromf">Avrom Finkelstien</a> from his C++
  * code. It was refactored to fit the KosherJava Zmanim API with simplification of the code, enhancements and some bug
  * fixing.
  *
@@ -39,28 +39,28 @@ export class JewishDate {
   /**
    * Value of the month field indicating Nissan, the first numeric month of the year in the Jewish calendar. With the
    * year starting at {@link #TISHREI}, it would actually be the 7th (or 8th in a {@link #isJewishLeapYear() leap
-     * year}) month of the year.
+   * year}) month of the year.
    */
   public static readonly NISSAN: number = 1;
 
   /**
    * Value of the month field indicating Iyar, the second numeric month of the year in the Jewish calendar. With the
    * year starting at {@link #TISHREI}, it would actually be the 8th (or 9th in a {@link #isJewishLeapYear() leap
-     * year}) month of the year.
+   * year}) month of the year.
    */
   public static readonly IYAR: number = 2;
 
   /**
    * Value of the month field indicating Sivan, the third numeric month of the year in the Jewish calendar. With the
    * year starting at {@link #TISHREI}, it would actually be the 9th (or 10th in a {@link #isJewishLeapYear() leap
-     * year}) month of the year.
+   * year}) month of the year.
    */
   public static readonly SIVAN: number = 3;
 
   /**
    * Value of the month field indicating Tammuz, the fourth numeric month of the year in the Jewish calendar. With the
    * year starting at {@link #TISHREI}, it would actually be the 10th (or 11th in a {@link #isJewishLeapYear() leap
-     * year}) month of the year.
+   * year}) month of the year.
    */
   public static readonly TAMMUZ: number = 4;
 
@@ -74,7 +74,7 @@ export class JewishDate {
   /**
    * Value of the month field indicating Elul, the sixth numeric month of the year in the Jewish calendar. With the
    * year starting at {@link #TISHREI}, it would actually be the 12th (or 13th in a {@link #isJewishLeapYear() leap
-     * year}) month of the year.
+   * year}) month of the year.
    */
   public static readonly ELUL: number = 6;
 
@@ -541,7 +541,7 @@ export class JewishDate {
 
   /**
    * Converts the {@link JewishDate#NISSAN} based constants used by this class to numeric month starting from
-   * {@link JewishDate#TISHREI}. This is required for Molad claculations.
+   * {@link JewishDate#TISHREI}. This is required for Molad calculations.
    *
    * @param year
    *            The Jewish year
@@ -846,7 +846,7 @@ export class JewishDate {
   /**
    * Returns the molad for a given year and month. Returns a JewishDate {@link Object} set to the date of the molad
    * with the {@link #getMoladHours() hours}, {@link #getMoladMinutes() minutes} and {@link #getMoladChalakim()
-     * chalakim} set. In the current implementation, it sets the molad time based on a midnight date rollover. This
+   * chalakim} set. In the current implementation, it sets the molad time based on a midnight date rollover. This
    * means that Rosh Chodesh Adar II, 5771 with a molad of 7 chalakim past midnight on Shabbos 29 Adar I / March 5,
    * 2011 12:00 AM and 7 chalakim, will have the following values: hours: 0, minutes: 0, Chalakim: 7.
    *
@@ -1296,7 +1296,7 @@ export class JewishDate {
           this.jewishDay++;
         }
 
-        if (this.dayOfWeek === 7) {
+        if (this.dayOfWeek === Calendar.SATURDAY) {
           // if last day of week, loop back to Sunday
           this.dayOfWeek = 1;
         } else {
@@ -1340,7 +1340,7 @@ export class JewishDate {
 
   /**
    * Rolls the date back by 1 day. It modifies both the Gregorian and Jewish dates accordingly. The API does not
-   * currently offer the ability to forward more than one day t a time, or to forward by month or year. If such
+   * currently offer the ability to forward more than one day at a time, or to forward by month or year. If such
    * manipulation is required use the {@link Calendar} class {@link Calendar#add(int, int)} or
    * {@link Calendar#roll(int, int)} methods in the following manner.
    *
@@ -1561,7 +1561,7 @@ export class JewishDate {
   }
 
   /**
-   * A method that creates a <a href="http://en.wikipedia.org/wiki/Object_copy#Deep_copy">deep copy</a> of the object.
+   * A method that creates a <a href="https://en.wikipedia.org/wiki/Object_copy#Deep_copy">deep copy</a> of the object.
    *
    * @see Object#clone()
    */

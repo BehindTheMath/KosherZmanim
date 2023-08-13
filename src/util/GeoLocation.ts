@@ -101,7 +101,7 @@ export class GeoLocation {
    *            <b>Note: </b> For latitudes south of the equator, a negative value should be used.
    * @param longitude
    *            double the longitude in a double format such as -74.222130 for Lakewood, NJ.
-   *            <b>Note: </b> For longitudes east of the <a href="http://en.wikipedia.org/wiki/Prime_Meridian">Prime
+   *            <b>Note: </b> For longitudes east of the <a href="https://en.wikipedia.org/wiki/Prime_Meridian">Prime
    *            Meridian </a> (Greenwich), a negative value should be used.
    * @param timeZone
    *            the <code>TimeZone</code> for the location.
@@ -123,7 +123,7 @@ export class GeoLocation {
    *            <b>Note: </b> For latitudes south of the equator, a negative value should be used.
    * @param longitude
    *            double the longitude in a double format such as -74.222130 for Lakewood, NJ.
-   *            <b>Note: </b> For longitudes east of the <a href="http://en.wikipedia.org/wiki/Prime_Meridian">Prime
+   *            <b>Note: </b> For longitudes east of the <a href="https://en.wikipedia.org/wiki/Prime_Meridian">Prime
    *            Meridian </a> (Greenwich), a negative value should be used.
    * @param elevation
    *            the elevation above sea level in Meters. Elevation is not used in most algorithms used for calculating
@@ -190,9 +190,9 @@ export class GeoLocation {
    *            The degrees of latitude to set between 0&deg; and 90&deg;. For example 40 would be used for Lakewood, NJ.
    *            An IllegalArgumentException will be thrown if the value exceeds the limit.
    * @param minutes
-   *            <a href="http://en.wikipedia.org/wiki/Minute_of_arc#Cartography">minutes of arc</a>
+   *            <a href="https://en.wikipedia.org/wiki/Minute_of_arc#Cartography">minutes of arc</a>
    * @param seconds
-   *            <a href="http://en.wikipedia.org/wiki/Minute_of_arc#Cartography">seconds of arc</a>
+   *            <a href="https://en.wikipedia.org/wiki/Minute_of_arc#Cartography">seconds of arc</a>
    * @param direction
    *            N for north and S for south. An IllegalArgumentException will be thrown if the value is not S or N.
    */
@@ -237,7 +237,7 @@ export class GeoLocation {
    *            The degrees of longitude to set in a double format between -180&deg; and 180&deg;. An
    *            IllegalArgumentException will be thrown if the value exceeds the limit. For example -74.2094 would be
    *            used for Lakewood, NJ. Note: for longitudes east of the <a
-   *            href="http://en.wikipedia.org/wiki/Prime_Meridian">Prime Meridian</a> (Greenwich) a negative value
+   *            href="https://en.wikipedia.org/wiki/Prime_Meridian">Prime Meridian</a> (Greenwich) a negative value
    *            should be used.
    */
 
@@ -257,11 +257,11 @@ export class GeoLocation {
    *            The degrees of longitude to set between 0&deg; and 180&deg;. As an example 74 would be set for Lakewood, NJ.
    *            An IllegalArgumentException will be thrown if the value exceeds the limits.
    * @param minutes
-   *            <a href="http://en.wikipedia.org/wiki/Minute_of_arc#Cartography">minutes of arc</a>
+   *            <a href="https://en.wikipedia.org/wiki/Minute_of_arc#Cartography">minutes of arc</a>
    * @param seconds
-   *            <a href="http://en.wikipedia.org/wiki/Minute_of_arc#Cartography">seconds of arc</a>
+   *            <a href="https://en.wikipedia.org/wiki/Minute_of_arc#Cartography">seconds of arc</a>
    * @param direction
-   *            E for east of the <a href="http://en.wikipedia.org/wiki/Prime_Meridian">Prime Meridian </a> or W for west of it.
+   *            E for east of the <a href="https://en.wikipedia.org/wiki/Prime_Meridian">Prime Meridian </a> or W for west of it.
    *            An IllegalArgumentException will be thrown if
    *            the value is not E or W.
    */
@@ -338,15 +338,15 @@ export class GeoLocation {
 
   /**
    * A method that will return the location's local mean time offset in milliseconds from local <a
-   * href="http://en.wikipedia.org/wiki/Standard_time">standard time</a>. The globe is split into 360&deg;, with
+   * href="https://en.wikipedia.org/wiki/Standard_time">standard time</a>. The globe is split into 360&deg;, with
    * 15&deg; per hour of the day. For a local that is at a longitude that is evenly divisible by 15 (longitude % 15 ==
    * 0), at solar {@link AstronomicalCalendar#getSunTransit() noon} (with adjustment for the <a
-   * href="http://en.wikipedia.org/wiki/Equation_of_time">equation of time</a>) the sun should be directly overhead,
+   * href="https://en.wikipedia.org/wiki/Equation_of_time">equation of time</a>) the sun should be directly overhead,
    * so a user who is 1&deg; west of this will have noon at 4 minutes after standard time noon, and conversely, a user
    * who is 1&deg; east of the 15&deg; longitude will have noon at 11:56 AM. Lakewood, N.J., whose longitude is
    * -74.2094, is 0.7906 away from the closest multiple of 15 at -75&deg;. This is multiplied by 4 to yield 3 minutes
    * and 10 seconds earlier than standard time. The offset returned does not account for the <a
-   * href="http://en.wikipedia.org/wiki/Daylight_saving_time">Daylight saving time</a> offset since this class is
+   * href="https://en.wikipedia.org/wiki/Daylight_saving_time">Daylight saving time</a> offset since this class is
    * unaware of dates.
    *
    * @return the offset in milliseconds not accounting for Daylight saving time. A positive value will be returned
@@ -393,9 +393,9 @@ export class GeoLocation {
   }
 
   /**
-   * Calculate the initial <a href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> bearing between this
+   * Calculate the initial <a href="https://en.wikipedia.org/wiki/Great_circle">geodesic</a> bearing between this
    * Object and a second Object passed to this method using <a
-   * href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
+   * href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
    * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
    * with application of nested equations</a>", Survey Review, vol XXII no 176, 1975
    *
@@ -408,8 +408,8 @@ export class GeoLocation {
   }
 
   /**
-   * Calculate the final <a href="http://en.wikipedia.org/wiki/Great_circle">geodesic</a> bearing between this Object
-   * and a second Object passed to this method using <a href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus
+   * Calculate the final <a href="https://en.wikipedia.org/wiki/Great_circle">geodesic</a> bearing between this Object
+   * and a second Object passed to this method using <a href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus
    * Vincenty's</a> inverse formula See T Vincenty, "<a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and
    * Inverse Solutions of Geodesics on the Ellipsoid with application of nested equations</a>", Survey Review, vol
    * XXII no 176, 1975
@@ -423,9 +423,9 @@ export class GeoLocation {
   }
 
   /**
-   * Calculate <a href="http://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> in Meters between
+   * Calculate <a href="https://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> in Meters between
    * this Object and a second Object passed to this method using <a
-   * href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
+   * href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
    * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
    * with application of nested equations</a>", Survey Review, vol XXII no 176, 1975
    *
@@ -439,9 +439,9 @@ export class GeoLocation {
   }
 
   /**
-   * Calculate <a href="http://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> in Meters between
+   * Calculate <a href="https://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> in Meters between
    * this Object and a second Object passed to this method using <a
-   * href="http://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
+   * href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
    * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
    * with application of nested equations</a>", Survey Review, vol XXII no 176, 1975
    *
@@ -521,7 +521,7 @@ export class GeoLocation {
   }
 
   /**
-   * Returns the <a href="http://en.wikipedia.org/wiki/Rhumb_line">rhumb line</a> bearing from the current location to
+   * Returns the <a href="https://en.wikipedia.org/wiki/Rhumb_line">rhumb line</a> bearing from the current location to
    * the GeoLocation passed in.
    *
    * @param location
@@ -537,7 +537,7 @@ export class GeoLocation {
   }
 
   /**
-   * Returns the <a href="http://en.wikipedia.org/wiki/Rhumb_line">rhumb line</a> distance from the current location
+   * Returns the <a href="https://en.wikipedia.org/wiki/Rhumb_line">rhumb line</a> distance from the current location
    * to the GeoLocation passed in.
    *
    * @param location
@@ -622,7 +622,7 @@ export class GeoLocation {
 
   /**
    * An implementation of the {@link java.lang.Object#clone()} method that creates a <a
-   * href="http://en.wikipedia.org/wiki/Object_copy#Deep_copy">deep copy</a> of the object.
+   * href="https://en.wikipedia.org/wiki/Object_copy#Deep_copy">deep copy</a> of the object.
    * <b>Note:</b> If the {@link java.util.TimeZone} in the clone will be changed from the original, it is critical
    * that {@link AstronomicalCalendar#getCalendar()}.
    * {@link java.util.Calendar#setTimeZone(TimeZone) setTimeZone(TimeZone)} is called after cloning in order for the
