@@ -638,6 +638,50 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   }
 
   /**
+   * Method to return a <em>shaah zmanis</em> (temporal hour) used by some <em>zmanim</em> according to the opinion of
+   * <a href="https://en.wikipedia.org/wiki/Yaakov_Moshe_Hillel">Rabbi Yaakov Moshe Hillel</a> as published in the
+   * <em>luach</em> of the Bais Horaah of Yeshivat Chevrat Ahavat Shalom that is based on a day starting 72 minutes before
+   * sunrise in degrees {@link #getAlos16Point1Degrees() <em>alos</em> 16.1&deg;} and ending 14 minutes after sunset in
+   * degrees {@link #getTzaisGeonim3Point8Degrees() <em>tzais</em> 3.8&deg;}. This day is split into 12 equal parts with
+   * each part being a <em>shaah zmanis</em>. Note that with this system, <em>chatzos</em> (mid-day) will not be the point
+   * that the sun is {@link #getSunTransit() halfway across the sky}. These <em>shaos zmaniyos</em> are used for <em>Mincha
+   * Ketana</em> and <em>Plag Hamincha</em>. The 14 minutes are based on 3/4 of an 18 minute <em>mil</em>, with half a minute
+   * added for Rav Yosi.
+   *
+   * @return the <code>long</code> millisecond length of a <em>shaah zmanis</em>. If the calculation can't be computed
+   *         such as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one
+   *         where it does not set, a {@link Long#MIN_VALUE} will be returned. See detailed explanation on top of the
+   *         {@link AstronomicalCalendar} documentation.
+   *
+   * @see #getMinchaKetanaAhavatShalom()
+   * @see #getPlagAhavatShalom()
+   */
+  public getShaahZmanisAlos16Point1ToTzais3Point8(): number {
+    return this.getTemporalHour(this.getAlos16Point1Degrees(), this.getTzaisGeonim3Point8Degrees());
+  }
+
+  /**
+   * Method to return a <em>shaah zmanis</em> (temporal hour) used by some <em>zmanim</em> according to the opinion of
+   * <a href="https://en.wikipedia.org/wiki/Yaakov_Moshe_Hillel">Rabbi Yaakov Moshe Hillel</a> as published in the
+   * <em>luach</em> of the Bais Horaah of Yeshivat Chevrat Ahavat Shalom that is based on a day starting 72 minutes before
+   * sunrise in degrees {@link #getAlos16Point1Degrees() <em>alos</em> 16.1&deg;} and ending 13.5 minutes after sunset in
+   * degrees {@link #getTzaisGeonim3Point7Degrees() <em>tzais</em> 3.7&deg;}. This day is split into 12 equal parts with
+   * each part being a <em>shaah zmanis</em>. Note that with this system, <em>chatzos</em> (mid-day) will not be the point
+   * that the sun is {@link #getSunTransit() halfway across the sky}. These <em>shaos zmaniyos</em> are used for <em>Mincha
+   * Gedola</em> calculation.
+   *
+   * @return the <code>long</code> millisecond length of a <em>shaah zmanis</em>. If the calculation can't be computed
+   *         such as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one
+   *         where it does not set, a {@link Long#MIN_VALUE} will be returned. See detailed explanation on top of the
+   *         {@link AstronomicalCalendar} documentation.
+   *
+   * @see #getMinchaGedolaAhavatShalom()
+   */
+  public getShaahZmanisAlos16Point1ToTzais3Point7(): number {
+    return this.getTemporalHour(this.getAlos16Point1Degrees(), this.getTzaisGeonim3Point7Degrees());
+  }
+
+  /**
    * Method to return a <em>shaah zmanis</em> (temporal hour) calculated using a dip of 96 minutes. This calculation
    * divides the day based on the opinion of the <a href="https://en.wikipedia.org/wiki/Avraham_Gombinern">Magen
    * Avraham (MGA)</a> that the day runs from dawn to dusk. Dawn for this calculation is 96 minutes before sunrise
@@ -1734,6 +1778,35 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   }
 
   /**
+   * This method returns the time of <em>mincha gedola</em> based on the opinion of <a href=
+   * "https://en.wikipedia.org/wiki/Yaakov_Moshe_Hillel">Rabbi Yaakov Moshe Hillel</a> as published in the <em>luach</em>
+   * of the Bais Horaah of Yeshivat Chevrat Ahavat Shalom that <em>mincha gedola</em> is calculated as half a <em>shaah
+   * zmanis</em> after <em>chatzos</em> with <em>shaos zmaniyos</em> calculated based on a day starting 72 minutes befoe sunrise
+   * {@link #getAlos16Point1Degrees() <em>alos</em> 16.1&deg;} and ending 13.5 minutes after sunset {@link
+   * #getTzaisGeonim3Point7Degrees() <em>tzais</em> 3.7&deg;}. <em>Mincha gedola</em> is the earliest time to pray <em>mincha</em>.
+   * The later of this time or 30 clock minutes after <em>chatzos</em> is returned. See {@link #getMinchaGedolaGreaterThan30()}
+   * (though that calculation is based on <em>mincha gedola</em> GRA).
+   * For more information about <em>mincha gedola</em> see the documentation on {@link #getMinchaGedola() <em>mincha gedola</em>}.
+   *
+   * @return the <code>Date</code> of the <em>mincha gedola</em>. If the calculation can't be computed such as northern and
+   *         southern locations even south of the Arctic Circle and north of the Antarctic Circle where the sun may not
+   *         reach low enough below the horizon for this calculation, a null will be returned. See detailed explanation
+   *         on top of the {@link AstronomicalCalendar} documentation.
+   *
+   * @see #getAlos16Point1Degrees()
+   * @see #getTzaisGeonim3Point7Degrees()
+   * @see #getShaahZmanisAlos16Point1ToTzais3Point7()
+   * @see #getMinchaGedolaGreaterThan30()
+   */
+  public getMinchaGedolaAhavatShalom(): DateTime | null {
+    if (this.getMinchaGedola30Minutes() === null || this.getMinchaGedola() === null) return null;
+
+    return this.getMinchaGedola30Minutes()! > ComplexZmanimCalendar.getTimeOffset(this.getChatzos(), this.getShaahZmanisAlos16Point1ToTzais3Point7() / 2)!
+        ? this.getMinchaGedola30Minutes()
+        : ComplexZmanimCalendar.getTimeOffset(this.getChatzos(), this.getShaahZmanisAlos16Point1ToTzais3Point7() / 2);
+  }
+
+  /**
    * This is a convenience method that returns the later of {@link #getMinchaGedola()} and
    * {@link #getMinchaGedola30Minutes()}. In the winter when 1/2 of a {@link #getShaahZmanisGra() <em>shaah zmanis</em>} is
    * less than 30 minutes {@link #getMinchaGedola30Minutes()} will be returned, otherwise {@link #getMinchaGedola()}
@@ -1770,6 +1843,29 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    */
   public getMinchaKetana16Point1Degrees(): DateTime | null {
     return this.getMinchaKetana(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees());
+  }
+
+  /**
+   * This method returns the time of <em>mincha ketana</em> based on the opinion of <a href=
+   * "https://en.wikipedia.org/wiki/Yaakov_Moshe_Hillel">Rabbi Yaakov Moshe Hillel</a> as published in the <em>luach</em>
+   * of the Bais Horaah of Yeshivat Chevrat Ahavat Shalom that <em>mincha ketana</em> is calculated as 2.5 <em>shaos
+   * zmaniyos</em> before {@link #getTzaisGeonim3Point8Degrees() <em>tzais</em> 3.8&deg;} with <em>shaos zmaniyos</em>
+   * calculated based on a day starting at {@link #getAlos16Point1Degrees() <em>alos</em> 16.1&deg;} and ending at
+   * <em>tzais</em> 3.8&deg;. <em>Mincha ketana</em> is the preferred earliest time to pray <em>mincha</em> according to
+   * the opinion of the <a href="https://en.wikipedia.org/wiki/Maimonides">Rambam</a> and others. For more information
+   * on this see the documentation on {@link #getMinchaKetana() <em>mincha ketana</em>}.
+   *
+   * @return the the <code>Date</code> of the time of <em>mincha ketana</em>. If the calculation can't be computed such as northern
+   *         and southern locations even south of the Arctic Circle and north of the Antarctic Circle where the sun may not
+   *         reach low enough below the horizon for this calculation, a null will be returned. See detailed explanation
+   *         on top of the {@link AstronomicalCalendar} documentation.
+   *
+   * @see #getShaahZmanisAlos16Point1ToTzais3Point8()
+   * @see #getMinchaGedolaAhavatShalom()
+   * @see #getPlagAhavatShalom()
+   */
+  public getMinchaKetanaAhavatShalom(): DateTime | null {
+    return ComplexZmanimCalendar.getTimeOffset(this.getTzaisGeonim3Point8Degrees(), -this.getShaahZmanisAlos16Point1ToTzais3Point8() * 2.5);
   }
 
   /**
@@ -2071,6 +2167,27 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    */
   public getPlagAlos16Point1ToTzaisGeonim7Point083Degrees(): DateTime | null {
     return this.getPlagHamincha(this.getAlos16Point1Degrees(), this.getTzaisGeonim7Point083Degrees());
+  }
+
+  /**
+   * This method returns the time of <em>plag hamincha</em> (the earliest time that Shabbos can be started) based on the
+   * opinion of <a href="https://en.wikipedia.org/wiki/Yaakov_Moshe_Hillel">Rabbi Yaakov Moshe Hillel</a> as published in
+   * the <em>luach</em> of the Bais Horaah of Yeshivat Chevrat Ahavat Shalom that that <em>plag hamincha</em> is calculated
+   * as 1.25 <em>shaos zmaniyos</em> before {@link #getTzaisGeonim3Point8Degrees() <em>tzais</em> 3.8&deg;} with <em>shaos
+   * zmaniyos</em> calculated based on a day starting at {@link #getAlos16Point1Degrees() <em>alos</em> 16.1&deg;} and
+   * ending at <em>tzais</em> 3.8&deg;.
+   *
+   * @return the <code>Date</code> of the <em>plag</em>. If the calculation can't be computed such as northern and
+   *         southern locations even south of the Arctic Circle and north of the Antarctic Circle where the sun may not
+   *         reach low enough below the horizon for this calculation, a null will be returned. See detailed explanation
+   *         on top of the {@link AstronomicalCalendar} documentation.
+   *
+   * @see #getShaahZmanisAlos16Point1ToTzais3Point8()
+   * @see #getMinchaGedolaAhavatShalom()
+   * @see #getMinchaKetanaAhavatShalom()
+   */
+  public getPlagAhavatShalom(): DateTime | null {
+    return ComplexZmanimCalendar.getTimeOffset(this.getTzaisGeonim3Point8Degrees(), -this.getShaahZmanisAlos16Point1ToTzais3Point8() * 1.25);
   }
 
   /**
