@@ -197,7 +197,7 @@ export class JewishCalendar extends JewishDate {
   public static readonly YOM_KIPPUR_KATAN: number = 36;
 
   /**
-   * The Monday, Thursday and Monday after the first <em>Shabbos</em> after <em>Rosh Chodesh Cheshvan</em> and <em>Iyar</em>em>) are BeHab
+   * The Monday, Thursday and Monday after the first <em>Shabbos</em> after <em>Rosh Chodesh Cheshvan</em> and <em>Iyar</em> are BeHab
    * days. This constant is not actively in use.
    * @see #isBeHaB()
    */
@@ -542,6 +542,28 @@ export class JewishCalendar extends JewishDate {
 
     // keep the compiler happy
     return Parsha.NONE;
+  }
+
+  /**
+   * Returns the upcoming {@link Parsha <em>Parsha</em>} regardless of if it is the weekday or <em>Shabbos</em> (where next
+   * Shabbos's <em>Parsha</em> will be returned. This is unlike {@link #getParsha()} that returns {@link Parsha#NONE} if
+   * the date is not <em>Shabbos</em>. If the upcoming Shabbos is a <em>Yom Tov</em> and has no <em>Parsha</em>, the
+   * following week's <em>Parsha</em> will be returned.
+   *
+   * @return the upcoming <em>parsha</em>.
+   */
+  public getUpcomingParsha(): Parsha {
+    const clone: JewishCalendar = this.clone() as JewishCalendar;
+    const daysToShabbos: number = (Calendar.SATURDAY - this.getDayOfWeek() + 7) % 7;
+    if (this.getDayOfWeek() !== Calendar.SATURDAY) {
+      clone.forward(Calendar.DATE, daysToShabbos);
+    } else {
+      clone.forward(Calendar.DATE, 7);
+    }
+    while (clone.getParsha() === Parsha.NONE) { // Yom Kippur / Sukkos or Pesach with 2 potential non-parsha Shabbosim in a row
+      clone.forward(Calendar.DATE, 7);
+    }
+    return clone.getParsha();
   }
 
   /**
