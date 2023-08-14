@@ -201,6 +201,25 @@ export class Daf {
   }
 
   /**
+   * Getter method to allow retrieving the list of Yerushalmi masechtos transliterated into Latin chars.
+   * The default uses Ashkenazi American English transliteration.
+   *
+   * @return the array of transliterated masechta (tractate) names of the Daf Yomi Yerushalmi.
+   */
+  public static getYerushlmiMasechtosTransliterated(): string[] {
+    return Daf.masechtosYerushalmiTransliterated;
+  }
+
+  /**
+   * Getter method to allow retrieving the list of Yerushalmi masechtos.
+   *
+   * @return the array of Hebrew masechta (tractate) names of the Daf Yomi Yerushalmi.
+   */
+  public static getYerushlmiMasechtos(): string[] {
+    return Daf.masechtosYerushlmi;
+  }
+
+  /**
    * Returns the Yerushlmi masechta (tractate) of the Daf Yomi in Hebrew, It will return
    * &#x05D1;&#x05E8;&#x05DB;&#x05D5;&#x05EA; for Berachos.
    *
