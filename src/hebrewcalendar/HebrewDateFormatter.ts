@@ -67,7 +67,7 @@ export class HebrewDateFormatter {
    * Vayikra, Tzav, Shmini, Tazria, Metzora, Achrei Mos, Kedoshim, Emor, Behar, Bechukosai, Bamidbar, Nasso, Beha'aloscha,
    * Sh'lach, Korach, Chukas, Balak, Pinchas, Matos, Masei, Devarim, Vaeschanan, Eikev, Re'eh, Shoftim, Ki Seitzei, Ki Savo,
    * Nitzavim, Vayeilech, Ha'Azinu, Vezos Habracha, Vayakhel Pekudei, Tazria Metzora, Achrei Mos Kedoshim, Behar Bechukosai,
-   * Chukas Balak, Matos Masei, Nitzavim Vayeilech, Shekalim, Zachor, Parah, Hachodesh</em>".
+   * Chukas Balak, Matos Masei, Nitzavim Vayeilech, Shekalim, Zachor, Parah, Hachodesh,Shuva, Shira, Hagadol, Chazon, Nachamu</em>".
    *
    * @see #formatParsha(JewishCalendar)
    */
@@ -138,6 +138,11 @@ export class HebrewDateFormatter {
     [Parsha.ZACHOR]: 'Zachor',
     [Parsha.PARA]: 'Parah',
     [Parsha.HACHODESH]: 'Hachodesh',
+    [Parsha.SHUVA]: 'Shuva',
+    [Parsha.SHIRA]: 'Shira',
+    [Parsha.HAGADOL]: 'Hagadol',
+    [Parsha.CHAZON]: 'Chazon',
+    [Parsha.NACHAMU]: 'Nachamu',
   };
 
   /**
@@ -165,7 +170,9 @@ export class HebrewDateFormatter {
    *  &#x05E7;&#x05D3;&#x05D5;&#x05E9;&#x05D9;&#x05DD;, &#x05D1;&#x05D4;&#x05E8; &#x05D1;&#x05D7;&#x05E7;&#x05EA;&#x05D9;,
    *  &#x05D7;&#x05D5;&#x05E7;&#x05EA; &#x05D1;&#x05DC;&#x05E7;, &#x05DE;&#x05D8;&#x05D5;&#x05EA; &#x05DE;&#x05E1;&#x05E2;&#x05D9;,
    *  &#x05E0;&#x05E6;&#x05D1;&#x05D9;&#x05DD; &#x05D5;&#x05D9;&#x05DC;&#x05DA;, &#x05E9;&#x05E7;&#x05DC;&#x05D9;&#x05DD;,
-   *  &#x05D6;&#x05DB;&#x05D5;&#x05E8;, &#x05E4;&#x05E8;&#x05D4;, &#x05D4;&#x05D7;&#x05D3;&#x05E9;"</code>
+   *  &#x05D6;&#x05DB;&#x05D5;&#x05E8;, &#x05E4;&#x05E8;&#x05D4;, &#x05D4;&#x05D7;&#x05D3;&#x05E9;,
+   *  &#x05E9;&#x05D5;&#x05D1;&#x05D4;,&#x05E9;&#x05D9;&#x05E8;&#x05D4;,&#x05D4;&#x05D2;&#x05D3;&#x05D5;&#x05DC;,
+   *  &#x05D7;&#x05D6;&#x05D5;&#x05DF;,&#x05E0;&#x05D7;&#x05DE;&#x05D5;"</code>
    */
   private readonly hebrewParshaMap: Record<Parsha, string> = {
     [Parsha.NONE]: '',
@@ -234,6 +241,11 @@ export class HebrewDateFormatter {
     [Parsha.ZACHOR]: '\u05D6\u05DB\u05D5\u05E8',
     [Parsha.PARA]: '\u05E4\u05E8\u05D4',
     [Parsha.HACHODESH]: '\u05D4\u05D7\u05D3\u05E9',
+    [Parsha.SHUVA]: '\u05E9\u05D5\u05D1\u05D4',
+    [Parsha.SHIRA]: '\u05E9\u05D9\u05E8\u05D4',
+    [Parsha.HAGADOL]: '\u05D4\u05D2\u05D3\u05D5\u05DC',
+    [Parsha.CHAZON]: '\u05D7\u05D6\u05D5\u05DF',
+    [Parsha.NACHAMU]: '\u05E0\u05D7\u05DE\u05D5',
   };
 
   /**

@@ -9,9 +9,12 @@ import { UnsupportedError } from '../polyfills/errors';
 const { MONDAY, TUESDAY, THURSDAY, FRIDAY, SATURDAY } = Calendar;
 
 /**
- * List of <em>parshiyos</em>. {@link #NONE} indicates a week without a <em>parsha</em>, while the enum for the <em>parsha</em> of
- * {@link #VZOS_HABERACHA} exists for consistency, but is not currently used.
- *
+ * List of <em>parshiyos</em> or special <em>Shabasos</em>. {@link #NONE} indicates a week without a <em>parsha</em>, while the enum for
+ * the <em>parsha</em> of {@link #VZOS_HABERACHA} exists for consistency, but is not currently used. The special <em>Shabasos</em> of
+ * Shekalim, Zachor, Para, Hachodesh, as well as Shabbos Shuva, Shira, Hagadol, Chazon and Nachamu are also represented in this collection
+ * of <em>parshiyos</em>.
+ * @see #getSpecialShabbos()
+ * @see #getParsha()
  */
 export enum Parsha {
   /** NONE - A week without any <em>parsha</em> such as <em>Shabbos Chol Hamoed</em> */
@@ -46,6 +49,16 @@ export enum Parsha {
   PARA,
   /** The special <em>parsha</em> of Hachodesh */
   HACHODESH,
+  /** <em>Shabbos</em> Shuva */
+  SHUVA,
+  /** <em>Shabbos</em> Shira */
+  SHIRA,
+  /** <em>Shabbos</em> Hagadol */
+  HAGADOL,
+  /** <em>Shabbos</em> Chazon */
+  CHAZON,
+  /** <em>Shabbos</em> Nachamu */
+  NACHAMU,
 }
 
 /**
@@ -628,10 +641,37 @@ export class JewishCalendar extends JewishDate {
         }
       }
 
-      if (this.getJewishMonth() === JewishCalendar.NISSAN && this.getJewishDayOfMonth() === 1) {
-        return Parsha.HACHODESH;
+      if (this.getJewishMonth() === JewishCalendar.NISSAN) {
+        if (this.getJewishDayOfMonth() === 1) {
+          return Parsha.HACHODESH;
+        }
+
+        if (this.getJewishDayOfMonth() >= 8 && this.getJewishDayOfMonth() <= 14) {
+          return Parsha.HAGADOL;
+        }
+      }
+
+      if (this.getJewishMonth() === JewishCalendar.AV) {
+        if (this.getJewishDayOfMonth() >= 4 && this.getJewishDayOfMonth() <= 9) {
+          return Parsha.CHAZON;
+        }
+
+        if (this.getJewishDayOfMonth() >= 10 && this.getJewishDayOfMonth() <= 16) {
+          return Parsha.NACHAMU;
+        }
+      }
+
+      if (this.getJewishMonth() === JewishCalendar.TISHREI) {
+        if (this.getJewishDayOfMonth() >= 3 && this.getJewishDayOfMonth() <= 8) {
+          return Parsha.SHUVA;
+        }
+      }
+
+      if (this.getParsha() === Parsha.BESHALACH) {
+        return Parsha.SHIRA;
       }
     }
+
     return Parsha.NONE;
   }
 
