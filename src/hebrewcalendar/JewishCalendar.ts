@@ -844,8 +844,9 @@ export class JewishCalendar extends JewishDate {
     const holidayIndex: number = this.getYomTovIndex();
 
     if ((this.isErevYomTov() && (holidayIndex !== JewishCalendar.HOSHANA_RABBA
-      && (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() !== 20)))
-      || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR) || holidayIndex === JewishCalendar.ISRU_CHAG) {
+            || (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() !== 20)))
+        || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR)
+        || holidayIndex === JewishCalendar.ISRU_CHAG) {
       return false;
     }
 
