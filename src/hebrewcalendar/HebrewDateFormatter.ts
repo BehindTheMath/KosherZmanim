@@ -866,13 +866,14 @@ export class HebrewDateFormatter {
    * @param daf the Daf to be formatted.
    * @return the formatted daf.
    */
-  public formatDafYomiYerushalmi(daf: Daf): string {
-    if (this.hebrewFormat) {
-      const dafName: string = daf.getDaf() === 0 ? '' : ` ${this.formatHebrewNumber(daf.getDaf())}`;
-      return daf.getYerushalmiMasechta() + dafName;
+  public formatDafYomiYerushalmi(daf: Daf | null): string {
+    if (daf === null) {
+      return this.hebrewFormat ? Daf.getYerushlmiMasechtos()[39] : Daf.getYerushlmiMasechtosTransliterated()[39];
     }
-    const dafName: string = daf.getDaf() === 0 ? '' : ` ${daf.getDaf()}`;
-    return daf.getYerushlmiMasechtaTransliterated() + dafName;
+
+    return this.hebrewFormat
+        ? `${daf.getYerushalmiMasechta()} ${this.formatHebrewNumber(daf.getDaf())}`
+        : `${daf.getYerushlmiMasechtaTransliterated()} ${daf.getDaf()}`;
   }
 
   /**
