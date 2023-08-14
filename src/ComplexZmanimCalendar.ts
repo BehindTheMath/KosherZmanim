@@ -3749,9 +3749,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   public getSolarMidnight(): DateTime | null {
     const clonedCal: ZmanimCalendar = this.clone() as ZmanimCalendar;
     clonedCal.setDate(clonedCal.getDate().plus({ days: 1 }));
-    const sunset: DateTime | null = this.getSeaLevelSunset();
-    const sunrise: DateTime | null = clonedCal.getSeaLevelSunrise();
-    return ComplexZmanimCalendar.getTimeOffset(sunset, this.getTemporalHour(sunset, sunrise) * 6);
+    // The `!` assertion is here because a falsey case will be handled by `ComplexZmanimCalendar.getTimeOffset()`.
+    return ComplexZmanimCalendar.getTimeOffset(this.getChatzos(), (clonedCal.getChatzos()?.valueOf()! - this.getChatzos()?.valueOf()!) / 2);
   }
 
   /**
