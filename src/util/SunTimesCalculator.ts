@@ -6,16 +6,15 @@ import { MathUtils } from '../polyfills/Utils';
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times. This calculator uses the Java algorithm
- * written by <a href="http://web.archive.org/web/20090531215353/http://www.kevinboone.com/suntimes.html">Kevin
- * Boone</a> that is based on the <a href = "http://aa.usno.navy.mil/">US Naval Observatory's</a><a
- * href="http://aa.usno.navy.mil/publications/docs/asa.php">Almanac</a> for Computer algorithm ( <a
- * href="http://www.amazon.com/exec/obidos/tg/detail/-/0160515106/">Amazon</a>, <a
- * href="http://search.barnesandnoble.com/booksearch/isbnInquiry.asp?isbn=0160515106">Barnes &amp; Noble</a>) and is
- * used with his permission. Added to Kevin's code is adjustment of the zenith to account for elevation.
+ * written by <a href="htts://web.archive.org/web/20090531215353/http://www.kevinboone.com/suntimes.html">Kevin
+ * Boone</a> that is based on the <a href = "https://aa.usno.navy.mil/">US Naval Observatory's</a><a
+ * href="https://aa.usno.navy.mil/publications/asa">Astronomical Almanac</a> and used with his permission. Added to Kevin's
+ * code is adjustment of the zenith to account for elevation. This algorithm returns the same time every year and does not
+ * account for leap years. It is not as accurate as the Jean Meeus based {@link NOAACalculator} that is the default calculator
+ * use by the KosherJava <em>zmanim</em> library.
  *
- * @author &copy; Eliyahu Hershfeld 2004 - 2019
+ * @author &copy; Eliyahu Hershfeld 2004 - 2023
  * @author &copy; Kevin Boone 2000
- * @version 1.1
  */
 export class SunTimesCalculator extends AstronomicalCalculator {
   /**
@@ -246,5 +245,27 @@ export class SunTimesCalculator extends AstronomicalCalculator {
       processedTime -= 24;
     }
     return processedTime;
+  }
+
+  /**
+   * Return the <a href="https://en.wikipedia.org/wiki/Universal_Coordinated_Time">Universal Coordinated Time</a> (UTC)
+   * of <a href="https://en.wikipedia.org/wiki/Noon#Solar_noon">solar noon</a> for the given day at the given location
+   * on earth. This implementation returns solar noon as the time halfway between sunrise and sunset.
+   * Other calculators may return true solar noon. See <a href=
+   * "https://kosherjava.com/2020/07/02/definition-of-chatzos/">The Definition of Chatzos</a> for details on solar
+   * noon calculations.
+   * @see com.kosherjava.zmanim.util.AstronomicalCalculator#getUTCNoon(Calendar, GeoLocation)
+   * @see NOAACalculator
+   *
+   * @param date
+   *            The Calendar representing the date to calculate solar noon for
+   * @param geoLocation
+   *            The location information used for astronomical calculating sun times.
+   * @return the time in minutes from zero UTC
+   */
+  public getUTCNoon(date: DateTime, geoLocation: GeoLocation): number {
+    const sunrise: number = this.getUTCSunrise(date, geoLocation, 90, true);
+    const sunset: number = this.getUTCSunset(date, geoLocation, 90, true);
+    return (sunrise + ((sunset - sunrise) / 2));
   }
 }

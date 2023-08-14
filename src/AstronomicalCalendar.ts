@@ -471,26 +471,34 @@ export class AstronomicalCalendar {
   */
 
   /**
-   * A method that returns sundial or solar noon. It occurs when the Sun is <a href
-   * ="https://en.wikipedia.org/wiki/Transit_%28astronomy%29">transiting</a> the <a
-   * href="https://en.wikipedia.org/wiki/Meridian_%28astronomy%29">celestial meridian</a>. In this class it is
-   * calculated as halfway between the sunrise and sunset passed to this method. This time can be slightly off the
-   * real transit time due to changes in declination (the lengthening or shortening day).
-   *
-   * @param startOfDay
-   *            the start of day for calculating the sun's transit. This can be sea level sunrise, visual sunrise (or
-   *            any arbitrary start of day) passed to this method.
-   * @param endOfDay
-   *            the end of day for calculating the sun's transit. This can be sea level sunset, visual sunset (or any
-   *            arbitrary end of day) passed to this method.
+   * A method that returns sundial or solar noon. It occurs when the Sun is <a href=
+   * "https://en.wikipedia.org/wiki/Transit_%28astronomy%29">transiting</a> the <a
+   * href="https://en.wikipedia.org/wiki/Meridian_%28astronomy%29">celestial meridian</a>. The calculations used by
+   * this class depend on the {@link AstronomicalCalculator} used. If this calendar instance is {@link
+   * #setAstronomicalCalculator(AstronomicalCalculator) set} to use the {@link com.kosherjava.zmanim.util.NOAACalculator}
+   * (the default) it will calculate astronomical noon. If the calendar instance is  to use the
+   * {@link com.kosherjava.zmanim.util.SunTimesCalculator}, that does not have code to calculate astronomical noon, the
+   * sun transit is calculated as halfway between sea level sunrise and sea level sunset, which can be slightly off the
+   * real transit time due to changes in declination (the lengthening or shortening day). See <a href=
+   * "https://kosherjava.com/2020/07/02/definition-of-chatzos/">The Definition of Chatzos</a> for details on the proper
+   * definition of solar noon / midday.
    *
    * @return the <code>Date</code> representing Sun's transit. If the calculation can't be computed such as in the
    *         Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
    *         not set, null will be returned. See detailed explanation on top of the page.
+   * @see #getSunTransit(Date, Date)
+   * @see #getTemporalHour()
    */
-  public getSunTransit(startOfDay: DateTime | null = this.getSeaLevelSunrise(), endOfDay: DateTime | null = this.getSeaLevelSunset()): DateTime | null {
+  public getSunTransit(): DateTime | null;
+  public getSunTransit(startOfDay: DateTime | null, endOfDay: DateTime | null): DateTime | null;
+  public getSunTransit(startOfDay?: DateTime | null, endOfDay?: DateTime | null): DateTime | null {
+    if (startOfDay === undefined && endOfDay === undefined) {
+      const noon = this.getAstronomicalCalculator().getUTCNoon(this.getAdjustedDate(), this.getGeoLocation());
+      return this.getDateFromTime(noon, false);
+    }
+
     const temporalHour: number = this.getTemporalHour(startOfDay, endOfDay);
-    return AstronomicalCalendar.getTimeOffset(startOfDay, temporalHour * 6);
+    return AstronomicalCalendar.getTimeOffset(startOfDay as DateTime | null, temporalHour * 6);
   }
 
   /**
@@ -693,10 +701,10 @@ export class AstronomicalCalendar {
   /**
    * A method to set the {@link AstronomicalCalculator} used for astronomical calculations. The Zmanim package ships
    * with a number of different implementations of the <code>abstract</code> {@link AstronomicalCalculator} based on
-   * different algorithms, including {@link SunTimesCalculator one implementation} based
-   * on the <a href = "http://aa.usno.navy.mil/">US Naval Observatory's</a> algorithm, and
-   * {@link NOAACalculator another} based on <a href="https://noaa.gov">NOAA's</a>
-   * algorithm. This allows easy runtime switching and comparison of different algorithms.
+   * different algorithms, including the default {@link com.kosherjava.zmanim.util.NOAACalculator} based on <a href=
+   * "https://noaa.gov">NOAA's</a> implementation of Jean Meeus's algorithms as well as {@link
+   * com.kosherjava.zmanim.util.SunTimesCalculator} based on the <a href = "https://www.cnmoc.usff.navy.mil/usno/">US
+   * Naval Observatory's</a> algorithm. This allows easy runtime switching and comparison of different algorithms.
    *
    * @param astronomicalCalculator
    *            The astronomicalCalculator to set.

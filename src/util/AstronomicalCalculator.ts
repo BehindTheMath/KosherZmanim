@@ -137,6 +137,21 @@ export abstract class AstronomicalCalculator {
   public abstract getUTCSunset(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number;
 
   /**
+   * Return <a href="https://en.wikipedia.org/wiki/Noon#Solar_noon">solar noon</a> (UTC) for the given day at the
+   * given location on earth. The {@link com.kosherjava.zmanim.util.NOAACalculator} implementation calculates
+   * true solar noon, while the {@link com.kosherjava.zmanim.util.SunTimesCalculator} approximates it, calculating
+   * the time as halfway between sunrise and sunset.
+   *
+   * @param date
+   *            Used to calculate day of year.
+   * @param geoLocation
+   *            The location information used for astronomical calculating sun times.
+   *
+   * @return the time in minutes from zero UTC
+   */
+  public abstract getUTCNoon(date: DateTime, geoLocation: GeoLocation): number;
+
+  /**
    * Method to return the adjustment to the zenith required to account for the elevation. Since a person at a higher
    * elevation can see farther below the horizon, the calculation for sunrise / sunset is calculated below the horizon
    * used at sea level. This is only used for sunrise and sunset and not times before or after it such as
