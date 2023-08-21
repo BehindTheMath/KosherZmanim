@@ -1,11 +1,12 @@
 import { Big } from 'big.js';
 import { DateTime } from 'luxon';
 
-import { Long_MIN_VALUE } from './polyfills/Utils';
+import { Long_MIN_VALUE, TimeZone } from './polyfills/Utils';
 import { GeoLocation } from './util/GeoLocation';
 import { AstronomicalCalculator } from './util/AstronomicalCalculator';
 import { NOAACalculator } from './util/NOAACalculator';
-import { UnsupportedError } from './polyfills/errors';
+import { IllegalArgumentException, UnsupportedError } from './polyfills/errors';
+import getRawOffset = TimeZone.getRawOffset;
 
 /**
  * A Java calendar that calculates astronomical times such as {@link #getSunrise() sunrise} and {@link #getSunset()
@@ -69,10 +70,10 @@ export class AstronomicalCalendar {
   public static readonly ASTRONOMICAL_ZENITH: number = 108;
 
   /** constant for milliseconds in a minute (60,000) */
-  protected static readonly MINUTE_MILLIS: number = 60 * 1000;
+  public static readonly MINUTE_MILLIS: number = 60 * 1000;
 
   /** constant for milliseconds in an hour (3,600,000) */
-  protected static readonly HOUR_MILLIS: number = AstronomicalCalendar.MINUTE_MILLIS * 60;
+  public static readonly HOUR_MILLIS: number = AstronomicalCalendar.MINUTE_MILLIS * 60;
 
   /**
    * The Java Calendar encapsulated by this class to track the current date used by the class
@@ -611,6 +612,32 @@ export class AstronomicalCalendar {
     }
 
     return degrees.toNumber();
+  }
+
+  /**
+   * A method that returns <a href="https://en.wikipedia.org/wiki/Local_mean_time">local mean time (LMT)</a> time
+   * converted to regular clock time for the number of hours (0.0 to 23.999...) passed to this method. This time is
+   * adjusted from standard time to account for the local latitude. The 360&deg; of the globe divided by 24 calculates
+   * to 15&deg; per hour with 4 minutes per degree, so at a longitude of 0 , 15, 30 etc... noon is at exactly 12:00pm.
+   * Lakewood, N.J., with a longitude of -74.222, is 0.7906 away from the closest multiple of 15 at -75&deg;. This is
+   * multiplied by 4 clock minutes (per degree) to yield 3 minutes and 7 seconds for a noon time of 11:56:53am. This
+   * method is not tied to the theoretical 15&deg; time zones, but will adjust to the actual time zone and <a href=
+   * "https://en.wikipedia.org/wiki/Daylight_saving_time">Daylight saving time</a> to return LMT.
+   *
+   * @param hours
+   * 			the hour (such as 12.0 for noon and 0.0 for midnight) to calculate as LMT. Valid values are in the range of
+   * 			0.0 to 23.999.... An IllegalArgumentException will be thrown if the value does not fit in the expected range.
+   * @return the Date representing the local mean time (LMT) for the number of hours passed in. In Lakewood, NJ, passing 12
+   *         (noon) will return 11:56:50am.
+   * @see GeoLocation#getLocalMeanTimeOffset()
+   */
+  public getLocalMeanTime(hours: number): DateTime | null {
+    if (hours < 0 || hours >= 24) {
+      throw new IllegalArgumentException('Hours must between 0 and 23.9999...');
+    }
+
+    return AstronomicalCalendar.getTimeOffset(this.getDateFromTime(hours - getRawOffset(this.getGeoLocation().getTimeZone())
+        / AstronomicalCalendar.HOUR_MILLIS, true), -this.getGeoLocation().getLocalMeanTimeOffset());
   }
 
   /**
