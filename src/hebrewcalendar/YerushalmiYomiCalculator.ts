@@ -56,7 +56,7 @@ export class YerushalmiYomiCalculator {
     }
 
     if (requested < YerushalmiYomiCalculator.DAF_YOMI_START_DAY) {
-      throw new IllegalArgumentException(`${requested} is prior to organized Daf Yomi Yerushlmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);
+      throw new IllegalArgumentException(`${requested} is prior to organized Daf Yomi Yerushalmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);
     }
 
     // Start to calculate current cycle. Initialize the start day

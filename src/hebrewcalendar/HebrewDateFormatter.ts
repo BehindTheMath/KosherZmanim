@@ -880,12 +880,12 @@ export class HebrewDateFormatter {
    */
   public formatDafYomiYerushalmi(daf: Daf | null): string {
     if (daf === null) {
-      return this.hebrewFormat ? Daf.getYerushlmiMasechtos()[39] : Daf.getYerushlmiMasechtosTransliterated()[39];
+      return this.hebrewFormat ? Daf.getYerushalmiMasechtos()[39] : Daf.getYerushalmiMasechtosTransliterated()[39];
     }
 
     return this.hebrewFormat
         ? `${daf.getYerushalmiMasechta()} ${this.formatHebrewNumber(daf.getDaf())}`
-        : `${daf.getYerushlmiMasechtaTransliterated()} ${daf.getDaf()}`;
+        : `${daf.getYerushalmiMasechtaTransliterated()} ${daf.getDaf()}`;
   }
 
   /**
