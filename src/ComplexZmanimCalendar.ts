@@ -2866,8 +2866,20 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getShaahZmanisAteretTorah()
    * @see #setAteretTorahSunsetOffset(double)
    */
-  public getSofZmanTfilahAteretTorah(): DateTime | null {
+  public getSofZmanTfilaAteretTorah(): DateTime | null {
     return this.getSofZmanTfila(this.getAlos72Zmanis(), this.getTzaisAteretTorah());
+  }
+
+  /**
+   * @see #getSofZmanTfilaAteretTorah()
+   * @deprecated misspelled method name (all other methods spell tfila witout an H), to be removed.
+   * @return the <code>Date</code> of the latest <em>zman krias shema</em> based on this calculation. If the
+   *         calculation can't be computed such as in the Arctic Circle where there is at least one day a year where
+   *         the sun does not rise, and one where it does not set, a null will be returned. See detailed explanation
+   *         on top of the {@link AstronomicalCalendar} documentation.
+   */
+  public getSofZmanTfilahAteretTorah(): DateTime | null {
+    return this.getSofZmanTfilaAteretTorah();
   }
 
   /**
