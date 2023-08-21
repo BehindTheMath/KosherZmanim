@@ -7,6 +7,7 @@ import { AstronomicalCalculator } from './util/AstronomicalCalculator';
 import { NOAACalculator } from './util/NOAACalculator';
 import { IllegalArgumentException, UnsupportedError } from './polyfills/errors';
 import getRawOffset = TimeZone.getRawOffset;
+import { ZmanimCalendar } from './ZmanimCalendar';
 
 /**
  * A Java calendar that calculates astronomical times such as {@link #getSunrise() sunrise} and {@link #getSunset()
@@ -500,6 +501,23 @@ export class AstronomicalCalendar {
 
     const temporalHour: number = this.getTemporalHour(startOfDay, endOfDay);
     return AstronomicalCalendar.getTimeOffset(startOfDay as DateTime | null, temporalHour * 6);
+  }
+
+  /**
+   * A method that returns "solar" midnight, or the time when the sun is at its <a
+   * href="https://en.wikipedia.org/wiki/Nadir">nadir</a>. The current calculation is halfway between today's
+   * <em>chatzos hayom</em> and tomorrow's <em>chatzos hayom</em>.
+   *
+   * @return the <code>Date</code> of Solar Midnight (chatzos layla). If the calculation can't be computed such as in
+   *         the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
+   *         does not set, a null will be returned. See detailed explanation on top of the
+   *         {@link AstronomicalCalendar} documentation.
+   */
+  public getSolarMidnight(): DateTime | null {
+    const clonedCal: AstronomicalCalendar = this.clone() as AstronomicalCalendar;
+    clonedCal.setDate(clonedCal.getDate().plus({ days: 1 }));
+    // The `!` assertion is here because a falsey case will be handled by `AstronomicalCalendar.getTimeOffset()`.
+    return AstronomicalCalendar.getTimeOffset(this.getSunTransit(), (clonedCal.getSunTransit()?.valueOf()! - this.getSunTransit()?.valueOf()!) / 2);
   }
 
   /**
