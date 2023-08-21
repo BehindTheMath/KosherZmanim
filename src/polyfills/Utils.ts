@@ -211,6 +211,7 @@ export namespace IntegerUtils {
 
 // export const Long_MIN_VALUE = 0;
 export const Long_MIN_VALUE = NaN;
+export const Double_MIN_VALUE = NaN;
 
 /**
  * @param {number} num
