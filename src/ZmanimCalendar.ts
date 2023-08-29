@@ -329,16 +329,29 @@ export class ZmanimCalendar extends AstronomicalCalendar {
   }
 
   /**
-   * This method returns <em>chatzos</em> (midday) following most opinions that <em>chatzos</em> is the midpoint
-   * between {@link #getSeaLevelSunrise sea level sunrise} and {@link #getSeaLevelSunset sea level sunset}. A day
-   * starting at <em>alos</em> and ending at <em>tzais</em> using the same time or degree offset will also return
-   * the same time. The returned value is identical to {@link #getSunTransit()}. In reality due to lengthening or
-   * shortening of day, this is not necessarily the exact midpoint of the day, but it is very close.
+   * This method returns {@link #getSunTransit() Astronomical <em>chatzos</em>} if the
+   * {@link com.kosherjava.zmanim.util.AstronomicalCalculator calculator} class used supports it and
+   * {@link #isUseAstronomicalChatzos() isUseAstronomicalChatzos()} is set to <em>true</em> or the {@link #getChatzosAsHalfDay()
+   * halfway point between sunrise and sunset} if it does not support it or it is not configured to use it. There are currently
+   * two {@link com.kosherjava.zmanim.util.AstronomicalCalculator calculators} available in the API, the default {@link
+   * com.kosherjava.zmanim.util.NOAACalculator NOAA calculator} and the {@link com.kosherjava.zmanim.util.SunTimesCalculator USNO
+   * calculator}. The USNO calculator calculates <em>chatzos</em> as halfway between sunrise and sunset (identical to six <em>shaaos
+   * zmaniyos</em> after sunrise), while the NOAACalculator calculates it more accurately as {@link #getSunTransit() astronomical
+   * <em>chatzos</em>}. See <a href="https://kosherjava.com/2020/07/02/definition-of-chatzos/">The Definition of <em>Chatzos</em></a>
+   * for a detailed explanation of the ways to calculate <em>Chatzos</em>. Since half-day <em>chatzos</em> can be <code>null</code> in
+   * the Arctic on a day when either sunrise or sunset did not happen and astronomical <em>chatzos</em> can be calculated even in that
+   * case, even if it is not configured to use astronomical <em>chatzos</em>, if half-day <em>chatzos</em> is null and astronomical
+   * <em>chatzos</em> is supported by the calculator, astronomical <em>chatzos</em> will be returned in an effort to not return a
+   * <code>null</code>.
    *
    * @see AstronomicalCalendar#getSunTransit()
-   * @return the <code>Date</code> of chatzos. If the calculation can't be computed such as in the Arctic Circle
-   *         where there is at least one day where the sun does not rise, and one where it does not set, a null will
-   *         be returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
+   * @see #getChatzosAsHalfDay()
+   * @see #isUseAstronomicalChatzos()
+   * @see #setUseAstronomicalChatzos(boolean)
+   * @return the <code>Date</code> of <em>chatzos</em>. If the calculation can't be computed such as in the Arctic Circle
+   *         where there is at least one day where the sun does not rise, and one where it does not set, and the calculator does not
+   *         support astronomical calculations (that will never report a <code>null</code>) a <code>null</code> will be returned.
+   *         See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getChatzos(): DateTime | null {
     if (this.useAstronomicalChatzos) {

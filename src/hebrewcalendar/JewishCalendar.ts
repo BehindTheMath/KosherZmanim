@@ -609,10 +609,17 @@ export class JewishCalendar extends JewishDate {
   }
 
   /**
-   * Returns a <em>parsha</em> enum if the <em>Shabbos</em> is one of the four <em>parshiyos</em> of Parsha.SHKALIM, Parsha.ZACHOR,
-   * Parsha.PARA, Parsha.HACHODESH or Parsha.NONE for a regular <em>Shabbos</em> (or any weekday).
+   * Returns a {@link Parsha <em>Parsha</em>} enum if the <em>Shabbos</em> is one of the four <em>parshiyos</em> of {@link
+   * Parsha#SHKALIM <em>Shkalim</em>}, {@link Parsha#ZACHOR <em>Zachor</em>}, {@link Parsha#PARA <em>Para</em>}, {@link
+   * Parsha#HACHODESH <em>Hachdesh</em>}, or five other special <em>Shabbasos</em> of {@link Parsha#HAGADOL <em>Hagadol</em>},
+   * {@link Parsha#CHAZON <em>Chazon</em>}, {@link Parsha#NACHAMU <em>Nachamu</em>}, {@link Parsha#SHUVA <em>Shuva</em>},
+   * {@link Parsha#SHIRA <em>Shira</em>}, or {@link Parsha#NONE Parsha.NONE} for a regular <em>Shabbos</em> (or any weekday).
    *
-   * @return one of the four <em>parshiyos</em> of Parsha.SHKALIM, Parsha.ZACHOR, Parsha.PARA, Parsha.HACHODESH or Parsha.NONE.
+   * @return one of the four <em>parshiyos</em> of {@link	Parsha#SHKALIM <em>Shkalim</em>}, {@link Parsha#ZACHOR <em>Zachor</em>},
+   * 		{@link Parsha#PARA <em>Para</em>}, {@link Parsha#HACHODESH <em>Hachdesh</em>}, or five other special <em>Shabbasos</em>
+   * 		of {@link Parsha#HAGADOL <em>Hagadol</em>}, {@link Parsha#CHAZON <em>Chazon</em>}, {@link Parsha#NACHAMU <em>Nachamu</em>},
+   * 		{@link Parsha#SHUVA <em>Shuva</em>}, {@link Parsha#SHIRA <em>Shira</em>}, or {@link Parsha#NONE Parsha.NONE} for a regular
+   * 		<em>Shabbos</em> (or any weekday).
    */
   public getSpecialShabbos(): Parsha {
     if (this.getDayOfWeek() === SATURDAY) {

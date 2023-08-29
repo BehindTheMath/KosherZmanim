@@ -82,7 +82,8 @@ export class GeoLocation {
    * Method to set the elevation in Meters <b>above </b> sea level.
    *
    * @param elevation
-   *            The elevation to set in Meters. An IllegalArgumentException will be thrown if the value is a negative.
+   *            The elevation to set in Meters. An IllegalArgumentException will be thrown if the value is a negative,
+   *            NaN or infinite.
    */
   public setElevation(elevation: number): void {
     if (elevation < 0) {
@@ -156,7 +157,7 @@ export class GeoLocation {
   /**
    * Default GeoLocation constructor will set location to the Prime Meridian at Greenwich, England and a TimeZone of
    * GMT. The longitude will be set to 0 and the latitude will be 51.4772 to match the location of the <a
-   * href="http://www.rog.nmm.ac.uk">Royal Observatory, Greenwich </a>. No daylight savings time will be used.
+   * href="https://www.rog.nmm.ac.uk">Royal Observatory, Greenwich </a>. No daylight savings time will be used.
    */
   /*
       public GeoLocation() {
@@ -399,7 +400,7 @@ export class GeoLocation {
    * Calculate the initial <a href="https://en.wikipedia.org/wiki/Great_circle">geodesic</a> bearing between this
    * Object and a second Object passed to this method using <a
    * href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
-   * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
+   * href="https://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
    * with application of nested equations</a>", Survey Review, vol XXII no 176, 1975
    *
    * @param location
@@ -413,7 +414,7 @@ export class GeoLocation {
   /**
    * Calculate the final <a href="https://en.wikipedia.org/wiki/Great_circle">geodesic</a> bearing between this Object
    * and a second Object passed to this method using <a href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus
-   * Vincenty's</a> inverse formula See T Vincenty, "<a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and
+   * Vincenty's</a> inverse formula See T Vincenty, "<a href="https://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and
    * Inverse Solutions of Geodesics on the Ellipsoid with application of nested equations</a>", Survey Review, vol
    * XXII no 176, 1975
    *
@@ -429,7 +430,7 @@ export class GeoLocation {
    * Calculate <a href="https://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> in Meters between
    * this Object and a second Object passed to this method using <a
    * href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
-   * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
+   * href="https://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
    * with application of nested equations</a>", Survey Review, vol XXII no 176, 1975
    *
    * @see #vincentyFormula(GeoLocation, int)
@@ -445,7 +446,7 @@ export class GeoLocation {
    * Calculate <a href="https://en.wikipedia.org/wiki/Great-circle_distance">geodesic distance</a> in Meters between
    * this Object and a second Object passed to this method using <a
    * href="https://en.wikipedia.org/wiki/Thaddeus_Vincenty">Thaddeus Vincenty's</a> inverse formula See T Vincenty, "<a
-   * href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
+   * href="https://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
    * with application of nested equations</a>", Survey Review, vol XXII no 176, 1975
    *
    * @param location

@@ -20,7 +20,7 @@ import { ZmanimCalendar } from './ZmanimCalendar';
  * is usually caused by trying to calculate times for areas either very far North or South, where sunrise / sunset never
  * happen on that date. This is common when calculating twilight with a deep dip below the horizon for locations as far
  * south of the North Pole as London, in the northern hemisphere. The sun never reaches this dip at certain times of the
- * year. When the calculations encounter this condition a null will be returned when a
+ * year. When the calculations encounter this condition a <code>null</code> will be returned when a
  * <code>{@link java.util.Date}</code> is expected and {@link Long#MIN_VALUE} when a <code>long</code> is expected. The
  * reason that <code>Exception</code>s are not thrown in these cases is because the lack of a rise/set or twilight is
  * not an exception, but an expected condition in many parts of the world.
@@ -102,7 +102,7 @@ export class AstronomicalCalendar {
    *
    * @return the <code>Date</code> representing the exact sunrise time. If the calculation can't be computed such as
    *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
-   *         does not set, a null will be returned. See detailed explanation on top of the page.
+   *         does not set, a <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see AstronomicalCalculator#adjustZenith
    * @see #getSeaLevelSunrise()
    * @see AstronomicalCalendar#getUTCSunrise
@@ -121,7 +121,7 @@ export class AstronomicalCalendar {
    *
    * @return the <code>Date</code> representing the exact sea-level sunrise time. If the calculation can't be computed
    *         such as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one
-   *         where it does not set, a null will be returned. See detailed explanation on top of the page.
+   *         where it does not set, a <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see AstronomicalCalendar#getSunrise
    * @see AstronomicalCalendar#getUTCSeaLevelSunrise
    * @see #getSeaLevelSunset()
@@ -137,7 +137,7 @@ export class AstronomicalCalendar {
    * (dawn) using a zenith of {@link #CIVIL_ZENITH 96&deg;}.
    *
    * @return The <code>Date</code> of the beginning of civil twilight using a zenith of 96&deg;. If the calculation
-   *         can't be computed, null will be returned. See detailed explanation on top of the page.
+   *         can't be computed, <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see #CIVIL_ZENITH
    */
   public getBeginCivilTwilight(): DateTime | null {
@@ -150,7 +150,7 @@ export class AstronomicalCalendar {
    * #NAUTICAL_ZENITH 102&deg;}.
    *
    * @return The <code>Date</code> of the beginning of nautical twilight using a zenith of 102&deg;. If the
-   *         calculation can't be computed null will be returned. See detailed explanation on top of the page.
+   *         calculation can't be computed <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see #NAUTICAL_ZENITH
    */
   public getBeginNauticalTwilight(): DateTime | null {
@@ -163,7 +163,7 @@ export class AstronomicalCalendar {
    * {@link #ASTRONOMICAL_ZENITH 108&deg;}.
    *
    * @return The <code>Date</code> of the beginning of astronomical twilight using a zenith of 108&deg;. If the
-   *         calculation can't be computed, null will be returned. See detailed explanation on top of the page.
+   *         calculation can't be computed, <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see #ASTRONOMICAL_ZENITH
    */
   public getBeginAstronomicalTwilight(): DateTime | null {
@@ -184,7 +184,7 @@ export class AstronomicalCalendar {
    *
    * @return the <code>Date</code> representing the exact sunset time. If the calculation can't be computed such as in
    *         the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
-   *         does not set, a null will be returned. See detailed explanation on top of the page.
+   *         does not set, a <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see AstronomicalCalculator#adjustZenith
    * @see #getSeaLevelSunset()
    * @see AstronomicalCalendar#getUTCSunset
@@ -203,7 +203,7 @@ export class AstronomicalCalendar {
    *
    * @return the <code>Date</code> representing the exact sea-level sunset time. If the calculation can't be computed
    *         such as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one
-   *         where it does not set, a null will be returned. See detailed explanation on top of the page.
+   *         where it does not set, a <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see AstronomicalCalendar#getSunset
    * @see AstronomicalCalendar#getUTCSeaLevelSunset 2see {@link #getSunset()}
    */
@@ -218,7 +218,7 @@ export class AstronomicalCalendar {
    * using a zenith of {@link #CIVIL_ZENITH 96&deg;}.
    *
    * @return The <code>Date</code> of the end of civil twilight using a zenith of {@link #CIVIL_ZENITH 96&deg;}. If
-   *         the calculation can't be computed, null will be returned. See detailed explanation on top of the page.
+   *         the calculation can't be computed, <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see #CIVIL_ZENITH
    */
   public getEndCivilTwilight(): DateTime | null {
@@ -229,7 +229,7 @@ export class AstronomicalCalendar {
    * A method that returns the end of nautical twilight using a zenith of {@link #NAUTICAL_ZENITH 102&deg;}.
    *
    * @return The <code>Date</code> of the end of nautical twilight using a zenith of {@link #NAUTICAL_ZENITH 102&deg;}
-   *         . If the calculation can't be computed, null will be returned. See detailed explanation on top of the
+   *         . If the calculation can't be computed, <code>null</code> will be returned. See detailed explanation on top of the
    *         page.
    * @see #NAUTICAL_ZENITH
    */
@@ -241,7 +241,7 @@ export class AstronomicalCalendar {
    * A method that returns the end of astronomical twilight using a zenith of {@link #ASTRONOMICAL_ZENITH 108&deg;}.
    *
    * @return the <code>Date</code> of the end of astronomical twilight using a zenith of {@link #ASTRONOMICAL_ZENITH
-   *         108&deg;}. If the calculation can't be computed, null will be returned. See detailed explanation on top
+   *         108&deg;}. If the calculation can't be computed, <code>null</code> will be returned. See detailed explanation on top
    *         of the page.
    * @see #ASTRONOMICAL_ZENITH
    */
@@ -281,7 +281,7 @@ export class AstronomicalCalendar {
    *            parameter.
    * @return The {@link java.util.Date} of the offset after (or before) {@link #getSunrise()}. If the calculation
    *         can't be computed such as in the Arctic Circle where there is at least one day a year where the sun does
-   *         not rise, and one where it does not set, a null will be returned. See detailed explanation on top of the
+   *         not rise, and one where it does not set, a <code>null</code> will be returned. See detailed explanation on top of the
    *         page.
    */
   public getSunriseOffsetByDegrees(offsetZenith: number): DateTime | null {
@@ -301,7 +301,7 @@ export class AstronomicalCalendar {
    *            sunset, an offset of 14 + {@link #GEOMETRIC_ZENITH} = 104 would have to be passed as a parameter.
    * @return The {@link java.util.Date}of the offset after (or before) {@link #getSunset()}. If the calculation can't
    *         be computed such as in the Arctic Circle where there is at least one day a year where the sun does not
-   *         rise, and one where it does not set, a null will be returned. See detailed explanation on top of the
+   *         rise, and one where it does not set, a <code>null</code> will be returned. See detailed explanation on top of the
    *         page.
    */
   public getSunsetOffsetByDegrees(offsetZenith: number): DateTime | null {
@@ -461,7 +461,7 @@ export class AstronomicalCalendar {
    *
    * @return the <code>Date</code> representing Sun's transit. If the calculation can't be computed such as in the
    *         Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
-   *         not set, null will be returned. See detailed explanation on top of the page.
+   *         not set, <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see #getSunTransit(Date, Date)
    * @see #getTemporalHour()
    */
@@ -485,11 +485,14 @@ export class AstronomicalCalendar {
    * "https://kosherjava.com/2020/07/02/definition-of-chatzos/">The Definition of Chatzos</a> for details on the proper
    * definition of solar noon / midday.
    *
-   * @return the <code>Date</code> representing Sun's transit. If the calculation can't be computed such as in the
-   *         Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
-   *         not set, null will be returned. See detailed explanation on top of the page.
+   * @return the <code>Date</code> representing Sun's transit. If the calculation can't be computed such as when using
+   *         the {@link com.kosherjava.zmanim.util.SunTimesCalculator USNO calculator} that does not support getting solar
+   *         noon for the Arctic Circle (where there is at least one day a year where the sun does not rise, and one where
+   *         it does not set), a <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see #getSunTransit(Date, Date)
    * @see #getTemporalHour()
+   * @see com.kosherjava.zmanim.util.NOAACalculator#getUTCNoon(Calendar, GeoLocation)
+   * @see com.kosherjava.zmanim.util.SunTimesCalculator#getUTCNoon(Calendar, GeoLocation)
    */
   public getSunTransit(): DateTime | null;
   public getSunTransit(startOfDay: DateTime | null, endOfDay: DateTime | null): DateTime | null;
@@ -505,13 +508,16 @@ export class AstronomicalCalendar {
 
   /**
    * A method that returns "solar" midnight, or the time when the sun is at its <a
-   * href="https://en.wikipedia.org/wiki/Nadir">nadir</a>. The current calculation is halfway between today's
-   * <em>chatzos hayom</em> and tomorrow's <em>chatzos hayom</em>.
+   * href="https://en.wikipedia.org/wiki/Nadir">nadir</a>. The current calculation is halfway between today and
+   * tomorrow's {@link #getSunTransit() sun transit}.
    *
-   * @return the <code>Date</code> of Solar Midnight (chatzos layla). If the calculation can't be computed such as in
-   *         the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
-   *         does not set, a null will be returned. See detailed explanation on top of the
-   *         {@link AstronomicalCalendar} documentation.
+   * @return the <code>Date</code> of astronomical solar midnight. If the calculation can't be computed such as
+   *         when using the {@link com.kosherjava.zmanim.util.SunTimesCalculator USNO calculator} that does not
+   *         support getting solar noon for the Arctic Circle (where there is at least one day a year where the
+   *         sun does not rise, and one where it does not set), a <code>null</code> will be returned. See
+   *         detailed explanation on top of the page.
+   * @see com.kosherjava.zmanim.util.NOAACalculator#getUTCNoon(Calendar, GeoLocation)
+   * @see com.kosherjava.zmanim.util.SunTimesCalculator#getUTCNoon(Calendar, GeoLocation)
    */
   public getSolarMidnight(): DateTime | null {
     const clonedCal: AstronomicalCalendar = this.clone() as AstronomicalCalendar;
@@ -565,8 +571,8 @@ export class AstronomicalCalendar {
   /**
    * Returns the dip below the horizon before sunrise that matches the offset minutes on passed in as a parameter. For
    * example passing in 72 minutes for a calendar set to the equinox in Jerusalem returns a value close to 16.1&deg;
-   * Please note that this method is very slow and inefficient and should NEVER be used in a loop. TODO: Improve
-   * efficiency.
+   * Please note that this method is very slow and inefficient and should NEVER be used in a loop.
+   * @todo Improve efficiency of this method by not brute forcing the calculation.
    *
    * @param minutes
    *            offset
@@ -600,8 +606,8 @@ export class AstronomicalCalendar {
   /**
    * Returns the dip below the horizon after sunset that matches the offset minutes on passed in as a parameter. For
    * example passing in 72 minutes for a calendar set to the equinox in Jerusalem returns a value close to 16.1&deg;
-   * Please note that this method is very slow and inefficient and should NEVER be used in a loop. TODO: Improve
-   * efficiency.
+   * Please note that this method is very slow and inefficient and should NEVER be used in a loop.
+   * @todo Improve efficiency of this method by not brute forcing the calculation.
    *
    * @param minutes
    *            offset
