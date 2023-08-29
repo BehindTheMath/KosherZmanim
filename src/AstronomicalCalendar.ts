@@ -7,7 +7,6 @@ import { AstronomicalCalculator } from './util/AstronomicalCalculator';
 import { NOAACalculator } from './util/NOAACalculator';
 import { IllegalArgumentException, UnsupportedError } from './polyfills/errors';
 import getRawOffset = TimeZone.getRawOffset;
-import { ZmanimCalendar } from './ZmanimCalendar';
 
 /**
  * A Java calendar that calculates astronomical times such as {@link #getSunrise() sunrise} and {@link #getSunset()

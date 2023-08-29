@@ -20,7 +20,6 @@ export abstract class AstronomicalCalculator {
    * @see #getRefraction()
    */
   private refraction: number = 34 / 60;
-  // private double refraction = 34.478885263888294 / 60d;
 
   /**
    * The commonly used average solar radius in minutes of a degree.
@@ -289,7 +288,7 @@ export abstract class AstronomicalCalculator {
     return JSON.parse(JSON.stringify(this));
   }
 
-  public equals(object: object) {
+  public equals(object: object): boolean {
     return this === object;
   }
 }
