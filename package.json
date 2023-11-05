@@ -5,7 +5,7 @@
   "author": "BehindTheMath",
   "license": "LGPL-3.0",
   "bugs": "BehindTheMath/KosherZmanim/issues",
-  "homepage": "BehindTheMath/KosherZmanim",
+  "homepage": "https://github.com/BehindTheMath/KosherZmanim",
   "repository": "BehindTheMath/KosherZmanim",
   "main": "dist/lib-cjs/kosher-zmanim.js",
   "types": "dist/types/kosher-zmanim.d.ts",
