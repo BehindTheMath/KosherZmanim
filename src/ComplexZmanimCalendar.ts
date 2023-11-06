@@ -770,7 +770,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getPlagHamincha120Minutes()
    */
   public getPlagHamincha120MinutesZmanis(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos120Zmanis(), this.getTzais120Zmanis());
+    return this.getPlagHamincha(this.getAlos120Zmanis(), this.getTzais120Zmanis(), true);
   }
 
   /**
@@ -794,7 +794,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getPlagHamincha26Degrees()
    */
   public getPlagHamincha120Minutes(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos120(), this.getTzais120());
+    return this.getPlagHamincha(this.getAlos120(), this.getTzais120(), true);
   }
 
   /**
@@ -1139,7 +1139,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * equinox / equilux</a>, when the <em>neshef</em> (twilight) is the shortest. This time is based on <a href=
    * "https://en.wikipedia.org/wiki/Moshe_Feinstein">Rabbi Moshe Feinstein</a> who writes in <a href=
    * "https://hebrewbooks.org/pdfpager.aspx?req=14677&pgnum=7">Ohr Hachaim Vol. 4, Ch. 6</a>)
-   * that <em>misheyakir</em> in New York is 35-40 minutes before sunset, something that is a drop less than 8&deg;.
+   * that <em>misheyakir</em> in New York is 35-40 minutes before sunrise, something that is a drop less than 8&deg;.
    * <a href="https://en.wikipedia.org/wiki/Yisroel_Taplin">Rabbi Yisroel Taplin</a> in <a href=
    * "https://www.worldcat.org/oclc/889556744">Zmanei Yisrael</a> (page 117) notes that <a href=
    * "https://en.wikipedia.org/wiki/Yaakov_Kamenetsky">Rabbi Yaakov Kamenetsky</a> stated that it is not less than 36
@@ -1209,7 +1209,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos19Point8Degrees()
    */
   public getSofZmanShmaMGA19Point8Degrees(): DateTime | null {
-    return this.getSofZmanShma(this.getAlos19Point8Degrees(), this.getTzais19Point8Degrees());
+    return this.getSofZmanShma(this.getAlos19Point8Degrees(), this.getTzais19Point8Degrees(), true);
   }
 
   /**
@@ -1229,7 +1229,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos16Point1Degrees()
    */
   public getSofZmanShmaMGA16Point1Degrees(): DateTime | null {
-    return this.getSofZmanShma(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees());
+    return this.getSofZmanShma(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees(), true);
   }
 
   /**
@@ -1249,7 +1249,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos18Degrees()
    */
   public getSofZmanShmaMGA18Degrees(): DateTime | null {
-    return this.getSofZmanShma(this.getAlos18Degrees(), this.getTzais18Degrees());
+    return this.getSofZmanShma(this.getAlos18Degrees(), this.getTzais18Degrees(), true);
   }
 
   /**
@@ -1266,6 +1266,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where
    *         it does not set, a <code>null</code> will be returned. See detailed explanation on top of the
    *         {@link AstronomicalCalendar} documentation.
+   * @see #isUseAstronomicalChatzosForOtherZmanim()
    * @see #getShaahZmanis72Minutes()
    * @see #getAlos72()
    * @see #getSofZmanShmaMGA()
@@ -1291,9 +1292,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    * @see #getShaahZmanis72MinutesZmanis()
    * @see #getAlos72Zmanis()
+   * @see #isUseAstronomicalChatzosForOtherZmanim()
    */
   public getSofZmanShmaMGA72MinutesZmanis(): DateTime | null {
-    return this.getSofZmanShma(this.getAlos72Zmanis(), this.getTzais72Zmanis());
+    return this.getSofZmanShma(this.getAlos72Zmanis(), this.getTzais72Zmanis(), true);
   }
 
   /**
@@ -1311,9 +1313,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    * @see #getShaahZmanis90Minutes()
    * @see #getAlos90()
+   * @see #isUseAstronomicalChatzosForOtherZmanim()
    */
   public getSofZmanShmaMGA90Minutes(): DateTime | null {
-    return this.getSofZmanShma(this.getAlos90(), this.getTzais90());
+    return this.getSofZmanShma(this.getAlos90(), this.getTzais90(), true);
   }
 
   /**
@@ -1332,9 +1335,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    * @see #getShaahZmanis90MinutesZmanis()
    * @see #getAlos90Zmanis()
+   * @see #isUseAstronomicalChatzosForOtherZmanim()
    */
   public getSofZmanShmaMGA90MinutesZmanis(): DateTime | null {
-    return this.getSofZmanShma(this.getAlos90Zmanis(), this.getTzais90Zmanis());
+    return this.getSofZmanShma(this.getAlos90Zmanis(), this.getTzais90Zmanis(), true);
   }
 
   /**
@@ -1352,9 +1356,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    * @see #getShaahZmanis96Minutes()
    * @see #getAlos96()
+   * @see #isUseAstronomicalChatzosForOtherZmanim()
    */
   public getSofZmanShmaMGA96Minutes(): DateTime | null {
-    return this.getSofZmanShma(this.getAlos96(), this.getTzais96());
+    return this.getSofZmanShma(this.getAlos96(), this.getTzais96(), true);
   }
 
   /**
@@ -1373,9 +1378,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    * @see #getShaahZmanis96MinutesZmanis()
    * @see #getAlos96Zmanis()
+   * @see #isUseAstronomicalChatzosForOtherZmanim()
    */
   public getSofZmanShmaMGA96MinutesZmanis(): DateTime | null {
-    return this.getSofZmanShma(this.getAlos96Zmanis(), this.getTzais96Zmanis());
+    return this.getSofZmanShma(this.getAlos96Zmanis(), this.getTzais96Zmanis(), true);
   }
 
   /**
@@ -1403,6 +1409,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see ZmanimCalendar#getChatzos()
    * @see #getSofZmanShmaFixedLocal()
    * @see #getSofZmanTfila2HoursBeforeChatzos()
+   * @see #isUseAstronomicalChatzos()
    */
   public getSofZmanShma3HoursBeforeChatzos(): DateTime | null {
     return ComplexZmanimCalendar.getTimeOffset(this.getChatzos(), -180 * ComplexZmanimCalendar.MINUTE_MILLIS);
@@ -1424,9 +1431,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    * @see #getShaahZmanis120Minutes()
    * @see #getAlos120()
+   * @see #isUseAstronomicalChatzosForOtherZmanim()
    */
   public getSofZmanShmaMGA120Minutes(): DateTime | null {
-    return this.getSofZmanShma(this.getAlos120(), this.getTzais120());
+    return this.getSofZmanShma(this.getAlos120(), this.getTzais120(), true);
   }
 
   /**
@@ -1441,7 +1449,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * #getAlos16Point1Degrees() <em>alos</em>} to reach this time. This time is 3 <em>shaos zmaniyos</em> (solar hours)
    * after {@link #getAlos16Point1Degrees() dawn} based on the opinion that the day is calculated from a {@link
    * #getAlos16Point1Degrees() <em>alos</em> 16.1&deg;} to {@link #getSeaLevelSunset() sea level sunset}.
-   * <b>Note:</b> Based on this calculation <em>chatzos</em> will not be at midday.
+   * <b>Note: </b> Based on this calculation <em>chatzos</em> will not be at midday and {@link
+   * #isUseAstronomicalChatzosForOtherZmanim()} will be ignored.
    *
    * @return the <code>Date</code> of the latest <em>zman krias shema</em> based on this day. If the calculation can't
    *         be computed such as northern and southern locations even south of the Arctic Circle and north of the
@@ -1462,7 +1471,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * <em>shaos zmaniyos</em> (temporal hours) after {@link #getAlos16Point1Degrees() <em>alos</em> 16.1&deg;} based on
    * the opinion that the day is calculated from a {@link #getAlos16Point1Degrees() <em>alos</em> 16.1&deg;} to
    * {@link #getTzaisGeonim7Point083Degrees() <em>tzais</em> 7.083&deg;}.
-   * <b>Note: </b> Based on this calculation <em>chatzos</em> will not be at midday.
+   * <b>Note: </b> Based on this calculation <em>chatzos</em> will not be at midday and {@link
+   * #isUseAstronomicalChatzosForOtherZmanim()} will be ignored.
    *
    * @return the <code>Date</code> of the latest <em>zman krias shema</em> based on this calculation. If the
    *         calculation can't be computed such as northern and southern locations even south of the Arctic Circle and
@@ -1517,9 +1527,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *
    * @see #getShaahZmanis19Point8Degrees()
    * @see #getAlos19Point8Degrees()
+   * @see #isUseAstronomicalChatzosForOtherZmanim()
    */
   public getSofZmanTfilaMGA19Point8Degrees(): DateTime | null {
-    return this.getSofZmanTfila(this.getAlos19Point8Degrees(), this.getTzais19Point8Degrees());
+    return this.getSofZmanTfila(this.getAlos19Point8Degrees(), this.getTzais19Point8Degrees(), true);
   }
 
   /**
@@ -1540,7 +1551,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos16Point1Degrees()
    */
   public getSofZmanTfilaMGA16Point1Degrees(): DateTime | null {
-    return this.getSofZmanTfila(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees());
+    return this.getSofZmanTfila(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees(), true);
   }
 
   /**
@@ -1561,7 +1572,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos18Degrees()
    */
   public getSofZmanTfilaMGA18Degrees(): DateTime | null {
-    return this.getSofZmanTfila(this.getAlos18Degrees(), this.getTzais18Degrees());
+    return this.getSofZmanTfila(this.getAlos18Degrees(), this.getTzais18Degrees(), true);
   }
 
   /**
@@ -1603,7 +1614,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos72Zmanis()
    */
   public getSofZmanTfilaMGA72MinutesZmanis(): DateTime | null {
-    return this.getSofZmanTfila(this.getAlos72Zmanis(), this.getTzais72Zmanis());
+    return this.getSofZmanTfila(this.getAlos72Zmanis(), this.getTzais72Zmanis(), true);
   }
 
   /**
@@ -1623,7 +1634,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos90()
    */
   public getSofZmanTfilaMGA90Minutes(): DateTime | null {
-    return this.getSofZmanTfila(this.getAlos90(), this.getTzais90());
+    return this.getSofZmanTfila(this.getAlos90(), this.getTzais90(), true);
   }
 
   /**
@@ -1644,7 +1655,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos90Zmanis()
    */
   public getSofZmanTfilaMGA90MinutesZmanis(): DateTime | null {
-    return this.getSofZmanTfila(this.getAlos90Zmanis(), this.getTzais90Zmanis());
+    return this.getSofZmanTfila(this.getAlos90Zmanis(), this.getTzais90Zmanis(), true);
   }
 
   /**
@@ -1664,7 +1675,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos96()
    */
   public getSofZmanTfilaMGA96Minutes(): DateTime | null {
-    return this.getSofZmanTfila(this.getAlos96(), this.getTzais96());
+    return this.getSofZmanTfila(this.getAlos96(), this.getTzais96(), true);
   }
 
   /**
@@ -1685,7 +1696,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos90Zmanis()
    */
   public getSofZmanTfilaMGA96MinutesZmanis(): DateTime | null {
-    return this.getSofZmanTfila(this.getAlos96Zmanis(), this.getTzais96Zmanis());
+    return this.getSofZmanTfila(this.getAlos96Zmanis(), this.getTzais96Zmanis(), true);
   }
 
   /**
@@ -1706,7 +1717,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getAlos120()
    */
   public getSofZmanTfilaMGA120Minutes(): DateTime | null {
-    return this.getSofZmanTfila(this.getAlos120(), this.getTzais120());
+    return this.getSofZmanTfila(this.getAlos120(), this.getTzais120(), true);
   }
 
   /**
@@ -1778,7 +1789,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
     if (this.isUseAstronomicalChatzosForOtherZmanim()) {
       return this.getHalfDayBasedZman(this.getChatzos(), this.getTzais72(), 0.5);
     }
-    return this.getMinchaGedola(this.getAlos72(), this.getTzais72());
+    return this.getMinchaGedola(this.getAlos72(), this.getTzais72(), true);
   }
 
   /**
@@ -1802,7 +1813,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
     if (this.isUseAstronomicalChatzosForOtherZmanim()) {
       return this.getHalfDayBasedZman(this.getChatzos(), this.getTzais16Point1Degrees(), 0.5);
     }
-    return this.getMinchaGedola(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees());
+    return this.getMinchaGedola(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees(), true);
   }
 
   /**
@@ -1860,6 +1871,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   }
 
   /**
+   * FIXME check for synchronous
    * This method returns the time of <em>mincha ketana</em> according to the Magen Avraham with the day starting and
    * ending 16.1&deg; below the horizon. This is the preferred earliest time to pray <em>mincha</em> according to the
    * opinion of the <a href="https://en.wikipedia.org/wiki/Maimonides">Rambam</a> and others. For more information on
@@ -1876,7 +1888,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getMinchaKetana16Point1Degrees(): DateTime | null {
-    return this.getMinchaKetana(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees());
+    return this.getMinchaKetana(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees(), true);
   }
 
   /**
@@ -1919,7 +1931,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    */
   public getMinchaKetana72Minutes(): DateTime | null {
-    return this.getMinchaKetana(this.getAlos72(), this.getTzais72());
+    return this.getMinchaKetana(this.getAlos72(), this.getTzais72(), true);
   }
 
   /**
@@ -1937,7 +1949,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getTzais60()
    */
   public getPlagHamincha60Minutes(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos60(), this.getTzais60());
+    return this.getPlagHamincha(this.getAlos60(), this.getTzais60(), true);
   }
 
   /**
@@ -1960,7 +1972,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getShaahZmanis72Minutes()
    */
   public getPlagHamincha72Minutes(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos72(), this.getTzais72());
+    return this.getPlagHamincha(this.getAlos72(), this.getTzais72(), true);
   }
 
   /**
@@ -1983,7 +1995,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getShaahZmanis90Minutes()
    */
   public getPlagHamincha90Minutes(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos90(), this.getTzais90());
+    return this.getPlagHamincha(this.getAlos90(), this.getTzais90(), true);
   }
 
   /**
@@ -2005,7 +2017,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getShaahZmanis96Minutes()
    */
   public getPlagHamincha96Minutes(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos96(), this.getTzais96());
+    return this.getPlagHamincha(this.getAlos96(), this.getTzais96(), true);
   }
 
   /**
@@ -2025,7 +2037,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    */
   public getPlagHamincha96MinutesZmanis(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos96Zmanis(), this.getTzais96Zmanis());
+    return this.getPlagHamincha(this.getAlos96Zmanis(), this.getTzais96Zmanis(), true);
   }
 
   /**
@@ -2045,7 +2057,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    */
   public getPlagHamincha90MinutesZmanis(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos90Zmanis(), this.getTzais90Zmanis());
+    return this.getPlagHamincha(this.getAlos90Zmanis(), this.getTzais90Zmanis(), true);
   }
 
   /**
@@ -2065,7 +2077,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    */
   public getPlagHamincha72MinutesZmanis(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos72Zmanis(), this.getTzais72Zmanis());
+    return this.getPlagHamincha(this.getAlos72Zmanis(), this.getTzais72Zmanis(), true);
   }
 
   /**
@@ -2089,7 +2101,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getShaahZmanis16Point1Degrees()
    */
   public getPlagHamincha16Point1Degrees(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees());
+    return this.getPlagHamincha(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees(), true);
   }
 
   /**
@@ -2113,7 +2125,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getShaahZmanis19Point8Degrees()
    */
   public getPlagHamincha19Point8Degrees(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos19Point8Degrees(), this.getTzais19Point8Degrees());
+    return this.getPlagHamincha(this.getAlos19Point8Degrees(), this.getTzais19Point8Degrees(), true);
   }
 
   /**
@@ -2138,7 +2150,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getPlagHamincha120Minutes()
    */
   public getPlagHamincha26Degrees(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos26Degrees(), this.getTzais26Degrees());
+    return this.getPlagHamincha(this.getAlos26Degrees(), this.getTzais26Degrees(), true);
   }
 
   /**
@@ -2162,7 +2174,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getShaahZmanis18Degrees()
    */
   public getPlagHamincha18Degrees(): DateTime | null {
-    return this.getPlagHamincha(this.getAlos18Degrees(), this.getTzais18Degrees());
+    return this.getPlagHamincha(this.getAlos18Degrees(), this.getTzais18Degrees(), true);
   }
 
   /**
@@ -3016,28 +3028,6 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   }
 
   /**
-   * This method returns the time of <em>misheyakir</em> based on the common calculation of the Syrian community in NY
-   * that the <em>alos</em> is a fixed minute offset from day starting {@link #getAlos72Zmanis() 1/10th of the day}
-   * before sunrise. The common offsets are 6 minutes (based on the <em>Pri Megadim</em>, but not linked to the
-   * calculation of <em>Alos</em> as 1/10th of the day), 8 and 18 minutes (possibly attributed to
-   * <a href="https://en.wikipedia.org/wiki/Baruch_Ben_Haim"><em>Chacham</em> Baruch Ben Haim</a>). Since there is no
-   * universal accepted offset, the user of this API will have to specify one. <em>Chacham</em> Yosef Harari-Raful of
-   * Yeshivat Ateret Torah does not supply any <em>zman</em> for <em>misheyakir</em> and does not endorse any specific
-   * calculation for <em>misheyakir</em>. For that reason, this method is not a public method.
-   *
-   * @param minutes
-   *            the number of minutes after <em>alos</em> calculated as {@link #getAlos72Zmanis() 1/10th of the day}
-   * @return the <code>Date</code> of <em>misheyakir</em>. If the calculation can't be computed such as in the Arctic
-   *         Circle where there is at least one day a year where the sun does not rise, and one where it does not set,
-   *         a <code>null</code> will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}
-   *         documentation.
-   * @see #getAlos72Zmanis()
-   */
-  // private Date getMesheyakirAteretTorah(double minutes) {
-  // return getTimeOffset(getAlos72Zmanis(), minutes * MINUTE_MILLIS);
-  // }
-
-  /**
    * Method to return <em>tzais</em> (dusk) calculated as 72 minutes zmaniyos, or 1/10th of the day after
    * {@link #getSeaLevelSunset() sea level sunset}. This is the way that the <a href=
    * "https://en.wikipedia.org/wiki/Abraham_Cohen_Pimentel">Minchas Cohen</a> in Ma'amar 2:4 calculates Rebbeinu Tam's
@@ -3274,7 +3264,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * "https://hebrewbooks.org/pdfpager.aspx?req=916&st=&pgnum=67">Orach Chaim 1:24</a> and <a href=
    * "https://hebrewbooks.org/pdfpager.aspx?req=14675&pgnum=191">2:20</a>.
    * Lakewood, N.J., with a longitude of -74.222, is 0.778 away from the closest multiple of 15 at -75&deg;. This
-   * is multiplied by 4 to yield 3 minutes and 7 seconds for a <em>chatzos</em> of 11:56:50. This method is not tied
+   * is multiplied by 4 to yield 3 minutes and 7 seconds for a <em>chatzos</em> of 11:56:53. This method is not tied
    * to the theoretical 15&deg; timezones, but will adjust to the actual timezone and <a
    * href="https://en.wikipedia.org/wiki/Daylight_saving_time">Daylight saving time</a>.
    *
@@ -3685,7 +3675,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * #getSofZmanTfilaGRA() <em>Sof zman tfilah</em> GRA} and is provided as a convenience method for those who are
    * unaware how this <em>zman</em> is calculated. This time is 4 hours into the day based on the opinion of the
    * <a href="https://en.wikipedia.org/wiki/Vilna_Gaon">GRA</a> that the day is calculated from sunrise to sunset.
-   * This returns the time 4 * {@link #getShaahZmanisGra()} after {@link #getSeaLevelSunrise() sea level sunrise}.
+   * This returns the time 4 * {@link #getShaahZmanisGra()} after {@link #getSeaLevelSunrise() sea level sunrise}. If it
+   * is not <em>erev Pesach</em>, a null will be returned.
    *
    * @see ZmanimCalendar#getShaahZmanisGra()
    * @see ZmanimCalendar#getSofZmanTfilaGRA()
@@ -3716,7 +3707,8 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * {@link #getSofZmanTfilaMGA72Minutes() <em>Sof zman tfilah</em> MGA 72 minutes}. This time is 4 {@link #getShaahZmanisMGA()
    * <em>shaos zmaniyos</em>} (temporal hours) after {@link #getAlos72() dawn} based on the opinion of the MGA that the day is
    * calculated from a {@link #getAlos72() dawn} of 72 minutes before sunrise to {@link #getTzais72() nightfall} of 72 minutes
-   * after sunset. This returns the time of 4 * {@link #getShaahZmanisMGA()} after {@link #getAlos72() dawn}.
+   * after sunset. This returns the time of 4 * {@link #getShaahZmanisMGA()} after {@link #getAlos72() dawn}. If it is not
+   * <em>erev Pesach</em>, a null will be returned.
    *
    * @return the <code>Date</code> of the latest time of eating <em>chametz</em>. If it is not <em>erev Pesach</em> or the
    *         calculation can't be computed such as in the Arctic Circle where there is at least one day a year where the sun does
@@ -3748,7 +3740,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * #getShaahZmanis16Point1Degrees() <em>shaos zmaniyos</em>} (solar hours) after {@link #getAlos16Point1Degrees() dawn}
    * based on the opinion of the MGA that the day is calculated from dawn to nightfall with both being 16.1&deg;
    * below sunrise or sunset. This returns the time of 4 {@link #getShaahZmanis16Point1Degrees()} after
-   * {@link #getAlos16Point1Degrees() dawn}.
+   * {@link #getAlos16Point1Degrees() dawn}.  If it is not <em>erev Pesach</em>, a null will be returned.
    *
    * @return the <code>Date</code> of the latest time of eating <em>chametz</em>. If it is not <em>erev Pesach</em> or the
    *         calculation can't be computed such as northern and southern locations even south of the Arctic Circle and north
@@ -3774,11 +3766,12 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   }
 
   /**
+   * FIXME adjust for synchronous
    * This method returns the latest time for burning <em>chametz</em> on <em>Erev Pesach</em> according to the opinion
    * of the <a href="https://en.wikipedia.org/wiki/Vilna_Gaon">GRA</a>. This time is 5 hours into the day based on the
    * opinion of the <a href="https://en.wikipedia.org/wiki/Vilna_Gaon">GRA</a> that the day is calculated from
    * sunrise to sunset. This returns the time 5 * {@link #getShaahZmanisGra()} after {@link #getSeaLevelSunrise() sea
-   * level sunrise}.
+   * level sunrise}. If it is not  <em>erev Pesach</em>, a null will be returned.
    * @todo enable the calendar check for erev pesach and return <code>null</code> in all other cases.
    * @see ZmanimCalendar#getShaahZmanisGra()
    * @return the <code>Date</code> of the latest time for burning <em>chametz</em> on <em>Erev Pesach</em>. If it is not
@@ -3801,13 +3794,14 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   }
 
   /**
+   * FIXME adjust for syncronous
    * This method returns the latest time for burning <em>chametz</em> on <em>Erev Pesach</em> according to the opinion of
    * the <a href="https://en.wikipedia.org/wiki/Avraham_Gombinern">Magen Avraham (MGA)</a> based on <em>alos</em>
    * being {@link #getAlos72() 72} minutes before {@link #getSunrise() sunrise}. This time is 5 {@link
    * #getShaahZmanisMGA() <em>shaos zmaniyos</em>} (temporal hours) after {@link #getAlos72() dawn} based on the opinion of
    * the MGA that the day is calculated from a {@link #getAlos72() dawn} of 72 minutes before sunrise to {@link
    * #getTzais72() nightfall} of 72 minutes after sunset. This returns the time of 5 * {@link #getShaahZmanisMGA()} after
-   * {@link #getAlos72() dawn}.
+   * {@link #getAlos72() dawn}. If it is not  <em>erev Pesach</em>, a null will be returned.
    * @todo enable the calendar check for erev pesach and return <code>null</code> in all other cases.
    * @return the <code>Date</code> of the latest time for burning <em>chametz</em> on <em>Erev Pesach</em>. If it is not
    *         <em>erev Pesach</em> or the calculation can't be computed such as in the Arctic Circle where there is at
@@ -3831,13 +3825,14 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
   }
 
   /**
+   * FIXME adjust for synchronous
    * This method returns the latest time for burning <em>chametz</em> on <em>Erev Pesach</em> according to the opinion
    * of the <a href="https://en.wikipedia.org/wiki/Avraham_Gombinern">Magen Avraham (MGA)</a> based on <em>alos</em>
    * being {@link #getAlos16Point1Degrees() 16.1&deg;} before {@link #getSunrise() sunrise}. This time is 5
    * {@link #getShaahZmanis16Point1Degrees() <em>shaos zmaniyos</em>} (solar hours) after {@link #getAlos16Point1Degrees()
    * dawn} based on the opinion of the MGA that the day is calculated from dawn to nightfall with both being 16.1&deg;
    * below sunrise or sunset. This returns the time of 5 {@link #getShaahZmanis16Point1Degrees()} after
-   * {@link #getAlos16Point1Degrees() dawn}.
+   * {@link #getAlos16Point1Degrees() dawn}. If it is not  <em>erev Pesach</em>, a null will be returned.
    * @todo enable the calendar check for erev pesach and return <code>null</code> in all other cases.
    * @return the <code>Date</code> of the latest time for burning <em>chametz</em> on <em>Erev Pesach</em>. If it is not
    *         <em>erev Pesach</em> or the calculation can't be computed such as northern and southern locations even south
@@ -3991,7 +3986,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         top of the {@link AstronomicalCalendar} documentation.
    */
   public getSofZmanShmaBaalHatanya(): DateTime | null {
-    return this.getSofZmanShma(this.getSunriseBaalHatanya(), this.getSunsetBaalHatanya());
+    return this.getSofZmanShma(this.getSunriseBaalHatanya(), this.getSunsetBaalHatanya(), true);
   }
 
   /**
@@ -4008,7 +4003,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    */
   public getSofZmanTfilaBaalHatanya(): DateTime | null {
-    return this.getSofZmanTfila(this.getSunriseBaalHatanya(), this.getSunsetBaalHatanya());
+    return this.getSofZmanTfila(this.getSunriseBaalHatanya(), this.getSunsetBaalHatanya(), true);
   }
 
   /**
@@ -4041,7 +4036,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * This method returns the latest time for burning <em>chametz</em> on <em>Erev Pesach</em> according to the opinion of
    * the Baal Hatanya. This time is 5 hours into the day based on the opinion of the Baal Hatanya that the day is calculated
    * from sunrise to sunset. This returns the time 5 * {@link #getShaahZmanisBaalHatanya()} after
-   * {@link #getSunriseBaalHatanya() <em>netz amiti</em> (sunrise)}.
+   * {@link #getSunriseBaalHatanya() <em>netz amiti</em> (sunrise)}. If it is not  <em>erev Pesach</em>, a null will be returned.
    * @todo enable the calendar check for erev pesach and return <code>null</code> in all other cases.
    * @see #getShaahZmanisBaalHatanya()
    * @return the <code>Date</code> of the latest time for burning <em>chametz</em> on <em>Erev Pesach</em>.  If it is not
@@ -4086,10 +4081,11 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    */
   public getMinchaGedolaBaalHatanya(): DateTime | null {
-    return this.getMinchaGedola(this.getSunriseBaalHatanya(), this.getSunsetBaalHatanya());
+    return this.getMinchaGedola(this.getSunriseBaalHatanya(), this.getSunsetBaalHatanya(), true);
   }
 
   /**
+   * FIXME synchronous
    * This is a convenience method that returns the later of {@link #getMinchaGedolaBaalHatanya()} and
    * {@link #getMinchaGedola30Minutes()}. In the winter when 1/2 of a {@link #getShaahZmanisBaalHatanya()
    * <em>shaah zmanis</em>} is less than 30 minutes {@link #getMinchaGedola30Minutes()} will be returned, otherwise
@@ -4128,7 +4124,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    */
   public getMinchaKetanaBaalHatanya(): DateTime | null {
-    return this.getMinchaKetana(this.getSunriseBaalHatanya(), this.getSunsetBaalHatanya());
+    return this.getMinchaKetana(this.getSunriseBaalHatanya(), this.getSunsetBaalHatanya(), true);
   }
 
   /**
@@ -4144,7 +4140,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         {@link AstronomicalCalendar} documentation.
    */
   public getPlagHaminchaBaalHatanya(): DateTime | null {
-    return this.getPlagHamincha(this.getSunriseBaalHatanya(), this.getSunsetBaalHatanya());
+    return this.getPlagHamincha(this.getSunriseBaalHatanya(), this.getSunsetBaalHatanya(), true);
   }
 
   /**
@@ -4401,13 +4397,14 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *
    * @see #getShaahZmanisGra()
    * @see #getSamuchLeMinchaKetana16Point1Degrees()
+   * @see #isUseAstronomicalChatzosForOtherZmanim()
    * @return the <code>Date</code> of the time of <em>samuch lemincha ketana</em>. If the calculation can't be computed such
    *         as northern and southern locations even south of the Arctic Circle and north of the Antarctic Circle
    *         where the sun may not reach low enough below the horizon for this calculation, a <code>null</code> will be
    *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getSamuchLeMinchaKetanaGRA(): DateTime | null {
-    return this.getSamuchLeMinchaKetana(this.getElevationAdjustedSunrise(), this.getElevationAdjustedSunset());
+    return this.getSamuchLeMinchaKetana(this.getElevationAdjustedSunrise(), this.getElevationAdjustedSunset(), true);
   }
 
   /**
@@ -4425,7 +4422,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getSamuchLeMinchaKetana16Point1Degrees(): DateTime | null {
-    return this.getSamuchLeMinchaKetana(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees());
+    return this.getSamuchLeMinchaKetana(this.getAlos16Point1Degrees(), this.getTzais16Point1Degrees(), true);
   }
 
   /**
@@ -4443,7 +4440,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getSamuchLeMinchaKetana72Minutes(): DateTime | null {
-    return this.getSamuchLeMinchaKetana(this.getAlos72(), this.getTzais72());
+    return this.getSamuchLeMinchaKetana(this.getAlos72(), this.getTzais72(), true);
   }
 
   // eslint-disable-next-line class-methods-use-this
