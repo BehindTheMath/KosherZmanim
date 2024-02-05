@@ -1268,6 +1268,7 @@ export class JewishDate {
           // if last day of year
           if (this.gregorianMonth === 12) {
             this.gregorianYear++;
+            this.gregorianMonth = 1;
           } else {
             this.gregorianMonth++;
           }
