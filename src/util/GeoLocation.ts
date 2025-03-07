@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'proposal-temporal';
 
 import { MathUtils, TimeZone } from '../polyfills/Utils';
 import { IllegalArgumentException, UnsupportedError } from '../polyfills/errors';
@@ -147,7 +147,7 @@ export class GeoLocation {
     this.setLatitude(latitude);
     this.setLongitude(longitude);
     this.setElevation(elevation);
-    this.setTimeZone(timeZoneId);
+    this.setTimeZone(timeZoneId || 'UTC');
   }
 
   /**
@@ -615,7 +615,7 @@ export class GeoLocation {
       .concat(`\nElevation:\t\t\t${this.getElevation().toString()} Meters`)
       .concat(`\nTimezone ID:\t\t\t${this.getTimeZone()}`)
       .concat(`\nTimezone Display Name:\t\t${TimeZone.getDisplayName(this.getTimeZone())}`)
-      .concat(` (${TimeZone.getDisplayName(this.getTimeZone(), DateTime.local(), true)})`)
+      .concat(` (${TimeZone.getDisplayName(this.getTimeZone(), Temporal.now.zonedDateTimeISO(), true)})`)
       .concat(`\nTimezone GMT Offset:\t\t${(TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString()}`)
       .concat(`\nTimezone DST Offset:\t\t${(TimeZone.getDSTSavings(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString()}`);
   }

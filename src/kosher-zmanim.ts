@@ -1,4 +1,4 @@
-import * as _Luxon from 'luxon';
+import * as _Luxon from 'proposal-temporal';
 
 import { GeoLocation } from './util/GeoLocation';
 import { ZmanimCalendar } from './ZmanimCalendar';

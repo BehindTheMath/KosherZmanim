@@ -1,7 +1,7 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'proposal-temporal';
 import * as numeral from 'numeral';
 
-import { TimeZone, Utils } from '../polyfills/Utils';
+import { DateUtils, TimeZone, Utils } from '../polyfills/Utils';
 import { Time } from './Time';
 import { AstronomicalCalendar } from '../AstronomicalCalendar';
 import { ZmanimCalendar } from '../ZmanimCalendar';
@@ -286,14 +286,16 @@ export class ZmanimFormatter {
    * @param dateTime - the date to format
    * @return the formatted String
    */
-  public formatDateTime(dateTime: DateTime): string {
+  public formatDateTime(dateTime: Temporal.ZonedDateTime): string {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const _dateTime = dateTime.setZone(this.getTimeZone());
+    const _dateTime = dateTime.withTimeZone(this.getTimeZone());
 
     if (this.dateFormat === ZmanimFormatter.XSD_DATE_FORMAT) {
       return this.getXSDateTime(_dateTime);
     }
-    return _dateTime.toFormat(this.dateFormat);
+    // TODO:
+    // return _dateTime.toFormat(this.dateFormat);
+    return '';
   }
 
   /**
@@ -309,9 +311,11 @@ export class ZmanimFormatter {
    * @param dateTime - the UTC Date Object
    * @return the XSD dateTime
    */
-  public getXSDateTime(dateTime: DateTime): string {
-    return dateTime.setZone(this.getTimeZone())
-      .toFormat(ZmanimFormatter.XSD_DATE_FORMAT.concat('ZZ'));
+  public getXSDateTime(dateTime: Temporal.ZonedDateTime): string {
+    return dateTime.withTimeZone(this.getTimeZone())
+      // TODO
+      // .toFormat(ZmanimFormatter.XSD_DATE_FORMAT.concat('ZZ'));
+      .toString({ calendarName: 'never' });
   }
 
   /**
@@ -495,10 +499,11 @@ export class ZmanimFormatter {
   }
 
   private static getOutputMetadata(astronomicalCalendar: AstronomicalCalendar): OutputMetadata {
-    const df: string = 'yyyy-MM-dd';
+    // const df: string = 'yyyy-MM-dd';
 
     return {
-      date: astronomicalCalendar.getDate().toFormat(df),
+      // TODO
+      date: astronomicalCalendar.getDate().toPlainDate().toString(),
       type: astronomicalCalendar.getClassName(),
       algorithm: astronomicalCalendar.getAstronomicalCalculator().getCalculatorName(),
       location: astronomicalCalendar.getGeoLocation().getLocationName(),
@@ -508,7 +513,7 @@ export class ZmanimFormatter {
       timeZoneName: TimeZone.getDisplayName(astronomicalCalendar.getGeoLocation().getTimeZone(), astronomicalCalendar.getDate()),
       timeZoneID: astronomicalCalendar.getGeoLocation().getTimeZone(),
       timeZoneOffset: ZmanimFormatter.formatDecimal(TimeZone.getOffset(astronomicalCalendar.getGeoLocation().getTimeZone(),
-        astronomicalCalendar.getDate().valueOf()) / ZmanimFormatter.HOUR_MILLIS),
+        DateUtils.nanosecondsToMillis(astronomicalCalendar.getDate().offsetNanoseconds)) / ZmanimFormatter.HOUR_MILLIS),
     };
   }
 
@@ -534,14 +539,14 @@ export class ZmanimFormatter {
         value: (astronomicalCalendar as any as Record<string, Function>)[method].call(astronomicalCalendar),
       }))
       // Filter for return values of type Date or number
-      .filter(methodObj => DateTime.isDateTime(methodObj.value) || typeof methodObj.value === 'number' || methodObj.value === null)
+      .filter(methodObj => methodObj.value instanceof Temporal.ZonedDateTime || typeof methodObj.value === 'number' || methodObj.value === null)
       // Separate the Dates and numbers
       .forEach(methodObj => {
         const tagName: string = methodObj.methodName.substring(3);
-        if (DateTime.isDateTime(methodObj.value)) {
+        if (methodObj.value instanceof Temporal.ZonedDateTime) {
           // dateList.add(new KosherZmanim.Zman(methodObj.value, tagName));
           const zman: ZmanWithZmanDate = {
-            zman: methodObj.value as DateTime,
+            zman: methodObj.value as Temporal.ZonedDateTime,
             label: tagName,
           };
           dateList.push(zman);
@@ -557,7 +562,7 @@ export class ZmanimFormatter {
         }
       });
 
-    dateList.sort(Zman.compareDateOrder);
+    dateList.sort((a, b) => Temporal.ZonedDateTime.compare(a.zman, b.zman));
     // Filter for values in milliseconds, and not values in minutes
     durationList = durationList.filter((zman: ZmanWithDuration) => zman.duration > 1000)
       .sort(Zman.compareDurationOrder);

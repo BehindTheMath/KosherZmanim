@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'proposal-temporal';
 
 import { GeoLocation } from './GeoLocation';
 import { AstronomicalCalculator } from './AstronomicalCalculator';
@@ -39,7 +39,7 @@ export class NOAACalculator extends AstronomicalCalculator {
   /**
    * @see AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
    */
-  public getUTCSunrise(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+  public getUTCSunrise(date: Temporal.ZonedDateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
     const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
@@ -60,7 +60,7 @@ export class NOAACalculator extends AstronomicalCalculator {
   /**
    * @see AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
    */
-  public getUTCSunset(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+  public getUTCSunset(date: Temporal.ZonedDateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
     const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
@@ -86,7 +86,7 @@ export class NOAACalculator extends AstronomicalCalculator {
    * @return the Julian day corresponding to the date Note: Number is returned for start of day. Fractional days
    *         should be added later.
    */
-  private static getJulianDay(date: DateTime): number {
+  private static getJulianDay(date: Temporal.ZonedDateTime): number {
     let { year, month } = date;
     const { day } = date;
     if (month <= 2) {
@@ -353,7 +353,7 @@ export class NOAACalculator extends AstronomicalCalculator {
    * @return solar elevation in degrees - horizon is 0 degrees, civil twilight is -6 degrees
    */
 
-  public static getSolarElevation(date: DateTime, lat: number, lon: number): number {
+  public static getSolarElevation(date: Temporal.ZonedDateTime, lat: number, lon: number): number {
     const julianDay: number = NOAACalculator.getJulianDay(date);
     const julianCenturies: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay);
 
@@ -384,7 +384,7 @@ export class NOAACalculator extends AstronomicalCalculator {
    * @return FIXME
    */
 
-  public static getSolarAzimuth(date: DateTime, latitude: number, lon: number): number {
+  public static getSolarAzimuth(date: Temporal.ZonedDateTime, latitude: number, lon: number): number {
     const julianDay: number = NOAACalculator.getJulianDay(date);
     const julianCenturies: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay);
 

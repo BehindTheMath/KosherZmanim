@@ -1,6 +1,6 @@
-import { DateTime, Interval } from 'luxon';
+import { Temporal } from 'proposal-temporal';
 
-import { Calendar } from '../polyfills/Utils';
+import { Calendar, PlainDateInterval } from '../polyfills/Utils';
 import { Daf } from './Daf';
 import { JewishCalendar } from './JewishCalendar';
 import { IllegalArgumentException } from '../polyfills/errors';
@@ -16,7 +16,7 @@ export class YerushalmiYomiCalculator {
   /**
    * The start date of the first Daf Yomi Yerushalmi cycle of February 2, 1980 / 15 Shevat, 5740.
    */
-  private static readonly DAF_YOMI_START_DAY: DateTime = DateTime.fromObject({
+  private static readonly DAF_YOMI_START_DAY: Temporal.PlainDate = Temporal.PlainDate.from({
     year: 1980,
     month: Calendar.FEBRUARY + 1,
     day: 2,
@@ -43,9 +43,9 @@ export class YerushalmiYomiCalculator {
    *             if the date is prior to the September 11, 1923 start date of the first Daf Yomi cycle
    */
   public static getDafYomiYerushalmi(jewishCalendar: JewishCalendar): Daf {
-    let nextCycle: DateTime = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
-    let prevCycle: DateTime = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
-    const requested: DateTime = jewishCalendar.getDate();
+    let nextCycle: Temporal.PlainDate = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
+    let prevCycle: Temporal.PlainDate = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
+    const requested: Temporal.PlainDate = jewishCalendar.getDate();
     let masechta: number = 0;
     let dafYomi: Daf;
 
@@ -67,13 +67,13 @@ export class YerushalmiYomiCalculator {
       prevCycle = nextCycle;
 
       // Adds the number of whole shas dafs, and then the number of days that not have daf.
-      nextCycle = nextCycle.plus({ days: YerushalmiYomiCalculator.WHOLE_SHAS_DAFS });
+      nextCycle = nextCycle.add({ days: YerushalmiYomiCalculator.WHOLE_SHAS_DAFS });
       // This needs to be a separate step
-      nextCycle = nextCycle.plus({ days: YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, nextCycle) });
+      nextCycle = nextCycle.add({ days: YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, nextCycle) });
     }
 
     // Get the number of days from cycle start until request.
-    const dafNo: number = requested.diff(prevCycle, ['days']).days;
+    const dafNo: number = requested.since(prevCycle, { largestUnit: 'days' }).days;
 
     // Get the number of special days to subtract
     const specialDays: number = YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, requested);
@@ -99,7 +99,7 @@ export class YerushalmiYomiCalculator {
    * @param end - end date to calculate
    * @return the number of special days
    */
-  private static getNumOfSpecialDays(start: DateTime, end: DateTime): number {
+  private static getNumOfSpecialDays(start: Temporal.PlainDate, end: Temporal.PlainDate): number {
     // Find the start and end Jewish years
     const jewishStartYear: number = new JewishCalendar(start).getJewishYear();
     const jewishEndYear: number = new JewishCalendar(end).getJewishYear();
@@ -116,7 +116,7 @@ export class YerushalmiYomiCalculator {
       yomKippur.setJewishYear(i);
       tishaBeav.setJewishYear(i);
 
-      const interval = Interval.fromDateTimes(start, end);
+      const interval = new PlainDateInterval(start, end);
       if (interval.contains(yomKippur.getDate())) specialDays++;
       if (interval.contains(tishaBeav.getDate())) specialDays++;
     }

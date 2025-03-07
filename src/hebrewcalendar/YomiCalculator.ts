@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'proposal-temporal';
 
 import { Calendar } from '../polyfills/Utils';
 import { Daf } from './Daf';
@@ -17,7 +17,7 @@ export class YomiCalculator {
   /**
    * The start date of the first Daf Yomi Bavli cycle of September 11, 1923 / Rosh Hashana 5684.
    */
-  private static readonly dafYomiStartDate: DateTime = DateTime.fromObject({
+  private static readonly dafYomiStartDate: Temporal.PlainDate = Temporal.PlainDate.from({
     year: 1923,
     month: Calendar.SEPTEMBER + 1,
     day: 11,
@@ -30,7 +30,11 @@ export class YomiCalculator {
    * The date that the pagination for the Daf Yomi <em>Maseches Shekalim</em> changed to use the commonly used Vilna
    * Shas pagination from the no longer commonly available Zhitomir / Slavuta Shas used by Rabbi Meir Shapiro.
    */
-  private static readonly shekalimChangeDate: DateTime = DateTime.fromObject({ year: 1975, month: Calendar.JUNE + 1, day: 24 });
+  private static readonly shekalimChangeDate: Temporal.PlainDate = Temporal.PlainDate.from({
+    year: 1975,
+    month: Calendar.JUNE + 1,
+    day: 24,
+  });
 
   /** The Julian date that the cycle for Shekalim changed.
    * @see #getDafYomiBavli(JewishCalendar) for details.
@@ -69,7 +73,7 @@ export class YomiCalculator {
     const blattPerMasechta: number[] = [64, 157, 105, 121, 22, 88, 56, 40, 35, 31, 32, 29, 27, 122, 112, 91, 66, 49, 90, 82,
       119, 119, 176, 113, 24, 49, 76, 14, 120, 110, 142, 61, 34, 34, 28, 22, 4, 9, 5, 73];
 
-    const date: DateTime = calendar.getDate();
+    const date: Temporal.PlainDate = calendar.getDate();
 
     let dafYomi: Daf;
     const julianDay: number = this.getJulianDay(date);
@@ -127,7 +131,7 @@ export class YomiCalculator {
    *            The Java Date
    * @return the Julian day number corresponding to the date
    */
-  private static getJulianDay(date: DateTime): number {
+  private static getJulianDay(date: Temporal.PlainDate): number {
     let { year, month } = date;
     const { day } = date;
 

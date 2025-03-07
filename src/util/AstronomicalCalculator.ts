@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'proposal-temporal';
 
 import { GeoLocation } from './GeoLocation';
 import { MathUtils } from '../polyfills/Utils';
@@ -110,7 +110,7 @@ export abstract class AstronomicalCalculator {
    *         {@link java.lang.Double#NaN} will be returned.
    * @see #getElevationAdjustment(double)
    */
-  public abstract getUTCSunrise(date: DateTime, geoLocation: GeoLocation, zenith: number,
+  public abstract getUTCSunrise(date: Temporal.ZonedDateTime, geoLocation: GeoLocation, zenith: number,
       adjustForElevation: boolean): number; // eslint-disable-line @typescript-eslint/indent
 
   /**
@@ -134,7 +134,7 @@ export abstract class AstronomicalCalculator {
    *         {@link java.lang.Double#NaN} will be returned.
    * @see #getElevationAdjustment(double)
    */
-  public abstract getUTCSunset(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number;
+  public abstract getUTCSunset(date: Temporal.ZonedDateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number;
 
   /**
    * Method to return the adjustment to the zenith required to account for the elevation. Since a person at a higher

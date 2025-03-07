@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'proposal-temporal';
 
 import { Calendar, IntegerUtils } from '../polyfills/Utils';
 import { IllegalArgumentException } from '../polyfills/errors';
@@ -948,17 +948,23 @@ export class JewishDate {
   constructor(jewishYear: number, jewishMonth: number, jewishDayOfMonth: number)
   constructor(molad: number)
   constructor(date: Date)
-  constructor(date: DateTime)
+  constructor(date: Temporal.PlainDate)
   constructor()
-  constructor(jewishYearOrDateTimeOrDateOrMolad?: number | Date | DateTime, jewishMonth?: number, jewishDayOfMonth?: number) {
+  constructor(jewishYearOrDateTimeOrDateOrMolad?: number | Date | Temporal.PlainDate, jewishMonth?: number, jewishDayOfMonth?: number) {
     if (!jewishYearOrDateTimeOrDateOrMolad) {
       this.resetDate();
     } else if (jewishMonth) {
       this.setJewishDate(jewishYearOrDateTimeOrDateOrMolad as number, jewishMonth, jewishDayOfMonth!);
     } else if (jewishYearOrDateTimeOrDateOrMolad instanceof Date) {
-      this.setDate(DateTime.fromJSDate(jewishYearOrDateTimeOrDateOrMolad as Date));
-    } else if (DateTime.isDateTime(jewishYearOrDateTimeOrDateOrMolad)) {
-      this.setDate(jewishYearOrDateTimeOrDateOrMolad as DateTime);
+      const date = jewishYearOrDateTimeOrDateOrMolad as Date;
+      const item = {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+      };
+      this.setDate(Temporal.PlainDate.from(item));
+    } else if (jewishYearOrDateTimeOrDateOrMolad instanceof Temporal.PlainDate) {
+      this.setDate(jewishYearOrDateTimeOrDateOrMolad as Temporal.PlainDate);
     } else if (typeof jewishYearOrDateTimeOrDateOrMolad === 'number') {
       const molad = jewishYearOrDateTimeOrDateOrMolad as number;
       this.absDateToDate(JewishDate.moladToAbsDate(molad));
@@ -1037,7 +1043,7 @@ export class JewishDate {
    * @throws IllegalArgumentException
    *             if the {@link Calendar#ERA} is {@link GregorianCalendar#BC}
    */
-  public setDate(date: DateTime): void {
+  public setDate(date: Temporal.PlainDate): void {
     if (date.year < 1) {
       throw new IllegalArgumentException(`Dates with a BC era are not supported. The year ${date.year} is invalid.`);
     }
@@ -1192,8 +1198,8 @@ export class JewishDate {
    *
    * @return The {@link java.util.Calendar}
    */
-  public getDate(): DateTime {
-    return DateTime.fromObject({
+  public getDate(): Temporal.PlainDate {
+    return Temporal.PlainDate.from({
       year: this.gregorianYear,
       month: this.gregorianMonth,
       day: this.gregorianDayOfMonth,
@@ -1204,7 +1210,7 @@ export class JewishDate {
    * Resets this date to the current system date.
    */
   public resetDate(): void {
-    this.setDate(DateTime.local());
+    this.setDate(Temporal.now.plainDateISO());
   }
 
   /**

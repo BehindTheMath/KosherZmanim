@@ -1,4 +1,4 @@
-import { DateTime, Info } from 'luxon';
+import { Temporal } from 'proposal-temporal';
 
 export namespace Utils {
   // https://stackoverflow.com/a/40577337/8037425
@@ -18,6 +18,16 @@ export namespace Utils {
   }
 }
 
+export namespace DateUtils {
+  export function max(one: Temporal.ZonedDateTime, two: Temporal.ZonedDateTime): Temporal.ZonedDateTime {
+    return Temporal.ZonedDateTime.compare(one, two) ? one : two;
+  }
+
+  export function nanosecondsToMillis(nanoseconds: number) {
+    return nanoseconds / 10e6;
+  }
+}
+
 export namespace TimeZone {
   /**
    * Returns the amount of time in milliseconds to add to UTC to get
@@ -30,35 +40,46 @@ export namespace TimeZone {
    * @return the amount of raw offset time in milliseconds to add to UTC.
    */
   export function getRawOffset(timeZoneId: string): number {
-    const janDateTime = DateTime.fromObject({
+    const janDateTime = Temporal.ZonedDateTime.from({
+      year: Temporal.now.zonedDateTimeISO(timeZoneId).year,
       month: 1,
       day: 1,
-      zone: timeZoneId,
+      timeZone: timeZoneId,
     });
-    const julyDateTime = janDateTime.set({ month: 7 });
+    const julyDateTime = janDateTime.with({ month: 7 });
 
-    let rawOffsetMinutes;
+    let rawOffsetMillis;
     if (janDateTime.offset === julyDateTime.offset) {
-      rawOffsetMinutes = janDateTime.offset;
+      rawOffsetMillis = DateUtils.nanosecondsToMillis(janDateTime.offsetNanoseconds);
     } else {
-      const max = Math.max(janDateTime.offset, julyDateTime.offset);
+      const nanoseconds = janDateTime.offsetNanoseconds < 0 || julyDateTime.offsetNanoseconds < 0
+        ? Math.min(janDateTime.offsetNanoseconds, julyDateTime.offsetNanoseconds)
+        : Math.max(janDateTime.offsetNanoseconds, julyDateTime.offsetNanoseconds);
+      const maxOffsetMillis = DateUtils.nanosecondsToMillis(nanoseconds);
 
-      rawOffsetMinutes = max < 0
-        ? 0 - max
-        : 0 - Math.min(janDateTime.offset, julyDateTime.offset);
+      rawOffsetMillis = maxOffsetMillis < 0
+        ? 0 - maxOffsetMillis
+        : 0 - DateUtils.nanosecondsToMillis(Math.min(janDateTime.offsetNanoseconds, julyDateTime.offsetNanoseconds));
     }
 
-    return rawOffsetMinutes * 60 * 1000;
+    return rawOffsetMillis;
   }
 
   /**
    * Returns a name in the specified style of this TimeZone suitable for presentation to the user in the default locale.
    * @param {string} timeZoneId
-   * @param {DateTime} [date]
+   * @param {Temporal.ZonedDateTime} [date]
    * @param {boolean} [short]
    */
-  export function getDisplayName(timeZoneId: string, date: DateTime = DateTime.local(), short: boolean = false): string {
-    return Info.normalizeZone(timeZoneId).offsetName(date.toMillis(), { format: short ? 'short' : 'long' });
+  export function getDisplayName(timeZoneId: string, date: Temporal.ZonedDateTime = Temporal.now.zonedDateTimeISO(), short: boolean = false): string {
+    const options = {
+      timeZoneName: short ? 'short' : 'long',
+      timeZone: timeZoneId,
+    };
+    return new Intl.DateTimeFormat([], options)
+      .formatToParts(DateUtils.nanosecondsToMillis(date.offsetNanoseconds))
+      .find(m => m.type.toLowerCase() === 'timezonename')!
+      .value;
   }
 
   /**
@@ -69,7 +90,9 @@ export namespace TimeZone {
    * @return {number}
    */
   export function getDSTSavings(timeZoneId: string): number {
-    return Info.hasDST(timeZoneId) ? 3600000 : 0;
+    return Temporal.TimeZone.from(timeZoneId).getNextTransition(Temporal.now.instant())
+      ? 60 * 60 * 1000
+      : 0;
   }
 
   /**
@@ -82,7 +105,8 @@ export namespace TimeZone {
    * @param {number} millisSinceEpoch
    */
   export function getOffset(timeZoneId: string, millisSinceEpoch: number): number {
-    return Info.normalizeZone(timeZoneId).offset(millisSinceEpoch) * 60 * 1000;
+    return DateUtils.nanosecondsToMillis(Temporal.TimeZone.from(timeZoneId)
+      .getOffsetNanosecondsFor(Temporal.Instant.fromEpochMilliseconds(millisSinceEpoch)));
   }
 }
 
@@ -210,3 +234,19 @@ export namespace IntegerUtils {
 
 // export const Long_MIN_VALUE = 0;
 export const Long_MIN_VALUE = NaN;
+
+export class PlainDateInterval {
+  start: Temporal.PlainDate;
+
+  end: Temporal.PlainDate;
+
+  constructor(start: Temporal.PlainDate, end: Temporal.PlainDate) {
+    this.start = start;
+    this.end = end;
+  }
+
+  contains(date: Temporal.PlainDate): boolean {
+    return Boolean(Temporal.PlainDate.compare(date, this.start)
+      && Temporal.PlainDate.compare(date, this.end) === -1);
+  }
+}
