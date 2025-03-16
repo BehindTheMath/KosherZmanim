@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { IntegerUtils, StringUtils } from '../polyfills/Utils';
+import { UnsupportedError } from '../polyfills/errors';
 
 /**
  * A wrapper class for astronomical times / <em>zmanim</em> that is mostly intended to allow sorting collections of astronomical times.
@@ -126,6 +127,27 @@ export class Zman {
    */
   static compareDurationOrder(zman1: Zman, zman2: Zman): number {
     return IntegerUtils.compare(zman1.duration || 0, zman2.duration || 0);
+  }
+
+  /**
+   * A method that returns an XML formatted <code>String</code> representing the serialized <code>Object</code>. Very
+   * similar to the toString method but the return value is in an xml format. The format currently used (subject to
+   * change) is:
+   *
+   * <pre>
+   * &lt;Zman&gt;
+   *  &lt;Label&gt;Sof Zman Krias Shema GRA&lt;/Label&gt;
+   *  &lt;Zman&gt;1969-02-08T09:37:56.820&lt;/Zman&gt;
+   *  &lt;Duration&gt;0&lt;/Duration&gt;
+   *  &lt;Description&gt;Sof Zman Krias Shema GRA is 3 sha'os zmaniyos calculated from sunrise to sunset.&lt;/Description&gt;
+   * &lt;/Zman&gt;
+   * </pre>
+   * @return The XML formatted <code>String</code>.
+   * @deprecated
+   */
+  // eslint-disable-next-line class-methods-use-this
+  public toXML(): void {
+    throw new UnsupportedError('This method is deprecated');
   }
 
   toString(): string {
