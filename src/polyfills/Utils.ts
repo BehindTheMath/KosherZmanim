@@ -223,3 +223,5 @@ export function padZeros(num: number, places: number): string {
   if (int >= Math.pow(10, places)) return int.toString();
   return '0'.repeat(places).concat(int.toString()).slice(-places);
 }
+
+export type ValueOf<T> = T[keyof T];

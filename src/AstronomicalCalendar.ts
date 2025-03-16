@@ -1,7 +1,7 @@
 import { Big } from 'big.js';
 import { DateTime } from 'luxon';
 
-import { Long_MIN_VALUE, TimeZone } from './polyfills/Utils';
+import { Long_MIN_VALUE, TimeZone, ValueOf } from './polyfills/Utils';
 import { GeoLocation } from './util/GeoLocation';
 import { AstronomicalCalculator } from './util/AstronomicalCalculator';
 import { NOAACalculator } from './util/NOAACalculator';
@@ -109,7 +109,7 @@ export class AstronomicalCalendar {
   public getSunrise(): DateTime | null {
     const sunrise: number = this.getUTCSunrise(AstronomicalCalendar.GEOMETRIC_ZENITH);
     if (Number.isNaN(sunrise)) return null;
-    return this.getDateFromTime(sunrise, true);
+    return this.getDateFromTime(sunrise, AstronomicalCalendar.SolarEvent.SUNRISE);
   }
 
   /**
@@ -128,7 +128,7 @@ export class AstronomicalCalendar {
   public getSeaLevelSunrise(): DateTime | null {
     const sunrise: number = this.getUTCSeaLevelSunrise(AstronomicalCalendar.GEOMETRIC_ZENITH);
     if (Number.isNaN(sunrise)) return null;
-    return this.getDateFromTime(sunrise, true);
+    return this.getDateFromTime(sunrise, AstronomicalCalendar.SolarEvent.SUNRISE);
   }
 
   /**
@@ -191,7 +191,7 @@ export class AstronomicalCalendar {
   public getSunset(): DateTime | null {
     const sunset: number = this.getUTCSunset(AstronomicalCalendar.GEOMETRIC_ZENITH);
     if (Number.isNaN(sunset)) return null;
-    return this.getDateFromTime(sunset, false);
+    return this.getDateFromTime(sunset, AstronomicalCalendar.SolarEvent.SUNSET);
   }
 
   /**
@@ -209,7 +209,7 @@ export class AstronomicalCalendar {
   public getSeaLevelSunset(): DateTime | null {
     const sunset: number = this.getUTCSeaLevelSunset(AstronomicalCalendar.GEOMETRIC_ZENITH);
     if (Number.isNaN(sunset)) return null;
-    return this.getDateFromTime(sunset, false);
+    return this.getDateFromTime(sunset, AstronomicalCalendar.SolarEvent.SUNSET);
   }
 
   /**
@@ -286,7 +286,7 @@ export class AstronomicalCalendar {
   public getSunriseOffsetByDegrees(offsetZenith: number): DateTime | null {
     const dawn: number = this.getUTCSunrise(offsetZenith);
     if (Number.isNaN(dawn)) return null;
-    return this.getDateFromTime(dawn, true);
+    return this.getDateFromTime(dawn, AstronomicalCalendar.SolarEvent.SUNRISE);
   }
 
   /**
@@ -306,7 +306,7 @@ export class AstronomicalCalendar {
   public getSunsetOffsetByDegrees(offsetZenith: number): DateTime | null {
     const sunset: number = this.getUTCSunset(offsetZenith);
     if (Number.isNaN(sunset)) return null;
-    return this.getDateFromTime(sunset, false);
+    return this.getDateFromTime(sunset, AstronomicalCalendar.SolarEvent.SUNSET);
   }
 
   /**
@@ -498,11 +498,25 @@ export class AstronomicalCalendar {
   public getSunTransit(startOfDay?: DateTime | null, endOfDay?: DateTime | null): DateTime | null {
     if (startOfDay === undefined && endOfDay === undefined) {
       const noon = this.getAstronomicalCalculator().getUTCNoon(this.getAdjustedDate(), this.getGeoLocation());
-      return this.getDateFromTime(noon, false);
+      return this.getDateFromTime(noon, AstronomicalCalendar.SolarEvent.NOON);
     }
 
     const temporalHour: number = this.getTemporalHour(startOfDay, endOfDay);
     return AstronomicalCalendar.getTimeOffset(startOfDay as DateTime | null, temporalHour * 6);
+  }
+
+  public getSunLowerTransit(): DateTime | null {
+    const cal: DateTime = this.getAdjustedDate();
+    const lowerGeoLocation: GeoLocation = this.getGeoLocation().clone();
+    const meridian: number = lowerGeoLocation.getLongitude();
+    let lowerMeridian: number = meridian + 180;
+    if (lowerMeridian > 180) {
+      lowerMeridian = lowerMeridian - 360;
+      cal.plus({ days: -1 });
+    }
+    lowerGeoLocation.setLongitude(lowerMeridian);
+    const noon: number = this.getAstronomicalCalculator().getUTCNoon(cal, lowerGeoLocation);
+    return this.getDateFromTime(noon, AstronomicalCalendar.SolarEvent.MIDNIGHT);
   }
 
   /**
@@ -525,16 +539,23 @@ export class AstronomicalCalendar {
     return AstronomicalCalendar.getTimeOffset(this.getSunTransit(), (clonedCal.getSunTransit()?.valueOf()! - this.getSunTransit()?.valueOf()!) / 2);
   }
 
+  protected static readonly SolarEvent = {
+    SUNRISE: 0,
+    SUNSET: 1,
+    NOON: 2,
+    MIDNIGHT: 3,
+  } as const;
+
   /**
    * A method that returns a <code>Date</code> from the time passed in as a parameter.
    *
    * @param time
    *            The time to be set as the time for the <code>Date</code>. The time expected is in the format: 18.75
    *            for 6:45:00 PM.
-   * @param isSunrise true if this time is sunrise, and false if it is sunset
+   * @param solarEvent
    * @return The Date - object representation of the time double
    */
-  protected getDateFromTime(time: number, isSunrise: boolean): DateTime | null {
+  protected getDateFromTime(time: number, solarEvent: ValueOf<typeof AstronomicalCalendar.SolarEvent>): DateTime | null {
     if (Number.isNaN(time)) {
       return null;
     }
@@ -553,10 +574,12 @@ export class AstronomicalCalendar {
     // Check if a date transition has occurred, or is about to occur - this indicates the date of the event is
     // actually not the target date, but the day prior or after
     const localTimeHours: number = Math.trunc(this.getGeoLocation().getLongitude() / 15);
-    if (isSunrise && localTimeHours + hours > 18) {
+    if (solarEvent === AstronomicalCalendar.SolarEvent.SUNRISE && localTimeHours + hours > 18) {
       cal = cal.minus({ days: 1 });
-    } else if (!isSunrise && localTimeHours + hours < 6) {
+    } else if (solarEvent === AstronomicalCalendar.SolarEvent.SUNSET && localTimeHours + hours < 6) {
       cal = cal.plus({ days: 1 });
+    } else if (solarEvent === AstronomicalCalendar.SolarEvent.MIDNIGHT && localTimeHours + hours > 12) {
+      cal = cal.plus({ days: -1 });
     }
 
     return cal.set({
@@ -660,7 +683,7 @@ export class AstronomicalCalendar {
     }
 
     return AstronomicalCalendar.getTimeOffset(this.getDateFromTime(hours - getRawOffset(this.getGeoLocation().getTimeZone())
-        / AstronomicalCalendar.HOUR_MILLIS, true), -this.getGeoLocation().getLocalMeanTimeOffset());
+        / AstronomicalCalendar.HOUR_MILLIS, AstronomicalCalendar.SolarEvent.SUNRISE), -this.getGeoLocation().getLocalMeanTimeOffset());
   }
 
   /**
