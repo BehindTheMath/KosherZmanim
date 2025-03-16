@@ -351,7 +351,7 @@ export class HebrewDateFormatter {
     'Isru Chag'];
 
   /**
-   * Returns the list of holidays transliterated into Latin chars. This is used by the
+   * Returns the array of holidays transliterated into Latin chars. This is used by the
    * {@link #formatYomTov(JewishCalendar)} when formatting the Yom Tov String. The default list of months uses
    * Ashkenazi pronunciation in typical American English spelling.
    *
@@ -372,7 +372,7 @@ export class HebrewDateFormatter {
   }
 
   /**
-   * Sets the list of holidays transliterated into Latin chars. This is used by the
+   * Sets the array of holidays transliterated into Latin chars. This is used by the
    * {@link #formatYomTov(JewishCalendar)} when formatting the Yom Tov String.
    *
    * @param transliteratedHolidays
@@ -557,7 +557,7 @@ export class HebrewDateFormatter {
   }
 
   /**
-   * Returns the list of months transliterated into Latin chars. The default list of months uses Ashkenazi
+   * Returns the array of months transliterated into Latin chars. The default list of months uses Ashkenazi
    * pronunciation in typical American English spelling. This list has a length of 14 with 3 variations for Adar -
    * "Adar", "Adar II", "Adar I"
    *
@@ -851,7 +851,7 @@ export class HebrewDateFormatter {
     returnValue = returnValue.replace(new RegExp(HebrewDateFormatter.GERESH, 'g'), ''); // geresh is never used in the kviah format
     // boolean isLeapYear = JewishDate.isJewishLeapYear(jewishYear);
     // for efficiency we can avoid the expensive recalculation of the pesach day of week by adding 1 day to Rosh
-    // Hashana for a 353-day year, 2 for a 354-day year, 3 for a 355 or 383 day year, 4 for a 384-day year and 5 for
+    // Hashana for a 353-day year, 2 for a 354-day year, 3 for a 355 or 383-day year, 4 for a 384-day year and 5 for
     // a 385-day year
     return returnValue;
   }
@@ -1053,7 +1053,7 @@ export class HebrewDateFormatter {
    *         chars. The default uses Ashkenazi pronunciation in typical American English spelling, for example
    *         Bereshis or Nitzavim Vayeilech or an empty string if there are none.
    * @see #formatParsha(JewishCalendar)
-   *
+   * @see JewishCalendar#getUpcomingParshah()
    */
   public formatParsha(parsha: Parsha): string
   public formatParsha(jewishCalendarOrParsha: JewishCalendar | Parsha): string {
