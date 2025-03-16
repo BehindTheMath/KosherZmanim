@@ -7,7 +7,7 @@ import { IllegalArgumentException } from '../polyfills/errors';
 
 /**
  * The HebrewDateFormatter class formats a {@link JewishDate}.
- *
+ * <p>
  * The class formats Jewish dates, numbers, Daf Yomi</em> (<em>Bavli and Yerushalmi), the Omer</em>,
  * <em>Parshas Hashavua</em>, (including special <em>parshiyos</em> of <em>Shekalim</em>, <em>Zachor</em>, <em>Parah</em>,
  * and <em>Hachodesh</em>), Yomim Tovim and the Molad (experimental) in Hebrew or Latin chars, and has various settings.
@@ -311,7 +311,7 @@ export class HebrewDateFormatter {
    * @see #getTransliteratedShabbosDayOfWeek()
    * @see #setTransliteratedShabbosDayOfWeek(String)
    */
-  private transliteratedShabbosDayOfweek: string = 'Shabbos';
+  private transliteratedShabbosDayOfWeek: string = 'Shabbos';
 
   /**
    * Returns the day of Shabbos transliterated into Latin chars. The default uses Ashkenazi pronunciation "Shabbos".
@@ -322,7 +322,7 @@ export class HebrewDateFormatter {
    * @see #formatDayOfWeek(JewishDate)
    */
   public getTransliteratedShabbosDayOfWeek(): string {
-    return this.transliteratedShabbosDayOfweek;
+    return this.transliteratedShabbosDayOfWeek;
   }
 
   /**
@@ -336,7 +336,7 @@ export class HebrewDateFormatter {
    * @see #formatDayOfWeek(JewishDate)
    */
   public setTransliteratedShabbosDayOfWeek(transliteratedShabbos: string): void {
-    this.transliteratedShabbosDayOfweek = transliteratedShabbos;
+    this.transliteratedShabbosDayOfWeek = transliteratedShabbos;
   }
 
   /**
@@ -355,7 +355,7 @@ export class HebrewDateFormatter {
    * {@link #formatYomTov(JewishCalendar)} when formatting the Yom Tov String. The default list of months uses
    * Ashkenazi pronunciation in typical American English spelling.
    *
-   * @return the list of transliterated holidays. The default list is currently ["Erev Pesach", "Pesach",
+   * @return the array of transliterated holidays. The default list is currently ["Erev Pesach", "Pesach",
    *         "Chol Hamoed Pesach", "Pesach Sheni", "Erev Shavuos", "Shavuos", "Seventeenth of Tammuz", "Tishah B'Av",
    *         "Tu B'Av", "Erev Rosh Hashana", "Rosh Hashana", "Fast of Gedalyah", "Erev Yom Kippur", "Yom Kippur",
    *         "Erev Succos", "Succos", "Chol Hamoed Succos", "Hoshana Rabbah", "Shemini Atzeres", "Simchas Torah",
@@ -561,7 +561,7 @@ export class HebrewDateFormatter {
    * pronunciation in typical American English spelling. This list has a length of 14 with 3 variations for Adar -
    * "Adar", "Adar II", "Adar I"
    *
-   * @return the list of months beginning in Nissan and ending in in "Adar", "Adar II", "Adar I". The default list is
+   * @return the array of months beginning in Nissan and ending in "Adar", "Adar II", "Adar I". The default list is
    *         currently ["Nissan", "Iyar", "Sivan", "Tammuz", "Av", "Elul", "Tishrei", "Cheshvan", "Kislev", "Teves",
    *         "Shevat", "Adar", "Adar II", "Adar I"].
    * @see #setTransliteratedMonthList(String[])
@@ -571,7 +571,7 @@ export class HebrewDateFormatter {
   }
 
   /**
-   * Setter method to allow overriding of the default list of months transliterated into into Latin chars. The default
+   * Setter method to allow overriding of the default list of months transliterated into Latin chars. The default
    * uses Ashkenazi American English transliteration.
    *
    * @param transliteratedMonths
@@ -664,7 +664,7 @@ export class HebrewDateFormatter {
    * &#x05E9;&#x05D1;&#x05D8; &#x05D5;&#x05F3; &#x05D0;&#x05DC;&#x05E4;&#x05D9;&#x05DD; show the use of the Geresh.
    *
    * @param useGershGershayim
-   *            set to false to omit the Geresh &#x5F3; and Gershayim &#x5F4; in formatting
+   *            set this to false to omit the Geresh &#x5F3; and Gershayim &#x5F4; in formatting
    */
   public setUseGershGershayim(useGershGershayim: boolean): void {
     this.useGershGershayim = useGershGershayim;
@@ -673,7 +673,7 @@ export class HebrewDateFormatter {
   /**
    * Returns whether the class is set to use the &#x05DE;&#x05E0;&#x05E6;&#x05E4;&#x05F4;&#x05DA; letters when
    * formatting years ending in 20, 40, 50, 80 and 90 to produce &#x05EA;&#x05E9;&#x05F4;&#x05E4; if false or
-   * or &#x05EA;&#x05E9;&#x05F4;&#x05E3; if true. Traditionally non-final form letters are used, so the year
+   * &#x05EA;&#x05E9;&#x05F4;&#x05E3; if true. Traditionally non-final form letters are used, so the year
    * 5780 would be formatted as &#x05EA;&#x05E9;&#x05F4;&#x05E4; if the default false is used here. If this returns
    * true, the format &#x05EA;&#x05E9;&#x05F4;&#x05E3; would be used.
    *
@@ -851,8 +851,8 @@ export class HebrewDateFormatter {
     returnValue = returnValue.replace(new RegExp(HebrewDateFormatter.GERESH, 'g'), ''); // geresh is never used in the kviah format
     // boolean isLeapYear = JewishDate.isJewishLeapYear(jewishYear);
     // for efficiency we can avoid the expensive recalculation of the pesach day of week by adding 1 day to Rosh
-    // Hashana for a 353 day year, 2 for a 354 day year, 3 for a 355 or 383 day year, 4 for a 384 day year and 5 for
-    // a 385 day year
+    // Hashana for a 353-day year, 2 for a 354-day year, 3 for a 355 or 383 day year, 4 for a 384-day year and 5 for
+    // a 385-day year
     return returnValue;
   }
 
@@ -889,7 +889,7 @@ export class HebrewDateFormatter {
   }
 
   /**
-   * Returns a Hebrew formatted string of a number. The method can calculate from 0 - 9999.
+   * Returns a Hebrew formatted string of a number. The method can calculate from 0 to 9999.
    * <ul>
    * <li>Single digit numbers such as 3, 30 and 100 will be returned with a &#x5F3; (<a
    * href="https://en.wikipedia.org/wiki/Geresh">Geresh</a>) appended as at the end. For example &#x5D2;&#x5F3;,
@@ -948,7 +948,7 @@ export class HebrewDateFormatter {
         sb = sb.concat(HebrewDateFormatter.GERESH);
       }
       sb = sb.concat(' ');
-      sb = sb.concat(ALAFIM); // add # of thousands plus word thousand (overide alafim boolean)
+      sb = sb.concat(ALAFIM); // add # of thousands plus the word "thousand" (overide alafim boolean)
       return sb;
     } else if (this.useLonghebrewYears && num >= 1000) { // if alafim boolean display thousands
       sb = sb.concat(jOnes[thousands]);
@@ -967,7 +967,7 @@ export class HebrewDateFormatter {
       sb = sb.concat(tavTaz[1]);
     } else {
       const tens: number = Math.trunc(num / 10);
-      if (num % 10 === 0) { // if evenly divisable by 10
+      if (num % 10 === 0) { // if evenly divisible by 10
         if (!singleDigitNumber) {
           if (this.isUseFinalFormLetters()) {
             sb = sb.concat(jTenEnds[tens]); // years like 5780 will end with a final form &#x05E3;
@@ -996,16 +996,16 @@ export class HebrewDateFormatter {
   }
 
   /**
-   * Returns the list of transliterated parshiyos used by this formatter.
+   * Returns the map of transliterated parshiyos used by this formatter.
    *
-   * @return the list of transliterated Parshios
+   * @return the map of transliterated Parshios
    */
   public getTransliteratedParshiosList(): Record<Parsha, string> {
     return this.transliteratedParshaMap;
   }
 
   /**
-   * Setter method to allow overriding of the default list of parshiyos transliterated into into Latin chars. The
+   * Setter method to allow overriding of the default list of parshiyos transliterated into Latin chars. The
    * default uses Ashkenazi American English transliteration.
    *
    * @param transliteratedParshaMap

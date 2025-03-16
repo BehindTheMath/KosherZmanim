@@ -52,7 +52,7 @@ export class GeoLocation {
   private static readonly DISTANCE: number = 0;
 
   /**
-   * Constant for a initial bearing type calculation.
+   * Constant for an initial bearing type calculation.
    * @see #getGeodesicInitialBearing(GeoLocation)
    */
   private static readonly INITIAL_BEARING: number = 1;
@@ -365,12 +365,12 @@ export class GeoLocation {
    * Adjust the date for <a href="https://en.wikipedia.org/wiki/180th_meridian">antimeridian</a> crossover. This is
    * needed to deal with edge cases such as Samoa that use a different calendar date than expected based on their
    * geographic location.
-   *
+   * <p>
    * The actual Time Zone offset may deviate from the expected offset based on the longitude. Since the 'absolute time'
    * calculations are always based on longitudinal offset from UTC for a given date, the date is presumed to only
    * increase East of the Prime Meridian, and to only decrease West of it. For Time Zones that cross the antimeridian,
    * the date will be artificially adjusted before calculation to conform with this presumption.
-   *
+   * <p>
    * For example, Apia, Samoa with a longitude of -171.75 uses a local offset of +14:00.  When calculating sunrise for
    * 2018-02-03, the calculator should operate using 2018-02-02 since the expected zone is -11.  After determining the
    * UTC time, the local DST offset of <a href="https://en.wikipedia.org/wiki/UTC%2B14:00">UTC+14:00</a> should be applied
@@ -382,7 +382,7 @@ export class GeoLocation {
     const localHoursOffset: number = this.getLocalMeanTimeOffset() / GeoLocation.HOUR_MILLIS;
 
     // if the offset is 20 hours or more in the future (never expected anywhere other
-    // than a location using a timezone across the anti meridian to the east such as Samoa)
+    // than a location using a timezone across the antimeridian to the east such as Samoa)
     if (localHoursOffset >= 20) {
       // roll the date forward a day
       return 1;
@@ -459,7 +459,7 @@ export class GeoLocation {
   private vincentyFormula(location: GeoLocation, formula: number): number {
     const a: number = 6378137;
     const b: number = 6356752.3142;
-    const f: number = 1 / 298.257223563; // WGS-84 ellipsiod
+    const f: number = 1 / 298.257223563; // WGS-84 ellipsoid
     const L: number = MathUtils.degreesToRadians(location.getLongitude() - this.getLongitude());
     const U1: number = Math.atan((1 - f) * Math.tan(MathUtils.degreesToRadians(this.getLatitude())));
     const U2: number = Math.atan((1 - f) * Math.tan(MathUtils.degreesToRadians(location.getLatitude())));

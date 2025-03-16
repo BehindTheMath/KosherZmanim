@@ -14,16 +14,16 @@ import { IllegalArgumentException } from '../polyfills/errors';
  * href="https://en.wikipedia.org/wiki/Hillel_II">Hillel II's (Hakatan's</a>) calendar (4119 in the Jewish Calendar / 359
  * CE Julian as recorded by <a href="https://en.wikipedia.org/wiki/Hai_Gaon">Rav Hai Gaon</a>) would be just an
  * approximation.
- *
+ * <p>
  * This open source Java code was written by <a href="https://www.facebook.com/avromf">Avrom Finkelstien</a> from his C++
  * code. It was refactored to fit the KosherJava Zmanim API with simplification of the code, enhancements and some bug
  * fixing.
- *
+ * <p>
  * Some of Avrom's original C++ code was translated from <a href="https://web.archive.org/web/20120124134148/http://emr.cs.uiuc.edu/~reingold/calendar.C">C/C++
  * code</a> in <a href="http://www.calendarists.com">Calendrical Calculations</a> by Nachum Dershowitz and Edward M.
- * Reingold, Software-- Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899- 928. Any method with the mark
+ * Reingold, Software-- Practice &amp; Experience, vol. 20, no. 9 (September 1990), pp. 899- 928. Any method with the mark
  * "ND+ER" indicates that the method was taken from this source with minor modifications.
- *
+ * <p>
  * If you are looking for a class that implements a Jewish calendar version of the Calendar class, one is available from
  * the <a href="http://site.icu-project.org/" >ICU (International Components for Unicode)</a> project, formerly part of
  * IBM's DeveloperWorks.
@@ -118,14 +118,14 @@ export class JewishDate {
   /**
    * Value of the month field indicating Adar II, the leap (intercalary or embolismic) thirteenth (Undecimber) numeric
    * month of the year added in Jewish {@link #isJewishLeapYear() leap year}). The leap years are years 3, 6, 8, 11,
-   * 14, 17 and 19 of a 19 year cycle. With the year starting at {@link #TISHREI}, it would actually be the 7th month
+   * 14, 17 and 19 of a 19-year cycle. With the year starting at {@link #TISHREI}, it would actually be the 7th month
    * of the year.
    */
   public static readonly ADAR_II: number = 13;
 
   /**
    * the Jewish epoch using the RD (Rata Die/Fixed Date or Reingold Dershowitz) day used in Calendrical Calculations.
-   * Day 1 is January 1, 0001 Gregorian
+   * Day 1 is January 1, 0001, Gregorian
    */
   private static readonly JEWISH_EPOCH: number = -1373429;
 
@@ -135,7 +135,7 @@ export class JewishDate {
   /** The number  of <em>chalakim</em> (1080) in an hour. */
   private static readonly CHALAKIM_PER_HOUR: number = 1080;
 
-  /** The number of <em>chalakim</em> (25,920) in a 24 hour day. */
+  /** The number of <em>chalakim</em> (25,920) in a 24-hour day. */
   private static readonly CHALAKIM_PER_DAY: number = 25920; // 24 * 1080
 
   /** The number  of <em>chalakim</em> in an average Jewish month. A month has 29 days, 12 hours and 793
@@ -292,8 +292,8 @@ export class JewishDate {
   }
 
   /**
-   * The month, where 1 == January, 2 == February, etc... Note that this is different than the Java's Calendar class
-   * where January ==0
+   * The month, where 1 == January, 2 == February, etc... Note that this is different from the Java's Calendar class
+   * where January == 0
    */
   private gregorianMonth!: number;
 
@@ -306,7 +306,7 @@ export class JewishDate {
   /** 1 == Sunday, 2 == Monday, etc... */
   private dayOfWeek!: number;
 
-  /** Returns the absolute date (days since January 1, 0001 on the Gregorian calendar).
+  /** Returns the absolute date (days since January 1, 0001, on the Gregorian calendar).
    * @see #getAbsDate()
    * @see #absDateToJewishDate()
    */
@@ -358,7 +358,7 @@ export class JewishDate {
   }
 
   /**
-   * Returns the absolute date (days since January 1, 0001 on the Gregorian calendar).
+   * Returns the absolute date (days since January 1, 0001, on the Gregorian calendar).
    *
    * @return the number of days since January 1, 1
    */
@@ -391,7 +391,7 @@ export class JewishDate {
   }
 
   /**
-   * Returns if the year is a Jewish leap year. Years 3, 6, 8, 11, 14, 17 and 19 in the 19 year cycle are leap years.
+   * Returns if the year is a Jewish leap year. Years 3, 6, 8, 11, 14, 17 and 19 in the 19-year cycle are leap years.
    *
    * @param year
    *            the Jewish year.
@@ -403,7 +403,7 @@ export class JewishDate {
   }
 
   /**
-   * Returns if the year the calendar is set to is a Jewish leap year. Years 3, 6, 8, 11, 14, 17 and 19 in the 19 year
+   * Returns if the year the calendar is set to is a Jewish leap year. Years 3, 6, 8, 11, 14, 17 and 19 in the 19-year
    * cycle are leap years.
    *
    * @return true if it is a leap year
@@ -491,10 +491,10 @@ export class JewishDate {
     if ((moladParts >= 19440) // Dechiya of Molad Zaken - molad is >= midday (18 hours * 1080 chalakim)
       || (((moladDay % 7) === 2) // start Dechiya of GaTRaD - Ga = is a Tuesday
         && (moladParts >= 9924) // TRaD = 9 hours, 204 parts or later (9 * 1080 + 204)
-        && !JewishDate.isJewishLeapYear(year)) // of a non-leap year - end Dechiya of GaTRaD
+        && !JewishDate.isJewishLeapYear(year)) // of a non-leap year-end Dechiya of GaTRaD
       || (((moladDay % 7) === 1) // start Dechiya of BeTuTaKFoT - Be = is on a Monday
         && (moladParts >= 16789) // TRaD = 15 hours, 589 parts or later (15 * 1080 + 589)
-        && (JewishDate.isJewishLeapYear(year - 1)))) { // in a year following a leap year - end Dechiya of BeTuTaKFoT
+        && (JewishDate.isJewishLeapYear(year - 1)))) { // in a year following a leap year-end Dechiya of BeTuTaKFoT
       roshHashanaDay += 1; // Then postpone Rosh HaShanah one day
     }
     // start 4th Dechiya - Lo ADU Rosh - Rosh Hashana can't occur on A- sunday, D- Wednesday, U - Friday
@@ -578,7 +578,7 @@ export class JewishDate {
    *            minutes and 1 chelek in the case of 793/TaShTzaG)
    *
    * @throws IllegalArgumentException
-   *             if a A Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month < 1 or > 12 (or 13 on a
+   *             if a Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month < 1 or > 12 (or 13 on a
    *             leap year), the day of month is < 1 or > 30, an hour < 0 or > 23, a minute < 0 > 59 or chalakim < 0 >
    *             17. For larger a larger number of chalakim such as 793 (TaShTzaG) break the chalakim into minutes (18
    *             chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793 (TaShTzaG).
@@ -829,7 +829,7 @@ export class JewishDate {
    * @param year
    *            the Jewish year. The year can't be negative
    * @param month
-   *            the Jewish month starting with Nisan. Nisan expects a value of 1 etc till Adar with a value of 12. For
+   *            the Jewish month starting with Nisan. Nisan expects a value of 1 etc. till Adar with a value of 12. For
    *            a leap year, 13 will be the expected value for Adar II. Use the constants {@link JewishDate#NISSAN}
    *            etc.
    * @param dayOfMonth
@@ -1001,7 +1001,7 @@ export class JewishDate {
   */
 
   /**
-   * A constructor that initializes the date to the {@link java.util.Date Date} paremeter.
+   * A constructor that initializes the date to the {@link java.util.Date Date} parameter.
    *
    * @param date
    *            the <code>Date</code> to set the calendar to
@@ -1015,7 +1015,7 @@ export class JewishDate {
   */
 
   /**
-   * A constructor that initializes the date to the {@link java.util.Calendar Calendar} paremeter.
+   * A constructor that initializes the date to the {@link java.util.Calendar Calendar}parameter.
    *
    * @param calendar
    *            the <code>Calendar</code> to set the calendar to
@@ -1126,7 +1126,7 @@ export class JewishDate {
    *            the Jewish day of month. valid values are 1-30. If the day of month is set to 30 for a month that only
    *            has 29 days, the day will be set as 29.
    * @throws IllegalArgumentException
-   *             if a A Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month &lt; 1 or &gt; 12 (or 13 on a
+   *             if a Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month &lt; 1 or &gt; 12 (or 13 on a
    *             leap year) or the day of month is &lt; 1 or &gt; 30 is passed in
    */
 
@@ -1158,7 +1158,7 @@ export class JewishDate {
    *            used for larger numbers.
    *
    * @throws IllegalArgumentException
-   *             if a A Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month &lt; 1 or &gt; 12 (or 13 on a
+   *             if a Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month &lt; 1 or &gt; 12 (or 13 on a
    *             leap year), the day of month is &lt; 1 or &gt; 30, an hour &lt; 0 or &gt; 23, a minute &lt; 0 &gt; 59 or chalakim &lt; 0 &gt;
    *             17. For larger a larger number of chalakim such as 793 (TaShTzaG) break the chalakim into minutes (18
    *             chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793 (TaShTzaG).
@@ -1436,7 +1436,7 @@ export class JewishDate {
   }
 
   /**
-   * Returns the Gregotian year.
+   * Returns the Gregorian year.
    *
    * @return the Gregorian year
    */
@@ -1542,7 +1542,7 @@ export class JewishDate {
    *            the Jewish year
    * @throws IllegalArgumentException
    *             if a year of &lt; 3761 is passed in. The same will happen if the year is 3761 and the month and day
-   *             previously set are &lt; 18 Teves (preior to Jan 1, 1 AD)
+   *             previously set are &lt; 18 Teves (prior to Jan 1, 1 AD)
    */
   public setJewishYear(year: number): void {
     this.setJewishDate(year, this.jewishMonth, this.jewishDay);

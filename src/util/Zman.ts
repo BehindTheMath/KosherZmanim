@@ -3,10 +3,10 @@ import { DateTime } from 'luxon';
 import { IntegerUtils, StringUtils } from '../polyfills/Utils';
 
 /**
- * A wrapper class for a astronomical times / <em>zmanim</em> that is mostly intended to allow sorting collections of astronomical times.
+ * A wrapper class for astronomical times / <em>zmanim</em> that is mostly intended to allow sorting collections of astronomical times.
  * It has fields for both date/time and duration based <em>zmanim</em>, name / labels as well as a longer description or explanation of a
  * <em>zman</em>.
- *
+ * <p>
  * Here is an example of various ways of sorting <em>zmanim</em>.
  * <p>First create the Calendar for the location you would like to calculate:
  *
@@ -109,7 +109,7 @@ export class Zman {
    * A {@link Comparator} that will compare and sort zmanim by zmanim label order. Compares its two arguments by the zmanim label
    * name order. Returns a negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater
    * than the second.
-   * Please note that this class will will sort cases where either the {@code Zman} is a null or {@link #label} returns a null
+   * Please note that this class will sort cases where either the {@code Zman} is a null or {@link #label} returns a null
    * as empty {@code String}s.
    */
   static compareNameOrder(zman1: Zman, zman2: Zman): number {
@@ -122,7 +122,7 @@ export class Zman {
    * such as <em>{@link ZmanimCalendar#getShaahZmanisGra() shaah zmanis GRA}</em> or
    * {@link ComplexZmanimCalendar#getShaahZmanis16Point1Degrees() <em>shaah zmanis 16.1&deg;</em>}). Returns a negative
    * integer, zero, or a positive integer as the first argument is less than, equal to, or greater than the second.
-   * Please note that this class will will sort cases where {@code Zman} is a null.
+   * Please note that this class will sort cases where {@code Zman} is a null.
    */
   static compareDurationOrder(zman1: Zman, zman2: Zman): number {
     return IntegerUtils.compare(zman1.duration || 0, zman2.duration || 0);

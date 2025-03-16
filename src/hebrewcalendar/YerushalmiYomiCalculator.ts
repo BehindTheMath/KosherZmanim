@@ -7,7 +7,7 @@ import { IllegalArgumentException } from '../polyfills/errors';
 
 /**
  * This class calculates the <a href="https://en.wikipedia.org/wiki/Jerusalem_Talmud">Talmud Yerusalmi</a> <a href=
- * "https://en.wikipedia.org/wiki/Daf_Yomi">Daf Yomi</a> page ({@link Daf}) for the a given date.
+ * "https://en.wikipedia.org/wiki/Daf_Yomi">Daf Yomi</a> page ({@link Daf}) for the given date.
  *
  * @author &copy; elihaidv
  * @author &copy; Eliyahu Hershfeld 2017 - 2019
@@ -93,8 +93,8 @@ export class YerushalmiYomiCalculator {
   }
 
   /**
-   * Return the number of special days (Yom Kippur and Tisha B'Av) on which there is no daf, between the two given dates
-   *
+   * Return the number of special days (Yom Kippur and Tisha Be'av, where there are no dafim on these days),
+   * from the start date (as a <code>Calendar</code>) given until the end date (also as a <code>Calendar</code>).
    * @param start - start date to calculate
    * @param end - end date to calculate
    * @return the number of special days

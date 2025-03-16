@@ -5,7 +5,7 @@
  */
 export class Daf {
   /**
-   * {@link #getMasechtaNumber()} and {@link #setMasechtaNumber(int)}.
+   * See {@link #getMasechtaNumber()} and {@link #setMasechtaNumber(int)}.
    */
   private masechtaNumber: number;
 
@@ -141,7 +141,7 @@ export class Daf {
   }
 
   /**
-   * Setter method to allow overriding of the default list of <em>masechtos</em> transliterated into into Latin chars.
+   * Setter method to allow overriding of the default list of <em>masechtos</em> transliterated into Latin chars.
    * The default values use Ashkenazi American English transliteration.
    *
    * @param masechtosBavliTransliterated the list of transliterated Bavli <em>masechtos</em> to set.

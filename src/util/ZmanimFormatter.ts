@@ -155,7 +155,7 @@ export class ZmanimFormatter {
    * ZmanimFormatter constructor using a formatter
    *
    * @param format
-   *            int The formatting style to use. Using ZmanimFormatter.SEXAGESIMAL_SECONDS_FORMAT will format the time
+   *            int The formatting style to use. Using ZmanimFormatter.SEXAGESIMAL_SECONDS_FORMAT will format the
    *            time of 90*60*1000 + 1 as 1:30:00
    * @param dateFormat the SimpleDateFormat Object
    * @param timeZone the TimeZone Object
@@ -226,9 +226,9 @@ export class ZmanimFormatter {
 
   /**
    * Sets various format settings.
-   * @param prependZeroHours  if to prepend a zero for single digit hours (so that 1 'oclock is displayed as 01)
+   * @param prependZeroHours  if to prepend a zero for single digit hours (so that 1 o'clock is displayed as 01)
    * @param useSeconds should seconds be used in the time format
-   * @param useMillis should milliseconds be used informatting time.
+   * @param useMillis should milliseconds be used in formatting time.
    */
   private setSettings(prependZeroHours: boolean, useSeconds: boolean, useMillis: boolean): void {
     this.prependZeroHours = prependZeroHours;

@@ -18,7 +18,7 @@ export class GeoLocationUtils {
   private static readonly DISTANCE: number = 0;
 
   /**
-   * Constant for a initial bearing type calculation.
+   * Constant for an initial bearing type calculation.
    * @see #getGeodesicInitialBearing(GeoLocation, GeoLocation)
    */
   private static readonly INITIAL_BEARING: number = 1;

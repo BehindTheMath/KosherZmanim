@@ -23,7 +23,7 @@ import getRawOffset = TimeZone.getRawOffset;
  * <code>{@link java.util.Date}</code> is expected and {@link Long#MIN_VALUE} when a <code>long</code> is expected. The
  * reason that <code>Exception</code>s are not thrown in these cases is because the lack of a rise/set or twilight is
  * not an exception, but an expected condition in many parts of the world.
- *
+ * <p>
  * Here is a simple example of how to use the API to calculate sunrise.
  * First create the Calendar for the location you would like to calculate sunrise or sunset times for:
  *
@@ -91,7 +91,7 @@ export class AstronomicalCalendar {
   private astronomicalCalculator!: AstronomicalCalculator;
 
   /**
-   * The getSunrise method Returns a <code>Date</code> representing the
+   * The getSunrise method returns a <code>Date</code> representing the
    * {@link AstronomicalCalculator#getElevationAdjustment(double) elevation adjusted} sunrise time. The zenith used
    * for the calculation uses {@link #GEOMETRIC_ZENITH geometric zenith} of 90&deg; plus
    * {@link AstronomicalCalculator#getElevationAdjustment(double)}. This is adjusted by the
@@ -170,7 +170,7 @@ export class AstronomicalCalendar {
   }
 
   /**
-   * The getSunset method Returns a <code>Date</code> representing the
+   * The getSunset method returns a <code>Date</code> representing the
    * {@link AstronomicalCalculator#getElevationAdjustment(double) elevation adjusted} sunset time. The zenith used for
    * the calculation uses {@link #GEOMETRIC_ZENITH geometric zenith} of 90&deg; plus
    * {@link AstronomicalCalculator#getElevationAdjustment(double)}. This is adjusted by the
@@ -323,7 +323,7 @@ export class AstronomicalCalendar {
   /**
    * A constructor that takes in <a href="https://en.wikipedia.org/wiki/Geolocation">geolocation</a> information as a
    * parameter. The default {@link AstronomicalCalculator#getDefault() AstronomicalCalculator} used for solar
-   * calculations is the the {@link NOAACalculator}.
+   * calculations is the more accurate {@link NOAACalculator}.
    *
    * @param geoLocation
    *            The location information used for calculating astronomical sun times.
@@ -433,7 +433,7 @@ export class AstronomicalCalendar {
    * non-elevation adjusted temporal hour by passing in {@link #getSeaLevelSunrise() sea level sunrise} and
    * {@link #getSeaLevelSunset() sea level sunset} as parameters.
    *
-   * @param startOfday
+   * @param startOfDay
    *            The start of the day.
    * @param endOfDay
    *            The end of the day.
@@ -443,12 +443,12 @@ export class AstronomicalCalendar {
    *
    * @see #getTemporalHour()
    */
-  public getTemporalHour(startOfday: DateTime | null = this.getSeaLevelSunrise(),
+  public getTemporalHour(startOfDay: DateTime | null = this.getSeaLevelSunrise(),
                          endOfDay: DateTime | null = this.getSeaLevelSunset()): number {
-    if (startOfday === null || endOfDay === null) {
+    if (startOfDay === null || endOfDay === null) {
       return Long_MIN_VALUE;
     }
-    return (endOfDay.valueOf() - startOfday.valueOf()) / 12;
+    return (endOfDay.valueOf() - startOfDay.valueOf()) / 12;
   }
 
   /**
@@ -531,8 +531,8 @@ export class AstronomicalCalendar {
    * @param time
    *            The time to be set as the time for the <code>Date</code>. The time expected is in the format: 18.75
    *            for 6:45:00 PM.
-   * @param isSunrise true if the time is sunrise, and false if it is sunset
-   * @return The Date.
+   * @param isSunrise true if this time is sunrise, and false if it is sunset
+   * @return The Date - object representation of the time double
    */
   protected getDateFromTime(time: number, isSunrise: boolean): DateTime | null {
     if (Number.isNaN(time)) {

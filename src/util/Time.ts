@@ -46,7 +46,7 @@ export class Time {
   private negative: boolean = false;
 
   /**
-   * Constructor with parameters for the hours, minutes, seconds and millisecods.
+   * Constructor with parameters for the hours, minutes, seconds and milliseconds.
    *
    * @param hours the hours to set
    * @param minutes the minutes to set
@@ -65,7 +65,7 @@ export class Time {
    * - A constructor that sets the time by milliseconds.
    *   The milliseconds are converted to hours, minutes, seconds and milliseconds. If the
    *   milliseconds are negative it will call {@link #setIsNegative(boolean)}.
-   * - A constructor with parameters for the hours, minutes, seconds and millisecods.
+   * - A constructor with parameters for the hours, minutes, seconds and milliseconds.
    * @param hoursOrMillis
    * @param minutes
    * @param seconds

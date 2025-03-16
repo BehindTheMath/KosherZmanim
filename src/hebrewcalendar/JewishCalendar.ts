@@ -63,7 +63,7 @@ export enum Parsha {
 
 /**
  * The JewishCalendar extends the JewishDate class and adds calendar methods.
- *
+ * <p>
  * This open source Java code was originally ported by <a href="https://www.facebook.com/avromf">Avrom Finkelstien</a>
  * from his C++ code. It was refactored to fit the KosherJava Zmanim API with simplification of the code, enhancements
  * and some bug fixing. The class allows setting whether the holiday and parsha scheme follows the Israel scheme or outside Israel
@@ -82,7 +82,7 @@ export enum Parsha {
  * @author &copy; Eliyahu Hershfeld 2011 - 2019
  */
 export class JewishCalendar extends JewishDate {
-  /** The 14th day of Nisan, the day before of Pesach (Passover). */
+  /** The 14th day of Nisan, the day before Pesach (Passover). */
   public static readonly EREV_PESACH: number = 0;
 
   /** The holiday of Pesach (Passover) on the 15th (and 16th out of Israel) day of Nisan. */
@@ -100,7 +100,7 @@ export class JewishCalendar extends JewishDate {
   /** Shavuos (Pentecost), the 6th of Sivan */
   public static readonly SHAVUOS: number = 5;
 
-  /** The fast of the 17th day of Tamuz */
+  /** The fast of the 17th day of Tammuz */
   public static readonly SEVENTEEN_OF_TAMMUZ: number = 6;
 
   /** The fast of the 9th of Av */
@@ -112,7 +112,7 @@ export class JewishCalendar extends JewishDate {
   /** Erev Rosh Hashana (the day before Rosh Hashana), the 29th of Elul */
   public static readonly EREV_ROSH_HASHANA: number = 9;
 
-  /** Rosh Hashana, the first of Tishrei. */
+  /** Rosh Hashana, the first and second days of Tishrei. */
   public static readonly ROSH_HASHANA: number = 10;
 
   /** The fast of Gedalyah, the 3rd of Tishrei. */
@@ -261,7 +261,7 @@ export class JewishCalendar extends JewishDate {
   ];
 
   /**
-   * Is this calendar set to return modern Israeli national holidays. By default this value is false. The holidays
+   * Is this calendar set to return modern Israeli national holidays. By default, this value is false. The holidays
    * are: <em>Yom HaShoah</em>, <em>Yom Hazikaron</em>, <em>Yom Ha'atzmaut</em> and <em>Yom Yerushalayim</em>.
    *
    * @return the useModernHolidays true if set to return modern Israeli national holidays
@@ -273,7 +273,7 @@ export class JewishCalendar extends JewishDate {
   }
 
   /**
-   * Sets the calendar to return modern Israeli national holidays. By default this value is false. The holidays are:
+   * Sets the calendar to return modern Israeli national holidays. By default, this value is false. The holidays are:
    * <em>Yom HaShoah</em>, <em>Yom Hazikaron</em>, <em>Yom Ha'atzmaut</em> and <em>Yom Yerushalayim</em>.
    *
    * @param useModernHolidays
@@ -428,8 +428,8 @@ export class JewishCalendar extends JewishDate {
     /* Molad Nisan year 1 was 177 days after molad tohu of Tishrei. We multiply 29.5 day months * 6 months from Tishrei
      * to Nisan = 177. Subtract 7 days since tekufas Nisan was 7 days and 9 hours before the molad as stated in the Rambam
      * and we are now at 170 days. Because getJewishCalendarElapsedDays and getDaysSinceStartOfJewishYear use the value for
-     * Rosh Hashana as 1, we have to add 1 day days for a total of 171. To this add a day since the tekufah is on a Tuesday
-     * night and we push off the bracha to Wednesday AM resulting in the 172 used in the calculation.
+     * Rosh Hashana as 1, we have to add 1 day for a total of 171. To this add a day since the tekufah is on a Tuesday
+     * night, and we push off the bracha to Wednesday morning, resulting in the 172 used in the calculation.
      */
     // 28 years of 365.25 days + the offset from molad tohu mentioned above
     return elapsedDays % (28 * 365.25) === 172;
@@ -611,12 +611,12 @@ export class JewishCalendar extends JewishDate {
   /**
    * Returns a {@link Parsha <em>Parsha</em>} enum if the <em>Shabbos</em> is one of the four <em>parshiyos</em> of {@link
    * Parsha#SHKALIM <em>Shkalim</em>}, {@link Parsha#ZACHOR <em>Zachor</em>}, {@link Parsha#PARA <em>Para</em>}, {@link
-   * Parsha#HACHODESH <em>Hachdesh</em>}, or five other special <em>Shabbasos</em> of {@link Parsha#HAGADOL <em>Hagadol</em>},
+   * Parsha#HACHODESH <em>Hachodesh</em>}, or five other special <em>Shabbasos</em> of {@link Parsha#HAGADOL <em>Hagadol</em>},
    * {@link Parsha#CHAZON <em>Chazon</em>}, {@link Parsha#NACHAMU <em>Nachamu</em>}, {@link Parsha#SHUVA <em>Shuva</em>},
    * {@link Parsha#SHIRA <em>Shira</em>}, or {@link Parsha#NONE Parsha.NONE} for a regular <em>Shabbos</em> (or any weekday).
    *
    * @return one of the four <em>parshiyos</em> of {@link	Parsha#SHKALIM <em>Shkalim</em>}, {@link Parsha#ZACHOR <em>Zachor</em>},
-   * 		{@link Parsha#PARA <em>Para</em>}, {@link Parsha#HACHODESH <em>Hachdesh</em>}, or five other special <em>Shabbasos</em>
+   * 		{@link Parsha#PARA <em>Para</em>}, {@link Parsha#HACHODESH <em>Hachodesh</em>}, or five other special <em>Shabbasos</em>
    * 		of {@link Parsha#HAGADOL <em>Hagadol</em>}, {@link Parsha#CHAZON <em>Chazon</em>}, {@link Parsha#NACHAMU <em>Nachamu</em>},
    * 		{@link Parsha#SHUVA <em>Shuva</em>}, {@link Parsha#SHIRA <em>Shira</em>}, or {@link Parsha#NONE Parsha.NONE} for a regular
    * 		<em>Shabbos</em> (or any weekday).
@@ -724,7 +724,7 @@ export class JewishCalendar extends JewishDate {
           return JewishCalendar.YOM_HAZIKARON;
         }
 
-        // if 5 Iyar falls on Wed Yom Haatzmaut is that day. If it fal1s on Friday or Shabbos it is moved back to
+        // if 5 Iyar falls on Wed Yom Haatzmaut is that day. If it falls on Friday or Shabbos it is moved back to
         // Thursday. If it falls on Monday it is moved to Tuesday
         if (this.isUseModernHolidays() && ((day === 5 && dayOfWeek === Calendar.WEDNESDAY)
           || ((day === 4 || day === 3) && dayOfWeek === Calendar.THURSDAY) || (day === 6 && dayOfWeek === Calendar.TUESDAY))) {
@@ -875,7 +875,7 @@ export class JewishCalendar extends JewishDate {
   /**
    * Returns true if the current day is <em>Yom Tov</em>. The method returns true even for holidays such as {@link #CHANUKAH}
    * and minor ones such as {@link #TU_BEAV} and {@link #PESACH_SHENI}. <em>Erev Yom Tov</em> (with the exception of
-   * {@link #HOSHANA_RABBA}, <em>erev</em> the second days of <em>Pesach</em>) returns false, as do {@link #isTaanis() fast
+   * {@link #HOSHANA_RABBA}, and <em>erev</em> the second days of <em>Pesach</em>) returns false, as do {@link #isTaanis() fast
    * days} besides {@link #YOM_KIPPUR}. Use {@link #isAssurBemelacha()} to find the days that have a prohibition of work.
    *
    * @return true if the current day is a Yom Tov
@@ -972,7 +972,7 @@ export class JewishCalendar extends JewishDate {
   /**
    * Returns true if the current day is <em>Aseret Yemei Teshuva</em>.
    *
-   * @return if the current day is <em>Aseret Yemei Teshuvah</em>
+   * @return if the current day is <em>Aseret Yemei Teshuva</em>
    */
   public isAseresYemeiTeshuva(): boolean {
     return this.getJewishMonth() === JewishCalendar.TISHREI && this.getJewishDayOfMonth() <= 10;
@@ -1062,7 +1062,7 @@ export class JewishCalendar extends JewishDate {
   /**
    * Returns true if the current day is <em>Hoshana Rabba</em>.
    *
-   * @return true true if the current day is <em>Hoshana Rabba</em>.
+   * @return true if the current day is <em>Hoshana Rabba</em>.
    * @see #isYomTov()
    * @see #HOSHANA_RABBA
    */
@@ -1267,7 +1267,7 @@ export class JewishCalendar extends JewishDate {
   /**
    * Returns if the day is Purim (<a href="https://en.wikipedia.org/wiki/Purim#Shushan_Purim">Shushan Purim</a>
    * in a mukaf choma and regular Purim in a non-mukaf choma).
-   * @return if the day is Purim (Shushan Purim in a mukaf choma and regular Purin in a non-mukaf choma)
+   * @return if the day is Purim (Shushan Purim in a mukaf choma and regular Purim in a non-mukaf choma)
    *
    * @see #getIsMukafChoma()
    * @see #setIsMukafChoma(boolean)
