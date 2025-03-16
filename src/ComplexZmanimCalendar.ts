@@ -828,7 +828,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getShaahZmanis60Minutes()
    */
   public getAlos60(): DateTime | null {
-    return ComplexZmanimCalendar.getTimeOffset(this.getSunrise(), -60 * ComplexZmanimCalendar.MINUTE_MILLIS);
+    return ComplexZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), -60 * ComplexZmanimCalendar.MINUTE_MILLIS);
   }
 
   /**
