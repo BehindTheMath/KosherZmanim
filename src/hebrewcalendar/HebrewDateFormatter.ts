@@ -7,7 +7,7 @@ import { IllegalArgumentException } from '../polyfills/errors';
 
 /**
  * The HebrewDateFormatter class formats a {@link JewishDate}.
- * <p>
+ *
  * The class formats Jewish dates, numbers, Daf Yomi</em> (<em>Bavli and Yerushalmi), the Omer</em>,
  * <em>Parshas Hashavua</em>, (including special <em>parshiyos</em> of <em>Shekalim</em>, <em>Zachor</em>, <em>Parah</em>,
  * and <em>Hachodesh</em>), Yomim Tovim and the Molad (experimental) in Hebrew or Latin chars, and has various settings.
@@ -56,7 +56,7 @@ export class HebrewDateFormatter {
   /**
    * The internal DateFormat.&nbsp; See {@link #isLongWeekFormat()} and {@link #setLongWeekFormat(boolean)}.
    */
-  private weekFormat: DateTimeFormatOptions | null = null;
+  private weekFormat: DateTimeFormatOptions | null = { weekday: 'long' };
 
   /**
    * List of transliterated parshiyos using the default <em>Ashkenazi</em> pronounciation.&nbsp; The formatParsha method uses this
