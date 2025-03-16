@@ -73,8 +73,8 @@ export class YomiCalculator {
 
     let dafYomi: Daf;
     const julianDay: number = this.getJulianDay(date);
-    let cycleNo: number = 0;
-    let dafNo: number = 0;
+    let cycleNo: number;
+    let dafNo: number;
     if (date < YomiCalculator.dafYomiStartDate) {
       // TODO: should we return a null or throw an IllegalArgumentException?
       throw new IllegalArgumentException(`${calendar} is prior to organized Daf Yomi Bavli cycles that started on ${YomiCalculator.dafYomiStartDate}`);
@@ -89,13 +89,11 @@ export class YomiCalculator {
 
     let total: number = 0;
     let masechta: number = -1;
-    let blatt: number = 0;
+    let blatt: number;
 
     /* Fix Shekalim for old cycles. */
     if (cycleNo <= 7) {
       blattPerMasechta[4] = 13;
-    } else {
-      blattPerMasechta[4] = 22; // correct any change that may have been changed from a prior calculation
     }
     /* Finally find the daf. */
     // eslint-disable-next-line no-restricted-syntax

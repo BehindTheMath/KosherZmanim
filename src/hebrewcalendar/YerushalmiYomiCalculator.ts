@@ -80,12 +80,14 @@ export class YerushalmiYomiCalculator {
     let total: number = dafNo - specialDays;
 
     // Finally find the daf.
-    for (let i: number = 0; i < YerushalmiYomiCalculator.BLATT_PER_MASECHTA.length; i++) {
-      if (total <= YerushalmiYomiCalculator.BLATT_PER_MASECHTA[i]) {
+    // TODO:
+    // eslint-disable-next-line no-restricted-syntax
+    for (const blattInMasechta of YerushalmiYomiCalculator.BLATT_PER_MASECHTA) {
+      if (total <= blattInMasechta) {
         dafYomi = new Daf(masechta, total + 1);
         break;
       }
-      total -= YerushalmiYomiCalculator.BLATT_PER_MASECHTA[i];
+      total -= blattInMasechta;
       masechta++;
     }
 

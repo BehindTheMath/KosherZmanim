@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 
 import { GeoLocation } from './GeoLocation';
 import { AstronomicalCalculator } from './AstronomicalCalculator';
-import { Calendar, MathUtils } from '../polyfills/Utils';
+import { MathUtils } from '../polyfills/Utils';
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times based on the <a
@@ -230,8 +230,7 @@ export class NOAACalculator extends AstronomicalCalculator {
     const sunTrueLongitude: number = NOAACalculator.getSunTrueLongitude(julianCenturies);
 
     const omega: number = 125.04 - 1934.136 * julianCenturies;
-    const lambda: number = sunTrueLongitude - 0.00569 - 0.00478 * Math.sin(MathUtils.degreesToRadians(omega));
-    return lambda; // in degrees
+    return sunTrueLongitude - 0.00569 - 0.00478 * Math.sin(MathUtils.degreesToRadians(omega)); // in degrees
   }
 
   /**
@@ -278,8 +277,7 @@ export class NOAACalculator extends AstronomicalCalculator {
     const lambda: number = NOAACalculator.getSunApparentLongitude(julianCenturies);
 
     const sint: number = Math.sin(MathUtils.degreesToRadians(obliquityCorrection)) * Math.sin(MathUtils.degreesToRadians(lambda));
-    const theta: number = MathUtils.radiansToDegrees(Math.asin(sint));
-    return theta; // in degrees
+    return MathUtils.radiansToDegrees(Math.asin(sint)); // in degrees
   }
 
   /**

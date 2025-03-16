@@ -22,22 +22,22 @@ export class Time {
   /**
    * @see #getHours()
    */
-  private hours: number = 0;
+  private hours: number;
 
   /**
    * @see #getMinutes()
    */
-  private minutes: number = 0;
+  private minutes: number;
 
   /**
    * @see #getSeconds()
    */
-  private seconds: number = 0;
+  private seconds: number;
 
   /**
    * @see #getMilliseconds()
    */
-  private milliseconds: number = 0;
+  private milliseconds: number;
 
   /**
    * @see #isNegative()

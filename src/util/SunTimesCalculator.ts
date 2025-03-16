@@ -32,9 +32,8 @@ export class SunTimesCalculator extends AstronomicalCalculator {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
     const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-    const doubleTime: number = SunTimesCalculator.getTimeUTC(date, geoLocation.getLongitude(), geoLocation.getLatitude(),
-      adjustedZenith, true);
-    return doubleTime;
+    return SunTimesCalculator.getTimeUTC(date, geoLocation.getLongitude(), geoLocation.getLatitude(),
+        adjustedZenith, true);
   }
 
   /**
@@ -44,9 +43,8 @@ export class SunTimesCalculator extends AstronomicalCalculator {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
     const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-    const doubleTime: number = SunTimesCalculator.getTimeUTC(date, geoLocation.getLongitude(), geoLocation.getLatitude(),
-      adjustedZenith, false);
-    return doubleTime;
+    return SunTimesCalculator.getTimeUTC(date, geoLocation.getLongitude(), geoLocation.getLatitude(),
+        adjustedZenith, false);
   }
 
   /**
