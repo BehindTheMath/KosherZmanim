@@ -4375,7 +4375,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getHalfDayBasedZman(Date, Date, double)
    */
   public getSofZmanShmaGRASunriseToFixedLocalChatzos(): DateTime | null {
-    return this.getHalfDayBasedZman(this.getSunrise(), this.getFixedLocalChatzos(), 3);
+    return this.getHalfDayBasedZman(this.getElevationAdjustedSunrise(), this.getFixedLocalChatzos(), 3);
   }
 
   /**
@@ -4395,7 +4395,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see #getHalfDayBasedZman(Date, Date, double)
    */
   public getSofZmanTfilaGRASunriseToFixedLocalChatzos(): DateTime | null {
-    return this.getHalfDayBasedZman(this.getSunrise(), this.getFixedLocalChatzos(), 4);
+    return this.getHalfDayBasedZman(this.getElevationAdjustedSunrise(), this.getFixedLocalChatzos(), 4);
   }
 
   /**
@@ -4435,7 +4435,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see ZmanimCalendar#getHalfDayBasedZman(Date, Date, double)
    */
   public getMinchaKetanaGRAFixedLocalChatzosToSunset(): DateTime | null {
-    return this.getHalfDayBasedZman(this.getFixedLocalChatzos(), this.getSunset(), 3.5);
+    return this.getHalfDayBasedZman(this.getFixedLocalChatzos(), this.getElevationAdjustedSunset(), 3.5);
   }
 
   /**
@@ -4456,7 +4456,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    * @see ZmanimCalendar#getHalfDayBasedZman(Date, Date, double)
    */
   public getPlagHaminchaGRAFixedLocalChatzosToSunset(): DateTime | null {
-    return this.getHalfDayBasedZman(this.getFixedLocalChatzos(), this.getSunset(), 4.75);
+    return this.getHalfDayBasedZman(this.getFixedLocalChatzos(), this.getElevationAdjustedSunset(), 4.75);
   }
 
   /**
