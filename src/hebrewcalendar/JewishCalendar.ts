@@ -63,7 +63,7 @@ export enum Parsha {
 
 /**
  * The JewishCalendar extends the JewishDate class and adds calendar methods.
- * <p>
+ *
  * This open source Java code was originally ported by <a href="https://www.facebook.com/avromf">Avrom Finkelstien</a>
  * from his C++ code. It was refactored to fit the KosherJava Zmanim API with simplification of the code, enhancements
  * and some bug fixing. The class allows setting whether the holiday and parsha scheme follows the Israel scheme or outside Israel
@@ -431,8 +431,7 @@ export class JewishCalendar extends JewishDate {
      * Rosh Hashana as 1, we have to add 1 day for a total of 171. To this add a day since the tekufah is on a Tuesday
      * night, and we push off the bracha to Wednesday morning, resulting in the 172 used in the calculation.
      */
-    // 28 years of 365.25 days + the offset from molad tohu mentioned above
-    return elapsedDays % (28 * 365.25) === 172;
+    return elapsedDays % (28 * 365.25) === 172; // 28 years of 365.25 days + the offset from molad tohu mentioned above
   }
 
   /**
@@ -789,7 +788,7 @@ export class JewishCalendar extends JewishDate {
           return JewishCalendar.SUCCOS;
         }
 
-        if ((day >= 17 && day <= 20) || (day === 16 && this.inIsrael)) {
+        if ((day >= 16 && day <= 20)) {
           return JewishCalendar.CHOL_HAMOED_SUCCOS;
         }
 
@@ -875,7 +874,7 @@ export class JewishCalendar extends JewishDate {
   /**
    * Returns true if the current day is <em>Yom Tov</em>. The method returns true even for holidays such as {@link #CHANUKAH}
    * and minor ones such as {@link #TU_BEAV} and {@link #PESACH_SHENI}. <em>Erev Yom Tov</em> (with the exception of
-   * {@link #HOSHANA_RABBA}, and <em>erev</em> the second days of <em>Pesach</em>) returns false, as do {@link #isTaanis() fast
+   * {@link #HOSHANA_RABBA} and <em>erev</em> the second days of <em>Pesach</em>) returns false, as do {@link #isTaanis() fast
    * days} besides {@link #YOM_KIPPUR}. Use {@link #isAssurBemelacha()} to find the days that have a prohibition of work.
    *
    * @return true if the current day is a Yom Tov
@@ -889,11 +888,8 @@ export class JewishCalendar extends JewishDate {
    */
   public isYomTov(): boolean {
     const holidayIndex: number = this.getYomTovIndex();
-
-    if ((this.isErevYomTov() && (holidayIndex !== JewishCalendar.HOSHANA_RABBA
-            || (holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH && this.getJewishDayOfMonth() !== 20)))
-        || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR)
-        || holidayIndex === JewishCalendar.ISRU_CHAG) {
+    if ((this.isErevYomTov() && !(holidayIndex === JewishCalendar.HOSHANA_RABBA || holidayIndex === JewishCalendar.CHOL_HAMOED_PESACH))
+        || (this.isTaanis() && holidayIndex !== JewishCalendar.YOM_KIPPUR) || holidayIndex === JewishCalendar.ISRU_CHAG) {
       return false;
     }
 
