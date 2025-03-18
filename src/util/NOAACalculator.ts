@@ -30,7 +30,8 @@ export class NOAACalculator extends AstronomicalCalculator {
   private static readonly JULIAN_DAYS_PER_CENTURY: number = 36525;
 
   /**
-   * An enum to indicate what type of solar event is being calculated.
+   * An <code>enum</code> to indicate what type of solar event ({@link #SUNRISE SUNRISE}, {@link #SUNSET SUNSET},
+   * {@link #NOON NOON} or {@link #MIDNIGHT MIDNIGHT}) is being calculated.
    */
   protected static readonly SolarEvent = {
     /** SUNRISE A solar event related to sunrise */
@@ -42,6 +43,14 @@ export class NOAACalculator extends AstronomicalCalculator {
     /** MIDNIGHT A solar event related to midnight */
     MIDNIGHT: 3,
   } as const;
+
+  /**
+   * Default constructor of the NOAACalculator.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor() {
+    super();
+  }
 
   /**
    * @see AstronomicalCalculator#getCalculatorName()
@@ -80,7 +89,7 @@ export class NOAACalculator extends AstronomicalCalculator {
   }
 
   /**
-   * Return the <a href="https://en.wikipedia.org/wiki/Julian_day">Julian day</a> from a Java Calendar
+   * Return the <a href="https://en.wikipedia.org/wiki/Julian_day">Julian day</a> from a Java Calendar.
    *
    * @param calendar
    *            The Java Calendar
@@ -302,7 +311,7 @@ export class NOAACalculator extends AstronomicalCalculator {
    * @param zenith
    *            the zenith
    * @param solarEvent
-   *             If the hour angle is for sunrise or sunset
+   *             If the hour angle is for {@link SolarEvent#SUNRISE SUNRISE} or {@link SolarEvent#SUNSET SUNSET}
    * @return hour angle of sunrise in <a href="https://en.wikipedia.org/wiki/Radian">radians</a>
    */
   private static getSunHourAngle(latitude: number, solarDeclination: number, zenith: number, solarEvent: ValueOf<typeof NOAACalculator.SolarEvent>): number {
@@ -385,7 +394,7 @@ export class NOAACalculator extends AstronomicalCalculator {
    * "https://kosherjava.com/2020/07/02/definition-of-chatzos/">The Definition of <em>Chatzos</em></a> for details on
    * solar noon calculations.
    * @see com.kosherjava.zmanim.util.AstronomicalCalculator#getUTCNoon(Calendar, GeoLocation)
-   * @see #getSolarNoonUTC(double, double)
+   * @see #getSolarNoonMidnightUTC(double, double, SolarEvent)
    *
    * @param date
    *            The Calendar representing the date to calculate solar noon for
@@ -395,56 +404,83 @@ export class NOAACalculator extends AstronomicalCalculator {
    * @return the time in minutes from zero UTC
    */
   public getUTCNoon(date: DateTime, geoLocation: GeoLocation): number {
-    let noon = NOAACalculator.getSolarNoonUTC(NOAACalculator.getJulianDay(date), -geoLocation.getLongitude());
+    let noon = NOAACalculator.getSolarNoonMidnightUTC(NOAACalculator.getJulianDay(date), -geoLocation.getLongitude(), NOAACalculator.SolarEvent.NOON);
     noon = noon / 60;
 
     return noon > 0 ? noon % 24 : (noon % 24) + 24; // ensure that the time is >= 0 and < 24
   }
 
   /**
+   * Return the <a href="https://en.wikipedia.org/wiki/Universal_Coordinated_Time">Universal Coordinated Time</a>
+   * (UTC) of the <a href="https://en.wikipedia.org/wiki/Midnight">solar midnight</a> for the end of the given civil
+   * day at the given location on earth (about 12 hours after solar noon). This implementation returns true solar
+   * midnight as opposed to the time halfway between sunrise and sunset. Other calculators may return a more
+   * simplified calculation of halfway between sunrise and sunset. See <a href=
+   * "https://kosherjava.com/2020/07/02/definition-of-chatzos/">The Definition of <em>Chatzos</em></a> for details on
+   * solar noon / midnight calculations.
+   * @see com.kosherjava.zmanim.util.AstronomicalCalculator#getUTCNoon(Calendar, GeoLocation)
+   * @see #getSolarNoonMidnightUTC(double, double, SolarEvent)
+   *
+   * @param calendar
+   *            The Calendar representing the date to calculate solar noon for
+   * @param geoLocation
+   *            The location information used for astronomical calculating sun times. This class uses only requires
+   *            the longitude for calculating noon since it is the same time anywhere along the longitude line.
+   * @return the time in minutes from zero UTC
+   */
+  public getUTCMidnight(date: DateTime, geoLocation: GeoLocation): number {
+    let midnight: number = NOAACalculator.getSolarNoonMidnightUTC(NOAACalculator.getJulianDay(date), -geoLocation.getLongitude(), NOAACalculator.SolarEvent.MIDNIGHT);
+    midnight = midnight / 60;
+    return midnight > 0 ? midnight % 24 : (midnight % 24) + 24; // ensure that the time is >= 0 and < 24
+  }
+
+  /**
    * Return the <a href="https://en.wikipedia.org/wiki/Universal_Coordinated_Time">Universal Coordinated Time</a> (UTC)
-   * of <a href="http://en.wikipedia.org/wiki/Noon#Solar_noon">solar noon</a> for the given day at the given location
-   * on earth.
-   * @todo Refactor to possibly use the getSunRiseSetUTC (to be renamed) and remove the need for this method.
+   * midnight (about 12 hours after solar noon) of the given day at the given location on earth.
    *
    * @param julianDay
-   *            the Julian day since <a href=
+   *            The Julian day since <a href=
    *            "https://en.wikipedia.org/wiki/Epoch_(astronomy)#J2000">J2000.0</a>.
    * @param longitude
    *            the longitude of observer in degrees
+   * @param solarEvent
+   *            If the calculation is for {@link SolarEvent#NOON NOON} or {@link SolarEvent#MIDNIGHT MIDNIGHT}
    *
    * @return the time in minutes from zero UTC
    *
    * @see com.kosherjava.zmanim.util.AstronomicalCalculator#getUTCNoon(Calendar, GeoLocation)
    * @see #getUTCNoon(Calendar, GeoLocation)
    */
-  private static getSolarNoonUTC(julianDay: number, longitude: number): number {
+  private static getSolarNoonMidnightUTC(julianDay: number, longitude: number, solarEvent: ValueOf<typeof NOAACalculator.SolarEvent>): number {
+    // eslint-disable-next-line no-param-reassign
+    julianDay = (solarEvent === NOAACalculator.SolarEvent.NOON) ? julianDay : julianDay + 0.5;
     // First pass for approximate solar noon to calculate equation of time
     const tnoon: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay + longitude / 360);
     let equationOfTime: number = NOAACalculator.getEquationOfTime(tnoon);
-    const solNoonUTC: number = 720 + (longitude * 4) - equationOfTime; // minutes
+    const solNoonUTC: number = (longitude * 4) - equationOfTime; // minutes
 
     // second pass
-    const newt: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay - 0.5 + solNoonUTC / 1440);
+    const newt: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay + solNoonUTC / 1440);
 
     equationOfTime = NOAACalculator.getEquationOfTime(newt);
-    return 720 + (longitude * 4) - equationOfTime;
+    return (solarEvent === NOAACalculator.SolarEvent.NOON ? 720 : 1440) + (longitude * 4) - equationOfTime;
   }
 
   /**
    * Return the <a href="https://en.wikipedia.org/wiki/Universal_Coordinated_Time">Universal Coordinated Time</a> (UTC)
    * of sunrise or sunset for the given day at the given location on earth.
+   * @todo Possibly increase the number of passes for improved accuracy, especially in the Arctic areas.
    *
    * @param calendar
-   *            the calendar
+   *            The calendar
    * @param latitude
-   *            the latitude of observer in degrees
+   *            The latitude of observer in degrees
    * @param longitude
-   *            longitude of observer in degrees
+   *            Longitude of observer in degrees
    * @param zenith
-   *            zenith
+   *            Zenith
    * @param solarEvent
-   *             Is the calculation for sunrise or sunset
+   *             If the calculation is for {@link SolarEvent#SUNRISE SUNRISE} or {@link SolarEvent#SUNSET SUNSET}
    * @return the time in minutes from zero Universal Coordinated Time (UTC)
    */
   private static getSunRiseSetUTC(date: DateTime, latitude: number, longitude: number, zenith: number, solarEvent: ValueOf<typeof NOAACalculator.SolarEvent>): number {
@@ -452,7 +488,11 @@ export class NOAACalculator extends AstronomicalCalculator {
 
     // Find the time of solar noon at the location, and use that declination.
     // This is better than start of the Julian day
-    const noonmin: number = NOAACalculator.getSolarNoonUTC(julianDay, longitude);
+    // TODO really not needed since the Julian day starts from local fixed noon. Changing this would be more
+    // efficient but would likely cause a very minor discrepancy in the calculated times (likely not reducing
+    // accuracy, just slightly different, thus potentially breaking test cases). Regardless, it would be within
+    // milliseconds.
+    const noonmin: number = NOAACalculator.getSolarNoonMidnightUTC(julianDay, longitude, NOAACalculator.SolarEvent.NOON);
     const tnoon: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay + noonmin / 1440);
 
     // First calculates sunrise and approximate length of day

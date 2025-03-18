@@ -18,6 +18,14 @@ import { MathUtils } from '../polyfills/Utils';
  */
 export class SunTimesCalculator extends AstronomicalCalculator {
   /**
+   * Default constructor of the SunTimesCalculator.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor() {
+    super();
+  }
+
+  /**
    * @see AstronomicalCalculator#getCalculatorName()
    */
   // eslint-disable-next-line class-methods-use-this
@@ -32,8 +40,7 @@ export class SunTimesCalculator extends AstronomicalCalculator {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
     const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-    return SunTimesCalculator.getTimeUTC(date, geoLocation.getLongitude(), geoLocation.getLatitude(),
-        adjustedZenith, true);
+    return SunTimesCalculator.getTimeUTC(date, geoLocation, adjustedZenith, true);
   }
 
   /**
@@ -43,17 +50,18 @@ export class SunTimesCalculator extends AstronomicalCalculator {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
     const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
-    return SunTimesCalculator.getTimeUTC(date, geoLocation.getLongitude(), geoLocation.getLatitude(),
-        adjustedZenith, false);
+    return SunTimesCalculator.getTimeUTC(date, geoLocation, adjustedZenith, false);
   }
 
   /**
-   * The number of degrees of longitude that corresponds to one-hour time difference.
+   * The number of degrees of longitude that corresponds to one hour of time difference.
    */
   private static readonly DEG_PER_HOUR: number = 360 / 24;
 
   /**
-   * sin of an angle in degrees
+   * The sine in degrees.
+   * @param deg the degrees
+   * @return sin of the angle in degrees
    */
   private static sinDeg(deg: number): number {
     // return Math.sin(deg * 2 * Math.PI / 360);
@@ -61,7 +69,9 @@ export class SunTimesCalculator extends AstronomicalCalculator {
   }
 
   /**
-   * acos of an angle, result in degrees
+   * Return the arc cosine in degrees.
+   * @param x angle
+   * @return acos of the angle in degrees
    */
   private static acosDeg(x: number): number {
     // return Math.acos(x) * 360 / (2 * Math.PI);
@@ -69,7 +79,9 @@ export class SunTimesCalculator extends AstronomicalCalculator {
   }
 
   /**
-   * asin of an angle, result in degrees
+   * Return the arc sine in degrees.
+   * @param x angle
+   * @return asin of the angle in degrees
    */
   private static asinDeg(x: number): number {
     // return Math.asin(x) * 360 / (2 * Math.PI);
@@ -77,7 +89,9 @@ export class SunTimesCalculator extends AstronomicalCalculator {
   }
 
   /**
-   * tan of an angle in degrees
+   * Return the tangent in degrees.
+   * @param deg degrees
+   * @return tan of the angle in degrees
    */
   private static tanDeg(deg: number): number {
     // return Math.tan(deg * 2 * Math.PI / 360);
@@ -96,8 +110,10 @@ export class SunTimesCalculator extends AstronomicalCalculator {
   }
 
   /**
-   * Get time difference between location's longitude and the Meridian, in hours. West of Meridian has a negative time
-   * difference
+   * Get time difference between location's longitude and the Meridian, in hours.
+   *
+   * @param longitude the longitude
+   * @return time difference between the location's longitude and the Meridian, in hours. West of Meridian has a negative time difference
    */
   private static getHoursFromMeridian(longitude: number): number {
     return longitude / SunTimesCalculator.DEG_PER_HOUR;
@@ -135,8 +151,9 @@ export class SunTimesCalculator extends AstronomicalCalculator {
   }
 
   /**
-   * Calculates the Sun's true longitude in degrees. The result is an angle gte 0 and lt 360. Requires the Sun's mean
-   * anomaly, also in degrees
+   * Returns the Sun's true longitude in degrees.
+   * @param sunMeanAnomaly the Sun's mean anomaly in degrees
+   * @return the Sun's true longitude in degrees. The result is an angle &gt;= 0 and &lt;= 360.
    */
   private static getSunTrueLongitude(sunMeanAnomaly: number): number {
     let l: number = sunMeanAnomaly + (1.916 * SunTimesCalculator.sinDeg(sunMeanAnomaly)) + (0.020 * SunTimesCalculator.sinDeg(2 * sunMeanAnomaly)) + 282.634;
@@ -152,8 +169,9 @@ export class SunTimesCalculator extends AstronomicalCalculator {
   }
 
   /**
-   * Calculates the Sun's right ascension in hours, given the Sun's true longitude in degrees. Input and output are
-   * angles gte 0 and lt 360.
+   * Calculates the Sun's right ascension in hours.
+   * @param sunTrueLongitude the Sun's true longitude in degrees &gt; 0 and &lt; 360.
+   * @return the Sun's right ascension in hours in angles &gt; 0 and &lt; 360.
    */
   private static getSunRightAscensionHours(sunTrueLongitude: number): number {
     const a: number = 0.91764 * SunTimesCalculator.tanDeg(sunTrueLongitude);
@@ -197,33 +215,27 @@ export class SunTimesCalculator extends AstronomicalCalculator {
   }
 
   /**
-   * Get sunrise or sunset time in UTC, according to flag.
+   * Get sunrise or sunset time in UTC, according to flag. This time is returned as
+   * a double and is not adjusted for time-zone.
    *
-   * @param year
-   *            4-digit year
-   * @param month
-   *            month, 1-12 (not the zero based Java month
-   * @param day
-   *            day of month, 1-31
-   * @param longitude
-   *            in degrees, longitudes west of Meridian are negative
-   * @param latitude
-   *            in degrees, latitudes south of equator are negative
+   * @param calendar
+   *            the Calendar object to extract the day of year for calculation
+   * @param geoLocation
+   *            the GeoLocation object that contains the latitude and longitude
    * @param zenith
    *            Sun's zenith, in degrees
-   * @param type
-   *            type of calculation to carry out {@link #TYPE_SUNRISE} or {@link #TYPE_SUNRISE}.
-   *
-   * @return the time as a double. If an error was encountered in the calculation (expected behavior for some
-   *         locations such as near the poles, {@link Double.NaN} will be returned.
+   * @param isSunrise
+   *            True for sunrise and false for sunset.
+   * @return the time as a double. If an error was encountered in the calculation
+   *         (expected behavior for some locations such as near the poles,
+   *         {@link Double#NaN} will be returned.
    */
-  private static getTimeUTC(date: DateTime, longitude: number, latitude: number, zenith: number,
-      isSunrise: boolean): number {
+  private static getTimeUTC(date: DateTime, geoLocation: GeoLocation, zenith: number, isSunrise: boolean): number {
     const dayOfYear: number = date.ordinal;
-    const sunMeanAnomaly: number = SunTimesCalculator.getMeanAnomaly(dayOfYear, longitude, isSunrise);
+    const sunMeanAnomaly: number = SunTimesCalculator.getMeanAnomaly(dayOfYear, geoLocation.getLongitude(), isSunrise);
     const sunTrueLong: number = SunTimesCalculator.getSunTrueLongitude(sunMeanAnomaly);
     const sunRightAscensionHours: number = SunTimesCalculator.getSunRightAscensionHours(sunTrueLong);
-    const cosLocalHourAngle: number = SunTimesCalculator.getCosLocalHourAngle(sunTrueLong, latitude, zenith);
+    const cosLocalHourAngle: number = SunTimesCalculator.getCosLocalHourAngle(sunTrueLong, geoLocation.getLatitude(), zenith);
 
     let localHourAngle: number;
     if (isSunrise) {
@@ -234,15 +246,10 @@ export class SunTimesCalculator extends AstronomicalCalculator {
     const localHour: number = localHourAngle / SunTimesCalculator.DEG_PER_HOUR;
 
     const localMeanTime: number = SunTimesCalculator.getLocalMeanTime(localHour, sunRightAscensionHours,
-      SunTimesCalculator.getApproxTimeDays(dayOfYear, SunTimesCalculator.getHoursFromMeridian(longitude), isSunrise));
-    let processedTime: number = localMeanTime - SunTimesCalculator.getHoursFromMeridian(longitude);
-    while (processedTime < 0) {
-      processedTime += 24;
-    }
-    while (processedTime >= 24) {
-      processedTime -= 24;
-    }
-    return processedTime;
+        SunTimesCalculator.getApproxTimeDays(dayOfYear, SunTimesCalculator.getHoursFromMeridian(geoLocation.getLatitude()), isSunrise));
+    const processedTime = localMeanTime - SunTimesCalculator.getHoursFromMeridian(geoLocation.getLongitude());
+
+    return processedTime > 0 ? processedTime % 24 : (processedTime % 24) + 24; // ensure that the time is >= 0 and < 24
   }
 
   /**
@@ -271,5 +278,26 @@ export class SunTimesCalculator extends AstronomicalCalculator {
     if (noon < sunrise) noon -= 12;
 
     return noon;
+  }
+
+  /**
+   * Return the <a href="https://en.wikipedia.org/wiki/Universal_Coordinated_Time">Universal Coordinated Time</a> (UTC)
+   * of midnight for the given day at the given location on earth. This implementation returns solar midnight as 12 hours
+   * after utc noon that is  halfway between sunrise and sunset.
+   * {@link NOAACalculator}, the default calculator, returns true solar noon. See <a href=
+   * "https://kosherjava.com/2020/07/02/definition-of-chatzos/">The Definition of Chatzos</a> for details on solar
+   * noon calculations.
+   * @see com.kosherjava.zmanim.util.AstronomicalCalculator#getUTCNoon(Calendar, GeoLocation)
+   * @see NOAACalculator
+   *
+   * @param calendar
+   *            The Calendar representing the date to calculate solar noon for
+   * @param geoLocation
+   *            The location information used for astronomical calculating sun times.
+   * @return the time in minutes from zero UTC. If an error was encountered in the calculation (expected behavior for
+   *         some locations such as near the poles, {@link Double#NaN} will be returned.
+   */
+  public getUTCMidnight(date: DateTime, geoLocation: GeoLocation): number {
+    return this.getUTCNoon(date, geoLocation) + 12;
   }
 }

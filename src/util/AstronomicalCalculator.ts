@@ -14,8 +14,8 @@ import { UnsupportedError } from '../polyfills/errors';
  */
 export abstract class AstronomicalCalculator {
   /**
-   * The commonly used average solar refraction. Calendrical Calculations lists a more accurate global average of
-   * 34.478885263888294
+   * The commonly used average solar refraction. <a href="https://www.cs.tau.ac.il//~nachum/calendar-book/index.shtml"
+   *   * >Calendrical Calculations</a> lists a more accurate global average of 34.478885263888294
    *
    * @see #getRefraction()
    */
@@ -36,6 +36,14 @@ export abstract class AstronomicalCalculator {
    * @see #setEarthRadius(double)
    */
   private earthRadius: number = 6356.9; // in KM
+
+  /**
+   * Default constructor using the default {@link #refraction refraction}, {@link #solarRadius solar radius} and
+   * {@link #earthRadius earth radius}.
+   */
+  public AstronomicalCalculator() {
+    // keep the defaults for now.
+  }
 
   /**
    * A method that returns the earth radius in KM. The value currently defaults to 6356.9 KM if not set.
@@ -62,8 +70,8 @@ export abstract class AstronomicalCalculator {
   private static readonly GEOMETRIC_ZENITH: number = 90;
 
   /**
-   * Returns the default class for calculating sunrise and sunset. This is currently the more accurate {@link NOAACalculator},
-   * but this may change.
+   * Returns the default class for calculating sunrise and sunset. This is currently the more accurate
+   * {@link NOAACalculator}, but this may change in the future.
    *
    * @return AstronomicalCalculator the default class for calculating sunrise and sunset. In the current
    *         implementation the default calculator returned is the more accurate {@link NOAACalculator}.
@@ -144,6 +152,21 @@ export abstract class AstronomicalCalculator {
   public abstract getUTCNoon(date: DateTime, geoLocation: GeoLocation): number;
 
   /**
+   * Return <a href="https://en.wikipedia.org/wiki/Midnight">solar midnight</a> (UTC) for the given day at the
+   * given location on earth. The the {@link com.kosherjava.zmanim.util.NOAACalculator} implementation calculates
+   * true solar midnight, while the {@link com.kosherjava.zmanim.util.SunTimesCalculator} approximates it, calculating
+   * the time as 12 hours after halfway between sunrise and sunset.
+   *
+   * @param calendar
+   *            Used to calculate day of year.
+   * @param geoLocation
+   *            The location information used for astronomical calculating sun times.
+   *
+   * @return the time in minutes from zero UTC
+   */
+  public abstract getUTCMidnight(date: DateTime, geoLocation: GeoLocation): number;
+
+  /**
    * Method to return the adjustment to the zenith required to account for the elevation. Since a person at a higher
    * elevation can see farther below the horizon, the calculation for sunrise / sunset is calculated below the horizon
    * used at sea level. This is only used for sunrise and sunset and not times before or after it such as
@@ -156,9 +179,9 @@ export abstract class AstronomicalCalculator {
    * elevationAdjustment = Math.toDegrees(Math.acos(earthRadiusInMeters / (earthRadiusInMeters + elevationMeters)));
    * </pre>
    *
-   * The source of this algorithm is <a href="http://www.calendarists.com">Calendrical Calculations</a> by Edward M.
-   * Reingold and Nachum Dershowitz. An alternate algorithm that produces an almost identical (but not accurate)
-   * result found in Ma'aglay Tzedek by Moishe Kosower and other sources is:
+   * The source of this algorithm is <a href="https://www.cs.tau.ac.il/~nachum/calendar-book/index.shtml">Calendrical
+   * Calculations</a> by Edward M. Reingold and Nachum Dershowitz. An alternate algorithm that produces similar (but
+   * not completely accurate) result found in Ma'aglay Tzedek by Moishe Kosower and other sources is:
    *
    * <pre>
    * elevationAdjustment = 0.0347 * Math.sqrt(elevationMeters);
@@ -215,11 +238,10 @@ export abstract class AstronomicalCalculator {
   }
 
   /**
-   * Method to get the refraction value to be used when calculating sunrise and sunset. The default value is 34 arc
-   * minutes. The <a href=
-   * "https://web.archive.org/web/20150915094635/http://emr.cs.iit.edu/home/reingold/calendar-book/second-edition/errata.pdf">
-   * Errata and Notes for Calendrical Calculations: The Millennium Edition</a> by Edward M. Reingold and Nachum Dershowitz
-   * lists the actual average refraction value as 34.478885263888294 or approximately 34' 29". The refraction value as well
+   * Method to get the refraction value to be used when calculating sunrise and sunset. The default value is 34
+   * arcminutes. The <a href="https://www.cs.tau.ac.il/~nachum/calendar-book/second-edition/errata.pdf">Errata and Notes
+   * for Calendrical Calculations: The Millennium Edition</a> by Edward M. Reingold and Nachum Dershowitz lists the
+   * actual average refraction value as 34.478885263888294 or approximately 34' 29". The refraction value as well
    * as the solarRadius and elevation adjustment are added to the zenith used to calculate sunrise and sunset.
    *
    * @return The refraction in arcminutes.
@@ -250,7 +272,7 @@ export abstract class AstronomicalCalculator {
    * the difference at the location of the <a href="https://www.rmg.co.uk/royal-observatory">Royal Observatory, Greenwich</a>
    * shows only a 4.494-second difference between the perihelion and aphelion radii, but moving into the arctic circle the
    * difference becomes more noticeable. Tests for Tromso, Norway (latitude 69.672312, longitude 19.049787) show that
-   * on May 17, the rise of the midnight sun, a 2-minute 23-second difference is observed between the perihelion and
+   * on May 17, the rise of the midnight sun, a 2 minute 23 second difference is observed between the perihelion and
    * aphelion radii using the USNO algorithm, but only 1 minute and 6 seconds difference using the NOAA algorithm.
    * Areas farther north show an even greater difference. Note that these test are not real valid test cases because
    * they show the extreme difference on days that are not the perihelion or aphelion, but are shown for illustrative
