@@ -14,16 +14,16 @@ import { IllegalArgumentException } from '../polyfills/errors';
  * href="https://en.wikipedia.org/wiki/Hillel_II">Hillel II's (Hakatan's</a>) calendar (4119 in the Jewish Calendar / 359
  * CE Julian as recorded by <a href="https://en.wikipedia.org/wiki/Hai_Gaon">Rav Hai Gaon</a>) would be just an
  * approximation.
- * <p>
+ *
  * This open source Java code was written by <a href="https://www.facebook.com/avromf">Avrom Finkelstien</a> from his C++
  * code. It was refactored to fit the KosherJava Zmanim API with simplification of the code, enhancements and some bug
  * fixing.
- * <p>
+ *
  * Some of Avrom's original C++ code was translated from <a href="https://web.archive.org/web/20120124134148/http://emr.cs.uiuc.edu/~reingold/calendar.C">C/C++
  * code</a> in <a href="http://www.calendarists.com">Calendrical Calculations</a> by Nachum Dershowitz and Edward M.
- * Reingold, Software-- Practice &amp; Experience, vol. 20, no. 9 (September 1990), pp. 899- 928. Any method with the mark
+ * Reingold, Software-- Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899- 928. Any method with the mark
  * "ND+ER" indicates that the method was taken from this source with minor modifications.
- * <p>
+ *
  * If you are looking for a class that implements a Jewish calendar version of the Calendar class, one is available from
  * the <a href="http://site.icu-project.org/" >ICU (International Components for Unicode)</a> project, formerly part of
  * IBM's DeveloperWorks.
@@ -125,7 +125,7 @@ export class JewishDate {
 
   /**
    * the Jewish epoch using the RD (Rata Die/Fixed Date or Reingold Dershowitz) day used in Calendrical Calculations.
-   * Day 1 is January 1, 0001, Gregorian
+   * Day 1 is January 1, 0001 of the Gregorian calendar
    */
   private static readonly JEWISH_EPOCH: number = -1373429;
 
@@ -143,8 +143,8 @@ export class JewishDate {
   private static readonly CHALAKIM_PER_MONTH: number = 765433; // (29 * 24 + 12) * 1080 + 793
 
   /**
-   * Days from the beginning of Sunday till molad BaHaRaD. Calculated as 1 day, 5 hours and 204 chalakim = (24 + 5) *
-   * 1080 + 204 = 31524
+   * Days from the beginning of Sunday till <em>molad BaHaRaD</em>. Calculated as 1 day, 5 hours and 204 <em>chalakim</em> =
+   * (24 + 5) * 1080 + 204 = 31524
    */
   private static readonly CHALAKIM_MOLAD_TOHU: number = 31524;
 
@@ -187,15 +187,15 @@ export class JewishDate {
   /** the internal count of <em>molad</em> minutes. */
   private moladMinutes!: number;
 
-  /** the internal count of <em>molad</em> <em>chalakim</em>. */
+  /** the internal count of <em>molad chalakim</em>. */
   private moladChalakim!: number;
 
   /**
-   * Returns the molad hours. Only a JewishDate object populated with {@link #getMolad()},
+   * Returns the <em>molad</em> hours. Only a JewishDate object populated with {@link #getMolad()},
    * {@link #setJewishDate(int, int, int, int, int, int)} or {@link #setMoladHours(int)} will have this field
    * populated. A regular JewishDate object will have this field set to 0.
    *
-   * @return the molad hours
+   * @return the <em>molad</em> hours
    * @see #setMoladHours(int)
    * @see #getMolad()
    * @see #setJewishDate(int, int, int, int, int, int)
@@ -205,10 +205,10 @@ export class JewishDate {
   }
 
   /**
-   * Sets the molad hours.
+   * Sets the <em>molad</em> hours.
    *
    * @param moladHours
-   *            the molad hours to set
+   *            the <em>molad</em> hours to set
    * @see #getMoladHours()
    * @see #getMolad()
    * @see #setJewishDate(int, int, int, int, int, int)
@@ -219,11 +219,11 @@ export class JewishDate {
   }
 
   /**
-   * Returns the molad minutes. Only an object populated with {@link #getMolad()},
+   * Returns the <em>molad</em> minutes. Only an object populated with {@link #getMolad()},
    * {@link #setJewishDate(int, int, int, int, int, int)} or or {@link #setMoladMinutes(int)} will have these fields
    * populated. A regular JewishDate object will have this field set to 0.
    *
-   * @return the molad minutes
+   * @return the <em>molad</em> minutes
    * @see #setMoladMinutes(int)
    * @see #getMolad()
    * @see #setJewishDate(int, int, int, int, int, int)
@@ -233,8 +233,8 @@ export class JewishDate {
   }
 
   /**
-   * Sets the molad minutes. The expectation is that the traditional minute-less chalakim will be broken out to
-   * minutes and {@link #setMoladChalakim(int) chalakim/parts} , so 793 (TaShTZaG) parts would have the minutes set to
+   * Sets the <em>molad</em> minutes. The expectation is that the traditional minute-less chalakim will be broken out to
+   * minutes and {@link #setMoladChalakim(int) chalakim/parts}, so 793 (TaShTZaG) parts would have the minutes set to
    * 44 and chalakim to 1.
    *
    * @param moladMinutes
@@ -250,12 +250,12 @@ export class JewishDate {
   }
 
   /**
-   * Sets the molad chalakim/parts. The expectation is that the traditional minute-less chalakim will be broken out to
-   * {@link #setMoladMinutes(int) minutes} and chalakim, so 793 (TaShTZaG) parts would have the minutes set to 44 and
-   * chalakim to 1.
+   * Sets the <em>molad chalakim</em> / parts. The expectation is that the traditional minute-less <em>chalakim</em> will be broken
+   * out to {@link #setMoladMinutes(int) minutes} and chalakim, so 793 (TaShTZaG) parts would have the minutes set to 44 and
+   * <em>chalakim</em> to 1.
    *
    * @param moladChalakim
-   *            the molad chalakim/parts to set
+   *            the <em>molad chalakim</em> / parts to set
    * @see #getMoladChalakim()
    * @see #setMoladMinutes(int)
    * @see #getMolad()
@@ -267,11 +267,11 @@ export class JewishDate {
   }
 
   /**
-   * Returns the molad chalakim/parts. Only an object populated with {@link #getMolad()},
-   * {@link #setJewishDate(int, int, int, int, int, int)} or or {@link #setMoladChalakim(int)} will have these fields
+   * Returns the <em>molad chalakim</em> / parts. Only an object populated with {@link #getMolad()},
+   * {@link #setJewishDate(int, int, int, int, int, int)} or {@link #setMoladChalakim(int)} will have these fields
    * populated. A regular JewishDate object will have this field set to 0.
    *
-   * @return the molad chalakim/parts
+   * @return the <em>molad chalakim</em> / parts
    * @see #setMoladChalakim(int)
    * @see #getMolad()
    * @see #setJewishDate(int, int, int, int, int, int)
@@ -292,8 +292,8 @@ export class JewishDate {
   }
 
   /**
-   * The month, where 1 == January, 2 == February, etc... Note that this is different from the Java's Calendar class
-   * where January == 0
+   * The month, where 1 == January, 2 == February, etc... Note that this is different than Java's Calendar class
+   * where January == 0.
    */
   private gregorianMonth!: number;
 
@@ -306,7 +306,7 @@ export class JewishDate {
   /** 1 == Sunday, 2 == Monday, etc... */
   private dayOfWeek!: number;
 
-  /** Returns the absolute date (days since January 1, 0001, on the Gregorian calendar).
+  /** Returns the absolute date (days since January 1, 0001 of the Gregorian calendar).
    * @see #getAbsDate()
    * @see #absDateToJewishDate()
    */
@@ -358,7 +358,7 @@ export class JewishDate {
   }
 
   /**
-   * Returns the absolute date (days since January 1, 0001, on the Gregorian calendar).
+   * Returns the absolute date (days since January 1, 0001 of the Gregorian calendar).
    *
    * @return the number of days since January 1, 1
    */
@@ -432,10 +432,10 @@ export class JewishDate {
    *
    * @param year
    *            the Jewish year
-   * @return the number of days elapsed from prior to the molad Tohu BaHaRaD (Be = Monday, Ha= 5 hours and Rad =204
-   *         chalakim/parts) prior to the start of the Jewish calendar, to the mean conjunction of Tishri of the
-   *         Jewish year. BeHaRaD is 23:11:20 on Sunday night(5 hours 204/1080 chalakim after sunset on Sunday
-   *         evening).
+   * @return the number of days elapsed from prior to the <em>molad Tohu BaHaRaD</em> (Be = Monday, <em>Ha</em> = 5
+   *         hours and <em>RaD</em> = 204 <em>chalakim</em> / parts) prior to the start of the Jewish calendar, to
+   *         the mean conjunction of Tishri of the Jewish year. BeHaRaD is 23:11:20 on Sunday night(5 hours 204/1080
+   *         <em>chalakim</em> after sunset on Sunday evening).
    */
   public static getJewishCalendarElapsedDays(year: number): number {
     const chalakimSince: number = JewishDate.getChalakimSinceMoladTohu(year, JewishDate.TISHREI);
@@ -445,56 +445,35 @@ export class JewishDate {
     return JewishDate.addDechiyos(year, moladDay, moladParts);
   }
 
-  // private static int getJewishCalendarElapsedDaysOLD(int year) {
-  // // Jewish lunar month = 29 days, 12 hours and 793 chalakim
-  // // Molad Tohu = BeHaRaD - Monday, 5 hours (11 PM) and 204 chalakim
-  // final int chalakimTashTZag = 793; // chalakim in a lunar month
-  // final int chalakimTohuRaD = 204; // chalakim from original molad Tohu BeHaRaD
-  // final int hoursTohuHa = 5; // hours from original molad Tohu BeHaRaD
-  // final int dayTohu = 1; // Monday (0 based)
-  //
-  // int monthsElapsed = (235 * ((year - 1) / 19)) // Months in complete 19 year lunar (Metonic) cycles so far
-  // + (12 * ((year - 1) % 19)) // Regular months in this cycle
-  // + ((7 * ((year - 1) % 19) + 1) / 19); // Leap months this cycle
-  // // start with Molad Tohu BeHaRaD
-  // // start with RaD of BeHaRaD and add TaShTzaG (793) chalakim plus elapsed chalakim
-  // int partsElapsed = chalakimTohuRaD + chalakimTashTZag * (monthsElapsed % 1080);
-  // // start with Ha hours of BeHaRaD, add 12 hour remainder of lunar month add hours elapsed
-  // int hoursElapsed = hoursTohuHa + 12 * monthsElapsed + 793 * (monthsElapsed / 1080) + partsElapsed / 1080;
-  // // start with Monday of BeHaRaD = 1 (0 based), add 29 days of the lunar months elapsed
-  // int conjunctionDay = dayTohu + 29 * monthsElapsed + hoursElapsed / 24;
-  // int conjunctionParts = 1080 * (hoursElapsed % 24) + partsElapsed % 1080;
-  // return addDechiyos(year, conjunctionDay, conjunctionParts);
-  // }
-
   /**
-   * Adds the 4 dechiyos for molad Tishrei. These are:
+   * Adds the 4 dechiyos for <em>molad</em> Tishrei. These are:
    * <ol>
-   * <li>Lo ADU Rosh - Rosh Hashana can't fall on a Sunday, Wednesday or Friday. If the molad fell on one of these
-   * days, Rosh Hashana is delayed to the following day.</li>
-   * <li>Molad Zaken - If the molad of Tishrei falls after 12 noon, Rosh Hashana is delayed to the following day. If
-   * the following day is ADU, it will be delayed an additional day.</li>
-   * <li>GaTRaD - If on a non leap year the molad of Tishrei falls on a Tuesday (Ga) on or after 9 hours (T) and 204
-   * chalakim (TRaD) it is delayed till Thursday (one day delay, plus one day for Lo ADU Rosh)</li>
-   * <li>BeTuTaKFoT - if the year following a leap year falls on a Monday (Be) on or after 15 hours (Tu) and 589
-   * chalakim (TaKFoT) it is delayed till Tuesday</li>
+   * <li><em>Lo ADU Rosh</em> - Rosh Hashana can't fall on a Sunday, Wednesday or Friday. If the <em>molad</em> fell on one
+   * of these days, Rosh Hashana is delayed to the following day.</li>
+   * <li><em>Molad Zaken</em> - If the <em>molad</em> of Tishrei falls after 12 noon, Rosh Hashana is delayed to the following
+   * day. If the following day is <em>ADU</em>, it will be delayed an additional day.</li>
+   * <li><em>GaTRaD</em> - If on a non leap year the <em>molad</em> of Tishrei falls on a Tuesday (Ga) on or after 9 hours
+   * (<em>T</em>) and (<em>RaD</em> 204 <em>chalakim</em> it is delayed till Thursday (one day delay, plus one day for
+   * <em>Lo ADU Rosh</em>)</li>
+   * <li><em>BeTuTaKPaT</em> - if the year following a leap year falls on a Monday (<em>Be</em>) on or after 15 hours
+   * (<em>Tu</em>) and 589 <em>chalakim</em> (<em>TaKPaT</em>) it is delayed till Tuesday</li>
    * </ol>
    *
-   * @param year - the year
-   * @param moladDay - the molad day
-   * @param moladParts - the molad parts
+   * @param year the year
+   * @param moladDay the <em>molad</em> day
+   * @param moladParts the <em>molad</em> parts
    * @return the number of elapsed days in the JewishCalendar adjusted for the 4 dechiyos.
    */
   private static addDechiyos(year: number, moladDay: number, moladParts: number): number {
     let roshHashanaDay: number = moladDay; // if no dechiyos
-    // delay Rosh Hashana for the dechiyos of the Molad - new moon 1 - Molad Zaken, 2- GaTRaD 3- BeTuTaKFoT
+    // delay Rosh Hashana for the dechiyos of the Molad - new moon 1 - Molad Zaken, 2- GaTRaD 3- BeTuTaKPaT
     if ((moladParts >= 19440) // Dechiya of Molad Zaken - molad is >= midday (18 hours * 1080 chalakim)
       || (((moladDay % 7) === 2) // start Dechiya of GaTRaD - Ga = is a Tuesday
         && (moladParts >= 9924) // TRaD = 9 hours, 204 parts or later (9 * 1080 + 204)
-        && !JewishDate.isJewishLeapYear(year)) // of a non-leap year-end Dechiya of GaTRaD
-      || (((moladDay % 7) === 1) // start Dechiya of BeTuTaKFoT - Be = is on a Monday
-        && (moladParts >= 16789) // TRaD = 15 hours, 589 parts or later (15 * 1080 + 589)
-        && (JewishDate.isJewishLeapYear(year - 1)))) { // in a year following a leap year-end Dechiya of BeTuTaKFoT
+        && !JewishDate.isJewishLeapYear(year)) // of a non-leap year - end Dechiya of GaTRaD
+      || (((moladDay % 7) === 1) // start Dechiya of BeTuTaKPaT - Be = is on a Monday
+        && (moladParts >= 16789) // TUTaKPaT part of BeTuTaKPaT = 15 hours, 589 parts or later (15 * 1080 + 589)
+        && (JewishDate.isJewishLeapYear(year - 1)))) { // in a year following a leap year - end Dechiya of BeTuTaKPaT
       roshHashanaDay += 1; // Then postpone Rosh HaShanah one day
     }
     // start 4th Dechiya - Lo ADU Rosh - Rosh Hashana can't occur on A- sunday, D- Wednesday, U - Friday
@@ -507,21 +486,21 @@ export class JewishDate {
   }
 
   /**
-   * Returns the number of chalakim (parts - 1080 to the hour) from the original hypothetical Molad Tohu to the year
-   * and month passed in.
+   * Returns the number of <em>chalakim</em> (parts - 1080 to the hour) from the original hypothetical <em>Molad Tohu</em>
+   * to the year and month passed in.
    *
    * @param year
    *            the Jewish year
    * @param month
-   *            the Jewish month the Jewish month, with the month numbers starting from Nisan. Use the JewishDate
+   *            the Jewish month the Jewish month, with the month numbers starting from Nissan. Use the JewishDate
    *            constants such as {@link JewishDate#TISHREI}.
-   * @return the number of chalakim (parts - 1080 to the hour) from the original hypothetical Molad Tohu
+   * @return the number of <em>chalakim</em> (parts - 1080 to the hour) from the original hypothetical <em>Molad Tohu</em>
    */
   private static getChalakimSinceMoladTohu(year: number, month: number): number {
     // Jewish lunar month = 29 days, 12 hours and 793 chalakim
     // chalakim since Molad Tohu BeHaRaD - 1 day, 5 hours and 204 chalakim
     const monthOfYear: number = JewishDate.getJewishMonthOfYear(year, month);
-    const monthsElapsed: number = (235 * Math.trunc((year - 1) / 19)) // Months in complete 19 year lunar (Metonic) cycles so far
+    const monthsElapsed: number = (235 * Math.trunc((year - 1) / 19)) // Months in complete 19-year lunar (Metonic) cycles so far
       + (12 * ((year - 1) % 19)) // Regular months in this cycle
       + Math.trunc((7 * ((year - 1) % 19) + 1) / 19) // Leap months this cycle
       + (monthOfYear - 1); // add elapsed months till the start of the molad of the month
@@ -530,10 +509,10 @@ export class JewishDate {
   }
 
   /**
-   * Returns the number of chalakim (parts - 1080 to the hour) from the original hypothetical Molad Tohu to the Jewish
-   * year and month that this Object is set to.
+   * Returns the number of <em>chalakim</em> (parts - 1080 to the hour) from the original hypothetical <em>Molad Tohu</em>
+   * to the Jewish year and month that this Object is set to.
    *
-   * @return the number of chalakim (parts - 1080 to the hour) from the original hypothetical Molad Tohu
+   * @return the number of <em>chalakim</em> (parts - 1080 to the hour) from the original hypothetical <em>Molad Tohu</em>
    */
   public getChalakimSinceMoladTohu(): number {
     return JewishDate.getChalakimSinceMoladTohu(this.jewishYear, this.jewishMonth);
@@ -541,7 +520,7 @@ export class JewishDate {
 
   /**
    * Converts the {@link JewishDate#NISSAN} based constants used by this class to numeric month starting from
-   * {@link JewishDate#TISHREI}. This is required for Molad calculations.
+   * {@link JewishDate#TISHREI}. This is required for <em>molad</em> calculations.
    *
    * @param year
    *            The Jewish year
@@ -555,11 +534,12 @@ export class JewishDate {
   }
 
   /**
-   * Validates the components of a Jewish date for validity. It will throw an {@link IllegalArgumentException} if the
-   * Jewish date is earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month < 1 or > 12 (or 13 on a
-   * {@link #isJewishLeapYear(int) leap year}), the day of month is < 1 or > 30, an hour < 0 or > 23, a minute < 0 >
-   * 59 or chalakim < 0 > 17. For larger a larger number of chalakim such as 793 (TaShTzaG) break the chalakim into
-   * minutes (18 chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793/TaShTzaG).
+   * Validates the components of a Jewish date for validity. It will throw an {@link IllegalArgumentException} if the Jewish
+   * date is earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month &lt; 1 or &gt; 12 (or 13 on a {@link #isJewishLeapYear(int)
+   * leap year}), the day of month is &lt; 1 or &gt; 30, an hour &lt; 0 or &gt; 23, a minute &lt; 0 or &gt; 59 or
+   * <em>chalakim</em> &lt; 0 or &gt; 17. For larger a larger number of <em>chalakim</em> such as 793 (TaShTzaG) break the
+   * <em>chalakim</em> into minutes (18 <em>chalakim</em> per minutes, so it would be 44 minutes and 1 <em>chelek</em> in the
+   * case of 793 / <em>TaShTzaG</em>).
    *
    * @param year
    *            the Jewish year to validate. It will reject any year <= 3761 (lower than the year 1 Gregorian).
@@ -569,19 +549,20 @@ export class JewishDate {
    *            the day of the Jewish month to validate. It will reject any value < 1 or > 30 TODO: check calling
    *            methods to see if there is any reason that the class can validate that 30 is invalid for some months.
    * @param hours
-   *            the hours (for molad calculations). It will reject an hour < 0 or > 23
+   *            the hours (for <em>molad</em> calculations). It will reject an hour &lt; 0 or &gt; 23
    * @param minutes
-   *            the minutes (for molad calculations). It will reject a minute < 0 or > 59
+   *            the minutes (for <em>molad</em> calculations). It will reject a minute &lt; 0 or &gt; 59
    * @param chalakim
-   *            the chalakim/parts (for molad calculations). It will reject a chalakim < 0 or > 17. For larger numbers
-   *            such as 793 (TaShTzaG) break the chalakim into minutes (18 chalakim per minutes, so it would be 44
-   *            minutes and 1 chelek in the case of 793/TaShTzaG)
+   *            the <em>chalakim</em> / parts (for <em>molad</em> calculations). It will reject a <em>chalakim</em> &lt; 0 or &gt;
+   *            17. For larger numbers such as 793 (<em>TaShTzaG</em>) break the <em>chalakim</em> into minutes (18 <em>chalakim</em>
+   *            per minutes, so it would be 44  minutes and 1 <em>chelek</em> in the case of 793 / <em>TaShTzaG</em>)
    *
    * @throws IllegalArgumentException
-   *             if a Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month < 1 or > 12 (or 13 on a
-   *             leap year), the day of month is < 1 or > 30, an hour < 0 or > 23, a minute < 0 > 59 or chalakim < 0 >
-   *             17. For larger a larger number of chalakim such as 793 (TaShTzaG) break the chalakim into minutes (18
-   *             chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793 (TaShTzaG).
+   *             if a Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month &lt; 1 or &gt; 12 (or 13 on a leap year),
+   *             the day of month is &lt; 1 or &gt; 30, an hour &lt; 0 or &gt; 23, a minute &lt; 0 or &gt; 59 or <em>chalakim</em>
+   *             &lt; 0 or &gt; 17. For larger a larger number of <em>chalakim</em> such as 793 (<em>TaShTzaG</em>) break the
+   *             </em>chalakim</em> into minutes (18 <em>chalakim</em> per minutes, so it would be 44 minutes and 1 <em>chelek</em>
+   *             in the case of 793 (<em>TaShTzaG</em>).
    */
   private static validateJewishDate(year: number, month: number, dayOfMonth: number, hours: number, minutes: number, chalakim: number): void {
     if (month < JewishDate.NISSAN || month > JewishDate.getLastMonthOfJewishYear(year)) {
@@ -810,11 +791,11 @@ export class JewishDate {
     while (this.gregorianAbsDate >= JewishDate.jewishDateToAbsDate(this.jewishYear + 1, JewishDate.TISHREI, 1)) {
       this.jewishYear++;
     }
-    // Search forward for month from either Tishri or Nisan.
+    // Search forward for month from either Tishri or Nissan.
     if (this.gregorianAbsDate < JewishDate.jewishDateToAbsDate(this.jewishYear, JewishDate.NISSAN, 1)) {
       this.jewishMonth = JewishDate.TISHREI; // Start at Tishri
     } else {
-      this.jewishMonth = JewishDate.NISSAN; // Start at Nisan
+      this.jewishMonth = JewishDate.NISSAN; // Start at Nissan
     }
     while (this.gregorianAbsDate > JewishDate.jewishDateToAbsDate(this.jewishYear, this.jewishMonth, this.getDaysInJewishMonth())) {
       this.jewishMonth++;
@@ -829,7 +810,7 @@ export class JewishDate {
    * @param year
    *            the Jewish year. The year can't be negative
    * @param month
-   *            the Jewish month starting with Nisan. Nisan expects a value of 1 etc. till Adar with a value of 12. For
+   *            the Jewish month starting with Nissan. Nissan expects a value of 1 etc. till Adar with a value of 12. For
    *            a leap year, 13 will be the expected value for Adar II. Use the constants {@link JewishDate#NISSAN}
    *            etc.
    * @param dayOfMonth
@@ -844,14 +825,14 @@ export class JewishDate {
   }
 
   /**
-   * Returns the molad for a given year and month. Returns a JewishDate {@link Object} set to the date of the molad
+   * Returns the <em>molad</em> for a given year and month. Returns a JewishDate {@link Object} set to the date of the <em>molad</em>
    * with the {@link #getMoladHours() hours}, {@link #getMoladMinutes() minutes} and {@link #getMoladChalakim()
-   * chalakim} set. In the current implementation, it sets the molad time based on a midnight date rollover. This
-   * means that Rosh Chodesh Adar II, 5771 with a molad of 7 chalakim past midnight on Shabbos 29 Adar I / March 5,
+   * chalakim} set. In the current implementation, it sets the <em>molad</em> time based on a midnight date rollover. This
+   * means that Rosh Chodesh Adar II, 5771 with a <em>molad</em> of 7 <em>chalakim</em> past midnight on Shabbos 29 Adar I / March 5,
    * 2011 12:00 AM and 7 chalakim, will have the following values: hours: 0, minutes: 0, Chalakim: 7.
    *
-   * @return a JewishDate {@link Object} set to the date of the molad with the {@link #getMoladHours() hours},
-   *         {@link #getMoladMinutes() minutes} and {@link #getMoladChalakim() chalakim} set.
+   * @return a JewishDate {@link Object} set to the date of the <em>molad</em> with the {@link #getMoladHours() hours},
+   *         {@link #getMoladMinutes() minutes} and {@link #getMoladChalakim() <em>chalakim</em>} set.
    */
   public getMolad(): JewishDate {
     const moladDate: JewishDate = new JewishDate(this.getChalakimSinceMoladTohu());
@@ -866,7 +847,7 @@ export class JewishDate {
    * Returns the number of days from the Jewish epoch from the number of chalakim from the epoch passed in.
    *
    * @param chalakim
-   *            the number of chalakim since the beginning of Sunday prior to BaHaRaD
+   *            the number of <em>chalakim</em> since the beginning of Sunday prior to BaHaRaD
    * @return the number of days from the Jewish epoch
    */
   private static moladToAbsDate(chalakim: number): number {
@@ -874,12 +855,12 @@ export class JewishDate {
   }
 
   /**
-   * Constructor that creates a JewishDate based on a molad passed in. The molad would be the number of chalakim/parts
-   * starting at the beginning of Sunday prior to the molad Tohu BeHaRaD (Be = Monday, Ha= 5 hours and Rad =204
-   * chalakim/parts) - prior to the start of the Jewish calendar. BeHaRaD is 23:11:20 on Sunday night(5 hours 204/1080
-   * chalakim after sunset on Sunday evening).
+   * Constructor that creates a JewishDate based on a <em>molad</em> passed in. The <em>molad</em> would be the number of
+   * <em>chalakim</em> / parts starting at the beginning of Sunday prior to the <em>Molad Tohu BeHaRaD</em> (</em>Be</em> =
+   * Monday, <em>Ha</em> = 5 hours and <em>Rad</em> = 204 <em>chalakim</em> / parts) - prior to the start of the Jewish
+   * calendar. <em>BeHaRaD</em> is 23:11:20 on Sunday night(5 hours 204/1080  </em>chalakim</em> after sunset on Sunday evening).
    *
-   * @param molad the number of chalakim since the beginning of Sunday prior to BaHaRaD
+   * @param <em>molad</em> the number of <em>chalakim</em> since the beginning of Sunday prior to BaHaRaD
    */
 
   /*
@@ -893,10 +874,10 @@ export class JewishDate {
   */
 
   /**
-   * Sets the molad time (hours minutes and chalakim) based on the number of chalakim since the start of the day.
+   * Sets the <em>molad</em> time (hours minutes and chalakim) based on the number of <em>chalakim</em> since the start of the day.
    *
    * @param chalakim
-   *            the number of chalakim since the start of the day.
+   *            the number of <em>chalakim</em> since the start of the day.
    */
   private setMoladTime(chalakim: number): void {
     let adjustedChalakim: number = chalakim;
@@ -930,7 +911,7 @@ export class JewishDate {
     let elapsedDays: number = dayOfMonth;
     // Before Tishrei (from Nissan to Tishrei), add days in prior months
     if (month < JewishDate.TISHREI) {
-      // this year before and after Nisan.
+      // this year before and after Nissan.
       for (let m: number = JewishDate.TISHREI; m <= JewishDate.getLastMonthOfJewishYear(year); m++) {
         elapsedDays += JewishDate.getDaysInJewishMonth(m, year);
       }
@@ -1119,7 +1100,7 @@ export class JewishDate {
    * @param year
    *            the Jewish year. The year can't be negative
    * @param month
-   *            the Jewish month starting with Nisan. A value of 1 is expected for Nissan ... 12 for Adar and 13 for
+   *            the Jewish month starting with Nissan. A value of 1 is expected for Nissan ... 12 for Adar and 13 for
    *            Adar II. Use the constants {@link #NISSAN} ... {@link #ADAR} (or {@link #ADAR_II} for a leap year Adar
    *            II) to avoid any confusion.
    * @param dayOfMonth
@@ -1142,7 +1123,7 @@ export class JewishDate {
    * @param year
    *            the Jewish year. The year can't be negative
    * @param month
-   *            the Jewish month starting with Nisan. A value of 1 is expected for Nissan ... 12 for Adar and 13 for
+   *            the Jewish month starting with Nissan. A value of 1 is expected for Nissan ... 12 for Adar and 13 for
    *            Adar II. Use the constants {@link #NISSAN} ... {@link #ADAR} (or {@link #ADAR_II} for a leap year Adar
    *            II) to avoid any confusion.
    * @param dayOfMonth
@@ -1150,18 +1131,18 @@ export class JewishDate {
    *            has 29 days, the day will be set as 29.
    *
    * @param hours
-   *            the hour of the day. Used for Molad calculations
+   *            the hour of the day. Used for <em>molad</em> calculations
    * @param minutes
-   *            the minutes. Used for Molad calculations
+   *            the minutes. Used for <em>molad</em> calculations
    * @param chalakim
-   *            the chalakim/parts. Used for Molad calculations. The chalakim should not exceed 17. Minutes should be
-   *            used for larger numbers.
+   *            the <em>chalakim</em> / parts. Used for <em>molad</em> calculations. The <em>chalakim</em> should not
+   *            exceed 17. Minutes should be used for larger numbers.
    *
    * @throws IllegalArgumentException
-   *             if a Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month &lt; 1 or &gt; 12 (or 13 on a
-   *             leap year), the day of month is &lt; 1 or &gt; 30, an hour &lt; 0 or &gt; 23, a minute &lt; 0 &gt; 59 or chalakim &lt; 0 &gt;
-   *             17. For larger a larger number of chalakim such as 793 (TaShTzaG) break the chalakim into minutes (18
-   *             chalakim per minutes, so it would be 44 minutes and 1 chelek in the case of 793 (TaShTzaG).
+   *             if a Jewish date earlier than 18 Teves, 3761 (1/1/1 Gregorian), a month &lt; 1 or &gt; 12 (or 13 on a leap year), the day
+   *             of month is &lt; 1 or &gt; 30, an hour &lt; 0 or &gt; 23, a minute &lt; 0 &gt; 59 or <em>chalakim</em> &lt; 0 &gt; 17. For
+   *             larger a larger number of <em>chalakim</em> such as 793 (<em>TaShTzaG</em>) break the <em>chalakim</em> into minutes (18
+   *             <em>chalakim</em> per minutes, so it would be 44 minutes and 1 <em>chelek</em> in the case of 793 (<em>TaShTzaG</em>).
    */
   public setJewishDate(year: number, month: number, dayOfMonth: number, hours: number, minutes: number, chalakim: number): void;
   public setJewishDate(year: number, month: number, dayOfMonth: number): void;
@@ -1315,7 +1296,7 @@ export class JewishDate {
 
   /**
    * Forward the Jewish date by the number of months passed in.
-   * FIXME: Deal with forwarding a date such as 30 Nisan by a month. 30 Iyar does not exist. This should be dealt with similar to
+   * FIXME: Deal with forwarding a date such as 30 Nissan by a month. 30 Iyar does not exist. This should be dealt with similar to
    * the way that the Java Calendar behaves (not that simple since there is a difference between add() or roll().
    *
    * @throws IllegalArgumentException if the amount is less than 1
@@ -1445,10 +1426,10 @@ export class JewishDate {
   }
 
   /**
-   * Returns the Jewish month 1-12 (or 13 years in a leap year). The month count starts with 1 for Nisan and goes to
+   * Returns the Jewish month 1-12 (or 13 years in a leap year). The month count starts with 1 for Nissan and goes to
    * 13 for Adar II
    *
-   * @return the Jewish month from 1 to 12 (or 13 years in a leap year). The month count starts with 1 for Nisan and
+   * @return the Jewish month from 1 to 12 (or 13 years in a leap year). The month count starts with 1 for Nissan and
    *         goes to 13 for Adar II
    */
   public getJewishMonth(): number {
@@ -1526,7 +1507,7 @@ export class JewishDate {
    * sets the Jewish month.
    *
    * @param month
-   *            the Jewish month from 1 to 12 (or 13 years in a leap year). The month count starts with 1 for Nisan
+   *            the Jewish month from 1 to 12 (or 13 years in a leap year). The month count starts with 1 for Nissan
    *            and goes to 13 for Adar II
    * @throws IllegalArgumentException
    *             if a month &lt; 1 or &gt; 12 (or 13 on a leap year) is passed in
