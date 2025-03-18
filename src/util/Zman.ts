@@ -2,6 +2,7 @@ import { DateTime } from 'luxon';
 
 import { IntegerUtils, StringUtils } from '../polyfills/Utils';
 import { UnsupportedError } from '../polyfills/errors';
+import { GeoLocation } from './GeoLocation';
 
 /**
  * A wrapper class for astronomical times / <em>zmanim</em> that is mostly intended to allow sorting collections of astronomical times.
@@ -68,10 +69,15 @@ export class Zman {
   description?: string;
 
   /**
+   * The location information of the <em>zman</em>.
+   */
+  geoLocation?: GeoLocation;
+
+  /**
    * The constructor setting a {@link Date} based <em>zman</em> and a label.
    * @param date the Date of the <em>zman</em>.
    * @param label the label of the  <em>zman</em> such as "<em>Sof Zman Krias Shema GRA</em>".
-   * @see #Zman(long, String)
+   * @see #Zman(Date, GeoLocation, String)
    */
   constructor(date: DateTime, label: string | null)
   /**
@@ -84,11 +90,19 @@ export class Zman {
    * @see #Zman(Date, String)
    */
   constructor(duration: number, label: string | null)
-  constructor(dateOrDuration: number | DateTime, label: string | null) {
-    this.label = label;
+  constructor(date: DateTime, geoLocation: GeoLocation, label: string | null)
+  constructor(dateOrDuration: number | DateTime, labelOrGeoLocation: string | GeoLocation | null, label?: string | null) {
+    this.label = label || null;
+
+    if (labelOrGeoLocation instanceof GeoLocation) {
+      this.geoLocation = labelOrGeoLocation;
+    } else {
+      this.label = labelOrGeoLocation;
+    }
+
     if (DateTime.isDateTime(dateOrDuration)) {
       this.zman = dateOrDuration;
-    } else if (typeof dateOrDuration === 'number') {
+    } else {
       this.duration = dateOrDuration;
     }
   }
@@ -138,6 +152,12 @@ export class Zman {
    * &lt;Zman&gt;
    *  &lt;Label&gt;Sof Zman Krias Shema GRA&lt;/Label&gt;
    *  &lt;Zman&gt;1969-02-08T09:37:56.820&lt;/Zman&gt;
+   *  &lt;TimeZone&gt;
+   *    &lt;TimezoneName&gt;America/Montreal&lt;/TimezoneName&gt;
+   *    &lt;TimeZoneDisplayName&gt;Eastern Standard Time&lt;/TimeZoneDisplayName&gt;
+   *    &lt;TimezoneGMTOffset&gt;-5&lt;/TimezoneGMTOffset&gt;
+   *    &lt;TimezoneDSTOffset&gt;1&lt;/TimezoneDSTOffset&gt;
+   *  &lt;/TimeZone&gt;
    *  &lt;Duration&gt;0&lt;/Duration&gt;
    *  &lt;Description&gt;Sof Zman Krias Shema GRA is 3 sha'os zmaniyos calculated from sunrise to sunset.&lt;/Description&gt;
    * &lt;/Zman&gt;
@@ -151,10 +171,11 @@ export class Zman {
   }
 
   toString(): string {
-    return (`\nLabel:\t\t\t${this.label}`)
-      .concat(`\nZman:\t\t\t${this.zman}`)
-      .concat(`\nDuration:\t\t\t${this.duration}`)
-      .concat(`\nDescription:\t\t\t${this.description}`);
+    return (`\nLabel:\t${this.label}`)
+      .concat(`\nZman:\t${this.zman}`)
+      .concat(`\nnGeoLocation:\t${this.geoLocation?.toString().replaceAll('\n', '\n\t')}`)
+      .concat(`\nDuration:\t${this.duration}`)
+      .concat(`\nDescription:\t${this.description}`);
   }
 }
 
