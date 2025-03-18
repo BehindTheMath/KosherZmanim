@@ -810,8 +810,8 @@ export class JewishDate {
    * @param year
    *            the Jewish year. The year can't be negative
    * @param month
-   *            the Jewish month starting with Nissan. Nissan expects a value of 1 etc. till Adar with a value of 12. For
-   *            a leap year, 13 will be the expected value for Adar II. Use the constants {@link JewishDate#NISSAN}
+   *            the Jewish month starting with Nissan. Nissan expects a value of 1 etc. until Adar with a value of 12.
+   *            For a leap year, 13 will be the expected value for Adar II. Use the constants {@link JewishDate#NISSAN}
    *            etc.
    * @param dayOfMonth
    *            the Jewish day of month. valid values are 1-30. If the day of month is set to 30 for a month that only
@@ -860,7 +860,7 @@ export class JewishDate {
    * Monday, <em>Ha</em> = 5 hours and <em>Rad</em> = 204 <em>chalakim</em> / parts) - prior to the start of the Jewish
    * calendar. <em>BeHaRaD</em> is 23:11:20 on Sunday night(5 hours 204/1080  </em>chalakim</em> after sunset on Sunday evening).
    *
-   * @param <em>molad</em> the number of <em>chalakim</em> since the beginning of Sunday prior to BaHaRaD
+   * @param molad the number of <em>chalakim</em> since the beginning of Sunday prior to BaHaRaD
    */
 
   /*

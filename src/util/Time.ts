@@ -20,26 +20,31 @@ export class Time {
   private static readonly HOUR_MILLIS: number = Time.MINUTE_MILLIS * 60;
 
   /**
+   * The hour.
    * @see #getHours()
    */
   private hours: number;
 
   /**
+   * The minutes.
    * @see #getMinutes()
    */
   private minutes: number;
 
   /**
+   * The seconds.
    * @see #getSeconds()
    */
   private seconds: number;
 
   /**
+   * The milliseconds.
    * @see #getMilliseconds()
    */
   private milliseconds: number;
 
   /**
+   * Is the time negative
    * @see #isNegative()
    * @see #setIsNegative(boolean)
    */
@@ -55,8 +60,8 @@ export class Time {
    */
   constructor(hours: number, minutes: number, seconds: number, milliseconds: number)
   /**
-   * A constructor that sets the time by milliseconds. The milliseconds are converted to hours, minutes, seconds
-   * and milliseconds. If the milliseconds are negative it will call {@link #setIsNegative(boolean)}.
+   * A constructor that sets the time from milliseconds. The milliseconds are converted to hours, minutes,
+   * seconds and milliseconds. If the milliseconds are negative it will call {@link #setIsNegative(boolean)}.
    * @param millis the milliseconds to set.
    */
   constructor(millis: number)
@@ -97,6 +102,11 @@ export class Time {
   }
 
   /*
+      /!**
+       * A constructor that sets the time from milliseconds. The milliseconds are converted to hours, minutes,
+       * seconds and milliseconds. If the milliseconds are negative it will call {@link#setIsNegative(boolean)}.
+       * @param millis the milliseconds to set.
+       *!/
       public Time(millis: number) {
           this((int) millis);
       }
@@ -129,7 +139,7 @@ export class Time {
   }
 
   /**
-   * Set this to represent a negative time.
+   * Does the time represent a negative time, such as using this to subtract time from another Time.
    * @param isNegative that the Time represents negative time
    */
   public setIsNegative(isNegative: boolean): void {
@@ -137,6 +147,7 @@ export class Time {
   }
 
   /**
+   * Get the hour.
    * @return Returns the hour.
    */
   public getHours(): number {
@@ -144,6 +155,7 @@ export class Time {
   }
 
   /**
+   * Set the hour.
    * @param hours
    *            The hours to set.
    */
@@ -152,6 +164,7 @@ export class Time {
   }
 
   /**
+   * Get the minutes.
    * @return Returns the minutes.
    */
   public getMinutes(): number {
@@ -159,6 +172,7 @@ export class Time {
   }
 
   /**
+   * Set the minutes.
    * @param minutes
    *            The minutes to set.
    */
@@ -167,6 +181,7 @@ export class Time {
   }
 
   /**
+   * Get the seconds.
    * @return Returns the seconds.
    */
   public getSeconds(): number {
@@ -174,6 +189,7 @@ export class Time {
   }
 
   /**
+   * Set the seconds.
    * @param seconds
    *            The seconds to set.
    */
@@ -182,6 +198,7 @@ export class Time {
   }
 
   /**
+   * Get the milliseconds.
    * @return Returns the milliseconds.
    */
   public getMilliseconds(): number {
@@ -189,6 +206,7 @@ export class Time {
   }
 
   /**
+   * Set the milliseconds.
    * @param milliseconds
    *            The milliseconds to set.
    */
