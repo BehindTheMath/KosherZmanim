@@ -204,7 +204,8 @@ export class AstronomicalCalendar {
    *         such as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one
    *         where it does not set, a <code>null</code> will be returned. See detailed explanation on top of the page.
    * @see AstronomicalCalendar#getSunset
-   * @see AstronomicalCalendar#getUTCSeaLevelSunset 2see {@link #getSunset()}
+   * @see AstronomicalCalendar#getUTCSeaLevelSunset
+   * @see #getSunset()
    */
   public getSeaLevelSunset(): DateTime | null {
     const sunset: number = this.getUTCSeaLevelSunset(AstronomicalCalendar.GEOMETRIC_ZENITH);
@@ -407,12 +408,12 @@ export class AstronomicalCalendar {
   }
 
   /**
-   * A method that returns an {@link AstronomicalCalculator#getElevationAdjustment(double) elevation adjusted}
-   * temporal (solar) hour. The day from {@link #getSunrise() sunrise} to {@link #getSunset() sunset} is split into 12
-   * equal parts with each one being a temporal hour.
+   * A method that returns a sea-level based temporal (solar) hour. The day from {@link #getSeaLevelSunrise()
+   * sea-level sunrise} to {@link #getSeaLevelSunset() sea-level sunset} is split into 12 equal parts with each
+   * one being a temporal hour.
    *
-   * @see #getSunrise()
-   * @see #getSunset()
+   * @see #getSeaLevelSunrise()
+   * @see #getSeaLevelSunset()
    * @see #getTemporalHour(Date, Date)
    *
    * @return the <code>long</code> millisecond length of a temporal hour. If the calculation can't be computed,
@@ -430,8 +431,8 @@ export class AstronomicalCalendar {
   /**
    * A utility method that will allow the calculation of a temporal (solar) hour based on the sunrise and sunset
    * passed as parameters to this method. An example of the use of this method would be the calculation of a
-   * non-elevation adjusted temporal hour by passing in {@link #getSeaLevelSunrise() sea level sunrise} and
-   * {@link #getSeaLevelSunset() sea level sunset} as parameters.
+   * non-elevation adjusted temporal hour by passing in {@link #getSunrise() sea level sunrise} and
+   * {@link #getSunset() sea level sunset} as parameters.
    *
    * @param startOfDay
    *            The start of the day.
@@ -514,52 +515,57 @@ export class AstronomicalCalendar {
    * set} to use the {@link com.kosherjava.zmanim.util.NOAACalculator} (the default) it will calculate astronomical
    * midnight. If the calendar instance is to use the {@link com.kosherjava.zmanim.util.SunTimesCalculator}, that does not
    * have code to calculate astronomical noon, midnight is calculated as halfway between sea level sunrise and sea level
-   * sunset on the other side of the world (180&deg; awa)y, which can be slightly off the real transit time due to changes
+   * sunset on the other side of the world (180&deg; away), which can be slightly off the real transit time due to changes
    * in declination (the lengthening or shortening day). See <a href=
    * "https://kosherjava.com/2020/07/02/definition-of-chatzos/">The Definition of Chatzos</a> for details on the proper
    * definition of solar noon / midday.
    *
-   * @return the <code>Date</code> representing Sun's lower transit. If the calculation can't be computed such as when using
-   *         the {@link com.kosherjava.zmanim.util.SunTimesCalculator USNO calculator} that does not support getting solar
-   *         midnight for the Arctic Circle (where there is at least one day a year where the sun does not rise, and one
-   *         where it does not set), a <code>null</code> will be returned. See detailed explanation on top of the page.
+   * @deprecated This method was replaced by {@link #getSolarMidnight()} and will be removed in v3.0.
+   *
+   * @return the <code>Date</code> representing Sun's lower transit at the end of the current day. If the calculation can't
+   *         be computed such as when using the {@link com.kosherjava.zmanim.util.SunTimesCalculator USNO calculator} that
+   *         does not support getting solar noon or midnight for the Arctic Circle (where there is at least one day a year
+   *         where the sun does not rise, and one where it does not set), a <code>null</code> will be returned. This is not
+   *         relevant when using the {@link com.kosherjava.zmanim.util.NOAACalculator NOAA Calculator} that is never expected
+   *         to return <code>null</code>. See the detailed explanation on top of the page.
+   *
+   * @see #getSunTransit()
+   * @see #getSolarMidnight()
+   * @see com.kosherjava.zmanim.util.NOAACalculator#getUTCNoon(Calendar, GeoLocation)
+   * @see com.kosherjava.zmanim.util.SunTimesCalculator#getUTCNoon(Calendar, GeoLocation)
+   */
+  public getSunLowerTransit(): DateTime | null {
+    return this.getSolarMidnight();
+  }
+
+  /**
+   * A method that returns solar midnight at the end of the current day (that may actually be after midnight of the day it
+   * is being calculated for). It occurs when the Sun is <a href="https://en.wikipedia.org/wiki/Transit_%28astronomy%29"
+   * >transiting</a> the lower <a href="https://en.wikipedia.org/wiki/Meridian_%28astronomy%29">celestial meridian</a>, or
+   * when the sun is at it's <a href="https://en.wikipedia.org/wiki/Nadir">nadir</a>. The calculations used by this class
+   * depend on the {@link AstronomicalCalculator} used. If this calendar instance is {@link
+   * #setAstronomicalCalculator(AstronomicalCalculator) set} to use the {@link com.kosherjava.zmanim.util.NOAACalculator}
+   * (the default) it will calculate astronomical midnight. If the calendar instance is to use the {@link
+   * com.kosherjava.zmanim.util.SunTimesCalculator USNO Calculator}, that does not have code to calculate astronomical noon,
+   * midnight is calculated as 12 hours after halfway between sea level sunrise and sea level sunset of that day. This can
+   * be slightly off the real transit time due to changes in declination (the lengthening or shortening day). See <a href=
+   * "https://kosherjava.com/2020/07/02/definition-of-chatzos/">The Definition of Chatzos</a> for details on the proper
+   * definition of solar noon / midday.
+   *
+   * @return the <code>Date</code> representing Sun's lower transit at the end of the current day. If the calculation can't
+   *         be computed such as when using the {@link com.kosherjava.zmanim.util.SunTimesCalculator USNO calculator} that
+   *         does not support getting solar noon or midnight for the Arctic Circle (where there is at least one day a year
+   *         where the sun does not rise, and one where it does not set), a <code>null</code> will be returned. This is not
+   *         relevant when using the {@link com.kosherjava.zmanim.util.NOAACalculator NOAA Calculator} that is never expected
+   *         to return <code>null</code>. See the detailed explanation on top of the page.
    *
    * @see #getSunTransit()
    * @see com.kosherjava.zmanim.util.NOAACalculator#getUTCNoon(Calendar, GeoLocation)
    * @see com.kosherjava.zmanim.util.SunTimesCalculator#getUTCNoon(Calendar, GeoLocation)
    */
-  public getSunLowerTransit(): DateTime | null {
-    const cal: DateTime = this.getAdjustedDate();
-    const lowerGeoLocation: GeoLocation = this.getGeoLocation().clone();
-    const meridian: number = lowerGeoLocation.getLongitude();
-    let lowerMeridian: number = meridian + 180;
-    if (lowerMeridian > 180) {
-      lowerMeridian = lowerMeridian - 360;
-      cal.plus({ days: -1 });
-    }
-    lowerGeoLocation.setLongitude(lowerMeridian);
-    const noon: number = this.getAstronomicalCalculator().getUTCNoon(cal, lowerGeoLocation);
-    return this.getDateFromTime(noon, AstronomicalCalendar.SolarEvent.MIDNIGHT);
-  }
-
-  /**
-   * A method that returns "solar" midnight, or the time when the sun is at its <a
-   * href="https://en.wikipedia.org/wiki/Nadir">nadir</a>. The current calculation is halfway between today and
-   * tomorrow's {@link #getSunTransit() sun transit}.
-   *
-   * @return the <code>Date</code> of astronomical solar midnight. If the calculation can't be computed such as
-   *         when using the {@link com.kosherjava.zmanim.util.SunTimesCalculator USNO calculator} that does not
-   *         support getting solar noon for the Arctic Circle (where there is at least one day a year where the
-   *         sun does not rise, and one where it does not set), a <code>null</code> will be returned. See
-   *         detailed explanation on top of the page.
-   * @see com.kosherjava.zmanim.util.NOAACalculator#getUTCNoon(Calendar, GeoLocation)
-   * @see com.kosherjava.zmanim.util.SunTimesCalculator#getUTCNoon(Calendar, GeoLocation)
-   */
   public getSolarMidnight(): DateTime | null {
-    const clonedCal: AstronomicalCalendar = this.clone() as AstronomicalCalendar;
-    clonedCal.setDate(clonedCal.getDate().plus({ days: 1 }));
-    // The `!` assertion is here because a falsey case will be handled by `AstronomicalCalendar.getTimeOffset()`.
-    return AstronomicalCalendar.getTimeOffset(this.getSunTransit(), (clonedCal.getSunTransit()?.valueOf()! - this.getSunTransit()?.valueOf()!) / 2);
+    const noon: number = this.getAstronomicalCalculator().getUTCMidnight(this.getAdjustedDate(), this.getGeoLocation());
+    return this.getDateFromTime(noon, AstronomicalCalendar.SolarEvent.MIDNIGHT);
   }
 
   /**
@@ -608,8 +614,8 @@ export class AstronomicalCalendar {
       cal = cal.minus({ days: 1 });
     } else if (solarEvent === AstronomicalCalendar.SolarEvent.SUNSET && localTimeHours + hours < 6) {
       cal = cal.plus({ days: 1 });
-    } else if (solarEvent === AstronomicalCalendar.SolarEvent.MIDNIGHT && localTimeHours + hours > 12) {
-      cal = cal.plus({ days: -1 });
+    } else if (solarEvent === AstronomicalCalendar.SolarEvent.MIDNIGHT && localTimeHours + hours < 12) {
+      cal = cal.plus({ days: 1 });
     }
 
     return cal.set({
@@ -729,8 +735,8 @@ export class AstronomicalCalendar {
   }
 
   /**
-   * @return an XML formatted representation of the class. It returns the default output of the
-   *         {@link ZmanimFormatter#toXML(AstronomicalCalendar) toXML} method.
+   * Returns an XML formatted representation of the class using the default output of the
+   *         {@link com.kosherjava.zmanim.util.ZmanimFormatter#toXML(AstronomicalCalendar) toXML} method.
    * @see ZmanimFormatter#toXML(AstronomicalCalendar)
    * @see java.lang.Object#toString()
    * @deprecated (This depends on a circular dependency).
@@ -741,8 +747,8 @@ export class AstronomicalCalendar {
   }
 
   /**
-   * @return a JSON formatted representation of the class. It returns the default output of the
-   *         {@link ZmanimFormatter#toJSON(AstronomicalCalendar) toJSON} method.
+   * Returns a JSON formatted representation of the class using the default output of the
+   *         {@link com.kosherjava.zmanim.util.ZmanimFormatter#toJSON(AstronomicalCalendar) toJSON} method.
    * @see ZmanimFormatter#toJSON(AstronomicalCalendar)
    * @see java.lang.Object#toString()
    * @deprecated  This depends on a circular dependency. Use <pre>ZmanimFormatter.toJSON(astronomicalCalendar)</pre> instead.
@@ -826,7 +832,8 @@ export class AstronomicalCalendar {
   }
 
   /**
-   * @param calendar
+   * Sets the date object for use in this class.
+   * @param date
    *            The calendar to set.
    */
   public setDate(date: DateTime | Date | string | number): void {
