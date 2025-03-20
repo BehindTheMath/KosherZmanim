@@ -42,12 +42,13 @@ const methodWhitelist: string[] = [
  */
 export class ZmanimFormatter {
   /**
-   * Setting to prepent a zero to single digit hours.
+   * Setting to prepend a zero to single digit hours.
    * @see #setSettings(boolean, boolean, boolean)
    */
   private prependZeroHours: boolean = false;
 
   /**
+   * Should seconds be used in formatting time.
    * @see #setSettings(boolean, boolean, boolean)
    */
   private useSeconds: boolean = false;
@@ -78,6 +79,7 @@ export class ZmanimFormatter {
   private dateFormat!: string;
 
   /**
+   * Method to return the TimeZone.
    * @see #setTimeZone(TimeZone)
    */
   private timeZoneId!: string; // TimeZone.getTimeZone("UTC");
@@ -90,6 +92,7 @@ export class ZmanimFormatter {
   }
 
   /**
+   * Method to set the TimeZone.
    * @param timeZoneId
    *            the timeZone to set
    */
@@ -138,7 +141,7 @@ export class ZmanimFormatter {
   public static readonly XSD_DATE_FORMAT = 'yyyy-LL-dd\'T\'HH:mm:ss';
 
   /**
-   * constructor that defaults to this will use the format "h:mm:ss" for dates and 00.00.00.0 for {@link Time}.
+   * Constructor that defaults to this will use the format "h:mm:ss" for dates and 00.00.00.0 for {@link Time}.
    * @param timeZone the TimeZone Object
    */
   /*
@@ -264,7 +267,7 @@ export class ZmanimFormatter {
   */
 
   /**
-   * A method that formats {@link Time}objects.
+   * A method that formats {@link Time} objects.
    *
    * @param time
    *            The time <code>Object</code> to be formatted.
@@ -327,18 +330,6 @@ export class ZmanimFormatter {
   public getXSDateTime(dateTime: DateTime): string {
     return dateTime.setZone(this.getTimeZone())
       .toFormat(ZmanimFormatter.XSD_DATE_FORMAT.concat('ZZ'));
-  }
-
-  /**
-   * Represent the hours and minutes with two-digit strings.
-   *
-   * @param digits
-   *            hours or minutes.
-   * @return two-digit String representation of hrs or minutes.
-   */
-  private static formatDigits(digits: number): string {
-    const dd: string = Math.abs(digits).toString();
-    return dd.length === 1 ? `0${dd}` : dd;
   }
 
   /**
