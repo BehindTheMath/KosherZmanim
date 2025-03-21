@@ -38,6 +38,15 @@ export class YomiCalculator {
   private static readonly shekalimJulianChangeDay: number = YomiCalculator.getJulianDay(YomiCalculator.shekalimChangeDate);
 
   /**
+   * Default constructor.
+   */
+/*
+  public YomiCalculator() {
+    // nothing here
+  }
+*/
+
+  /**
    * Returns the <a href="https://en.wikipedia.org/wiki/Daf_yomi">Daf Yomi</a> <a
    * href="https://en.wikipedia.org/wiki/Talmud">Bavli</a> {@link Daf} for a given date. The first Daf Yomi cycle
    * started on Rosh Hashana 5684 (September 11, 1923) and calculations prior to this date will result in an
