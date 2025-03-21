@@ -330,6 +330,7 @@ export class AstronomicalCalendar {
    *            The location information used for calculating astronomical sun times.
    *
    * @see #setAstronomicalCalculator(AstronomicalCalculator) for changing the calculator class.
+   * @see #ComplexZmanimCalendar(GeoLocation)
    */
   constructor(geoLocation: GeoLocation = new GeoLocation()) {
     this.setDate(DateTime.fromObject({ zone: geoLocation.getTimeZone() }));

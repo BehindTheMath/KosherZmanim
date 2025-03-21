@@ -40,7 +40,7 @@ export class YerushalmiYomiCalculator {
 
   /**
    * Returns the <a href="https://en.wikipedia.org/wiki/Daf_Yomi">Daf Yomi</a>
-   * <a href="https://en.wikipedia.org/wiki/Jerusalem_Talmud">Yerusalmi</a> page ({@link Daf}) for a given date.
+   * <a href="https://en.wikipedia.org/wiki/Jerusalem_Talmud">Yerusalmi</a> page ({@link Daf}) for the given date.
    * The first Daf Yomi cycle started on 15 Shevat (Tu Bishvat), 5740 (February, 2, 1980) and calculations
    * prior to this date will result in an IllegalArgumentException thrown. A null will be returned on Tisha B'Av or
    * Yom Kippur.
@@ -104,11 +104,11 @@ export class YerushalmiYomiCalculator {
   }
 
   /**
-   * Return the number of special days (Yom Kippur and Tisha Be'av, where there are no dafim on these days),
-   * from the start date (as a <code>Calendar</code>) given until the end date (also as a <code>Calendar</code>).
-   * @param start - start date to calculate
-   * @param end - end date to calculate
-   * @return the number of special days
+   * Return the number of special days (Yom Kippur and Tisha Beav, where there are no dafim), between the start date
+   * (as a <code>Calendar</code>) and end date (also as a <code>Calendar</code>).
+   * @param start - start date to calculate from
+   * @param end - end date to calculate at
+   * @return the number of special days between the start and end dates
    */
   private static getNumOfSpecialDays(start: DateTime, end: DateTime): number {
     // Find the start and end Jewish years
