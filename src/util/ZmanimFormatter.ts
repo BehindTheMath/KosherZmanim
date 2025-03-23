@@ -523,10 +523,6 @@ export class ZmanimFormatter {
     const formatter: ZmanimFormatter = new ZmanimFormatter(ZmanimFormatter.XSD_DURATION_FORMAT, ZmanimFormatter.XSD_DATE_FORMAT,
       astronomicalCalendar.getGeoLocation().getTimeZone());
 
-    /*
-        let dateList: Set<Date> = new Set();
-        let durationList: Set<number> = new Set();
-    */
     const dateList: ZmanWithZmanDate[] = [];
     let durationList: ZmanWithDuration[] = [];
     const otherList: string[] = [];
@@ -546,19 +542,9 @@ export class ZmanimFormatter {
       .forEach(methodObj => {
         const tagName: string = methodObj.methodName.substring(3);
         if (DateTime.isDateTime(methodObj.value)) {
-          // dateList.add(new KosherZmanim.Zman(methodObj.value, tagName));
-          const zman: ZmanWithZmanDate = {
-            zman: methodObj.value as DateTime,
-            label: tagName,
-          };
-          dateList.push(zman);
+          dateList.push(new Zman(methodObj.value as DateTime, tagName) as ZmanWithZmanDate);
         } else if (typeof methodObj.value === 'number') {
-          // durationList.add(new KosherZmanim.Zman(methodObj.value, tagName));
-          const zman: ZmanWithDuration = {
-            duration: methodObj.value,
-            label: tagName,
-          };
-          durationList.push(zman);
+          durationList.push(new Zman(methodObj.value, tagName) as ZmanWithDuration);
         } else {
           otherList.push(tagName);
         }
