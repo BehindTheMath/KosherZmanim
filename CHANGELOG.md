@@ -1,3 +1,13 @@
+# v0.9.0
+### Breaking changes:
+* `Daf.masechtosBavliTransliterated`: The order of `Makkos` and `Sanhedrin` have been switched.
+* `Daf`: All methods with `Yerushlmi` have been renamed to `Yerushalmi`.
+* `ComplexZmanimCalendar`: All methods with `BainHasmashos` has been renamed to `BainHashmashos`.
+* `ComplexZmanimCalendar.getSofZmanAchilasChametz*()` methods return `null` if it's not Erev Pesach.
+### Deprecated
+* `ComplexZmanimCalendar.getSofZmanTfilahAteretTorah()`: A new method spelled `ComplexZmanimCalendar.getSofZmanTfilaAteretTorah()` has been added.
+* A number of methods have been deprecated for various reasons. See the corresponding JSDocs.
+
 # v0.8.0
 KosherZmanim should now be up to date with KosherJava v2.1.0.
 ### Breaking Changes:
