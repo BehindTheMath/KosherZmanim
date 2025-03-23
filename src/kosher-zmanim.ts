@@ -62,3 +62,6 @@ export * from './hebrewcalendar/HebrewDateFormatter';
 export * from './util/ZmanimFormatter';
 
 export const Luxon = _Luxon;
+
+// Exported explicitly as a convenience.
+export const DateTime = _Luxon.DateTime;
