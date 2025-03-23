@@ -4,7 +4,7 @@ Things will break, and APIs might change. Be cautious using this in production.
 Additionally, not all methods have been tested for accuracy.
 
 # Introduction
-Kosher Zmanim is a TS/JS port of the [KosherJava](KosherJava/zmanim) library.
+Kosher Zmanim is a TS/JS port of the [KosherJava](https://github.com/KosherJava/zmanim) library.
 
 # Installation
 **NPM:**
