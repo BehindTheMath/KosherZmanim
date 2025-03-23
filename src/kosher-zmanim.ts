@@ -18,7 +18,7 @@ export function getZmanimJson(options: Options): JsonOutput {
 
 export interface Options {
   /**
-   * @default Current date and time
+   * @default The current local date. The time is ignored.
    */
   date?: Date | string | number | _Luxon.DateTime;
   /**
