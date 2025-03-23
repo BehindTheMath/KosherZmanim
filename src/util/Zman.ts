@@ -173,7 +173,7 @@ export class Zman {
   toString(): string {
     return (`\nLabel:\t${this.label}`)
       .concat(`\nZman:\t${this.zman}`)
-      .concat(`\nnGeoLocation:\t${this.geoLocation?.toString().replaceAll('\n', '\n\t')}`)
+      .concat(`\nnGeoLocation:\t${this.geoLocation?.toString().replace(/\n/g, '\n\t')}`)
       .concat(`\nDuration:\t${this.duration}`)
       .concat(`\nDescription:\t${this.description}`);
   }
