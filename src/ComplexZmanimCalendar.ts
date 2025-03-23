@@ -4114,6 +4114,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    *         See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
   public getSofZmanAchilasChametzBaalHatanya(): DateTime | null {
+  /*
     const jewishCalendar: JewishCalendar = new JewishCalendar();
     const now: DateTime = DateTime.local();
     jewishCalendar.setGregorianDate(now.year, now.month, now.day);
@@ -4121,6 +4122,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
       return this.getSofZmanTfilaBaalHatanya();
     }
     return null;
+  */
 
     return this.getSofZmanTfilaBaalHatanya();
   }
