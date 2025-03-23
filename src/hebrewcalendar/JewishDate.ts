@@ -292,6 +292,16 @@ export class JewishDate {
   }
 
   /**
+   * Returns is the year passed in is a <a href=
+   * "https://en.wikipedia.org/wiki/Leap_year#Gregorian_calendar">Gregorian leap year</a>.
+   * @param year the Gregorian year
+   * @return if the year in question is a leap year.
+   */
+  isGregorianLeapYear(year: number): boolean {
+    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+  }
+
+  /**
    * The month, where 1 == January, 2 == February, etc... Note that this is different than Java's Calendar class
    * where January == 0.
    */
