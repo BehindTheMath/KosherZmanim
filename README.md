@@ -80,7 +80,7 @@ The `options` object has the following structure and defaults:
 ## Note about how zmanim are calculated
 This library uses [Luxon](https://moment.github.io/luxon) as a date/time library, since
 Javascript's `Date` object does not support setting timezones other than the system timezone.
-All class methods that return a `DateTime` object will be in UTC.
+All class methods that return a `Temporal.ZonedDateTime` object will be in UTC.
 
 # Breaking changes from KosherJava
 * `AstronomicalCalendar.getTemporalHour()` returns `null` instead of `Long.MIN_VALUE` if the calculations cannot be completed.

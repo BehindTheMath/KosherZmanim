@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'temporal-polyfill';
 
 import { TimeZone, Utils, padZeros } from '../polyfills/Utils';
 import { Time } from './Time';
@@ -301,35 +301,36 @@ export class ZmanimFormatter {
   /**
    * Formats a date using this class's {@link #getDateFormat() date format}.
    *
-   * @param dateTime - the date to format
+   * @param Temporal.ZonedDateTime - the date to format
    * @return the formatted String
    */
-  public formatDateTime(dateTime: DateTime): string {
+  public formatDateTime(dateTime: Temporal.ZonedDateTime): string {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const _dateTime = dateTime.setZone(this.getTimeZone());
+    const _dateTime = dateTime.with({ timeZone: this.getTimeZone() });
 
     if (this.dateFormat === ZmanimFormatter.XSD_DATE_FORMAT) {
       return this.getXSDateTime(_dateTime);
     }
-    return _dateTime.toFormat(this.dateFormat);
+    return _dateTime.toLocaleString(); // TODO .toFormat(this.dateFormat);
   }
 
   /**
    * The date:date-time function returns the current date and time as a date/time string. The date/time string that's
-   * returned must be a string in the format defined as the lexical representation of xs:dateTime in <a
-   * href="http://www.w3.org/TR/xmlschema11-2/#dateTime">[3.3.8 dateTime]</a> of <a
+   * returned must be a string in the format defined as the lexical representation of xs:Temporal.ZonedDateTime in <a
+   * href="http://www.w3.org/TR/xmlschema11-2/#Temporal.ZonedDateTime">[3.3.8 Temporal.ZonedDateTime]</a> of <a
    * href="http://www.w3.org/TR/xmlschema11-2/">[XML Schema 1.1 Part 2: Datatypes]</a>. The date/time format is
    * basically CCYY-MM-DDThh:mm:ss, although implementers should consult <a
    * href="http://www.w3.org/TR/xmlschema11-2/">[XML Schema 1.1 Part 2: Datatypes]</a> and <a
    * href="http://www.iso.ch/markete/8601.pdf">[ISO 8601]</a> for details. The date/time string format must include a
    * time zone, either a Z to indicate Coordinated Universal Time or a + or - followed by the difference between the
    * difference from UTC represented as hh:mm.
-   * @param dateTime - the UTC Date Object
-   * @return the XSD dateTime
+   * @param Temporal.ZonedDateTime - the UTC Date Object
+   * @return the XSD Temporal.ZonedDateTime
    */
-  public getXSDateTime(dateTime: DateTime): string {
-    return dateTime.setZone(this.getTimeZone())
-      .toFormat(ZmanimFormatter.XSD_DATE_FORMAT.concat('ZZ'));
+  public getXSDateTime(dateTime: Temporal.ZonedDateTime): string {
+    return dateTime.with({ timeZone: this.getTimeZone() }).toString();
+    // return dateTime.setZone(this.getTimeZone())
+    //  .toFormat(ZmanimFormatter.XSD_DATE_FORMAT.concat('ZZ'));
   }
 
   /**
@@ -400,7 +401,7 @@ export class ZmanimFormatter {
    *   &lt;/AstronomicalTimes&gt;
    * </pre>
    *
-   * Note that the output uses the <a href="http://www.w3.org/TR/xmlschema11-2/#dateTime">xsd:dateTime</a> format for
+   * Note that the output uses the <a href="http://www.w3.org/TR/xmlschema11-2/#Temporal.ZonedDateTime">xsd:Temporal.ZonedDateTime</a> format for
    * times such as sunrise, and <a href="http://www.w3.org/TR/xmlschema11-2/#duration">xsd:duration</a> format for
    * times that are a duration such as the length of a
    * {@link AstronomicalCalendar#getTemporalHour() temporal hour}. The output of this method is
@@ -450,7 +451,7 @@ export class ZmanimFormatter {
    * }
    * </pre>
    *
-   * Note that the output uses the <a href="http://www.w3.org/TR/xmlschema11-2/#dateTime">xsd:dateTime</a> format for
+   * Note that the output uses the <a href="http://www.w3.org/TR/xmlschema11-2/#Temporal.ZonedDateTime">xsd:Temporal.ZonedDateTime</a> format for
    * times such as sunrise, and <a href="http://www.w3.org/TR/xmlschema11-2/#duration">xsd:duration</a> format for
    * times that are a duration such as the length of a
    * {@link AstronomicalCalendar#getTemporalHour() temporal hour}.
@@ -502,10 +503,10 @@ export class ZmanimFormatter {
   }
 
   private static getOutputMetadata(astronomicalCalendar: AstronomicalCalendar): OutputMetadata {
-    const df: string = 'yyyy-MM-dd';
+    // const df: string = 'yyyy-MM-dd';
 
     return {
-      date: astronomicalCalendar.getDate().toFormat(df),
+      date: astronomicalCalendar.getDate().toString(), // .toFormat(df),
       type: astronomicalCalendar.getClassName(),
       algorithm: astronomicalCalendar.getAstronomicalCalculator().getCalculatorName(),
       location: astronomicalCalendar.getGeoLocation().getLocationName(),
@@ -515,7 +516,7 @@ export class ZmanimFormatter {
       timeZoneName: TimeZone.getDisplayName(astronomicalCalendar.getGeoLocation().getTimeZone(), astronomicalCalendar.getDate()),
       timeZoneID: astronomicalCalendar.getGeoLocation().getTimeZone(),
       timeZoneOffset: ZmanimFormatter.formatDecimal(TimeZone.getOffset(astronomicalCalendar.getGeoLocation().getTimeZone(),
-        astronomicalCalendar.getDate().valueOf()) / ZmanimFormatter.HOUR_MILLIS),
+        astronomicalCalendar.getDate().toZonedDateTime({ timeZone: astronomicalCalendar.getGeoLocation().getTimeZone() }).epochMilliseconds) / ZmanimFormatter.HOUR_MILLIS),
     };
   }
 
@@ -537,12 +538,12 @@ export class ZmanimFormatter {
         value: (astronomicalCalendar as any as Record<string, Function>)[method].call(astronomicalCalendar),
       }))
       // Filter for return values of type Date or number
-      .filter(methodObj => DateTime.isDateTime(methodObj.value) || typeof methodObj.value === 'number' || methodObj.value === null)
+      .filter(methodObj => methodObj.value instanceof Temporal.ZonedDateTime || typeof methodObj.value === 'number' || methodObj.value === null)
       // Separate the Dates and numbers
       .forEach(methodObj => {
         const tagName: string = methodObj.methodName.substring(3);
-        if (DateTime.isDateTime(methodObj.value)) {
-          dateList.push(new Zman(methodObj.value as DateTime, tagName) as ZmanWithZmanDate);
+        if (methodObj.value instanceof Temporal.ZonedDateTime) {
+          dateList.push(new Zman(methodObj.value as Temporal.ZonedDateTime, tagName) as ZmanWithZmanDate);
         } else if (typeof methodObj.value === 'number') {
           durationList.push(new Zman(methodObj.value, tagName) as ZmanWithDuration);
         } else {

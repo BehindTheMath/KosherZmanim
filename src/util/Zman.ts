@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'temporal-polyfill';
 
 import { IntegerUtils, StringUtils } from '../polyfills/Utils';
 import { UnsupportedError } from '../polyfills/errors';
@@ -54,7 +54,7 @@ export class Zman {
   /**
    * The {@link Date} of the <em>zman</em>
    */
-  zman?: DateTime;
+  zman?: Temporal.ZonedDateTime;
 
   /**
    * The duration if the <em>zman</em> is  a {@link AstronomicalCalendar#getTemporalHour() temporal hour} (or the various
@@ -79,7 +79,7 @@ export class Zman {
    * @param label the label of the  <em>zman</em> such as "<em>Sof Zman Krias Shema GRA</em>".
    * @see #Zman(Date, GeoLocation, String)
    */
-  constructor(date: DateTime, label: string | null)
+  constructor(date: Temporal.ZonedDateTime, label: string | null)
   /**
    * The constructor setting a duration based <em>zman</em> such as
    * {@link AstronomicalCalendar#getTemporalHour() temporal hour} (or the various <em>shaah zmanis</em> times such as
@@ -90,8 +90,8 @@ export class Zman {
    * @see #Zman(Date, String)
    */
   constructor(duration: number, label: string | null)
-  constructor(date: DateTime, geoLocation: GeoLocation, label: string | null)
-  constructor(dateOrDuration: number | DateTime, labelOrGeoLocation: string | GeoLocation | null, label?: string | null) {
+  constructor(date: Temporal.ZonedDateTime, geoLocation: GeoLocation, label: string | null)
+  constructor(dateOrDuration: number | Temporal.ZonedDateTime, labelOrGeoLocation: string | GeoLocation | null, label?: string | null) {
     this.label = label || null;
 
     if (labelOrGeoLocation instanceof GeoLocation) {
@@ -100,7 +100,7 @@ export class Zman {
       this.label = labelOrGeoLocation;
     }
 
-    if (DateTime.isDateTime(dateOrDuration)) {
+    if (dateOrDuration instanceof Temporal.ZonedDateTime) {
       this.zman = dateOrDuration;
     } else {
       this.duration = dateOrDuration;
@@ -114,8 +114,8 @@ export class Zman {
    * Please note that this class will handle cases where either the {@code Zman} is a null or {@link #getZman()} returns a null.
    */
   static compareDateOrder(zman1: Zman, zman2: Zman): number {
-    const firstMillis = zman1.zman?.valueOf() || 0;
-    const secondMillis = zman2.zman?.valueOf() || 0;
+    const firstMillis = zman1.zman?.epochMilliseconds || 0;
+    const secondMillis = zman2.zman?.epochMilliseconds || 0;
 
     return IntegerUtils.compare(firstMillis, secondMillis);
   }
@@ -179,5 +179,5 @@ export class Zman {
   }
 }
 
-export type ZmanWithZmanDate = Zman & { zman: DateTime };
+export type ZmanWithZmanDate = Zman & { zman: Temporal.ZonedDateTime };
 export type ZmanWithDuration = Zman & { duration: number };

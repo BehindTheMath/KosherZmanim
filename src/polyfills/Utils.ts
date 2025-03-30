@@ -1,4 +1,4 @@
-import { DateTime, Info } from 'luxon';
+import { Temporal } from 'temporal-polyfill';
 
 export namespace Utils {
   // https://stackoverflow.com/a/40577337/8037425
@@ -31,35 +31,37 @@ export namespace TimeZone {
    * @return the amount of raw offset time in milliseconds to add to UTC.
    */
   export function getRawOffset(timeZoneId: string): number {
-    const janDateTime = DateTime.fromObject({
+    const janDateTime = Temporal.ZonedDateTime.from({
+      year: 2019,
       month: 1,
       day: 1,
-      zone: timeZoneId,
+      timeZone: timeZoneId,
     });
-    const julyDateTime = janDateTime.set({ month: 7 });
+    const julyDateTime = janDateTime.with({ month: 7 });
 
-    let rawOffsetMinutes;
+    let rawOffsetNanoseconds: number;
     if (janDateTime.offset === julyDateTime.offset) {
-      rawOffsetMinutes = janDateTime.offset;
+      rawOffsetNanoseconds = janDateTime.offsetNanoseconds;
     } else {
-      const max = Math.max(janDateTime.offset, julyDateTime.offset);
+      const max = Math.max(janDateTime.offsetNanoseconds, julyDateTime.offsetNanoseconds);
 
-      rawOffsetMinutes = max < 0
+      rawOffsetNanoseconds = max < 0
         ? 0 - max
-        : 0 - Math.min(janDateTime.offset, julyDateTime.offset);
+        : 0 - Math.min(janDateTime.offsetNanoseconds, julyDateTime.offsetNanoseconds);
     }
 
-    return rawOffsetMinutes * 60 * 1000;
+    return Math.trunc(rawOffsetNanoseconds / 1_000_000);
   }
 
   /**
    * Returns a name in the specified style of this TimeZone suitable for presentation to the user in the default locale.
    * @param {string} timeZoneId
-   * @param {DateTime} [date]
+   * @param {Temporal.ZonedDateTime} [date]
    * @param {boolean} [short]
    */
-  export function getDisplayName(timeZoneId: string, date: DateTime = DateTime.local(), short: boolean = false): string {
-    return Info.normalizeZone(timeZoneId).offsetName(date.toMillis(), { format: short ? 'short' : 'long' });
+  export function getDisplayName(timeZoneId: string, date: Temporal.PlainDate = Temporal.Now.plainDateISO(), short: boolean = false): string {
+    return 'unknown';
+    // return Info.normalizeZone(timeZoneId).offsetName(date.toMillis(), { format: short ? 'short' : 'long' });
   }
 
   /**
@@ -70,7 +72,8 @@ export namespace TimeZone {
    * @return {number}
    */
   export function getDSTSavings(timeZoneId: string): number {
-    return Info.hasDST(timeZoneId) ? 3600000 : 0;
+    return -1;
+    // return Info.hasDST(timeZoneId) ? 3600000 : 0;
   }
 
   /**
@@ -83,7 +86,12 @@ export namespace TimeZone {
    * @param {number} millisSinceEpoch
    */
   export function getOffset(timeZoneId: string, millisSinceEpoch: number): number {
-    return Info.normalizeZone(timeZoneId).offset(millisSinceEpoch) * 60 * 1000;
+    const instant = Temporal.Instant.fromEpochMilliseconds(millisSinceEpoch);
+    const zdt = instant.toZonedDateTimeISO(timeZoneId);
+    const [hour, min] = zdt.offset.split(':').map((s: string) => parseInt(s, 10));
+    const h60 = hour * 60;
+    const minutes = hour < 0 ? h60 - min : h60 + min;
+    return minutes * 60 * 1000;
   }
 }
 

@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'temporal-polyfill';
 
 import { AstronomicalCalendar } from './AstronomicalCalendar';
 import { JewishCalendar } from './hebrewcalendar/JewishCalendar';
@@ -249,7 +249,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         {@link AstronomicalCalendar#getSunrise()} if it is true.
    * @see com.kosherjava.zmanim.AstronomicalCalendar#getSunrise()
    */
-  protected getElevationAdjustedSunrise(): DateTime | null {
+  protected getElevationAdjustedSunrise(): Temporal.ZonedDateTime | null {
     if (this.isUseElevation()) {
       return super.getSunrise();
     }
@@ -265,7 +265,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         {@link AstronomicalCalendar#getSunset()} if it is true.
    * @see AstronomicalCalendar#getSunset()
    */
-  protected getElevationAdjustedSunset(): DateTime | null {
+  protected getElevationAdjustedSunset(): Temporal.ZonedDateTime | null {
     if (this.isUseElevation()) {
       return super.getSunset();
     }
@@ -287,7 +287,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @see #ZENITH_8_POINT_5
    * ComplexZmanimCalendar#getTzaisGeonim8Point5Degrees() that returns an identical time to this generic <em>tzais</em>
    */
-  public getTzais(): DateTime | null {
+  public getTzais(): Temporal.ZonedDateTime | null {
     return this.getSunsetOffsetByDegrees(ZmanimCalendar.ZENITH_8_POINT_5);
   }
 
@@ -309,7 +309,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         low enough below the horizon for this calculation, a <code>null</code> will be returned. See detailed
    *         explanation on top of the {@link AstronomicalCalendar} documentation.
    */
-  public getAlosHashachar(): DateTime | null {
+  public getAlosHashachar(): Temporal.ZonedDateTime | null {
     return this.getSunriseOffsetByDegrees(ZmanimCalendar.ZENITH_16_POINT_1);
   }
 
@@ -327,7 +327,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         a <code>null</code> will be returned. See detailed explanation on top of the {@link AstronomicalCalendar}
    *         documentation.
    */
-  public getAlos72(): DateTime | null {
+  public getAlos72(): Temporal.ZonedDateTime | null {
     return ZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunrise(), -72 * ZmanimCalendar.MINUTE_MILLIS);
   }
 
@@ -355,12 +355,12 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         support astronomical calculations (that will never report a <code>null</code>) a <code>null</code> will be returned.
    *         See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
-  public getChatzos(): DateTime | null {
+  public getChatzos(): Temporal.ZonedDateTime | null {
     if (this.useAstronomicalChatzos) {
       return this.getSunTransit(); // can be null of the calculator does not support astronomical chatzos
     }
 
-    const halfDayChatzos: DateTime | null = this.getChatzosAsHalfDay();
+    const halfDayChatzos: Temporal.ZonedDateTime | null = this.getChatzosAsHalfDay();
     return halfDayChatzos === null
         ? this.getSunTransit() // can be null if the calculator does not support astronomical chatzos
         : halfDayChatzos;
@@ -395,7 +395,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         it does not set, a <code>null</code> will be returned. See detailed explanation on top of the
    *         {@link AstronomicalCalendar} documentation.
    */
-  public getChatzosAsHalfDay(): DateTime | null {
+  public getChatzosAsHalfDay(): Temporal.ZonedDateTime | null {
     return this.getSunTransit(this.getSeaLevelSunrise(), this.getSeaLevelSunset());
   }
 
@@ -430,7 +430,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         a year where the sun does not rise, and one where it does not set, a <code>null</code> will be returned. See
    *         detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
-  public getSofZmanShma(startOfDay: DateTime | null, endOfDay: DateTime | null, synchronous?: boolean): DateTime | null {
+  public getSofZmanShma(startOfDay: Temporal.ZonedDateTime | null, endOfDay: Temporal.ZonedDateTime | null, synchronous?: boolean): Temporal.ZonedDateTime | null {
     if (this.isUseAstronomicalChatzosForOtherZmanim() && synchronous) {
       return this.getHalfDayBasedZman(startOfDay, this.getChatzos(), 3);
     }
@@ -478,7 +478,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         and one where it does not set, a <code>null</code> will be returned. See the detailed explanation on top
    *         of the {@link AstronomicalCalendar} documentation.
    */
-  public getSofZmanShmaGRA(): DateTime | null {
+  public getSofZmanShmaGRA(): Temporal.ZonedDateTime | null {
     return this.getSofZmanShma(this.getElevationAdjustedSunrise(), this.getElevationAdjustedSunset(), true);
   }
 
@@ -499,7 +499,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @see ComplexZmanimCalendar#getAlos72()
    * @see ComplexZmanimCalendar#getSofZmanShmaMGA72Minutes()
    */
-  public getSofZmanShmaMGA(): DateTime | null {
+  public getSofZmanShmaMGA(): Temporal.ZonedDateTime | null {
     return this.getSofZmanShma(this.getAlos72(), this.getTzais72(), true);
   }
 
@@ -519,7 +519,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         and one where it does not set, a <code>null</code> will be returned See detailed explanation on top of the
    *         {@link AstronomicalCalendar} documentation.
    */
-  public getTzais72(): DateTime | null {
+  public getTzais72(): Temporal.ZonedDateTime | null {
     return ZmanimCalendar.getTimeOffset(this.getElevationAdjustedSunset(), 72 * ZmanimCalendar.MINUTE_MILLIS);
   }
 
@@ -538,7 +538,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @see #getCandleLightingOffset()
    * @see #setCandleLightingOffset(double)
    */
-  public getCandleLighting(): DateTime | null {
+  public getCandleLighting(): Temporal.ZonedDateTime | null {
     return ZmanimCalendar.getTimeOffset(this.getSeaLevelSunset(), -this.getCandleLightingOffset() * ZmanimCalendar.MINUTE_MILLIS);
   }
 
@@ -574,7 +574,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         one day a year where the sun does not rise, and one where it does not set, a <code>null</code> will be
    *         returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
-  public getSofZmanTfila(startOfDay: DateTime | null, endOfDay: DateTime | null, synchronous?: boolean): DateTime | null {
+  public getSofZmanTfila(startOfDay: Temporal.ZonedDateTime | null, endOfDay: Temporal.ZonedDateTime | null, synchronous?: boolean): Temporal.ZonedDateTime | null {
     if (this.isUseAstronomicalChatzosForOtherZmanim() && synchronous) {
       return this.getHalfDayBasedZman(startOfDay, this.getChatzos(), 4);
     }
@@ -621,7 +621,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         does not set, a <code>null</code> will be returned. See detailed explanation on top of the
    *         {@link AstronomicalCalendar} documentation.
    */
-  public getSofZmanTfilaGRA(): DateTime | null {
+  public getSofZmanTfilaGRA(): Temporal.ZonedDateTime | null {
     return this.getSofZmanTfila(this.getElevationAdjustedSunrise(), this.getElevationAdjustedSunset(), true);
   }
 
@@ -641,7 +641,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @see #getShaahZmanisMGA()
    * @see #getAlos72()
    */
-  public getSofZmanTfilaMGA(): DateTime | null {
+  public getSofZmanTfilaMGA(): Temporal.ZonedDateTime | null {
     return this.getSofZmanTfila(this.getAlos72(), this.getTzais72(), true);
   }
 
@@ -685,9 +685,9 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @see #isUseAstronomicalChatzos()
    * @see #isUseAstronomicalChatzosForOtherZmanim()
    */
-  public getMinchaGedola(): DateTime | null;
-  public getMinchaGedola(startOfDay: DateTime | null, endOfDay: DateTime | null, synchronous?: boolean): DateTime | null;
-  public getMinchaGedola(startOfDay?: DateTime | null, endOfDay?: DateTime | null, synchronous?: boolean): DateTime | null {
+  public getMinchaGedola(): Temporal.ZonedDateTime | null;
+  public getMinchaGedola(startOfDay: Temporal.ZonedDateTime | null, endOfDay: Temporal.ZonedDateTime | null, synchronous?: boolean): Temporal.ZonedDateTime | null;
+  public getMinchaGedola(startOfDay?: Temporal.ZonedDateTime | null, endOfDay?: Temporal.ZonedDateTime | null, synchronous?: boolean): Temporal.ZonedDateTime | null {
     if (startOfDay === undefined && endOfDay === undefined) {
       // eslint-disable-next-line no-param-reassign
       startOfDay = this.getElevationAdjustedSunrise();
@@ -698,10 +698,10 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     }
 
     if (this.isUseAstronomicalChatzosForOtherZmanim() && synchronous) {
-      return this.getHalfDayBasedZman(this.getChatzos(), endOfDay as DateTime | null, 0.5);
+      return this.getHalfDayBasedZman(this.getChatzos(), endOfDay as Temporal.ZonedDateTime | null, 0.5);
     }
 
-    return this.getShaahZmanisBasedZman(startOfDay as DateTime | null, endOfDay as DateTime | null, 6.5);
+    return this.getShaahZmanisBasedZman(startOfDay as Temporal.ZonedDateTime | null, endOfDay as Temporal.ZonedDateTime | null, 6.5);
   }
 
   /**
@@ -790,7 +790,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @see ComplexZmanimCalendar#getSamuchLeMinchaKetana16Point1Degrees()
    * @see ComplexZmanimCalendar#getSamuchLeMinchaKetana72Minutes()
    */
-  public getSamuchLeMinchaKetana(startOfDay: DateTime | null, endOfDay: DateTime | null, synchronous?: boolean): DateTime | null {
+  public getSamuchLeMinchaKetana(startOfDay: Temporal.ZonedDateTime | null, endOfDay: Temporal.ZonedDateTime | null, synchronous?: boolean): Temporal.ZonedDateTime | null {
     if (this.isUseAstronomicalChatzosForOtherZmanim() && synchronous) {
       return this.getHalfDayBasedZman(this.getChatzos(), endOfDay, 3);
     }
@@ -853,7 +853,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         at least one day a year where the sun does not rise, and one where it does not set, a <code>null</code> will
    *         be returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
-  public getMinchaKetana(startOfDay: DateTime | null, endOfDay: DateTime | null, synchronous?: boolean): DateTime | null {
+  public getMinchaKetana(startOfDay: Temporal.ZonedDateTime | null, endOfDay: Temporal.ZonedDateTime | null, synchronous?: boolean): Temporal.ZonedDateTime | null {
     if (startOfDay === undefined && endOfDay === undefined) {
       // eslint-disable-next-line no-param-reassign
       startOfDay = this.getElevationAdjustedSunrise();
@@ -949,7 +949,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         at least one day a year where the sun does not rise, and one where it does not set, a <code>null</code>
    *         will be returned. See detailed explanation on top of the {@link AstronomicalCalendar} documentation.
    */
-  public getPlagHamincha(startOfDay: DateTime | null, endOfDay: DateTime | null, synchronous?: boolean): DateTime | null {
+  public getPlagHamincha(startOfDay: Temporal.ZonedDateTime | null, endOfDay: Temporal.ZonedDateTime | null, synchronous?: boolean): Temporal.ZonedDateTime | null {
     if (startOfDay === undefined && endOfDay === undefined) {
       // eslint-disable-next-line no-param-reassign
       startOfDay = this.getElevationAdjustedSunrise();
@@ -1124,7 +1124,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @see JewishCalendar#hasCandleLighting()
    * @see JewishCalendar#setInIsrael(boolean)
    */
-  public isAssurBemlacha(currentTime: DateTime, tzais: DateTime, inIsrael: boolean): boolean {
+  public isAssurBemlacha(currentTime: Temporal.ZonedDateTime, tzais: Temporal.ZonedDateTime, inIsrael: boolean): boolean {
     const jewishCalendar: JewishCalendar = new JewishCalendar();
     const date = this.getDate();
     jewishCalendar.setGregorianDate(date.year, date.month - 1, date.day);
@@ -1164,8 +1164,8 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         where it does not set, a <code>null</code> will be  returned. See detailed explanation on top of the
    *         {@link AstronomicalCalendar} documentation.
    */
-  public getShaahZmanisBasedZman(startOfDay: DateTime | null, endOfDay: DateTime | null,
-                                 hours: number): DateTime | null {
+  public getShaahZmanisBasedZman(startOfDay: Temporal.ZonedDateTime | null, endOfDay: Temporal.ZonedDateTime | null,
+                                 hours: number): Temporal.ZonedDateTime | null {
     const shaahZmanis: number = this.getTemporalHour(startOfDay, endOfDay);
     return ZmanimCalendar.getTimeOffset(startOfDay, shaahZmanis * hours);
   }
@@ -1189,10 +1189,10 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *         explanation on top of the page.
    */
   public getPercentOfShaahZmanisFromDegrees(degrees: number, sunset: boolean): number {
-    const seaLevelSunrise: DateTime | null = this.getSeaLevelSunrise();
-    const seaLevelSunset: DateTime | null = this.getSeaLevelSunset();
+    const seaLevelSunrise: Temporal.ZonedDateTime | null = this.getSeaLevelSunrise();
+    const seaLevelSunset: Temporal.ZonedDateTime | null = this.getSeaLevelSunset();
 
-    let twilight: DateTime | null = null;
+    let twilight: Temporal.ZonedDateTime | null = null;
     if (sunset) {
       twilight = this.getSunsetOffsetByDegrees(ZmanimCalendar.GEOMETRIC_ZENITH + degrees);
     } else {
@@ -1203,13 +1203,13 @@ export class ZmanimCalendar extends AstronomicalCalendar {
       return Double_MIN_VALUE;
     }
 
-    const shaahZmanis: number = (seaLevelSunset!.valueOf() - seaLevelSunrise!.valueOf()) / 12.0;
+    const shaahZmanis: number = (seaLevelSunset!.epochMilliseconds - seaLevelSunrise!.epochMilliseconds) / 12.0;
 
     let riseSetToTwilight: number;
     if (sunset) {
-      riseSetToTwilight = twilight!.valueOf() - seaLevelSunset!.valueOf();
+      riseSetToTwilight = twilight!.epochMilliseconds - seaLevelSunset!.epochMilliseconds;
     } else {
-      riseSetToTwilight = seaLevelSunrise!.valueOf() - twilight!.valueOf();
+      riseSetToTwilight = seaLevelSunrise!.epochMilliseconds - twilight!.epochMilliseconds;
     }
 
     return riseSetToTwilight / shaahZmanis;
@@ -1245,7 +1245,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    *
    * @see ComplexZmanimCalendar#getFixedLocalChatzos()
    */
-  public getHalfDayBasedZman(startOfHalfDay: DateTime | null, endOfHalfDay: DateTime | null, hours: number): DateTime | null {
+  public getHalfDayBasedZman(startOfHalfDay: Temporal.ZonedDateTime | null, endOfHalfDay: Temporal.ZonedDateTime | null, hours: number): Temporal.ZonedDateTime | null {
     if (startOfHalfDay === null || endOfHalfDay === null) return null;
 
     const shaahZmanis: number = this.getHalfDayBasedShaahZmanis(startOfHalfDay, endOfHalfDay);
@@ -1272,8 +1272,8 @@ export class ZmanimCalendar extends AstronomicalCalendar {
    * @see #isUseAstronomicalChatzosForOtherZmanim()
    * @todo Consider adjusting various shaah zmanis times to use this.
    */
-  public getHalfDayBasedShaahZmanis(startOfHalfDay: DateTime | null, endOfHalfDay: DateTime | null): number {
+  public getHalfDayBasedShaahZmanis(startOfHalfDay: Temporal.ZonedDateTime | null, endOfHalfDay: Temporal.ZonedDateTime | null): number {
     if (startOfHalfDay === null || endOfHalfDay === null) return Long_MIN_VALUE;
-    return (endOfHalfDay.valueOf() - startOfHalfDay.valueOf()) / 6;
+    return (endOfHalfDay.epochMilliseconds - startOfHalfDay.epochMilliseconds) / 6;
   }
 }

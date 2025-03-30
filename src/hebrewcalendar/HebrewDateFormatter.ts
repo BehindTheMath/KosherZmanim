@@ -1,4 +1,4 @@
-import { DateTimeFormatOptions } from 'luxon';
+import { Temporal } from 'temporal-polyfill';
 
 import { Daf } from './Daf';
 import { JewishDate } from './JewishDate';
@@ -56,7 +56,7 @@ export class HebrewDateFormatter {
   /**
    * The internal DateFormat.&nbsp; See {@link #isLongWeekFormat()} and {@link #setLongWeekFormat(boolean)}.
    */
-  private weekFormat: DateTimeFormatOptions | null = { weekday: 'long' };
+  private weekFormat: Intl.DateTimeFormatOptions | null = { weekday: 'long' };
 
   /**
    * List of transliterated parshiyos using the default <em>Ashkenazi</em> pronounciation.&nbsp; The formatParsha method uses this
@@ -639,8 +639,8 @@ export class HebrewDateFormatter {
 
     const dateTime = jewishDate.getDate();
     return this.weekFormat
-      ? dateTime.toLocaleString(this.weekFormat)
-      : dateTime.toISO();
+      ? dateTime.toLocaleString('en-US', this.weekFormat)
+      : dateTime.toString();
   }
 
   /**
@@ -911,7 +911,8 @@ export class HebrewDateFormatter {
    * @see #isHebrewFormat()
    *
    */
-  public formatHebrewNumber(num: number): string {
+  public formatHebrewNumber(num0: number): string {
+    let num: number = num0;
     if (num !== Math.trunc(num)) throw new IllegalArgumentException('number must be an integer.');
 
     if (num < 0) {
