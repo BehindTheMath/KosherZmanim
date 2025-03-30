@@ -306,7 +306,7 @@ export class ZmanimFormatter {
    */
   public formatDateTime(dateTime: Temporal.ZonedDateTime): string {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const _dateTime = dateTime.with({ timeZone: this.getTimeZone() });
+    const _dateTime = dateTime.withTimeZone(this.getTimeZone());
 
     if (this.dateFormat === ZmanimFormatter.XSD_DATE_FORMAT) {
       return this.getXSDateTime(_dateTime);
@@ -328,7 +328,7 @@ export class ZmanimFormatter {
    * @return the XSD Temporal.ZonedDateTime
    */
   public getXSDateTime(dateTime: Temporal.ZonedDateTime): string {
-    return dateTime.with({ timeZone: this.getTimeZone() }).toString();
+    return dateTime.withTimeZone(this.getTimeZone()).toString();
     // return dateTime.setZone(this.getTimeZone())
     //  .toFormat(ZmanimFormatter.XSD_DATE_FORMAT.concat('ZZ'));
   }

@@ -3392,9 +3392,10 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
     const lastMidnight: Temporal.ZonedDateTime = this.getMidnightLastNight();
     const midnightTonight: Temporal.ZonedDateTime = this.getMidnightTonight();
 
-    if (!((moladBasedTime < lastMidnight) || (moladBasedTime > midnightTonight))) {
+    if (!((Temporal.ZonedDateTime.compare(moladBasedTime, lastMidnight) < 0)
+      || (Temporal.ZonedDateTime.compare(moladBasedTime, midnightTonight) > 0))) {
       if (alos !== null || tzais !== null) {
-        return techila && !(moladBasedTime < tzais! || moladBasedTime > alos!)
+        return techila && !(Temporal.ZonedDateTime.compare(moladBasedTime, tzais!) < 0 || Temporal.ZonedDateTime.compare(moladBasedTime, alos!) > 0)
             ? tzais
             : alos;
       }
