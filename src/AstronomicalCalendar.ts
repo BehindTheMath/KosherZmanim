@@ -652,8 +652,8 @@ export class AstronomicalCalendar {
     const incrementor: Big = new Big('0.0001');
 
     // If `minutes` is not `NaN` and `offsetByDegrees` is not null, `offsetByTime` should not be null
-    while (offsetByDegrees === null || ((minutes < 0 && offsetByDegrees < offsetByTime!)
-      || (minutes > 0 && offsetByDegrees > offsetByTime!))) {
+    while (offsetByDegrees === null || ((minutes < 0 && Temporal.ZonedDateTime.compare(offsetByDegrees, offsetByTime!) < 0)
+      || (minutes > 0 && Temporal.ZonedDateTime.compare(offsetByDegrees, offsetByTime!) > 0))) {
       if (minutes > 0) {
         degrees = degrees.add(incrementor);
       } else {
@@ -687,8 +687,8 @@ export class AstronomicalCalendar {
     const incrementor: Big = new Big('0.001');
 
     // If `minutes` is not `NaN` and `offsetByDegrees` is not null, `offsetByTime` should not be null
-    while (offsetByDegrees == null || ((minutes > 0 && offsetByDegrees < offsetByTime!)
-      || (minutes < 0 && offsetByDegrees > offsetByTime!))) {
+    while (offsetByDegrees === null || ((minutes > 0 && Temporal.ZonedDateTime.compare(offsetByDegrees, offsetByTime!) < 0)
+      || (minutes < 0 && Temporal.ZonedDateTime.compare(offsetByDegrees, offsetByTime!) > 0))) {
       if (minutes > 0) {
         degrees = degrees.add(incrementor);
       } else {
