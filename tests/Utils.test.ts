@@ -95,7 +95,6 @@ describe('Test TimeZone', function () {
   });
 });
 
-// TODO: TimeZone.getDisplayName()
 // TODO: Zman
 
 describe('Test MathUtils', function () {

@@ -440,7 +440,6 @@ export class ZmanimFormatter {
    *      &quot;latitude&quot;:&quot;40.095965&quot;,
    *      &quot;longitude&quot;:&quot;-74.22213&quot;,
    *      &quot;elevation:&quot;31.0&quot;,
-   *      &quot;timeZoneName&quot;:&quot;Eastern Standard Time&quot;,
    *      &quot;timeZoneID&quot;:&quot;America/New_York&quot;,
    *      &quot;timeZoneOffset&quot;:&quot;-5&quot;},
    *    &quot;AstronomicalTimes&quot;:{
@@ -469,7 +468,6 @@ export class ZmanimFormatter {
    *      &quot;latitude&quot;:&quot;40.095965&quot;,
    *      &quot;longitude&quot;:&quot;-74.22213&quot;,
    *      &quot;elevation:&quot;31.0&quot;,
-   *      &quot;timeZoneName&quot;:&quot;Eastern Standard Time&quot;,
    *      &quot;timeZoneID&quot;:&quot;America/New_York&quot;,
    *      &quot;timeZoneOffset&quot;:&quot;-5&quot;},
    *    &quot;AstronomicalTimes&quot;:{
@@ -499,12 +497,12 @@ export class ZmanimFormatter {
         return 'BasicZmanim';
       case astronomicalCalendar instanceof AstronomicalCalendar:
         return 'AstronomicalTimes';
+      default:
+        return 'UNKNOWN';
     }
   }
 
   private static getOutputMetadata(astronomicalCalendar: AstronomicalCalendar): OutputMetadata {
-    // const df: string = 'yyyy-MM-dd';
-
     return {
       date: astronomicalCalendar.getDate().toString(), // .toFormat(df),
       type: astronomicalCalendar.getClassName(),
@@ -513,7 +511,6 @@ export class ZmanimFormatter {
       latitude: astronomicalCalendar.getGeoLocation().getLatitude().toString(),
       longitude: astronomicalCalendar.getGeoLocation().getLongitude().toString(),
       elevation: ZmanimFormatter.formatDecimal(astronomicalCalendar.getGeoLocation().getElevation()),
-      timeZoneName: TimeZone.getDisplayName(astronomicalCalendar.getGeoLocation().getTimeZone(), astronomicalCalendar.getDate()),
       timeZoneID: astronomicalCalendar.getGeoLocation().getTimeZone(),
       timeZoneOffset: ZmanimFormatter.formatDecimal(TimeZone.getOffset(astronomicalCalendar.getGeoLocation().getTimeZone(),
         astronomicalCalendar.getDate().toZonedDateTime({ timeZone: astronomicalCalendar.getGeoLocation().getTimeZone() }).epochMilliseconds) / ZmanimFormatter.HOUR_MILLIS),
@@ -604,7 +601,6 @@ export interface OutputMetadata {
   latitude: string;
   longitude: string;
   elevation: string;
-  timeZoneName: string;
   timeZoneID: string;
   timeZoneOffset: string;
 }

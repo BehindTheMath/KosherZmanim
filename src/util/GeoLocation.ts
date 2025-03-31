@@ -631,8 +631,6 @@ export class GeoLocation {
       .concat(`\nLongitude:\t\t\t${this.getLongitude().toString()}\u00B0`)
       .concat(`\nElevation:\t\t\t${this.getElevation().toString()} Meters`)
       .concat(`\nTimezone ID:\t\t\t${this.getTimeZone()}`)
-      // .concat(`\nTimezone Display Name:\t\t${TimeZone.getDisplayName(this.getTimeZone())}`)
-      // .concat(` (${TimeZone.getDisplayName(this.getTimeZone(), Temporal.Now.zonedDateTimeISO(), true)})`)
       .concat(`\nTimezone GMT Offset:\t\t${(TimeZone.getRawOffset(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString()}`)
       // .concat(`\nTimezone DST Offset:\t\t${(TimeZone.getDSTSavings(this.getTimeZone()) / GeoLocation.HOUR_MILLIS).toString()}`);
   }

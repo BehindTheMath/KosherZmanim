@@ -27,7 +27,7 @@ describe('Test kosher-zmanim', function () {
 
     const expected = {
       algorithm: 'US National Oceanic and Atmospheric Administration Algorithm',
-      date,
+      date: date.toString(),
       elevation: '10.0',
       latitude: latitude.toString(),
       location: locationName,
@@ -36,8 +36,7 @@ describe('Test kosher-zmanim', function () {
       type: 'com.kosherjava.zmanim.ZmanimCalendar',
     };
 
-    assert.deepStrictEqual(omit(zmanimJson.metadata, ['timeZoneName', 'timeZoneOffset']), expected);
-    assert.oneOf(zmanimJson.metadata.timeZoneName, ['Eastern Daylight Time', 'Eastern Standard Time']);
+    assert.deepStrictEqual(omit(zmanimJson.metadata, ['timeZoneOffset']), expected);
     assert.oneOf(zmanimJson.metadata.timeZoneOffset, ['-4.0', '-5.0']);
   });
 
@@ -59,7 +58,7 @@ describe('Test kosher-zmanim', function () {
 
     const expected = {
       algorithm: 'US National Oceanic and Atmospheric Administration Algorithm',
-      date,
+      date: date.toString(),
       elevation: '10.0',
       latitude: latitude.toString(),
       location: null,
@@ -68,8 +67,7 @@ describe('Test kosher-zmanim', function () {
       type: 'com.kosherjava.zmanim.ComplexZmanimCalendar',
     };
 
-    assert.deepStrictEqual(omit(zmanimJson.metadata, ['timeZoneName', 'timeZoneOffset']), expected);
-    assert.oneOf(zmanimJson.metadata.timeZoneName, ['Eastern Daylight Time', 'Eastern Standard Time']);
+    assert.deepStrictEqual(omit(zmanimJson.metadata, ['timeZoneOffset']), expected);
     assert.oneOf(zmanimJson.metadata.timeZoneOffset, ['-4.0', '-5.0']);
   });
 });

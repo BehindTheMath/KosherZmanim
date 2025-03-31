@@ -1138,7 +1138,8 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     }
 
     // is shabbos or YT and it is before tzais
-    return jewishCalendar.isAssurBemelacha() && currentTime <= tzais;
+    return jewishCalendar.isAssurBemelacha()
+      && Temporal.ZonedDateTime.compare(currentTime, tzais) <= 0;
   }
 
   /**

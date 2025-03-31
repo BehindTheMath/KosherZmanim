@@ -54,17 +54,6 @@ export namespace TimeZone {
   }
 
   /**
-   * Returns a name in the specified style of this TimeZone suitable for presentation to the user in the default locale.
-   * @param {string} timeZoneId
-   * @param {Temporal.ZonedDateTime} [date]
-   * @param {boolean} [short]
-   */
-  export function getDisplayName(timeZoneId: string, date: Temporal.PlainDate = Temporal.Now.plainDateISO(), short: boolean = false): string {
-    return 'unknown';
-    // return Info.normalizeZone(timeZoneId).offsetName(date.toMillis(), { format: short ? 'short' : 'long' });
-  }
-
-  /**
    * Returns the amount of time to be added to local standard time to get local wall clock time.
    * The default implementation returns 3600000 milliseconds (i.e., one hour) if a call to useDaylightTime() returns true.
    * Otherwise, 0 (zero) is returned.
