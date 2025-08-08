@@ -50,66 +50,77 @@ test('getCandleLightingOffset and setCandleLightingOffset', () => {
 test('getChatzos', () => {
   const zman = makeZmanimCalendar();
   const zdt = zman.getChatzos();
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T12:58:30.268-06:00[America/Denver]');
 });
 
 test('getChatzosAsHalfDay', () => {
   const zman = makeZmanimCalendar();
   const zdt = zman.getChatzosAsHalfDay();
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T12:58:43.797-06:00[America/Denver]');
 });
 
 test('getSofZmanShmaGRA', () => {
   const zman = makeZmanimCalendar();
   const zdt = zman.getSofZmanShmaGRA();
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T09:11:37.337-06:00[America/Denver]');
 });
 
 test('getSofZmanShmaMGA', () => {
   const zman = makeZmanimCalendar();
   const zdt = zman.getSofZmanShmaMGA();
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T08:35:37.337-06:00[America/Denver]');
 });
 
 test('getCandleLighting', () => {
   const zman = makeZmanimCalendar();
   const zdt = zman.getCandleLighting();
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T20:07:01.588-06:00[America/Denver]');
 });
 
 test('getSofZmanTfilaGRA', () => {
   const zman = makeZmanimCalendar();
   const zdt = zman.getSofZmanTfilaGRA();
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T10:27:19.616-06:00[America/Denver]');
 });
 
 test('getSofZmanTfilaMGA', () => {
   const zman = makeZmanimCalendar();
   const zdt = zman.getSofZmanTfilaMGA();
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T10:03:19.616-06:00[America/Denver]');
 });
 
 test('getMinchaGedola', () => {
   const zman = makeZmanimCalendar();
   const zdt = zman.getMinchaGedola();
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T13:36:35.313-06:00[America/Denver]');
 });
 
 test('getSamuchLeMinchaKetana', () => {
   const zman = makeZmanimCalendar();
-  const zdt = zman.getSamuchLeMinchaKetana(zman.getElevationAdjustedSunrise(), zman.getElevationAdjustedSunset());
+  const zdt = zman.getSamuchLeMinchaKetana(zman.getSunrise(), zman.getSunset());
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T16:45:51.011-06:00[America/Denver]');
 });
 
 test('getMinchaKetana', () => {
   const zman = makeZmanimCalendar();
   const zdt = zman.getMinchaKetana();
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T17:23:42.15-06:00[America/Denver]');
 });
 
 test('getPlagHamincha', () => {
   const zman = makeZmanimCalendar();
   const zdt = zman.getPlagHamincha();
+  assert.isNotNull(zdt);
   assert.strictEqual(zdt!.toString(), '2020-06-05T18:58:19.999-06:00[America/Denver]');
 });
 
@@ -135,8 +146,8 @@ test('isAssurBemlacha', () => {
 
 test('getShaahZmanisBasedZman', () => {
   const zman = makeZmanimCalendar();
-  const sunrise = zman.getElevationAdjustedSunrise();
-  const sunset = zman.getElevationAdjustedSunset();
+  const sunrise = zman.getSunrise();
+  const sunset = zman.getSunset();
   const sofZmanShma = zman.getShaahZmanisBasedZman(sunrise, sunset, 3);
   assert.strictEqual(sofZmanShma!.toString(), '2020-06-05T09:11:37.337-06:00[America/Denver]');
 });
@@ -151,7 +162,7 @@ test('getHalfDayBasedZman', () => {
   const zman = makeZmanimCalendar();
   zman.setUseAstronomicalChatzosForOtherZmanim(true);
   const chatzos = zman.getChatzos();
-  const sunset = zman.getElevationAdjustedSunset();
+  const sunset = zman.getSunset();
   const minchaGedola = zman.getHalfDayBasedZman(chatzos, sunset, 0.5);
   assert.strictEqual(minchaGedola!.toString(), '2020-06-05T13:36:22.566-06:00[America/Denver]');
 });
@@ -159,7 +170,7 @@ test('getHalfDayBasedZman', () => {
 test('getHalfDayBasedShaahZmanis', () => {
   const zman = makeZmanimCalendar();
   const chatzos = zman.getChatzos();
-  const sunset = zman.getElevationAdjustedSunset();
+  const sunset = zman.getSunset();
   const shaahZmanis = zman.getHalfDayBasedShaahZmanis(chatzos, sunset);
   assert.closeTo(shaahZmanis, 4544596.66, 0.01);
 });
