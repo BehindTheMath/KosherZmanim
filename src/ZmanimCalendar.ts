@@ -1133,7 +1133,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     // erev shabbos, YT or YT sheni and after shkiah
     const sunset = this.getElevationAdjustedSunset();
     if (!sunset) throw new NullPointerException();
-    if (jewishCalendar.hasCandleLighting() && currentTime >= sunset) {
+    if (jewishCalendar.hasCandleLighting() && Temporal.ZonedDateTime.compare(currentTime, sunset) >= 0) {
       return true;
     }
 
