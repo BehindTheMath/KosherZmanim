@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'temporal-polyfill';
 
 import { GeoLocation } from './GeoLocation';
 import { AstronomicalCalculator } from './AstronomicalCalculator';
@@ -63,7 +63,7 @@ export class NOAACalculator extends AstronomicalCalculator {
   /**
    * @see AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
    */
-  public getUTCSunrise(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+  public getUTCSunrise(date: Temporal.PlainDate, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
     const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
@@ -77,7 +77,7 @@ export class NOAACalculator extends AstronomicalCalculator {
   /**
    * @see AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
    */
-  public getUTCSunset(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+  public getUTCSunset(date: Temporal.PlainDate, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
     const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
@@ -96,7 +96,7 @@ export class NOAACalculator extends AstronomicalCalculator {
    * @return the Julian day corresponding to the date Note: Number is returned for start of day. Fractional days
    *         should be added later.
    */
-  private static getJulianDay(date: DateTime): number {
+  private static getJulianDay(date: Temporal.PlainDate): number {
     let { year, month } = date;
     const { day } = date;
     if (month <= 2) {
@@ -341,8 +341,8 @@ export class NOAACalculator extends AstronomicalCalculator {
    * @return solar elevation in degrees - horizon is 0 degrees, civil twilight is -6 degrees
    */
 
-  public static getSolarElevation(date: DateTime, latitude: number, longitude: number): number {
-    const julianDay: number = NOAACalculator.getJulianDay(date);
+  public static getSolarElevation(date: Temporal.ZonedDateTime, latitude: number, longitude: number): number {
+    const julianDay: number = NOAACalculator.getJulianDay(date.toPlainDate());
     const julianCenturies: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay);
     const eot: number = NOAACalculator.getEquationOfTime(julianCenturies);
     let adjustedLongitude: number = (date.hour + 12) + (date.minute + eot + date.second / 60) / 60;
@@ -370,8 +370,8 @@ export class NOAACalculator extends AstronomicalCalculator {
    * @return FIXME
    */
 
-  public static getSolarAzimuth(date: DateTime, latitude: number, longitude: number): number {
-    const julianDay: number = NOAACalculator.getJulianDay(date);
+  public static getSolarAzimuth(date: Temporal.ZonedDateTime, latitude: number, longitude: number): number {
+    const julianDay: number = NOAACalculator.getJulianDay(date.toPlainDate());
     const julianCenturies: number = NOAACalculator.getJulianCenturiesFromJulianDay(julianDay);
     const eot: number = NOAACalculator.getEquationOfTime(julianCenturies);
     let adjustedLongitude: number = (date.hour + 12) + (date.minute + eot + date.second / 60) / 60;
@@ -403,7 +403,7 @@ export class NOAACalculator extends AstronomicalCalculator {
    *            the longitude for calculating noon since it is the same time anywhere along the longitude line.
    * @return the time in minutes from zero UTC
    */
-  public getUTCNoon(date: DateTime, geoLocation: GeoLocation): number {
+  public getUTCNoon(date: Temporal.PlainDate, geoLocation: GeoLocation): number {
     let noon = NOAACalculator.getSolarNoonMidnightUTC(NOAACalculator.getJulianDay(date), -geoLocation.getLongitude(), NOAACalculator.SolarEvent.NOON);
     noon = noon / 60;
 
@@ -428,7 +428,7 @@ export class NOAACalculator extends AstronomicalCalculator {
    *            the longitude for calculating noon since it is the same time anywhere along the longitude line.
    * @return the time in minutes from zero UTC
    */
-  public getUTCMidnight(date: DateTime, geoLocation: GeoLocation): number {
+  public getUTCMidnight(date: Temporal.PlainDate, geoLocation: GeoLocation): number {
     let midnight: number = NOAACalculator.getSolarNoonMidnightUTC(NOAACalculator.getJulianDay(date), -geoLocation.getLongitude(), NOAACalculator.SolarEvent.MIDNIGHT);
     midnight = midnight / 60;
     return midnight > 0 ? midnight % 24 : (midnight % 24) + 24; // ensure that the time is >= 0 and < 24
@@ -483,7 +483,7 @@ export class NOAACalculator extends AstronomicalCalculator {
    *             If the calculation is for {@link SolarEvent#SUNRISE SUNRISE} or {@link SolarEvent#SUNSET SUNSET}
    * @return the time in minutes from zero Universal Coordinated Time (UTC)
    */
-  private static getSunRiseSetUTC(date: DateTime, latitude: number, longitude: number, zenith: number, solarEvent: ValueOf<typeof NOAACalculator.SolarEvent>): number {
+  private static getSunRiseSetUTC(date: Temporal.PlainDate, latitude: number, longitude: number, zenith: number, solarEvent: ValueOf<typeof NOAACalculator.SolarEvent>): number {
     const julianDay: number = this.getJulianDay(date);
 
     // Find the time of solar noon at the location, and use that declination.

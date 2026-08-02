@@ -1,5 +1,4 @@
-import * as _Luxon from 'luxon';
-
+import { Temporal } from 'temporal-polyfill';
 import { GeoLocation } from './util/GeoLocation';
 import { ZmanimCalendar } from './ZmanimCalendar';
 import { ComplexZmanimCalendar } from './ComplexZmanimCalendar';
@@ -12,7 +11,7 @@ export function getZmanimJson(options: Options): JsonOutput {
   const zmanimCalendar: ZmanimCalendar = options.complexZmanim
     ? new ComplexZmanimCalendar(geoLocation)
     : new ZmanimCalendar(geoLocation);
-  zmanimCalendar.setDate(options.date || _Luxon.DateTime.local());
+  zmanimCalendar.setDate(options.date || Temporal.Now.plainDateISO());
   return ZmanimFormatter.toJSON(zmanimCalendar);
 }
 
@@ -20,7 +19,7 @@ export interface Options {
   /**
    * @default The current local date. The time is ignored.
    */
-  date?: Date | string | number | _Luxon.DateTime;
+  date?: Date | string | number | Temporal.PlainDate;
   /**
    * IANA timezone ID
    */
@@ -60,8 +59,3 @@ export * from './hebrewcalendar/YerushalmiYomiCalculator';
 
 export * from './hebrewcalendar/HebrewDateFormatter';
 export * from './util/ZmanimFormatter';
-
-export const Luxon = _Luxon;
-
-// Exported explicitly as a convenience.
-export const DateTime = _Luxon.DateTime;
