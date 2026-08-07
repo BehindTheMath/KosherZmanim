@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'temporal-polyfill';
 
 import { GeoLocation } from './GeoLocation';
 import { MathUtils } from '../polyfills/Utils';
@@ -110,7 +110,7 @@ export abstract class AstronomicalCalculator {
    *         {@link java.lang.Double#NaN} will be returned.
    * @see #getElevationAdjustment(double)
    */
-  public abstract getUTCSunrise(date: DateTime, geoLocation: GeoLocation, zenith: number,
+  public abstract getUTCSunrise(date: Temporal.PlainDate, geoLocation: GeoLocation, zenith: number,
       adjustForElevation: boolean): number; // eslint-disable-line @typescript-eslint/indent
 
   /**
@@ -134,7 +134,7 @@ export abstract class AstronomicalCalculator {
    *         {@link java.lang.Double#NaN} will be returned.
    * @see #getElevationAdjustment(double)
    */
-  public abstract getUTCSunset(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number;
+  public abstract getUTCSunset(date: Temporal.PlainDate, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number;
 
   /**
    * Return <a href="https://en.wikipedia.org/wiki/Noon#Solar_noon">solar noon</a> (UTC) for the given day at the
@@ -149,7 +149,7 @@ export abstract class AstronomicalCalculator {
    *
    * @return the time in minutes from zero UTC
    */
-  public abstract getUTCNoon(date: DateTime, geoLocation: GeoLocation): number;
+  public abstract getUTCNoon(date: Temporal.PlainDate, geoLocation: GeoLocation): number;
 
   /**
    * Return <a href="https://en.wikipedia.org/wiki/Midnight">solar midnight</a> (UTC) for the given day at the
@@ -164,7 +164,7 @@ export abstract class AstronomicalCalculator {
    *
    * @return the time in minutes from zero UTC
    */
-  public abstract getUTCMidnight(date: DateTime, geoLocation: GeoLocation): number;
+  public abstract getUTCMidnight(date: Temporal.PlainDate, geoLocation: GeoLocation): number;
 
   /**
    * Method to return the adjustment to the zenith required to account for the elevation. Since a person at a higher
