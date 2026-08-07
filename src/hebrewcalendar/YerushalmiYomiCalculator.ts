@@ -1,4 +1,4 @@
-import { DateTime, Interval } from 'luxon';
+import { Temporal } from 'temporal-polyfill';
 
 import { Calendar } from '../polyfills/Utils';
 import { Daf } from './Daf';
@@ -16,7 +16,7 @@ export class YerushalmiYomiCalculator {
   /**
    * The start date of the first Daf Yomi Yerushalmi cycle of February 2, 1980 / 15 Shevat, 5740.
    */
-  private static readonly DAF_YOMI_START_DAY: DateTime = DateTime.fromObject({
+  private static readonly DAF_YOMI_START_DAY: Temporal.PlainDate = Temporal.PlainDate.from({
     year: 1980,
     month: Calendar.FEBRUARY + 1,
     day: 2,
@@ -53,9 +53,9 @@ export class YerushalmiYomiCalculator {
    *             if the date is prior to the February 2, 1980, the start of the first Daf Yomi Yerushalmi cycle
    */
   public static getDafYomiYerushalmi(jewishCalendar: JewishCalendar): Daf | null {
-    let nextCycle: DateTime = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
-    let prevCycle: DateTime = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
-    const requested: DateTime = jewishCalendar.getDate();
+    let nextCycle: Temporal.PlainDate = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
+    let prevCycle: Temporal.PlainDate = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
+    const requested: Temporal.PlainDate = jewishCalendar.getDate();
     let masechta: number = 0;
     let dafYomi: Daf;
 
@@ -64,7 +64,7 @@ export class YerushalmiYomiCalculator {
       return null;
     }
 
-    if (requested < YerushalmiYomiCalculator.DAF_YOMI_START_DAY) {
+    if (Temporal.PlainDate.compare(requested, YerushalmiYomiCalculator.DAF_YOMI_START_DAY) < 0) {
       throw new IllegalArgumentException(`${requested} is prior to organized Daf Yomi Yerushalmi cycles that started on ${YerushalmiYomiCalculator.DAF_YOMI_START_DAY}`);
     }
 
@@ -72,17 +72,17 @@ export class YerushalmiYomiCalculator {
     // nextCycle = YerushalmiYomiCalculator.DAF_YOMI_START_DAY;
 
     // Go cycle by cycle, until we get the next cycle
-    while (requested > nextCycle) {
+    while (Temporal.PlainDate.compare(requested, nextCycle) > 0) {
       prevCycle = nextCycle;
 
       // Adds the number of whole shas dafs, and then the number of days that not have daf.
-      nextCycle = nextCycle.plus({ days: YerushalmiYomiCalculator.WHOLE_SHAS_DAFS });
+      nextCycle = nextCycle.add({ days: YerushalmiYomiCalculator.WHOLE_SHAS_DAFS });
       // This needs to be a separate step
-      nextCycle = nextCycle.plus({ days: YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, nextCycle) });
+      nextCycle = nextCycle.add({ days: YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, nextCycle) });
     }
 
     // Get the number of days from cycle start until request.
-    const dafNo: number = requested.diff(prevCycle, ['days']).days;
+    const dafNo: number = requested.since(prevCycle).days;
 
     // Get the number of special days to subtract
     const specialDays: number = YerushalmiYomiCalculator.getNumOfSpecialDays(prevCycle, requested);
@@ -110,7 +110,7 @@ export class YerushalmiYomiCalculator {
    * @param end - end date to calculate at
    * @return the number of special days between the start and end dates
    */
-  private static getNumOfSpecialDays(start: DateTime, end: DateTime): number {
+  private static getNumOfSpecialDays(start: Temporal.PlainDate, end: Temporal.PlainDate): number {
     // Find the start and end Jewish years
     const jewishStartYear: number = new JewishCalendar(start).getJewishYear();
     const jewishEndYear: number = new JewishCalendar(end).getJewishYear();
@@ -127,9 +127,14 @@ export class YerushalmiYomiCalculator {
       yomKippur.setJewishYear(i);
       tishaBeav.setJewishYear(i);
 
-      const interval = Interval.fromDateTimes(start, end);
-      if (interval.contains(yomKippur.getDate())) specialDays++;
-      if (interval.contains(tishaBeav.getDate())) specialDays++;
+      const yk = yomKippur.getDate();
+      if (Temporal.PlainDate.compare(yk, start) >= 0 && Temporal.PlainDate.compare(yk, end) <= 0) {
+        specialDays++;
+      }
+      const av9 = tishaBeav.getDate();
+      if (Temporal.PlainDate.compare(av9, start) >= 0 && Temporal.PlainDate.compare(av9, end) <= 0) {
+        specialDays++;
+      }
     }
 
     return specialDays;

@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { Temporal } from 'temporal-polyfill';
 
 import { GeoLocation } from './GeoLocation';
 import { AstronomicalCalculator } from './AstronomicalCalculator';
@@ -36,7 +36,7 @@ export class SunTimesCalculator extends AstronomicalCalculator {
   /**
    * @see AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)
    */
-  public getUTCSunrise(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+  public getUTCSunrise(date: Temporal.PlainDate, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
     const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
@@ -46,7 +46,7 @@ export class SunTimesCalculator extends AstronomicalCalculator {
   /**
    * @see AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)
    */
-  public getUTCSunset(date: DateTime, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
+  public getUTCSunset(date: Temporal.PlainDate, geoLocation: GeoLocation, zenith: number, adjustForElevation: boolean): number {
     const elevation: number = adjustForElevation ? geoLocation.getElevation() : 0;
     const adjustedZenith: number = this.adjustZenith(zenith, elevation);
 
@@ -230,8 +230,8 @@ export class SunTimesCalculator extends AstronomicalCalculator {
    *         (expected behavior for some locations such as near the poles,
    *         {@link Double#NaN} will be returned.
    */
-  private static getTimeUTC(date: DateTime, geoLocation: GeoLocation, zenith: number, isSunrise: boolean): number {
-    const dayOfYear: number = date.ordinal;
+  private static getTimeUTC(date: Temporal.PlainDate, geoLocation: GeoLocation, zenith: number, isSunrise: boolean): number {
+    const dayOfYear: number = date.dayOfYear;
     const sunMeanAnomaly: number = SunTimesCalculator.getMeanAnomaly(dayOfYear, geoLocation.getLongitude(), isSunrise);
     const sunTrueLong: number = SunTimesCalculator.getSunTrueLongitude(sunMeanAnomaly);
     const sunRightAscensionHours: number = SunTimesCalculator.getSunRightAscensionHours(sunTrueLong);
@@ -269,7 +269,7 @@ export class SunTimesCalculator extends AstronomicalCalculator {
    * @return the time in minutes from zero UTC. If an error was encountered in the calculation (expected behavior for
    *         some locations such as near the poles, {@link Double#NaN} will be returned.
    */
-  public getUTCNoon(date: DateTime, geoLocation: GeoLocation): number {
+  public getUTCNoon(date: Temporal.PlainDate, geoLocation: GeoLocation): number {
     const sunrise: number = this.getUTCSunrise(date, geoLocation, 90, false);
     const sunset: number = this.getUTCSunset(date, geoLocation, 90, false);
 
@@ -297,7 +297,7 @@ export class SunTimesCalculator extends AstronomicalCalculator {
    * @return the time in minutes from zero UTC. If an error was encountered in the calculation (expected behavior for
    *         some locations such as near the poles, {@link Double#NaN} will be returned.
    */
-  public getUTCMidnight(date: DateTime, geoLocation: GeoLocation): number {
+  public getUTCMidnight(date: Temporal.PlainDate, geoLocation: GeoLocation): number {
     return this.getUTCNoon(date, geoLocation) + 12;
   }
 }

@@ -35,7 +35,7 @@
   ],
   "dependencies": {
     "big.js": "^6.1.1",
-    "luxon": "^1.26.0"
+    "temporal-polyfill": "^0.3.0"
   },
   "devDependencies": {
     "@types/big.js": "^6.0.2",
