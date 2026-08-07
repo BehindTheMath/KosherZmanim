@@ -594,7 +594,7 @@ export class JewishCalendar extends JewishDate {
    * @return the upcoming <em>parsha</em>.
    */
   public getUpcomingParsha(): Parsha {
-    const clone: JewishCalendar = this.clone() as JewishCalendar;
+    const clone: JewishCalendar = this.clone();
     const daysToShabbos: number = (Calendar.SATURDAY - this.getDayOfWeek() + 7) % 7;
     if (this.getDayOfWeek() !== Calendar.SATURDAY) {
       clone.forward(Calendar.DATE, daysToShabbos);
@@ -1270,8 +1270,8 @@ export class JewishCalendar extends JewishDate {
    */
   public isPurim(): boolean {
     return this.isMukafChoma
-        ? this.getYomTovIndex() === JewishCalendar.SHUSHAN_PURIM
-        : this.getYomTovIndex() === JewishCalendar.PURIM;
+      ? this.getYomTovIndex() === JewishCalendar.SHUSHAN_PURIM
+      : this.getYomTovIndex() === JewishCalendar.PURIM;
   }
 
   /**
@@ -1501,6 +1501,21 @@ export class JewishCalendar extends JewishDate {
   public isIsruChag(): boolean {
     const holidayIndex: number = this.getYomTovIndex();
     return holidayIndex === JewishCalendar.ISRU_CHAG;
+  }
+
+  /**
+   * A method that creates a <a href="https://en.wikipedia.org/wiki/Object_copy#Deep_copy">deep copy</a> of the object.
+   *
+   * @see Object#clone()
+   */
+  public clone(): JewishCalendar {
+    const clone: JewishCalendar = new JewishCalendar(this.getJewishYear(), this.getJewishMonth(), this.getJewishDayOfMonth());
+    clone.setMoladHours(this.getMoladHours());
+    clone.setMoladMinutes(this.getMoladMinutes());
+    clone.setMoladChalakim(this.getMoladChalakim());
+    clone.setInIsrael(this.getInIsrael());
+    clone.setIsMukafChoma(this.getIsMukafChoma());
+    return clone;
   }
 
   /**

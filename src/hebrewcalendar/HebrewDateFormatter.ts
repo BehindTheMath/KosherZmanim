@@ -487,7 +487,7 @@ export class HebrewDateFormatter {
 
     // This method is only about formatting, so we shouldn't make any changes to the params passed in...
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const _jewishCalendar = jewishCalendar.clone() as JewishCalendar;
+    const _jewishCalendar = jewishCalendar.clone();
     _jewishCalendar.setJewishMonth(month);
     formattedRoshChodesh = this.hebrewFormat ? HebrewDateFormatter.hebrewHolidays[JewishCalendar.ROSH_CHODESH]
       : this.transliteratedHolidays[JewishCalendar.ROSH_CHODESH];
