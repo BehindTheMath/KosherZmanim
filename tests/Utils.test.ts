@@ -89,6 +89,24 @@ describe('Test TimeZone', function () {
     const expected = 8.75 * 60 * 60 * 1000;
     assert.strictEqual(result, expected);
   });
+
+  // Zones with DST: the raw offset is the standard offset, as in java.util.TimeZone.
+  const standardOffsets: [string, number][] = [
+    ['America/New_York', -5],
+    ['America/Los_Angeles', -8],
+    ['Asia/Jerusalem', 2],
+    ['Europe/London', 0],
+    ['Australia/Sydney', 10],
+    ['Australia/Lord_Howe', 10.5],
+    ['Pacific/Auckland', 12],
+    ['Pacific/Chatham', 12.75],
+    ['America/Santiago', -4],
+  ];
+  standardOffsets.forEach(([timeZoneId, hours]) => {
+    it(`Gets the raw offset for ${timeZoneId}`, function () {
+      assert.strictEqual(TimeZone.getRawOffset(timeZoneId), hours * 60 * 60 * 1000);
+    });
+  });
 });
 
 // TODO: TimeZone.getDisplayName()

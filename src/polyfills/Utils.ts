@@ -38,16 +38,7 @@ export namespace TimeZone {
     });
     const julyDateTime = janDateTime.set({ month: 7 });
 
-    let rawOffsetMinutes;
-    if (janDateTime.offset === julyDateTime.offset) {
-      rawOffsetMinutes = janDateTime.offset;
-    } else {
-      const max = Math.max(janDateTime.offset, julyDateTime.offset);
-
-      rawOffsetMinutes = max < 0
-        ? 0 - max
-        : 0 - Math.min(janDateTime.offset, julyDateTime.offset);
-    }
+    const rawOffsetMinutes = Math.min(janDateTime.offset, julyDateTime.offset);
 
     return rawOffsetMinutes * 60 * 1000;
   }
