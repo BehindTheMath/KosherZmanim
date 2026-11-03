@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { Calendar, Long_MIN_VALUE } from './polyfills/Utils';
+import { Calendar } from './polyfills/Utils';
 import { ZmanimCalendar } from './ZmanimCalendar';
 import { JewishCalendar } from './hebrewcalendar/JewishCalendar';
 
@@ -1859,7 +1859,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    */
   public getMinchaGedolaAhavatShalom(): DateTime | null {
     if (this.getChatzos() === null || this.getMinchaGedola30Minutes() === null
-        || this.getShaahZmanisAlos16Point1ToTzais3Point7() === Long_MIN_VALUE) {
+        || Number.isNaN(this.getShaahZmanisAlos16Point1ToTzais3Point7())) {
       return null;
     }
 
@@ -3094,7 +3094,7 @@ export class ComplexZmanimCalendar extends ZmanimCalendar {
    */
   private getZmanisBasedOffset(hours: number): DateTime | null {
     const shaahZmanis: number = this.getShaahZmanisGra();
-    if (shaahZmanis === Long_MIN_VALUE || hours === 0) {
+    if (Number.isNaN(shaahZmanis) || hours === 0) {
       return null;
     }
 

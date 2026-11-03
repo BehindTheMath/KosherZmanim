@@ -1249,7 +1249,7 @@ export class ZmanimCalendar extends AstronomicalCalendar {
     if (startOfHalfDay === null || endOfHalfDay === null) return null;
 
     const shaahZmanis: number = this.getHalfDayBasedShaahZmanis(startOfHalfDay, endOfHalfDay);
-    if (shaahZmanis === Long_MIN_VALUE) return null; // defensive, should not be needed
+    if (Number.isNaN(shaahZmanis)) return null; // defensive, should not be needed
 
     // forward from start a day
     if (hours >= 0) return ZmanimCalendar.getTimeOffset(startOfHalfDay, shaahZmanis * hours);
